@@ -18,6 +18,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: cBackgroundColor,
       body: Container(
         padding: EdgeInsets.only(top: 88.h),
         child: Column(

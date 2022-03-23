@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 import 'package:savdo_agnet_client/features/firmalar/data/model/firma_model.dart';
 import 'package:savdo_agnet_client/features/firmalar/presentation/bloc/firma_cubit.dart';
 import 'package:savdo_agnet_client/features/login/presentation/pages/login_page.dart';
@@ -43,6 +44,7 @@ class _FirmalarPageState extends State<FirmalarPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: cBackgroundColor,
       body: BlocBuilder<SearchFirmaItemsCubit, SearchFirmaItemsState>(
         builder: (context, state) {
           return Container(
@@ -55,7 +57,7 @@ class _FirmalarPageState extends State<FirmalarPage> {
                 const Text(
                   'Firmalar',
                   style: TextStyle(
-                      color: Colors.black, fontSize: 24, fontFamily: 'Regular'),
+                      color: cBlackColor, fontSize: 24, fontFamily: 'Regular'),
                 ),
                 TextFieldWidget(
                   controller: BlocProvider.of<SearchFirmaItemsCubit>(context)
@@ -69,7 +71,7 @@ class _FirmalarPageState extends State<FirmalarPage> {
                     context: context,
                     removeTop: true,
                     child: GridView.builder(
-                        padding: EdgeInsets.only(bottom: 20),
+                        padding: const EdgeInsets.only(bottom: 20),
                         physics: const BouncingScrollPhysics(),
                         gridDelegate:
                             const SliverGridDelegateWithMaxCrossAxisExtent(

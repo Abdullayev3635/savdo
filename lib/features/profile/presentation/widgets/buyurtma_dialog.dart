@@ -26,7 +26,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
           height: 60.h,
           padding: EdgeInsets.only(left: 18.w, right: 10.w),
           decoration: BoxDecoration(
-              color: const Color(0xffF3F4FD),
+              color: cTextFieldColor,
               borderRadius: BorderRadius.circular(10.r)),
           child: Row(
             children: [
@@ -64,7 +64,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                   Text(
                     '-  1 000 000 so’m',
                     style: TextStyle(
-                        color: const Color(0xffFC5833),
+                        color: cOrangeColor,
                         fontSize: 18.sp,
                         fontFamily: 'Regular'),
                   ),
@@ -74,7 +74,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                   Text(
                     '-  100 \$',
                     style: TextStyle(
-                        color: const Color(0xffFC5833),
+                        color: cOrangeColor,
                         fontSize: 18.sp,
                         fontFamily: 'Regular'),
                   ),
