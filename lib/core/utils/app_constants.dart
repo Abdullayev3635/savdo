@@ -17,6 +17,9 @@ const cYellowColor = Color(0xFFFFC92F);
 const cBackColorIcon = Color(0xFF99BAFF);
 const cBackColor = Color(0xFFF8F8F8);
 
+//Jalolxon
+const primaryColor = Color(0xff4447E2);
+
 // All gradient
 const cFirstGradient = LinearGradient(
   colors: [cFirstColor, cSecondColor],

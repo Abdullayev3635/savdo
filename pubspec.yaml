@@ -80,3 +80,6 @@ flutter:
     - family: SemiBold
       fonts:
         - asset: assets/fonts/Montserrat-SemiBold.ttf
+    - family: ExtraBold
+      fonts:
+        - asset: assets/fonts/Montserrat-ExtraBold.ttf

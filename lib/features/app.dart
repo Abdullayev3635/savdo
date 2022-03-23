@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:savdo_agnet_client/features/login/presentation/login_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:savdo_agnet_client/features/firmalar/presentation/pages/firmalar_page.dart';
 
 class AppProvider extends StatelessWidget {
   const AppProvider({Key? key}) : super(key: key);
@@ -28,7 +28,7 @@ class App extends StatelessWidget {
           );
         },
         debugShowCheckedModeBanner: false,
-        home: const LoginPage(),
+        home:  FirmalarPage.screen(),
       ),
     );
   }
