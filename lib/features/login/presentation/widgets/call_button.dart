@@ -44,7 +44,7 @@ class CallButtonWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SvgPicture.asset(
-                    'assets/icons/call.svg',
+                    'assets/icons/ic_call.svg',
                     height: 20.h,
                     width: 20.w,
                     color: cWhiteColor,

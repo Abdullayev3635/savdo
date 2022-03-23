@@ -17,7 +17,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
   Widget build(BuildContext context) {
     return AllDialogSkeleton(
       title: 'Buyurtma',
-      icon: 'assets/icons/shopping-cart.svg',
+      icon: 'assets/icons/ic_shopping_cart.svg',
       children: [
         SizedBox(
           height: 23.h,
@@ -40,7 +40,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                   ),
                 ),
               ),
-              SvgPicture.asset('assets/icons/drop icon.svg')
+              SvgPicture.asset('assets/icons/ic_dropdown.svg')
             ],
           ),
         ),
@@ -83,7 +83,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
             ],
           ),
         ),
-        SvgPicture.asset('assets/icons/divider.svg'),
+        SvgPicture.asset('assets/icons/ic_divider.svg'),
         Text.rich(TextSpan(children: [
           TextSpan(
               text: 'Kurs:',
