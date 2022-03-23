@@ -44,7 +44,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     )
                   ],
                 ),
-                SvgPicture.asset('assets/icons/frame.svg')
+                SvgPicture.asset('assets/icons/ic_person.svg')
               ],
             ),
             SizedBox(height: 40.h),
@@ -70,11 +70,11 @@ class _ProfilePageState extends State<ProfilePage> {
                             debugPrint('1');
                           },
                           title: 'Yangi buyurtma',
-                          image: 'assets/icons/shopping-cart.svg'),
+                          image: 'assets/icons/ic_shopping_cart.svg'),
                       MenuItems(
                           onTap: () => debugPrint('2'),
                           title: 'To’lov',
-                          image: 'assets/icons/dollar-circle.svg'),
+                          image: 'assets/icons/ic_dollar_circle.svg'),
                     ],
                   ),
                   SizedBox(height: 16.h),
@@ -84,11 +84,11 @@ class _ProfilePageState extends State<ProfilePage> {
                       MenuItems(
                           onTap: () => debugPrint('1'),
                           title: 'Hisobot',
-                          image: 'assets/icons/hisoboticon.svg'),
+                          image: 'assets/icons/ic_hisobot.svg'),
                       MenuItems(
                           onTap: () => debugPrint('2'),
                           title: 'Arhiv',
-                          image: 'assets/icons/archive.svg'),
+                          image: 'assets/icons/ic_archive.svg'),
                     ],
                   ),
                   SizedBox(height: 16.h),
@@ -98,11 +98,11 @@ class _ProfilePageState extends State<ProfilePage> {
                       MenuItems(
                           onTap: () => debugPrint('1'),
                           title: 'Foto hisobot',
-                          image: 'assets/icons/camera.svg'),
+                          image: 'assets/icons/ic_camera.svg'),
                       MenuItems(
                           onTap: () => debugPrint('2'),
                           title: 'Mijozlar',
-                          image: 'assets/icons/profile-2user.svg'),
+                          image: 'assets/icons/ic_two_person.svg'),
                     ],
                   ),
                 ],

@@ -59,7 +59,7 @@ class _AllDialogSkeletonState extends State<AllDialogSkeleton> {
                     InkWell(
                       borderRadius: BorderRadius.circular(22.r),
                       onTap: () => Navigator.pop(context),
-                      child: SvgPicture.asset('assets/icons/close icon.svg',
+                      child: SvgPicture.asset('assets/icons/ic_close_red.svg',
                           width: 22.w, height: 22.h),
                     ),
                   ],

@@ -34,7 +34,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
         child: Row(
           children: [
             SvgPicture.asset(
-              'assets/icons/search-normal.svg',
+              'assets/icons/ic_search.svg',
               width: 24.w,
               height: 24.h,
               color: primaryColor,
@@ -70,7 +70,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
               ),
             ),
             SvgPicture.asset(
-              'assets/icons/shopping-cart.svg',
+              'assets/icons/ic_shopping_cart.svg',
               width: 28.w,
               height: 28.h,
               color: primaryColor,

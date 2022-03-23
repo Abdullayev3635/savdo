@@ -51,7 +51,7 @@ class _LoginWidgetState extends State<LoginWidget> {
             child: Center(
               child: Row(
                 children: [
-                  SvgPicture.asset('assets/icons/call.svg',
+                  SvgPicture.asset('assets/icons/ic_call.svg',
                       width: 24.w, height: 24.h, color: primaryColor),
                   SizedBox(width: 16.w),
                   Text(
@@ -103,7 +103,7 @@ class _LoginWidgetState extends State<LoginWidget> {
             child: Center(
               child: Row(
                 children: [
-                  SvgPicture.asset('assets/icons/lock.svg',
+                  SvgPicture.asset('assets/icons/ic_lock.svg',
                       width: 24.w, height: 24.h, color: primaryColor),
                   SizedBox(width: 16.w),
                   Expanded(
@@ -135,12 +135,12 @@ class _LoginWidgetState extends State<LoginWidget> {
                   IconButton(
                     icon: isVisible
                         ? SvgPicture.asset(
-                            'assets/icons/eye-slash.svg',
+                            'assets/icons/ic_eye_slash.svg',
                             width: 16.w,
                             height: 16.h,
                           )
                         : SvgPicture.asset(
-                            'assets/icons/eye.svg',
+                            'assets/icons/ic_eye.svg',
                             width: 16.w,
                             height: 16.h,
                           ),
