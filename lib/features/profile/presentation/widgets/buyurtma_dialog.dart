@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -83,17 +84,46 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
             ],
           ),
         ),
-        SvgPicture.asset('assets/icons/divider.svg'),
-        Text.rich(TextSpan(children: [
-          TextSpan(
-              text: 'Kurs:',
-              style: TextStyle(
-                  fontFamily: 'Medium', fontSize: 16.sp, color: primaryColor)),
-          TextSpan(
-              text: '10650 so’m',
-              style: TextStyle(
-                  fontFamily: 'Regular', fontSize: 18.sp, color: primaryColor)),
-        ]))
+        SvgPicture.asset('assets/icons/divider.svg', fit: BoxFit.cover),
+        // SizedBox(height: 25.h,),
+        Padding(
+          padding:
+              EdgeInsets.only(right: 7.w, top: 24.h, left: 7.w, bottom: 28.h),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text.rich(TextSpan(children: [
+                TextSpan(
+                    text: 'Kurs: ',
+                    style: TextStyle(
+                        fontFamily: 'Medium',
+                        fontSize: 16.sp,
+                        color: primaryColor)),
+                TextSpan(
+                    text: '10650 so’m',
+                    style: TextStyle(
+                        fontFamily: 'Regular',
+                        fontSize: 18.sp,
+                        color: primaryColor)),
+              ])),
+            ],
+          ),
+        ),
+        SvgPicture.asset('assets/icons/divider.svg', fit: BoxFit.cover),
+        Padding(
+          padding:
+              EdgeInsets.only(right: 7.w, top: 24.h, left: 7.w, bottom: 28.h),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text('Narx turi:',
+                  style: TextStyle(
+                      fontFamily: 'Medium',
+                      fontSize: 16.sp,
+                      color: primaryColor)),
+            ],
+          ),
+        ),
       ],
     );
   }
