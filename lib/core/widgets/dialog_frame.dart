@@ -45,7 +45,7 @@ class _AllDialogSkeletonState extends State<AllDialogSkeleton> {
               children: [
                 Row(
                   children: [
-                    SvgPicture.asset(widget.icon),
+                    SvgPicture.asset(widget.icon,color: primaryColor,height: 20.h,width: 20.w),
                     SizedBox(width: 8.w),
                     Expanded(
                       child: Text(

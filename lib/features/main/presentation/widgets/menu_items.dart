@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../../core/utils/app_constants.dart';
+
 class MenuItems extends StatelessWidget {
   final String title;
   final String image;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 // All colors
 const primaryColor = Color(0xff4447E2);
@@ -43,6 +44,17 @@ const double cNumberLockText42 = 42.0;
 
 // versions
 const String version = "1.0.2";
+
+
+// buttons Style
+
+ButtonStyle buttonStyle = ButtonStyle(
+    fixedSize: MaterialStateProperty.all(Size(352.w, 65.h)),
+    backgroundColor: MaterialStateProperty.all(primaryColor),
+    elevation: MaterialStateProperty.all(0),
+    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10))));
+
 
 // lock number style
 //

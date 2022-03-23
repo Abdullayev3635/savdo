@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../../../../core/utils/app_constants.dart';
-import '../../../profile/presentation/pages/profile_page.dart';
+import '../../../main/presentation/pages/main_page.dart';
 
 class LoginWidget extends StatefulWidget {
   const LoginWidget({
@@ -73,7 +73,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                         hintText: "(--)--- -- --",
                         hintStyle: TextStyle(
                             fontSize: 16.sp,
-                            color:cHintTextColor,
+                            color: cHintTextColor,
                             fontFamily: "Regular"),
                         prefixIconConstraints: BoxConstraints(
                           maxWidth: 30.w,
@@ -156,12 +156,12 @@ class _LoginWidgetState extends State<LoginWidget> {
           ),
           const SizedBox(height: 24),
           ElevatedButton(
-              onPressed: () =>Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePage(),)),              style: ButtonStyle(
-                  fixedSize: MaterialStateProperty.all(Size(352.w, 65.h)),
-                  backgroundColor: MaterialStateProperty.all(primaryColor),
-                  elevation: MaterialStateProperty.all(0),
-                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)))),
+              onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ProfilePage(),
+                  )),
+              style: buttonStyle,
               child: Text(
                 'Kirish',
                 textAlign: TextAlign.center,

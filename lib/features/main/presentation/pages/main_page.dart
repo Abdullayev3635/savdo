@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
-import 'package:savdo_agnet_client/features/profile/presentation/widgets/buyurtma_dialog.dart';
+import 'package:savdo_agnet_client/features/buyurtma/presentation/pages/buyurtma_dialog.dart';
+import 'package:savdo_agnet_client/features/mijozlar/presentation/pages/mijozlar_dialog.dart';
+import 'package:savdo_agnet_client/features/tulov_qilish/presentation/pages/tulov_qilish_dialog.dart';
 
 import '../widgets/menu_items.dart';
 
@@ -37,10 +39,15 @@ class _ProfilePageState extends State<ProfilePage> {
                             fontSize: 32.sp,
                             color: primaryColor)),
                     SizedBox(height: 8.h),
-                    const Text(
-                      'Hayrli kun! 👋🏻',
-                      style:
-                          TextStyle(color: primaryColor, fontFamily: 'Medium'),
+                    Row(
+                      children: [
+                         Text(
+                          'Hayrli kun! ',
+                          style:
+                              TextStyle(color: primaryColor,fontSize: 16.sp, fontFamily: 'Medium'),
+                        ),
+                        Image.asset('assets/icons/ic_hand.png',width: 14.w,height: 14.h,),
+                      ],
                     )
                   ],
                 ),
@@ -72,7 +79,14 @@ class _ProfilePageState extends State<ProfilePage> {
                           title: 'Yangi buyurtma',
                           image: 'assets/icons/ic_shopping_cart.svg'),
                       MenuItems(
-                          onTap: () => debugPrint('2'),
+                          onTap: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return const TulovQilishDialog();
+                                });
+                            debugPrint('2');
+                          },
                           title: 'To’lov',
                           image: 'assets/icons/ic_dollar_circle.svg'),
                     ],
@@ -100,7 +114,14 @@ class _ProfilePageState extends State<ProfilePage> {
                           title: 'Foto hisobot',
                           image: 'assets/icons/ic_camera.svg'),
                       MenuItems(
-                          onTap: () => debugPrint('2'),
+                          onTap: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return const MijozlarDialog();
+                                });
+                            debugPrint('2');
+                          },
                           title: 'Mijozlar',
                           image: 'assets/icons/ic_two_person.svg'),
                     ],

@@ -66,7 +66,7 @@ class _FirmalarPageState extends State<FirmalarPage> {
                 ),
                 Container(
                   padding: EdgeInsets.only(top: 24.h),
-                  height: 667.h,
+                  height: MediaQuery.of(context).size.height/1.3425,
                   child: MediaQuery.removePadding(
                     context: context,
                     removeTop: true,
