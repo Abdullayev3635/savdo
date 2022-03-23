@@ -19,6 +19,9 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        decoration: const BoxDecoration(
+            gradient: cFirstGradient
+        ),
         padding: EdgeInsets.only(top: 88.h),
         child: Column(
           children: [

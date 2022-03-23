@@ -26,7 +26,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
           height: 60.h,
           padding: EdgeInsets.only(left: 18.w, right: 10.w),
           decoration: BoxDecoration(
-              color: const Color(0xffF3F4FD),
+              color: cTextFieldColor,
               borderRadius: BorderRadius.circular(10.r)),
           child: Row(
             children: [

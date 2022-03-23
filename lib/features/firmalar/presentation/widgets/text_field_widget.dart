@@ -25,10 +25,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15.r),
         color: cWhiteColor,
-        boxShadow: [
-          BoxShadow(
-              color: const Color(0xff2F3081).withOpacity(0.04), blurRadius: 40),
-        ],
+        boxShadow: [textFieldShadow],
       ),
       height: 65.h,
       margin: EdgeInsets.only(top: 27.h),
@@ -59,7 +56,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
                   hintText: "Qidirish",
                   hintStyle: TextStyle(
                       fontSize: 14.sp,
-                      color: const Color(0xffA7C2D8),
+                      color: cHintTextColor,
                       fontFamily: "Regular"),
                   prefixIconConstraints: BoxConstraints(
                     maxWidth: 30.w,
@@ -69,7 +66,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
                   ),
                 ),
                 style: TextStyle(
-                    fontSize: 16.sp, color: cFirstColor, fontFamily: "Regular"),
+                    fontSize: 16.sp, color: primaryColor, fontFamily: "Regular"),
               ),
             ),
             SvgPicture.asset(

@@ -31,7 +31,7 @@ class GridViewItemsWidget extends StatelessWidget {
             height: 115.h,
             width: 145.w,
             decoration: BoxDecoration(
-                color: const Color(0xff3F41D3),
+                color: cImageBackgroundColor,
                 borderRadius: BorderRadius.circular(13.r)),
           ),
           SizedBox(

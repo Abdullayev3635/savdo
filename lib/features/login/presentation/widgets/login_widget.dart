@@ -44,7 +44,7 @@ class _LoginWidgetState extends State<LoginWidget> {
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.r),
-              color: const Color(0xffF3F4FD),
+              color: cTextFieldColor,
             ),
             height: 60.h,
             padding: EdgeInsets.fromLTRB(15.w, 2.h, 5.w, 0.h),
@@ -58,7 +58,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                     '+998',
                     style: TextStyle(
                         fontSize: 16.sp,
-                        color: const Color(0xffA7C2D8),
+                        color: cHintTextColor,
                         // color: cGrayColor,
                         fontFamily: "Regular"),
                   ),
@@ -73,7 +73,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                         hintText: "(--)--- -- --",
                         hintStyle: TextStyle(
                             fontSize: 16.sp,
-                            color: const Color(0xffA7C2D8),
+                            color:cHintTextColor,
                             fontFamily: "Regular"),
                         prefixIconConstraints: BoxConstraints(
                           maxWidth: 30.w,
@@ -96,7 +96,7 @@ class _LoginWidgetState extends State<LoginWidget> {
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.r),
-              color: const Color(0xffF3F4FD),
+              color: cTextFieldColor,
             ),
             height: 60.h,
             padding: EdgeInsets.fromLTRB(15.w, 2.h, 5.w, 0.h),
@@ -117,7 +117,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                         hintText: "Parol",
                         hintStyle: TextStyle(
                             fontSize: 16.sp,
-                            color: const Color(0xffA7C2D8),
+                            color: cHintTextColor,
                             fontFamily: "Regular"),
                         prefixIconConstraints: BoxConstraints(
                           maxWidth: 30.w,
