@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
+import '../../../../core/utils/app_constants.dart';
 import '../widgets/call_button.dart';
 import '../widgets/login_widget.dart';
 
@@ -20,6 +21,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: cBackgroundColor,
       body: SingleChildScrollView(
         reverse: true,
         child: Column(

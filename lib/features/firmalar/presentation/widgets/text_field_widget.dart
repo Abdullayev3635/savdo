@@ -37,7 +37,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
               'assets/icons/search-normal.svg',
               width: 24.w,
               height: 24.h,
-              color: const Color(0xff4447E2),
+              color: primaryColor,
             ),
             SizedBox(width: 12.w),
             Expanded(
@@ -48,7 +48,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
                   setState(() {});
                 },
                 textAlignVertical: TextAlignVertical.top,
-                cursorColor: const Color(0xff4447E2),
+                cursorColor:primaryColor,
                 controller: widget.controller,
                 decoration: InputDecoration(
                   border: InputBorder.none,
@@ -73,7 +73,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
               'assets/icons/shopping-cart.svg',
               width: 28.w,
               height: 28.h,
-              color: const Color(0xff4447E2),
+              color: primaryColor,
             ),
           ],
         ),

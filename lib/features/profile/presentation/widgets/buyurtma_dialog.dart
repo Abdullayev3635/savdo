@@ -64,7 +64,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                   Text(
                     '-  1 000 000 so’m',
                     style: TextStyle(
-                        color: const Color(0xffFC5833),
+                        color: cOrangeColor,
                         fontSize: 18.sp,
                         fontFamily: 'Regular'),
                   ),
@@ -74,7 +74,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                   Text(
                     '-  100 \$',
                     style: TextStyle(
-                        color: const Color(0xffFC5833),
+                        color: cOrangeColor,
                         fontSize: 18.sp,
                         fontFamily: 'Regular'),
                   ),

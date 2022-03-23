@@ -44,12 +44,10 @@ class _FirmalarPageState extends State<FirmalarPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: cBackgroundColor,
       body: BlocBuilder<SearchFirmaItemsCubit, SearchFirmaItemsState>(
         builder: (context, state) {
           return Container(
-            decoration: const BoxDecoration(
-              gradient: cFirstGradient
-            ),
             padding: EdgeInsets.only(left: 28.w, right: 28.w, top: 101),
             child: Column(
               mainAxisSize: MainAxisSize.min,

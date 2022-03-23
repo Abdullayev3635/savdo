@@ -45,7 +45,7 @@ class GridViewItemsWidget extends StatelessWidget {
         ],
       ),
       decoration: BoxDecoration(
-          color: const Color(0xff4447E2),
+          color: primaryColor,
           borderRadius: BorderRadius.circular(20)),
     );
   }

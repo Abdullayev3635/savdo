@@ -18,10 +18,8 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: cBackgroundColor,
       body: Container(
-        decoration: const BoxDecoration(
-            gradient: cFirstGradient
-        ),
         padding: EdgeInsets.only(top: 88.h),
         child: Column(
           children: [
