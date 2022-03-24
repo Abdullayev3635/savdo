@@ -11,7 +11,7 @@ import 'number.dart';
 SizedBox numPad(TextEditingController _pinPutController, BuildContext context) {
   return SizedBox(
     height: 360.h,
-    width: 300.w,
+    width: 330.w,
     child: Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -43,7 +43,7 @@ SizedBox numPad(TextEditingController _pinPutController, BuildContext context) {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
-              height: 40.h,
+              height: 41.h,
               width: cNumberLockW90.w,
               child: GestureDetector(
                   onTap: () async {
@@ -64,7 +64,7 @@ SizedBox numPad(TextEditingController _pinPutController, BuildContext context) {
                   child: SvgPicture.asset(
                     'assets/icons/finger-scan.svg',
                     color: Colors.white,
-                    height: 25,
+                    height: 41.h,
                   )),
             ),
             number(_pinPutController, '0'),
@@ -84,8 +84,8 @@ SizedBox numPad(TextEditingController _pinPutController, BuildContext context) {
                 child: Center(
                   child: SvgPicture.asset(
                     "assets/icons/arrow-left.svg",
-                    width: 50.w,
-                    height: 50.h,
+                    width: 41.w,
+                    height: 41.h,
                   ),
                 ),
               ),

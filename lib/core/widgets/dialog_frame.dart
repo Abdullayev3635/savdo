@@ -6,13 +6,11 @@ import 'package:flutter_svg/svg.dart';
 
 import '../utils/app_constants.dart';
 
-
-
 class AllDialogSkeleton extends StatefulWidget {
-  List<Widget> children;
+  final List<Widget> children;
   final String title, icon;
 
-  AllDialogSkeleton({
+  const AllDialogSkeleton({
     Key? key,
     required this.children,
     required this.title,
@@ -34,19 +32,20 @@ class _AllDialogSkeletonState extends State<AllDialogSkeleton> {
           clipBehavior: Clip.none,
           alignment: Alignment.center,
           shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r)),
           insetPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 0),
           child: Container(
             padding: const EdgeInsets.all(16),
             decoration:
-            BoxDecoration(borderRadius: BorderRadius.circular(20.r)),
+                BoxDecoration(borderRadius: BorderRadius.circular(20.r)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
                 Row(
                   children: [
-                    SvgPicture.asset(widget.icon,color: primaryColor,height: 20.h,width: 20.w),
+                    SvgPicture.asset(widget.icon,
+                        color: primaryColor, height: 20.h, width: 20.w),
                     SizedBox(width: 8.w),
                     Expanded(
                       child: Text(

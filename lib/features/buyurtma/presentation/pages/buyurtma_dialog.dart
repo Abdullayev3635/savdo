@@ -13,7 +13,7 @@ class BuyurtmaDialog extends StatefulWidget {
 }
 
 class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
-  String group1 = '', group2 = '';
+  String group1 = 'So’m', group2 = 'Chakana';
 
   @override
   Widget build(BuildContext context) {

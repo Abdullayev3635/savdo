@@ -48,6 +48,8 @@ const String version = "1.0.2";
 // textStyles
 TextStyle textStylePrimary16 =
     TextStyle(fontSize: 16.sp, color: primaryColor, fontFamily: "Regular");
+TextStyle textStylePrimary14 =
+    TextStyle(fontSize: 14.sp, color: primaryColor, fontFamily: "Regular");
 // buttons Style
 
 ButtonStyle buttonStyle = ButtonStyle(

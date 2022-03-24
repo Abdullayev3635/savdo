@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -13,7 +15,9 @@ class ReportDialog extends StatefulWidget {
 }
 
 class _ReportDialogState extends State<ReportDialog> {
-  String group1 = '', group2 = '';
+  String group1 = 'Qarz qoldiq';
+  var start;
+  var end;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +38,10 @@ class _ReportDialogState extends State<ReportDialog> {
               },
               child: Container(
                 height: 60.h,
-                width: MediaQuery.of(context).size.width / 2.5,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width / 2.5,
                 padding: EdgeInsets.only(left: 18.w, right: 10.w),
                 decoration: BoxDecoration(
                     color: cTextFieldColor,
@@ -62,7 +69,10 @@ class _ReportDialogState extends State<ReportDialog> {
               },
               child: Container(
                 height: 60.h,
-                width: MediaQuery.of(context).size.width / 2.5,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width / 2.5,
                 padding: EdgeInsets.only(left: 18.w, right: 10.w),
                 decoration: BoxDecoration(
                     color: cTextFieldColor,
@@ -72,10 +82,7 @@ class _ReportDialogState extends State<ReportDialog> {
                     Expanded(
                       child: Text(
                         '${end.day}/${end.month}/${end.year}',
-                        style: TextStyle(
-                            color: primaryColor,
-                            fontFamily: 'Medium',
-                            fontSize: 14.sp),
+                        style: textStylePrimary14,
                       ),
                     ),
                     SvgPicture.asset('assets/icons/ic_dropdown.svg')
@@ -169,20 +176,20 @@ class _ReportDialogState extends State<ReportDialog> {
 
   Future pickDateRange(BuildContext context) async {
     DateTimeRange? newDataRange = await showDateRangePicker(
-      context: context,
-      firstDate: DateTime(1900),
-      initialDateRange: dateTimeRange,
-      lastDate: DateTime(2200),
-      builder: (context, child){
-        return Theme(data: ThemeData.light().copyWith(
-          colorScheme: ColorScheme.fromSwatch(
-            primarySwatch: Colors.indigo,
-            primaryColorDark: Colors.indigo,
-            accentColor: Colors.indigo,
-          ),
-          dialogBackgroundColor:Colors.white,
-        ), child: child!,)
-      }
+        context: context,
+        firstDate: DateTime(1900),
+        initialDateRange: dateTimeRange,
+        lastDate: DateTime(2200),
+        builder: (context, child) {
+          return Theme(data: ThemeData.light().copyWith(
+            colorScheme: ColorScheme.fromSwatch(
+              primarySwatch: Colors.indigo,
+              primaryColorDark: Colors.indigo,
+              accentColor: Colors.indigo,
+            ),
+            dialogBackgroundColor: Colors.white,
+          ), child: child!,)
+        }
     );
     if (newDataRange == null) return;
 
@@ -192,10 +199,9 @@ class _ReportDialogState extends State<ReportDialog> {
   }
 
   DateTimeRange dateTimeRange =
-      DateTimeRange(start: DateTime.now(), end: DateTime.now());
-  var start;
-  var end;
+  DateTimeRange(start: DateTime.now(), end: DateTime.now());
+
 
   TextStyle radioButtonTextStyle =
-      TextStyle(color: primaryColor, fontFamily: 'Medium', fontSize: 16.sp);
+  TextStyle(color: primaryColor, fontFamily: 'Medium', fontSize: 16.sp);
 }

@@ -6,6 +6,7 @@ import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 import 'package:savdo_agnet_client/core/widgets/failure_dialog.dart';
 import 'package:savdo_agnet_client/features/buyurtma/presentation/pages/buyurtma_dialog.dart';
 import 'package:savdo_agnet_client/features/mijozlar/presentation/pages/mijozlar_dialog.dart';
+import 'package:savdo_agnet_client/features/profile/presentation/pages/profile_page.dart';
 import 'package:savdo_agnet_client/features/report_dialog/presentation/pages/report_dialog.dart';
 import 'package:savdo_agnet_client/features/tulov_qilish/presentation/pages/tulov_qilish_dialog.dart';
 
@@ -35,26 +36,42 @@ class _MainPageState extends State<MainPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    AutoSizeText('Jakhongir Sagatov',
-                        maxLines: 2,
-                        style: TextStyle(
-                            fontFamily: 'ExtraBold',
-                            fontSize: 32.sp,
-                            color: primaryColor)),
+                    Container(
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width / 2,
+                      child: AutoSizeText('Jakhongir Sagatov',
+                          maxLines: 2,
+                          style: TextStyle(
+                              fontFamily: 'ExtraBold',
+                              fontSize: 32.sp,
+                              color: primaryColor)),
+                    ),
                     SizedBox(height: 8.h),
                     Row(
                       children: [
-                         Text(
+                        Text(
                           'Hayrli kun! ',
-                          style:
-                              TextStyle(color: primaryColor,fontSize: 16.sp, fontFamily: 'Medium'),
+                          style: TextStyle(
+                              color: primaryColor,
+                              fontSize: 16.sp,
+                              fontFamily: 'Medium'),
                         ),
-                        Image.asset('assets/icons/ic_hand.png',width: 14.w,height: 14.h,),
+                        Image.asset(
+                          'assets/icons/ic_hand.png',
+                          width: 14.w,
+                          height: 14.h,
+                        ),
                       ],
                     )
                   ],
                 ),
-                SvgPicture.asset('assets/icons/ic_person.svg')
+                IconButton(
+                    onPressed: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePage(),));
+                    },
+                    icon: SvgPicture.asset('assets/icons/ic_person.svg'))
               ],
             ),
             SizedBox(height: 40.h),

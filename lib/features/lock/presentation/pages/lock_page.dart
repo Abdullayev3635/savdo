@@ -12,8 +12,7 @@ import '../widgets/num_pad.dart';
 class PasswordScreen extends StatefulWidget {
   const PasswordScreen({Key? key}) : super(key: key);
 
-  static Widget screen() =>
-      BlocProvider(
+  static Widget screen() => BlocProvider(
         create: (context) => di<PassBloc>(),
         child: const PasswordScreen(),
       );
@@ -48,111 +47,108 @@ class _PasswordScreenState extends State<PasswordScreen> {
         child: Center(
           child: SingleChildScrollView(
             child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
+              mainAxisSize: MainAxisSize.min,
+              children: [
                 SvgPicture.asset("assets/icons/imsoft_logo.svg",
-                color: cWhiteColor, width: 268.w, height: 55.h),
-            SizedBox(height: 103.h),
-            // // Container(
-            // //   margin: EdgeInsets.symmetric(horizontal: 50.w),
-            // //   child: BlocBuilder<PassBloc, PassState>(
-            // //     buildWhen: (_, state) {
-            // //       if (state is PassSuccess) {
-            // //         Navigator.pushReplacement(
-            // //           context,
-            // //           CupertinoPageRoute(
-            // //               builder: (context) =>
-            // //                   const BottomNavigationPage()),
-            // //         );
-            // //       }
-            // //       debugPrint(state.message);
-            // //       return state is PassSuccess;
-            // //     },
-            // //     builder: (context, state) {
-            // //       if (state is PassInitial) {
-            // //         return Text(
-            // //           state.message,
-            // //           textAlign: TextAlign.center,
-            // //           style: TextStyle(
-            // //               color: cWhiteColor,
-            // //               fontSize: 16.sp,
-            // //               fontFamily: 'Regular'),
-            // //         );
-            // //       } else {
-            // //         return Text(
-            // //           state.message,
-            // //           textAlign: TextAlign.center,
-            // //           style: TextStyle(
-            // //               color: cYellowColor,
-            // //               fontSize: 16.sp,
-            // //               fontFamily: 'Regular'),
-            // //         );
-            // //       }
-            // //     },
-            // //   ),
-            // // ),
-            // SizedBox(
-            //   height: 25.h,
-            // ),
-            Text(
-              'Maxfiy parol o’rnating',
-              style: TextStyle(
-                  fontFamily: 'Medium',
-                  fontSize: 18.sp,
-                  color: cWhiteColor),
-            ),
-            SizedBox(
-              height: 12.sp,
-            ),
-            SizedBox(
-              width: 114.w,
-              height: 20.h,
-              child: PinCodeTextField(
-                showCursor: false,
-                appContext: context,
-                controller: _pinPutController,
-                length: 4,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                obscuringWidget: Container(
-                  height: 10.h,
-                  width: 10.w,
-                  decoration: BoxDecoration(
-                    color: cWhiteColor,
-                    borderRadius: BorderRadius.circular(7),
+                    color: cWhiteColor, width: 268.w, height: 55.h),
+                SizedBox(height: 103.h),
+                // // Container(
+                // //   margin: EdgeInsets.symmetric(horizontal: 50.w),
+                // //   child: BlocBuilder<PassBloc, PassState>(
+                // //     buildWhen: (_, state) {
+                // //       if (state is PassSuccess) {
+                // //         Navigator.pushReplacement(
+                // //           context,
+                // //           CupertinoPageRoute(
+                // //               builder: (context) =>
+                // //                   const BottomNavigationPage()),
+                // //         );
+                // //       }
+                // //       debugPrint(state.message);
+                // //       return state is PassSuccess;
+                // //     },
+                // //     builder: (context, state) {
+                // //       if (state is PassInitial) {
+                // //         return Text(
+                // //           state.message,
+                // //           textAlign: TextAlign.center,
+                // //           style: TextStyle(
+                // //               color: cWhiteColor,
+                // //               fontSize: 16.sp,
+                // //               fontFamily: 'Regular'),
+                // //         );
+                // //       } else {
+                // //         return Text(
+                // //           state.message,
+                // //           textAlign: TextAlign.center,
+                // //           style: TextStyle(
+                // //               color: cYellowColor,
+                // //               fontSize: 16.sp,
+                // //               fontFamily: 'Regular'),
+                // //         );
+                // //       }
+                // //     },
+                // //   ),
+                // // ),
+                // SizedBox(
+                //   height: 25.h,
+                // ),
+                Text(
+                  'Maxfiy parol kiriting',
+                  style: TextStyle(
+                      fontFamily: 'Medium',
+                      fontSize: 18.sp,
+                      color: cWhiteColor),
+                ),
+                SizedBox(
+                  height: 12.sp,
+                ),
+                SizedBox(
+                  width: 114.w,
+                  height: 20.h,
+                  child: PinCodeTextField(
+                    showCursor: false,
+                    appContext: context,
+                    controller: _pinPutController,
+                    length: 4,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    obscuringWidget: Container(
+                      height: 10.h,
+                      width: 10.w,
+                      decoration: BoxDecoration(
+                        color: cWhiteColor,
+                        borderRadius: BorderRadius.circular(7),
+                      ),
+                    ),
+                    enableActiveFill: true,
+                    enablePinAutofill: true,
+                    pinTheme: PinTheme(
+                      fieldHeight: 10.h,
+                      fieldWidth: 10.w,
+                      borderWidth: 0,
+                      shape: PinCodeFieldShape.circle,
+                      activeColor: cWhiteColor,
+                      inactiveColor: cInActiveColor,
+                      disabledColor: cInActiveColor,
+                      activeFillColor: cInActiveColor,
+                      selectedFillColor: cInActiveColor,
+                      inactiveFillColor: cInActiveColor,
+                      errorBorderColor: cInActiveColor,
+                    ),
+                    onCompleted: (value) {
+                      if (value.length == 4) {
+                        bloc.add(PassCompileEvent(
+                            passController: _pinPutController));
+                      }
+                    },
+                    onChanged: (controllerPin) {},
                   ),
                 ),
-                enableActiveFill: true,
-                enablePinAutofill: true,
-                pinTheme: PinTheme(
-                  fieldHeight: 10.h,
-                  fieldWidth: 10.w,
-                  borderWidth: 0,
-                  shape: PinCodeFieldShape.circle,
-                  activeColor: cWhiteColor,
-                  inactiveColor: cInActiveColor,
-                  disabledColor: cInActiveColor,
-                  activeFillColor: cInActiveColor,
-                  selectedFillColor: cInActiveColor,
-                  inactiveFillColor: cInActiveColor,
-                  errorBorderColor: cInActiveColor,
+                SizedBox(
+                  height: 35.h,
                 ),
-                onCompleted: (value) {
-                  if (value.length == 4) {
-                    bloc.add(PassCompileEvent(
-                        passController: _pinPutController));
-                  }
-                },
-                onChanged: (controllerPin) {},
-              ),
-            ),
-            SizedBox(
-              height: 35.h,
-            ),
-            numPad(_pinPutController, context),
-
-            Align(
-                alignment: Alignment.bottomCenter,
-                child: Text('Parolni unutdingizmi?',style: TextStyle(color: cWhiteColor,fontSize: 14.sp,fontFamily: 'Medium'),))              ],
+                numPad(_pinPutController, context),
+              ],
             ),
           ),
         ),
