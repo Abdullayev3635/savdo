@@ -33,13 +33,7 @@ class CallButtonWidget extends StatelessWidget {
           SizedBox(height: 30.h),
           ElevatedButton(
               onPressed: () { },
-              style: ButtonStyle(
-                  fixedSize: MaterialStateProperty.all(Size(352.w, 65.h)),
-                  backgroundColor:
-                  MaterialStateProperty.all(primaryColor),
-                  elevation: MaterialStateProperty.all(0),
-                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)))),
+              style: buttonStyle,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -52,13 +46,9 @@ class CallButtonWidget extends StatelessWidget {
                   SizedBox(
                     width: 10.w,
                   ),
-                  Text(
+                  const Text(
                     'Biz bilan bog’lanish',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: cWhiteColor,
-                        fontFamily: 'Regular',
-                        fontSize: 16.sp),
                   ),
                 ],
               )),

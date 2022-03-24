@@ -3,11 +3,16 @@ import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:savdo_agnet_client/core/photo/image_picker_utils.dart';
 import 'package:savdo_agnet_client/features/firmalar/presentation/bloc/firma_cubit.dart';
+import 'package:savdo_agnet_client/features/lock/domain/bloc/pass_bloc.dart';
+import 'package:savdo_agnet_client/features/lock/domain/repositories/lock_repositories.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../core/location/location_service.dart';
 import '../core/network/network_info.dart';
+import '../features/lock/data/datasources/lock_local_datasources.dart';
+import '../features/lock/data/repositories/lock_repositories.dart';
+import '../features/lock/domain/usescases/u_lock.dart';
 
 final di = GetIt.instance;
 //di is referred to as Service Locator
@@ -21,6 +26,9 @@ Future<void> init() async {
     () => SearchFirmaItemsCubit(
         id: di(), title: di(), image: di(), maxsulotlarBulimiCubit: di()),
   );
+  di.registerFactory(
+    () => PassBloc(pass: di()),
+  );
 
   ///Repositories
   // di.registerLazySingleton<SendDataRepository>(
@@ -31,13 +39,22 @@ Future<void> init() async {
   //       dataLocalDatasource: di()),
   // );
 
+  di.registerLazySingleton<PassRepository>(
+    () => PassRepositoryImpl(passLocalDataSource: di()),
+  );
+
   /// UsesCases
   //   di.registerLazySingleton(() => SendData(sendDataRepository: di()));
+
+  di.registerLazySingleton(() => Pass(repository: di()));
 
   /// Data sources
   // di.registerLazySingleton(
   //   () => SendDataRemoteDatasourceImpl(sharedPreferences: di(), client: di()),
   // );
+  di.registerLazySingleton(
+    () => PassLocalDataSourceImpl(sharedPreferences:  di()),
+  );
 
   /// Image picker
   di.registerLazySingleton<ImagePickerUtils>(() => ImagePickerUtilsImpl());

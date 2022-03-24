@@ -31,6 +31,7 @@ class _AllDialogSkeletonState extends State<AllDialogSkeleton> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 18.w),
         child: Dialog(
+          clipBehavior: Clip.none,
           alignment: Alignment.center,
           shape:
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r)),

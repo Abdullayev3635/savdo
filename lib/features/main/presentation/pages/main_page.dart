@@ -3,23 +3,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
+import 'package:savdo_agnet_client/core/widgets/failure_dialog.dart';
 import 'package:savdo_agnet_client/features/buyurtma/presentation/pages/buyurtma_dialog.dart';
 import 'package:savdo_agnet_client/features/mijozlar/presentation/pages/mijozlar_dialog.dart';
+import 'package:savdo_agnet_client/features/report_dialog/presentation/pages/report_dialog.dart';
 import 'package:savdo_agnet_client/features/tulov_qilish/presentation/pages/tulov_qilish_dialog.dart';
 
 import '../widgets/menu_items.dart';
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+class MainPage extends StatefulWidget {
+  const MainPage({Key? key}) : super(key: key);
 
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  _MainPageState createState() => _MainPageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: cBackgroundColor,
       body: Container(
         padding: EdgeInsets.only(top: 88.h),
@@ -96,11 +99,26 @@ class _ProfilePageState extends State<ProfilePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       MenuItems(
-                          onTap: () => debugPrint('1'),
+                          onTap: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return const ReportDialog();
+                                });
+                            debugPrint('1');
+                          },
                           title: 'Hisobot',
                           image: 'assets/icons/ic_hisobot.svg'),
                       MenuItems(
-                          onTap: () => debugPrint('2'),
+                          onTap: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return const FailureDialog();
+                                });
+
+                            debugPrint('2');
+                          },
                           title: 'Arhiv',
                           image: 'assets/icons/ic_archive.svg'),
                     ],

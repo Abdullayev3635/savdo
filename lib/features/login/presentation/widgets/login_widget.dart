@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:savdo_agnet_client/features/lock/presentation/pages/lock_page.dart';
 
 import '../../../../core/utils/app_constants.dart';
-import '../../../main/presentation/pages/main_page.dart';
 
 class LoginWidget extends StatefulWidget {
   const LoginWidget({
@@ -82,10 +82,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                           minWidth: 25.w,
                         ),
                       ),
-                      style: TextStyle(
-                          fontSize: 16.sp,
-                          color: primaryColor,
-                          fontFamily: "Regular"),
+                      style: textStylePrimary16,
                     ),
                   ),
                 ],
@@ -159,14 +156,12 @@ class _LoginWidgetState extends State<LoginWidget> {
               onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const ProfilePage(),
+                    builder: (context) =>  PasswordScreen.screen(),
                   )),
               style: buttonStyle,
-              child: Text(
+              child: const Text(
                 'Kirish',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: cWhiteColor, fontFamily: 'Regular', fontSize: 16.sp),
               )),
         ],
       ),

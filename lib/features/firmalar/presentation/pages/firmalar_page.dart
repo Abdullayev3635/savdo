@@ -16,7 +16,7 @@ class FirmalarPage extends StatefulWidget {
 
   static Widget screen() => BlocProvider(
         create: (context) =>
-            SearchFirmaItemsCubit(maxsulotlarBulimiCubit: firma_list),
+            SearchFirmaItemsCubit(maxsulotlarBulimiCubit: firmaList),
         child: const FirmalarPage(),
       );
 

@@ -233,12 +233,10 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
         ElevatedButton(
             onPressed: () {},
             style: buttonStyle,
-            child: Text(
+            child: const Text(
               'Mahsulotga o’tish',
               textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: cWhiteColor, fontFamily: 'Regular', fontSize: 16.sp),
-            )),
+             )),
       ],
     );
   }

@@ -20,7 +20,7 @@ class SearchFirmaItemsCubit extends Cubit<SearchFirmaItemsState> {
             firma: maxsulotlarBulimiCubit, id: id, title: title));
 
   void searchMaxsulot(String query) => emit(SearchFirmaItemsState(
-      firma: firma_list.where((brand) {
+      firma: firmaList.where((brand) {
         // if (query.isNotEmpty) {
           final titleLower = brand.title?.toLowerCase();
           final searchLower = query.toLowerCase();

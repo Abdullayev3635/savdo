@@ -21,7 +21,7 @@ class FirmaModel {
   }
 }
 
-List<FirmaModel> firma_list = [
+List<FirmaModel> firmaList = [
   FirmaModel(id: 1, image: 'assets/icons/ic_gallery.svg', title: 'Farg`ona'),
   FirmaModel(id: 2, image: 'assets/icons/ic_gallery.svg', title: 'Andijon'),
   FirmaModel(id: 3, image: 'assets/icons/ic_gallery.svg', title: 'Farg`ona'),
