@@ -57,6 +57,10 @@ dependencies:
   sn_progress_dialog: ^1.0.3
   # 21. For Fingerprint
   local_auth: ^1.1.0
+  # 22. Google maps
+  google_maps_flutter: ^2.1.3
+  # 23. For decode or encode LatLng
+  geocoding: ^2.0.4
 
 dev_dependencies:
   flutter_test:
@@ -69,7 +73,6 @@ flutter:
 
   assets:
     - assets/icons/
-    - assets/images/
   fonts:
     - family: Medium
       fonts:
