@@ -15,6 +15,7 @@ const cHintTextColor = Color(0xffA7C2D8);
 const cGrayColor = Color(0xFF333333);
 const cWhiteColor = Color(0xFFFFFFFF);
 const cInActiveColor = Color(0xFF6E71F4);
+const cImageB2Color = Color(0xFFF1F4F8);
 Color cShadowColor = const Color(0xff2F3081).withOpacity(0.04);
 Color primaryColor07 = primaryColor.withOpacity(0.7);
 

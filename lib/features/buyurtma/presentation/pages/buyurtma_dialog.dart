@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
+import 'package:savdo_agnet_client/features/product/presentation/pages/product_page.dart';
 
 import '../../../../core/widgets/dialog_frame.dart';
 
@@ -231,12 +232,19 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
         ),
         SizedBox(height: 32.h),
         ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ProductPage(),
+                  ));
+            },
             style: buttonStyle,
             child: const Text(
               'Mahsulotga o’tish',
               textAlign: TextAlign.center,
-             )),
+            )),
       ],
     );
   }
