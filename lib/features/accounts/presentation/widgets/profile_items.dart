@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../../core/utils/app_constants.dart';
 
+// ignore: must_be_immutable
 class ProfileItemsWidgets extends StatelessWidget {
   final String title, icon;
   Color? color;

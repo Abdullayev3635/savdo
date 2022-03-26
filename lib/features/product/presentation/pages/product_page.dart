@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 import 'package:savdo_agnet_client/features/firmalar/presentation/widgets/text_field_widget.dart';
+import 'package:savdo_agnet_client/features/product_items/presentation/pages/products.dart';
 
 class ProductPage extends StatefulWidget {
   const ProductPage({Key? key}) : super(key: key);
@@ -45,10 +46,20 @@ class _ProductPageState extends State<ProductPage> {
                     physics: const BouncingScrollPhysics(),
                     itemCount: 10,
                     itemBuilder: (context, index) {
-                      return const ProductItemsWidget(
-                        image: 'assets/icons/ic_gallery.svg',
-                      title: 'Liqui Moly',
-                        count: '40',
+                      return InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const Products(),
+                            ),
+                          );
+                        },
+                        child: const ProductItemsWidget(
+                          image: 'assets/icons/ic_gallery.svg',
+                          title: 'Liqui Moly',
+                          count: '40',
+                        ),
                       );
                     }),
               )

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:savdo_agnet_client/features/firmalar/presentation/pages/firmalar_page.dart';
-import 'package:savdo_agnet_client/features/map_check/presentation/pages/map_check.dart';
 
 class AppProvider extends StatelessWidget {
   const AppProvider({Key? key}) : super(key: key);
