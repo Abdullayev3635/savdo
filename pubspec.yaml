@@ -73,6 +73,7 @@ flutter:
 
   assets:
     - assets/icons/
+    - assets/images/
   fonts:
     - family: Medium
       fonts:

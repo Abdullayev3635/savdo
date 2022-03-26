@@ -2,9 +2,16 @@ import 'package:http/http.dart' as http;
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:savdo_agnet_client/core/photo/image_picker_utils.dart';
+import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 import 'package:savdo_agnet_client/features/firmalar/presentation/bloc/firma_cubit.dart';
 import 'package:savdo_agnet_client/features/lock/domain/bloc/pass_bloc.dart';
 import 'package:savdo_agnet_client/features/lock/domain/repositories/lock_repositories.dart';
+import 'package:savdo_agnet_client/features/product/data/datasource/product_local_datasources.dart';
+import 'package:savdo_agnet_client/features/product/data/model/category_model1.dart';
+import 'package:savdo_agnet_client/features/product/data/repositories/repository_impl.dart';
+import 'package:savdo_agnet_client/features/product/domain/repositories/catalog_repository.dart';
+import 'package:savdo_agnet_client/features/product/domain/usescase/usescase.dart';
+import 'package:savdo_agnet_client/features/product/presentation/bloc/catalog_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -27,6 +34,9 @@ Future<void> init() async {
         id: di(), title: di(), image: di(), maxsulotlarBulimiCubit: di()),
   );
   di.registerFactory(
+    () => CatalogBloc(home: di()),
+  );
+  di.registerFactory(
     () => PassBloc(pass: di()),
   );
 
@@ -42,18 +52,29 @@ Future<void> init() async {
   di.registerLazySingleton<PassRepository>(
     () => PassRepositoryImpl(passLocalDataSource: di()),
   );
+  di.registerLazySingleton<CatalogRepository>(
+    () => CatalogRepositoryImpl(
+      homeLocalDatasourceImpl: di(),
+      homeRemoteDatasourceImpl: di(),
+      networkInfo: di(),
+    ),
+  );
 
   /// UsesCases
   //   di.registerLazySingleton(() => SendData(sendDataRepository: di()));
 
   di.registerLazySingleton(() => Pass(repository: di()));
+  di.registerLazySingleton(() => ProductCatalog(catalogRepository: di()));
 
   /// Data sources
   // di.registerLazySingleton(
   //   () => SendDataRemoteDatasourceImpl(sharedPreferences: di(), client: di()),
   // );
   di.registerLazySingleton(
-    () => PassLocalDataSourceImpl(sharedPreferences:  di()),
+    () => PassLocalDataSourceImpl(sharedPreferences: di()),
+  );
+  di.registerLazySingleton(
+    () => CatalogLocalDataSourceImpl(),
   );
 
   /// Image picker
@@ -77,6 +98,11 @@ Future<void> init() async {
 
   /// Local datasource
   await Hive.initFlutter();
+  // home
+  Hive.registerAdapter(CatalogModelAdapter());
+  await Hive.openBox(catalogBox);
+
+
   // home
   // Hive.registerAdapter(CategoryModelAdapter());
   // await Hive.openBox(categoryBox);

@@ -29,7 +29,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
       ),
       height: 65.h,
       margin: EdgeInsets.only(top: 27.h),
-      padding: EdgeInsets.fromLTRB(13.w, 2.h, 13.w, 0.h),
+      padding: EdgeInsets.fromLTRB(13.w, 2.h, 0.w, 0.h),
       child: Center(
         child: Row(
           children: [
@@ -48,7 +48,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
                   setState(() {});
                 },
                 textAlignVertical: TextAlignVertical.top,
-                cursorColor:primaryColor,
+                cursorColor: primaryColor,
                 controller: widget.controller,
                 decoration: InputDecoration(
                   border: InputBorder.none,
@@ -66,14 +66,20 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
                   ),
                 ),
                 style: TextStyle(
-                    fontSize: 16.sp, color: primaryColor, fontFamily: "Regular"),
+                    fontSize: 16.sp,
+                    color: primaryColor,
+                    fontFamily: "Regular"),
               ),
             ),
-            SvgPicture.asset(
-              'assets/icons/ic_shopping_cart.svg',
-              width: 28.w,
-              height: 28.h,
-              color: primaryColor,
+            IconButton(
+              highlightColor: Colors.transparent,
+              onPressed: () {},
+              icon: SvgPicture.asset(
+                'assets/icons/ic_shopping_cart.svg',
+                width: 28.w,
+                height: 28.h,
+                color: primaryColor,
+              ),
             ),
           ],
         ),

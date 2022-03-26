@@ -26,7 +26,7 @@ BoxShadow textFieldShadow = BoxShadow(color: cShadowColor, blurRadius: 40);
 const String userData = 'user_data';
 
 // All table names for local databases
-const String categoryBox = 'category_box';
+const String catalogBox = 'catalog_box';
 const String subCategoryBox = 'sub_category_box';
 const String newHistoryBox = 'new_history_box';
 const String oldHistoryBox = 'old_history_box';
@@ -65,3 +65,5 @@ ButtonStyle buttonStyle = ButtonStyle(
 // BoxConstraints
 BoxConstraints boxConstraintsTextField = BoxConstraints(
     maxWidth: 30.w, maxHeight: 30.h, minHeight: 25.h, minWidth: 25.w);
+
+

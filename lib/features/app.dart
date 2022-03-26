@@ -1,22 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:savdo_agnet_client/features/firmalar/presentation/pages/firmalar_page.dart';
-import 'package:savdo_agnet_client/features/map_check/presentation/pages/map_check.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../di/dependency_injection.dart';
 
 class AppProvider extends StatelessWidget {
   const AppProvider({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const App();
+    return App();
   }
 }
 
 class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
+  App({Key? key}) : super(key: key);
+  SharedPreferences sharedPreferences = di.get();
 
   @override
   Widget build(BuildContext context) {
+    String id = sharedPreferences.getString('id') ?? "";
     return ScreenUtilInit(
       designSize: const Size(414, 896),
       minTextAdapt: true,
