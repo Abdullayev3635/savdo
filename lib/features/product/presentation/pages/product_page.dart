@@ -10,6 +10,8 @@ import '../../../../di/dependency_injection.dart';
 import '../../../firmalar/presentation/widgets/text_field_widget.dart';
 import '../widgets/catalog_items.dart';
 import '../widgets/product_items_widget.dart';
+import 'package:savdo_agnet_client/features/firmalar/presentation/widgets/text_field_widget.dart';
+import 'package:savdo_agnet_client/features/product_items/presentation/pages/products.dart';
 
 class ProductPage extends StatefulWidget {
   const ProductPage({Key? key}) : super(key: key);
