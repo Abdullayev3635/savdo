@@ -46,21 +46,7 @@ SizedBox numPad(TextEditingController _pinPutController, BuildContext context) {
               height: 41.h,
               width: cNumberLockW90.w,
               child: GestureDetector(
-                  onTap: () async {
-                    try {
-                      final isAuthenticated = await LocalAuthApi.authenticate();
-                      if (isAuthenticated) {
-                        Navigator.pushReplacement(
-                          context,
-                          CupertinoPageRoute(
-                              builder: (context) =>
-                                  const MainPage()),
-                        );
-                      }
-                    } catch (e) {
-                      debugPrint(e.toString());
-                    }
-                  },
+                  onTap: () => isAuth(context),
                   child: SvgPicture.asset(
                     'assets/icons/finger-scan.svg',
                     color: Colors.white,
@@ -95,4 +81,18 @@ SizedBox numPad(TextEditingController _pinPutController, BuildContext context) {
       ],
     ),
   );
+}
+
+isAuth(BuildContext context) async {
+  try {
+    final isAuthenticated = await LocalAuthApi.authenticate();
+    if (isAuthenticated) {
+      Navigator.pushReplacement(
+        context,
+        CupertinoPageRoute(builder: (context) => const MainPage()),
+      );
+    }
+  } catch (e) {
+    debugPrint(e.toString());
+  }
 }

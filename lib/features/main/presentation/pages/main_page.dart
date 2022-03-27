@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
-import 'package:savdo_agnet_client/core/widgets/failure_dialog.dart';
+import 'package:savdo_agnet_client/features/archive/presentation/pages/archive_page.dart';
 import 'package:savdo_agnet_client/features/buyurtma/presentation/pages/buyurtma_dialog.dart';
+import 'package:savdo_agnet_client/features/foto_xisobot/presentation/pages/photo_report_dialog.dart';
 import 'package:savdo_agnet_client/features/mijozlar/presentation/pages/mijozlar_dialog.dart';
 import 'package:savdo_agnet_client/features/profile/presentation/pages/profile_page.dart';
 import 'package:savdo_agnet_client/features/report_dialog/presentation/pages/report_dialog.dart';
@@ -37,10 +38,7 @@ class _MainPageState extends State<MainPage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     SizedBox(
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width / 2,
+                      width: MediaQuery.of(context).size.width / 2,
                       child: AutoSizeText('Jakhongir Sagatov',
                           maxLines: 2,
                           style: TextStyle(
@@ -68,8 +66,12 @@ class _MainPageState extends State<MainPage> {
                   ],
                 ),
                 IconButton(
-                    onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePage(),));
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ProfilePage(),
+                          ));
                     },
                     icon: SvgPicture.asset('assets/icons/ic_person.svg'))
               ],
@@ -128,12 +130,7 @@ class _MainPageState extends State<MainPage> {
                           image: 'assets/icons/ic_hisobot.svg'),
                       MenuItems(
                           onTap: () {
-                            showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return const FailureDialog();
-                                });
-
+                           Navigator.push(context, MaterialPageRoute(builder: (context) => const ArchivePage(),));
                             debugPrint('2');
                           },
                           title: 'Arhiv',
@@ -145,7 +142,14 @@ class _MainPageState extends State<MainPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       MenuItems(
-                          onTap: () => debugPrint('1'),
+                          onTap: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return const PhotoReportDialog();
+                                });
+                            debugPrint('1');
+                          },
                           title: 'Foto hisobot',
                           image: 'assets/icons/ic_camera.svg'),
                       MenuItems(

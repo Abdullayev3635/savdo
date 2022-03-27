@@ -12,11 +12,13 @@ import 'package:savdo_agnet_client/features/product/data/repositories/repository
 import 'package:savdo_agnet_client/features/product/domain/repositories/catalog_repository.dart';
 import 'package:savdo_agnet_client/features/product/domain/usescase/usescase.dart';
 import 'package:savdo_agnet_client/features/product/presentation/bloc/catalog_bloc.dart';
+import 'package:savdo_agnet_client/features/product_items/presentation/bloc/product_items_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../core/location/location_service.dart';
 import '../core/network/network_info.dart';
+import '../features/korzina_screen/data/korzina_hive/korzina_hive.dart';
 import '../features/lock/data/datasources/lock_local_datasources.dart';
 import '../features/lock/data/repositories/lock_repositories.dart';
 import '../features/lock/domain/usescases/u_lock.dart';
@@ -38,6 +40,9 @@ Future<void> init() async {
   );
   di.registerFactory(
     () => PassBloc(pass: di()),
+  );
+  di.registerFactory(
+    () => ProductItemsCubit(maxsulotlarBulimiCubit: di()),
   );
 
   ///Repositories
@@ -101,7 +106,9 @@ Future<void> init() async {
   // home
   Hive.registerAdapter(CatalogModelAdapter());
   await Hive.openBox(catalogBox);
-
+  // home
+  Hive.registerAdapter(KorzinaCardAdapter());
+  await Hive.openBox(korzinaBox);
 
   // home
   // Hive.registerAdapter(CategoryModelAdapter());

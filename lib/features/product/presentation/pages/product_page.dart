@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,11 +6,10 @@ import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 import 'package:savdo_agnet_client/features/product/presentation/bloc/catalog_bloc.dart';
 
 import '../../../../di/dependency_injection.dart';
-import '../../../firmalar/presentation/widgets/text_field_widget.dart';
+import '../../../product_items/presentation/widgets/search.dart';
 import '../widgets/catalog_items.dart';
 import '../widgets/product_items_widget.dart';
-import 'package:savdo_agnet_client/features/firmalar/presentation/widgets/text_field_widget.dart';
-import 'package:savdo_agnet_client/features/product_items/presentation/pages/products.dart';
+import '../widgets/text_field_widget.dart';
 
 class ProductPage extends StatefulWidget {
   const ProductPage({Key? key}) : super(key: key);
@@ -69,7 +67,7 @@ class _ProductPageState extends State<ProductPage> {
                   Padding(
                     padding: EdgeInsets.only(
                         top: 50.h, right: 20.w, left: 20.w, bottom: 21.h),
-                    child: TextFieldWidget(controller: controller),
+                    child: const ProductTextFieldWidget(),
                   ),
                 ],
               ),
@@ -196,7 +194,7 @@ class _ProductPageState extends State<ProductPage> {
                 physics: const BouncingScrollPhysics(),
                 itemCount: 10,
                 itemBuilder: (context, index) {
-                  return const ProductItemsWidget(
+                  return const ProductWidget(
                     image: 'assets/icons/ic_gallery.svg',
                     title: 'Liqui Moly',
                     count: '40',

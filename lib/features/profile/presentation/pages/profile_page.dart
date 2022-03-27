@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
+
 import '../../../../core/widgets/appBarWidget.dart';
 import '../../../accounts/presentation/pages/account_page.dart';
-
-import '../../../accounts/presentation/widgets/profile_items.dart';
+import '../widgets/profile_items.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);

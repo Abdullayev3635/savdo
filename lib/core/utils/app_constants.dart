@@ -27,7 +27,7 @@ const String userData = 'user_data';
 
 // All table names for local databases
 const String catalogBox = 'catalog_box';
-const String subCategoryBox = 'sub_category_box';
+const String korzinaBox = 'korzina_box';
 const String newHistoryBox = 'new_history_box';
 const String oldHistoryBox = 'old_history_box';
 const String profileBox = 'profile_box';
@@ -51,7 +51,30 @@ TextStyle textStylePrimary16 =
     TextStyle(fontSize: 16.sp, color: primaryColor, fontFamily: "Regular");
 TextStyle textStylePrimary14 =
     TextStyle(fontSize: 14.sp, color: primaryColor, fontFamily: "Regular");
+TextStyle activeTextStyle =
+    TextStyle(color: primaryColor, fontFamily: 'Regular', fontSize: 16.sp);
+TextStyle inActiveTextStyle =
+    TextStyle(color: cWhiteColor, fontFamily: 'Regular', fontSize: 16.sp);
+TextStyle dateTextStyle = TextStyle(
+    fontSize: 10.sp, color: const Color(0xff939EB4), fontFamily: 'Medium');
 // buttons Style
+
+ButtonStyle inActiveButtonStyle = ButtonStyle(
+  elevation: MaterialStateProperty.all(0),
+  fixedSize: MaterialStateProperty.all(Size(90.w, 50.h)),
+  backgroundColor: MaterialStateProperty.all(primaryColor.withOpacity(0.1)),
+  // overlayColor: MaterialStateProperty.all(primaryColor.withOpacity(0.2)),
+  shape: MaterialStateProperty.all(RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(10),
+  )),
+);
+ButtonStyle activeButtonStyle = ButtonStyle(
+  fixedSize: MaterialStateProperty.all(Size(90.w, 50.h)),
+  backgroundColor: MaterialStateProperty.all(primaryColor),
+  shape: MaterialStateProperty.all(RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(10),
+  )),
+);
 
 ButtonStyle buttonStyle = ButtonStyle(
     textStyle: MaterialStateProperty.all(
@@ -65,5 +88,3 @@ ButtonStyle buttonStyle = ButtonStyle(
 // BoxConstraints
 BoxConstraints boxConstraintsTextField = BoxConstraints(
     maxWidth: 30.w, maxHeight: 30.h, minHeight: 25.h, minWidth: 25.w);
-
-

@@ -27,6 +27,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
 
   @override
   void initState() {
+    isAuth(context);
     bloc = BlocProvider.of<PassBloc>(context);
     super.initState();
   }
@@ -52,47 +53,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
                 SvgPicture.asset("assets/icons/imsoft_logo.svg",
                     color: cWhiteColor, width: 268.w, height: 55.h),
                 SizedBox(height: 103.h),
-                // // Container(
-                // //   margin: EdgeInsets.symmetric(horizontal: 50.w),
-                // //   child: BlocBuilder<PassBloc, PassState>(
-                // //     buildWhen: (_, state) {
-                // //       if (state is PassSuccess) {
-                // //         Navigator.pushReplacement(
-                // //           context,
-                // //           CupertinoPageRoute(
-                // //               builder: (context) =>
-                // //                   const BottomNavigationPage()),
-                // //         );
-                // //       }
-                // //       debugPrint(state.message);
-                // //       return state is PassSuccess;
-                // //     },
-                // //     builder: (context, state) {
-                // //       if (state is PassInitial) {
-                // //         return Text(
-                // //           state.message,
-                // //           textAlign: TextAlign.center,
-                // //           style: TextStyle(
-                // //               color: cWhiteColor,
-                // //               fontSize: 16.sp,
-                // //               fontFamily: 'Regular'),
-                // //         );
-                // //       } else {
-                // //         return Text(
-                // //           state.message,
-                // //           textAlign: TextAlign.center,
-                // //           style: TextStyle(
-                // //               color: cYellowColor,
-                // //               fontSize: 16.sp,
-                // //               fontFamily: 'Regular'),
-                // //         );
-                // //       }
-                // //     },
-                // //   ),
-                // // ),
-                // SizedBox(
-                //   height: 25.h,
-                // ),
+
                 Text(
                   'Maxfiy parol kiriting',
                   style: TextStyle(
@@ -100,9 +61,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
                       fontSize: 18.sp,
                       color: cWhiteColor),
                 ),
-                SizedBox(
-                  height: 12.sp,
-                ),
+                SizedBox(height: 12.sp),
                 SizedBox(
                   width: 114.w,
                   height: 20.h,
@@ -156,3 +115,44 @@ class _PasswordScreenState extends State<PasswordScreen> {
     );
   }
 }
+// // Container(
+// //   margin: EdgeInsets.symmetric(horizontal: 50.w),
+// //   child: BlocBuilder<PassBloc, PassState>(
+// //     buildWhen: (_, state) {
+// //       if (state is PassSuccess) {
+// //         Navigator.pushReplacement(
+// //           context,
+// //           CupertinoPageRoute(
+// //               builder: (context) =>
+// //                   const BottomNavigationPage()),
+// //         );
+// //       }
+// //       debugPrint(state.message);
+// //       return state is PassSuccess;
+// //     },
+// //     builder: (context, state) {
+// //       if (state is PassInitial) {
+// //         return Text(
+// //           state.message,
+// //           textAlign: TextAlign.center,
+// //           style: TextStyle(
+// //               color: cWhiteColor,
+// //               fontSize: 16.sp,
+// //               fontFamily: 'Regular'),
+// //         );
+// //       } else {
+// //         return Text(
+// //           state.message,
+// //           textAlign: TextAlign.center,
+// //           style: TextStyle(
+// //               color: cYellowColor,
+// //               fontSize: 16.sp,
+// //               fontFamily: 'Regular'),
+// //         );
+// //       }
+// //     },
+// //   ),
+// // ),
+// SizedBox(
+//   height: 25.h,
+// ),

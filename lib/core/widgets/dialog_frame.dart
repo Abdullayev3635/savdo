@@ -6,6 +6,21 @@ import 'package:flutter_svg/svg.dart';
 
 import '../utils/app_constants.dart';
 
+class SystemPadding extends StatelessWidget {
+  final Widget child;
+
+  const SystemPadding({Key? key, required this.child}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var mediaQuery = MediaQuery.of(context);
+    return AnimatedContainer(
+        padding: mediaQuery.padding,
+        duration: const Duration(milliseconds: 300),
+        child: child);
+  }
+}
+
 class AllDialogSkeleton extends StatefulWidget {
   final List<Widget> children;
   final String title, icon;
@@ -27,13 +42,16 @@ class _AllDialogSkeletonState extends State<AllDialogSkeleton> {
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
       child: Padding(
+        // margin: EdgeInsets.only(
+        //     bottom: MediaQuery.of(context).size.height / 5),
         padding: EdgeInsets.symmetric(horizontal: 18.w),
         child: Dialog(
           clipBehavior: Clip.none,
           alignment: Alignment.center,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r)),
-          insetPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 0),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.r)),
+          insetPadding:
+              const EdgeInsets.symmetric(vertical: 20, horizontal: 0),
           child: Container(
             padding: const EdgeInsets.all(16),
             decoration:
@@ -65,6 +83,7 @@ class _AllDialogSkeletonState extends State<AllDialogSkeleton> {
                   ],
                 ),
                 Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: widget.children,
                 ),
               ],

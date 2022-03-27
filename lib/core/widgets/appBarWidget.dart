@@ -9,7 +9,7 @@ import '../utils/app_constants.dart';
 
 AppBar appBarWidget(BuildContext context, String title) {
   return AppBar(
-    backgroundColor: Colors.transparent,
+    backgroundColor: cBackgroundColor,
     elevation: 0,
     toolbarHeight: 100,
     automaticallyImplyLeading: false,

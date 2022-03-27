@@ -61,11 +61,14 @@ dependencies:
   google_maps_flutter: ^2.1.3
   # 23. For decode or encode LatLng
   geocoding: ^2.0.4
+  #rating statrs
+  flutter_rating_bar: ^4.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  hive_generator: ^1.1.2
+  build_runner: ^2.1.8
   flutter_lints: ^1.0.0
 
 flutter:
@@ -87,3 +90,12 @@ flutter:
     - family: ExtraBold
       fonts:
         - asset: assets/fonts/Montserrat-ExtraBold.ttf
+    - family: GilroyMedium
+      fonts:
+        - asset: assets/fonts/Gilroy-Medium.ttf
+    - family: GilroyRegular
+      fonts:
+        - asset: assets/fonts/Gilroy-Regular.ttf
+    - family: GilroySemiBold
+      fonts:
+        - asset: assets/fonts/Gilroy-Semibold.ttf

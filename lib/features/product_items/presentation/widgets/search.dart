@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:savdo_agnet_client/features/product_items/presentation/bloc/product_items_cubit.dart';
 
 import '../../../../core/utils/app_constants.dart';
 import '../../../firmalar/presentation/bloc/firma_cubit.dart';
-class TextFieldWidget extends StatefulWidget {
-  const TextFieldWidget({
+class ProductItemsTextFieldWidget extends StatefulWidget {
+  const ProductItemsTextFieldWidget({
     Key? key,
     required this.controller,
   }) : super(key: key);
@@ -14,10 +15,10 @@ class TextFieldWidget extends StatefulWidget {
   final TextEditingController? controller;
 
   @override
-  State<TextFieldWidget> createState() => _TextFieldWidgetState();
+  State<ProductItemsTextFieldWidget> createState() => _ProductItemsTextFieldWidgetState();
 }
 
-class _TextFieldWidgetState extends State<TextFieldWidget> {
+class _ProductItemsTextFieldWidgetState extends State<ProductItemsTextFieldWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -42,8 +43,8 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
             Expanded(
               child: TextFormField(
                 onChanged: (value) {
-                  BlocProvider.of<SearchFirmaItemsCubit>(context)
-                      .searchMaxsulot(value);
+                  // BlocProvider.of<ProductItemsCubit>(context)
+                  //     .searchMaxsulot(value);
                   setState(() {});
                 },
                 textAlignVertical: TextAlignVertical.top,
@@ -68,6 +69,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
                     fontSize: 16.sp, color: primaryColor, fontFamily: "Regular"),
               ),
             ),
+
           ],
         ),
       ),
