@@ -14,6 +14,7 @@ class AppProvider extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class App extends StatelessWidget {
   App({Key? key}) : super(key: key);
   SharedPreferences sharedPreferences = di.get();

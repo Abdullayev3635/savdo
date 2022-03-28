@@ -16,9 +16,9 @@ class CallButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20), color: cWhiteColor),
-      margin: const EdgeInsets.symmetric(horizontal: 28),
-      padding: const EdgeInsets.symmetric(horizontal: 18),
+          borderRadius: BorderRadius.circular(20.r), color: cWhiteColor),
+      margin: EdgeInsets.symmetric(horizontal: 28.h),
+      padding: EdgeInsets.symmetric(horizontal: 18.h),
       child: Column(
         children: [
           SizedBox(height: 31.h),
@@ -46,9 +46,13 @@ class CallButtonWidget extends StatelessWidget {
                   SizedBox(
                     width: 10.w,
                   ),
-                  const Text(
+                  Text(
                     'Biz bilan bog’lanish',
                     textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontFamily: "Regular",
+                    ),
                   ),
                 ],
               )),

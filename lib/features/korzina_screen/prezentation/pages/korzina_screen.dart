@@ -51,9 +51,11 @@ class _KorzinaScreenState extends State<KorzinaScreen> {
         // visible: transaction.isEmpty ? false : true,
         child: ElevatedButton(
             onPressed: () {
-showDialog(context: context, builder: (context) {
-  return const SavatchaFailureDialog();
-});
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return const SavatchaFailureDialog();
+                  });
             },
             child: Text(
               'Buyurtma berish',
@@ -66,7 +68,8 @@ showDialog(context: context, builder: (context) {
               padding: MaterialStateProperty.all(const EdgeInsets.all(31)),
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.r))),
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(15.r)))),
               backgroundColor: MaterialStateProperty.all(primaryColor),
               elevation: MaterialStateProperty.all(0),
             )),
@@ -200,5 +203,4 @@ showDialog(context: context, builder: (context) {
     //       });
     // });
   }
-
 }

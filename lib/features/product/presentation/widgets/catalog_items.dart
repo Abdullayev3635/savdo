@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/utils/app_constants.dart';
-import '../bloc/catalog_bloc.dart';
 
+// ignore: must_be_immutable
 class CatalogItems extends StatefulWidget {
   // CatalogState state;
   bool isLarge = false;
@@ -35,7 +35,7 @@ class _CatalogItemsState extends State<CatalogItems> {
       scrollDirection: widget.isLarge ? Axis.vertical : Axis.horizontal,
       itemBuilder: (context, index) => Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w),
-        child: InkWell(
+        child: GestureDetector(
           onTap: () {
             setState(() {
               isActive = !isActive;

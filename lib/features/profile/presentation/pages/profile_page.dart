@@ -8,8 +8,7 @@ import '../../../../core/widgets/appBarWidget.dart';
 import '../../../accounts/presentation/pages/account_page.dart';
 import '../widgets/profile_items.dart';
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+class ProfilePage extends StatefulWidget {const ProfilePage({Key? key}) : super(key: key);
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -39,24 +38,21 @@ class _ProfilePageState extends State<ProfilePage> {
                   height: 118.h, width: 80.w, fit: BoxFit.fitHeight),
             ),
             SizedBox(height: 19.h),
-            InkWell(
-              overlayColor: MaterialStateProperty.all(Colors.transparent),
+            GestureDetector(
               onTap: () {},
               child: ProfileItemsWidgets(
                 icon: 'assets/icons/ic_person.svg',
                 title: 'Jakhongir Ruzaliev',
               ),
             ),
-            InkWell(
-              overlayColor: MaterialStateProperty.all(Colors.transparent),
+            GestureDetector(
               onTap: () {},
               child: ProfileItemsWidgets(
                 icon: 'assets/icons/ic_firma.svg',
                 title: 'Firma nomi',
               ),
             ),
-            InkWell(
-              overlayColor: MaterialStateProperty.all(Colors.transparent),
+            GestureDetector(
               onTap: () {
                 Navigator.push(
                     context,
@@ -70,16 +66,14 @@ class _ProfilePageState extends State<ProfilePage> {
                 title: 'Akkauntlar',
               ),
             ),
-            InkWell(
-              overlayColor: MaterialStateProperty.all(Colors.transparent),
+            GestureDetector(
               onTap: () {},
               child: ProfileItemsWidgets(
                 icon: 'assets/icons/ic_shield-security.svg',
                 title: 'Screen Lock',
               ),
             ),
-            InkWell(
-              overlayColor: MaterialStateProperty.all(Colors.transparent),
+            GestureDetector(
               onTap: () {},
               child: ProfileItemsWidgets(
                 color: cHintTextColor,
@@ -87,8 +81,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 title: '+998 (33) 510-95-95',
               ),
             ),
-            InkWell(
-              overlayColor: MaterialStateProperty.all(Colors.transparent),
+            GestureDetector(
               onTap: () {},
               child: ProfileItemsWidgets(
                 color: cHintTextColor,
@@ -96,8 +89,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 title: 'Farg’ona viloyati',
               ),
             ),
-            InkWell(
-              overlayColor: MaterialStateProperty.all(Colors.transparent),
+            GestureDetector(
               onTap: () {},
               child: ProfileItemsWidgets(
                 color: cHintTextColor,

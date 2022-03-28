@@ -22,6 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: cBackgroundColor,
+      resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         reverse: true,
         child: Column(
@@ -30,12 +31,13 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(height: 182.h),
-            // const Spacer(flex: 3),
             LoginWidget(
-                maskFormatter: maskFormatter, tel: tel, password: password),
+              maskFormatter: maskFormatter,
+              tel: tel,
+              password: password,
+            ),
             SizedBox(height: 24.h),
             const CallButtonWidget(),
-            // const Spacer(flex: 2),
           ],
         ),
       ),

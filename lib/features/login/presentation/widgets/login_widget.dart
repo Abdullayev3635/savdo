@@ -29,9 +29,9 @@ class _LoginWidgetState extends State<LoginWidget> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20), color: cWhiteColor),
-      margin: const EdgeInsets.symmetric(horizontal: 28),
-      padding: const EdgeInsets.symmetric(horizontal: 18),
+          borderRadius: BorderRadius.circular(20.r), color: cWhiteColor),
+      margin: EdgeInsets.symmetric(horizontal: 28.w),
+      padding: EdgeInsets.symmetric(horizontal: 18.w),
       height: 380.h,
       width: double.infinity,
       child: Column(
@@ -40,7 +40,7 @@ class _LoginWidgetState extends State<LoginWidget> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SvgPicture.asset('assets/icons/imsoft_logo.svg'),
-          const SizedBox(height: 42),
+          SizedBox(height: 42.h),
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.r),
@@ -89,7 +89,7 @@ class _LoginWidgetState extends State<LoginWidget> {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.r),
@@ -151,18 +151,23 @@ class _LoginWidgetState extends State<LoginWidget> {
               ),
             ),
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24.h),
           ElevatedButton(
-              onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>  PasswordScreen.screen(),
-                  )),
-              style: buttonStyle,
-              child: const Text(
-                'Kirish',
-                textAlign: TextAlign.center,
-              )),
+            onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PasswordScreen.screen(),
+                )),
+            style: buttonStyle,
+            child: Text(
+              'Kirish',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16.sp,
+                fontFamily: "Regular",
+              ),
+            ),
+          ),
         ],
       ),
     );

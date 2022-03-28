@@ -20,6 +20,8 @@ class _TulovQilishDialogState extends State<TulovQilishDialog> {
     return SingleChildScrollView(
       padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 9),
       reverse: true,
+      physics: const BouncingScrollPhysics(),
+      controller: ScrollController(keepScrollOffset: false),
       child: AllDialogSkeleton(
         title: 'To’lov qilish',
         icon: 'assets/icons/ic_dollar_circle.svg',
