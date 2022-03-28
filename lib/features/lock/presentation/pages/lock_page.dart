@@ -27,7 +27,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
 
   @override
   void initState() {
-    isAuth(context);
+    //isAuth(context);
     bloc = BlocProvider.of<PassBloc>(context);
     super.initState();
   }
