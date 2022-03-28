@@ -90,12 +90,4 @@ flutter:
     - family: ExtraBold
       fonts:
         - asset: assets/fonts/Montserrat-ExtraBold.ttf
-    - family: GilroyMedium
-      fonts:
-        - asset: assets/fonts/Gilroy-Medium.ttf
-    - family: GilroyRegular
-      fonts:
-        - asset: assets/fonts/Gilroy-Regular.ttf
-    - family: GilroySemiBold
-      fonts:
-        - asset: assets/fonts/Gilroy-Semibold.ttf
+
