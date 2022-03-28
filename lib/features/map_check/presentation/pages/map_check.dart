@@ -37,7 +37,10 @@ class MapCheckState extends State<MapCheck> {
     position: LatLng(41.311155, 69.279700),
     icon: BitmapDescriptor.defaultMarker,
   );
-
+@override
+  void dispose() {
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -150,40 +153,30 @@ class MapCheckState extends State<MapCheck> {
                 height: 110.h,
                 width: double.infinity,
                 decoration: BoxDecoration(
+                  color: cWhiteColor,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20.r),
                     topRight: Radius.circular(20.r),
                   ),
                 ),
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ButtonStyle(
-                      fixedSize: MaterialStateProperty.all(Size(352.w, 65.h)),
-                      backgroundColor: MaterialStateProperty.all(primaryColor),
-                      elevation: MaterialStateProperty.all(0),
-                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)))),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(
-                        'assets/icons/ic_call.svg',
-                        height: 20.h,
-                        width: 20.w,
-                        color: cWhiteColor,
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      Text(
-                        'Biz bilan bog’lanish',
-                        textAlign: TextAlign.center,
+                child: Center(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: primaryColor,
+                      borderRadius: BorderRadius.circular(15.r),
+                    ),
+                    height: 65.h,
+                    width: 368.w,
+                    child: Center(
+                      child: Text(
+                        'Saqlash',
                         style: TextStyle(
                             color: cWhiteColor,
-                            fontFamily: 'Regular',
+                            fontFamily: 'Medium',
+                            fontWeight: FontWeight.w500,
                             fontSize: 16.sp),
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ),
