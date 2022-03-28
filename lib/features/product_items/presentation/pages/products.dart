@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:savdo_agnet_client/di/dependency_injection.dart';
 import 'package:savdo_agnet_client/features/product_items/presentation/bloc/product_items_cubit.dart';
 import 'package:savdo_agnet_client/features/product_items/presentation/widgets/search.dart';
 
 import '../../../../core/utils/app_constants.dart';
 import '../../../../core/widgets/appBarWidget.dart';
-import '../../../firmalar/data/model/firma_model.dart';
 import '../widgets/product_items.dart';
 
- String bName='';
+String bName = '';
 
 class Products extends StatefulWidget {
   const Products({Key? key}) : super(key: key);
@@ -21,9 +19,9 @@ class Products extends StatefulWidget {
   static Widget screen(final String brandName) {
     bName = brandName;
     return BlocProvider(
-        create: (context) => di<ProductItemsCubit>(),
-        child: const Products(),
-      );
+      create: (context) => di<ProductItemsCubit>(),
+      child: const Products(),
+    );
   }
 
   @override
@@ -32,6 +30,7 @@ class Products extends StatefulWidget {
 
 class _ProductsState extends State<Products> {
   TextEditingController textEditingController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,16 +44,13 @@ class _ProductsState extends State<Products> {
             ProductItemsTextFieldWidget(
               controller: textEditingController,
             ),
-            Container(
-              height: MediaQuery.of(context).size.height / 1.43,
-              margin: EdgeInsets.only(top: 36.h),
+            Expanded(
               child: ListView.builder(
+                  padding: EdgeInsets.only(top: 25.h),
                   physics: const BouncingScrollPhysics(),
                   itemCount: 10,
                   itemBuilder: (context, index) {
-                    return InkWell(
-                      overlayColor:
-                          MaterialStateProperty.all(Colors.transparent),
+                    return GestureDetector(
                       onTap: () {
                         // Navigator.push(
                         //   context,
@@ -63,7 +59,7 @@ class _ProductsState extends State<Products> {
                         //   ),
                         // );
                       },
-                      child:  ProductItemsWidget(
+                      child: ProductItemsWidget(
                         id: index,
                         brandNomi: 'Bradley Hand',
                         image: 'assets/images/truck.png',

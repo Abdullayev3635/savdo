@@ -48,48 +48,47 @@ class _FirmalarPageState extends State<FirmalarPage> {
       body: BlocBuilder<SearchFirmaItemsCubit, SearchFirmaItemsState>(
         builder: (context, state) {
           return Container(
-            padding: EdgeInsets.only(left: 28.w, right: 28.w, top: 101),
+            padding: EdgeInsets.only(left: 28.w, right: 28.w, top: 101.h),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
+                 Text(
                   'Firmalar',
                   style: TextStyle(
-                      color: cBlackColor, fontSize: 24, fontFamily: 'Regular'),
+                      color: cBlackColor, fontSize: 24.sp, fontFamily: 'Regular'),
                 ),
                 TextFieldWidget(
                   controller: BlocProvider.of<SearchFirmaItemsCubit>(context)
                       .state
                       .filter,
                 ),
-                Container(
-                  padding: EdgeInsets.only(top: 24.h),
-                  height: MediaQuery.of(context).size.height/1.3425,
-                  child: MediaQuery.removePadding(
-                    context: context,
-                    removeTop: true,
-                    child: GridView.builder(
-                        padding: const EdgeInsets.only(bottom: 20),
-                        physics: const BouncingScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithMaxCrossAxisExtent(
-                                maxCrossAxisExtent: 200,
-                                childAspectRatio: 1,
-                                crossAxisSpacing: 16,
-                                mainAxisSpacing: 16),
-                        itemCount: state.firma.length,
-                        itemBuilder: (BuildContext ctx, index) {
-                          return InkWell(
-                            onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginPage(),)),
-                            child: GridViewItemsWidget(
-                              index: index,
-                              state: state,
-                            ),
-                          );
-                        }),
-                  ),
+                Expanded(
+                  child: GridView.builder(
+                      padding: EdgeInsets.only(top: 20.h),
+                      physics: const BouncingScrollPhysics(),
+                      gridDelegate:
+                           SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 200.w,
+                        childAspectRatio: 1,
+                        crossAxisSpacing: 16.w,
+                        mainAxisSpacing: 16.h,
+                      ),
+                      itemCount: state.firma.length,
+                      itemBuilder: (BuildContext ctx, index) {
+                        return GestureDetector(
+                          onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const LoginPage(),
+                              )),
+                          child: GridViewItemsWidget(
+                            index: index,
+                            state: state,
+                          ),
+                        );
+                      }),
                 ),
               ],
             ),

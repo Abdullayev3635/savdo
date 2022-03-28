@@ -237,7 +237,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ProductPage(),
+                    builder: (context) => const ProductPage(),
                   ));
             },
             style: buttonStyle,

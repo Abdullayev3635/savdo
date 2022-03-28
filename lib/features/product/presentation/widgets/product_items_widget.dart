@@ -17,7 +17,7 @@ class ProductWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: (){
         Navigator.push(context, MaterialPageRoute(builder: (context) => Products.screen(title),));
       },

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
+import 'package:savdo_agnet_client/features/map_check/presentation/pages/map_check.dart';
 
 import '../../../../core/widgets/dialog_frame.dart';
 
@@ -28,7 +29,7 @@ class _EditClientDialogState extends State<EditClientDialog> {
         icon: 'assets/icons/ic_two_person.svg',
         children: [
           SizedBox(height: 39.h),
-          InkWell(
+          GestureDetector(
             onTap: () {},
             child: Container(
               height: 60.h,
@@ -53,8 +54,10 @@ class _EditClientDialogState extends State<EditClientDialog> {
             ),
           ),
           SizedBox(height: 16.h),
-          InkWell(
-            onTap: () {},
+          GestureDetector(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const MapCheck(),));
+            },
             child: Container(
               height: 60.h,
               padding: EdgeInsets.only(left: 18.w, right: 10.w),

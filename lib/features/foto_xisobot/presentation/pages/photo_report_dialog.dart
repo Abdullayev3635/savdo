@@ -16,6 +16,7 @@ class _PhotoReportDialogState extends State<PhotoReportDialog> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
       padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 5),
       reverse: true,
       child: AllDialogSkeleton(

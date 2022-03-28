@@ -6,7 +6,6 @@ import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 import 'package:savdo_agnet_client/features/product/presentation/bloc/catalog_bloc.dart';
 
 import '../../../../di/dependency_injection.dart';
-import '../../../product_items/presentation/widgets/search.dart';
 import '../widgets/catalog_items.dart';
 import '../widgets/product_items_widget.dart';
 import '../widgets/text_field_widget.dart';
@@ -51,11 +50,11 @@ class _ProductPageState extends State<ProductPage> {
         physics: const BouncingScrollPhysics(),
         slivers: [
           SliverAppBar(
-            expandedHeight: isLarge ? 490 : 270,
+            expandedHeight: isLarge ? 490.h : 270.h,
             elevation: 0,
             backgroundColor: cBackgroundColor,
             automaticallyImplyLeading: false,
-            toolbarHeight: isLarge ? 390 : 180.h,
+            toolbarHeight: isLarge ? 390.h : 180.h,
             floating: false,
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
@@ -66,11 +65,12 @@ class _ProductPageState extends State<ProductPage> {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(
-                        top: 50.h, right: 20.w, left: 20.w, bottom: 21.h),
+                        top: 50.h, right: 20.w, left: 20.w, bottom: 50.h),
                     child: const ProductTextFieldWidget(),
                   ),
                 ],
               ),
+              titlePadding: EdgeInsets.only(top: 10.h),
               title:
               Column(
                 mainAxisAlignment: MainAxisAlignment.end,

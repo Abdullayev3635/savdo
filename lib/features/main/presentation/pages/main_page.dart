@@ -96,7 +96,6 @@ class _MainPageState extends State<MainPage> {
                                 builder: (context) {
                                   return const BuyurtmaDialog();
                                 });
-                            debugPrint('1');
                           },
                           title: 'Yangi buyurtma',
                           image: 'assets/icons/ic_shopping_cart.svg'),
@@ -107,7 +106,6 @@ class _MainPageState extends State<MainPage> {
                                 builder: (context) {
                                   return const TulovQilishDialog();
                                 });
-                            debugPrint('2');
                           },
                           title: 'To’lov',
                           image: 'assets/icons/ic_dollar_circle.svg'),
@@ -124,14 +122,17 @@ class _MainPageState extends State<MainPage> {
                                 builder: (context) {
                                   return const ReportDialog();
                                 });
-                            debugPrint('1');
                           },
                           title: 'Hisobot',
                           image: 'assets/icons/ic_hisobot.svg'),
                       MenuItems(
                           onTap: () {
-                           Navigator.push(context, MaterialPageRoute(builder: (context) => const ArchivePage(),));
-                            debugPrint('2');
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const ArchivePage(),
+                              ),
+                            );
                           },
                           title: 'Arhiv',
                           image: 'assets/icons/ic_archive.svg'),
@@ -148,7 +149,6 @@ class _MainPageState extends State<MainPage> {
                                 builder: (context) {
                                   return const PhotoReportDialog();
                                 });
-                            debugPrint('1');
                           },
                           title: 'Foto hisobot',
                           image: 'assets/icons/ic_camera.svg'),
@@ -159,7 +159,6 @@ class _MainPageState extends State<MainPage> {
                                 builder: (context) {
                                   return const MijozlarDialog();
                                 });
-                            debugPrint('2');
                           },
                           title: 'Mijozlar',
                           image: 'assets/icons/ic_two_person.svg'),
