@@ -34,7 +34,7 @@ class _PasswordEditDialogState extends State<PasswordEditDialog> {
 
   @override
   void initState() {
-    bloc = PinBloc();
+    bloc = BlocProvider.of<PinBloc>(context);
     super.initState();
   }
 
