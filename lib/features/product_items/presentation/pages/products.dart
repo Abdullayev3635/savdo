@@ -62,8 +62,8 @@ class _ProductsState extends State<Products> {
                       child: ProductItemsWidget(
                         id: index,
                         brandNomi: 'Bradley Hand',
-                        image: 'assets/images/truck.png',
-                        title: 'Liqui Moly',
+                        image: 'assets/images/image 11.png',
+                        title: 'SYNTHOIL ENERGY 0W-40 (1L)',
                         count: '40',
                         price: 10000,
                         carType: 'Yengil mashinalar',

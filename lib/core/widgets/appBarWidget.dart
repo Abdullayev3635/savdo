@@ -1,4 +1,3 @@
-
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
@@ -7,15 +6,18 @@ import 'package:flutter_svg/svg.dart';
 
 import '../utils/app_constants.dart';
 
-AppBar appBarWidget(BuildContext context, String title) {
+AppBar appBarWidget(BuildContext context, String title,
+    [PreferredSizeWidget? bottom]) {
   return AppBar(
     backgroundColor: cBackgroundColor,
     elevation: 0,
-    toolbarHeight: 100,
+    toolbarHeight: 100.h,
     automaticallyImplyLeading: false,
     centerTitle: true,
     leading: IconButton(
-      padding: const EdgeInsets.only(left: 20),
+      highlightColor:  Colors.transparent,
+      splashColor: Colors.transparent,
+      padding:  EdgeInsets.only(left: 20.w),
       onPressed: () {
         Navigator.pop(context);
       },

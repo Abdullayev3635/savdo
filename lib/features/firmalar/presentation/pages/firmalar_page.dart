@@ -45,6 +45,7 @@ class _FirmalarPageState extends State<FirmalarPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: cBackgroundColor,
+      resizeToAvoidBottomInset: false,
       body: BlocBuilder<SearchFirmaItemsCubit, SearchFirmaItemsState>(
         builder: (context, state) {
           return Container(
@@ -54,10 +55,12 @@ class _FirmalarPageState extends State<FirmalarPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                 Text(
+                Text(
                   'Firmalar',
                   style: TextStyle(
-                      color: cBlackColor, fontSize: 24.sp, fontFamily: 'Regular'),
+                      color: cBlackColor,
+                      fontSize: 24.sp,
+                      fontFamily: 'Regular'),
                 ),
                 TextFieldWidget(
                   controller: BlocProvider.of<SearchFirmaItemsCubit>(context)
@@ -66,10 +69,9 @@ class _FirmalarPageState extends State<FirmalarPage> {
                 ),
                 Expanded(
                   child: GridView.builder(
-                      padding: EdgeInsets.only(top: 20.h),
+                      padding: EdgeInsets.symmetric(vertical: 20.h),
                       physics: const BouncingScrollPhysics(),
-                      gridDelegate:
-                           SliverGridDelegateWithMaxCrossAxisExtent(
+                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                         maxCrossAxisExtent: 200.w,
                         childAspectRatio: 1,
                         crossAxisSpacing: 16.w,
@@ -95,7 +97,6 @@ class _FirmalarPageState extends State<FirmalarPage> {
           );
         },
       ),
-      resizeToAvoidBottomInset: false,
     );
   }
 }

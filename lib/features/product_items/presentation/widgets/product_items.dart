@@ -1,7 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 import 'package:savdo_agnet_client/features/product_items/presentation/widgets/product_dialog.dart';
 
@@ -26,8 +26,6 @@ class ProductItemsWidget extends StatefulWidget {
 }
 
 class _ProductItemsWidgetState extends State<ProductItemsWidget> {
-  var rating = 3.0;
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,7 +35,9 @@ class _ProductItemsWidgetState extends State<ProductItemsWidget> {
         left: 21.w,
       ),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15.r), color: cWhiteColor),
+        borderRadius: BorderRadius.circular(15.r),
+        color: cWhiteColor,
+      ),
       margin: EdgeInsets.only(bottom: 16.h),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,14 +46,20 @@ class _ProductItemsWidgetState extends State<ProductItemsWidget> {
             height: 125.h,
             width: 120.w,
             margin: EdgeInsets.only(bottom: 9.h),
-            padding: const EdgeInsets.all(45),
+            padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
+              image: const DecorationImage(
+                opacity: 0.5,
+                image: AssetImage('assets/images/gallery.png'),
+              ),
               borderRadius: BorderRadius.circular(10.r),
               color: cBackgroundColor,
             ),
             child: SizedBox(
-              child: SvgPicture.asset("assets/icons/ic_gallery.svg",
-                  width: 40.w, color: const Color(0xffBFC3FA), height: 40.h),
+              child: Image.asset(
+                widget.image,
+                // fit: BoxFit.,
+              ),
             ),
           ),
           Padding(
@@ -62,12 +68,16 @@ class _ProductItemsWidgetState extends State<ProductItemsWidget> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(widget.title.toUpperCase(),
-                    style: TextStyle(
-                      color: primaryColor,
-                      fontSize: 18.sp,
-                      fontFamily: 'GilroyMedium',
-                    )),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 2.2,
+                  child: Text(widget.title.toUpperCase(),
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: primaryColor,
+                        fontSize: 18.sp,
+                        fontFamily: 'GilroyMedium',
+                      )),
+                ),
                 Text(
                   widget.carType,
                   style: TextStyle(
@@ -75,9 +85,7 @@ class _ProductItemsWidgetState extends State<ProductItemsWidget> {
                       fontSize: 12.sp,
                       color: primaryColor),
                 ),
-                SizedBox(
-                  height: 7.h,
-                ),
+                SizedBox(height: 7.h),
                 Text(
                   '${widget.price} cўм',
                   style: TextStyle(

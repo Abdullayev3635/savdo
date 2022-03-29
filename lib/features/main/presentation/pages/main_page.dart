@@ -66,6 +66,7 @@ class _MainPageState extends State<MainPage> {
                   ],
                 ),
                 IconButton(
+                  highlightColor: Colors.transparent,
                     onPressed: () {
                       Navigator.push(
                           context,

@@ -250,6 +250,7 @@ class _AddClientPageState extends State<AddClientPage> {
                 ),
               ),
               InkWell(
+                overlayColor: MaterialStateProperty.all(Colors.transparent),
                 onTap: () {},
                 child: Container(
                   decoration: BoxDecoration(

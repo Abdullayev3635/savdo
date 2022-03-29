@@ -13,6 +13,6 @@ class PassLocalDataSourceImpl implements PassLocalDataSource {
 
   @override
   Future<bool> setCompile(String pass) async {
-    return _pass == pass;
+    return sharedPreferences.getString('pin_code') == pass;
   }
 }

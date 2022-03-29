@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
+import 'package:savdo_agnet_client/features/password/presentation/pages/password_dialog.dart';
 
 import '../../../../core/widgets/appBarWidget.dart';
 import '../../../accounts/presentation/pages/account_page.dart';
 import '../widgets/profile_items.dart';
 
-class ProfilePage extends StatefulWidget {const ProfilePage({Key? key}) : super(key: key);
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({Key? key}) : super(key: key);
+
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -67,10 +70,18 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return  PasswordEditDialog.screen();
+                    }).then((value) {
+                  setState(() {});
+                });
+              },
               child: ProfileItemsWidgets(
                 icon: 'assets/icons/ic_shield-security.svg',
-                title: 'Screen Lock',
+                title: 'Parolni o’rnatish(o’zgartirish)',
               ),
             ),
             GestureDetector(

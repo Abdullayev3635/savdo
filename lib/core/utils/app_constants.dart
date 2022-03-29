@@ -28,7 +28,6 @@ const String userData = 'user_data';
 // All table names for local databases
 const String catalogBox = 'catalog_box';
 const String korzinaBox = 'korzina_box';
-const String newHistoryBox = 'new_history_box';
 const String oldHistoryBox = 'old_history_box';
 const String profileBox = 'profile_box';
 const String forSendBox = 'for_send_box';
@@ -69,6 +68,7 @@ ButtonStyle inActiveButtonStyle = ButtonStyle(
   )),
 );
 ButtonStyle activeButtonStyle = ButtonStyle(
+  elevation: MaterialStateProperty.all(0),
   fixedSize: MaterialStateProperty.all(Size(90.w, 50.h)),
   backgroundColor: MaterialStateProperty.all(primaryColor),
   shape: MaterialStateProperty.all(RoundedRectangleBorder(

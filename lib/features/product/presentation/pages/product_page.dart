@@ -25,28 +25,31 @@ class ProductPage extends StatefulWidget {
 class _ProductPageState extends State<ProductPage> {
   TextEditingController controller = TextEditingController();
 
+  late CatalogBloc _catalogBloc;
 
-  // late CatalogBloc _catalogBloc;
-  //
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _catalogBloc = BlocProvider.of<CatalogBloc>(context);
-  // }
-  //
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  //   _catalogBloc.close();
-  // }
+  @override
+  void initState() {
+    super.initState();
+    _catalogBloc = BlocProvider.of<CatalogBloc>(context);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _catalogBloc.close();
+  }
+
   bool isLarge = false;
   final GlobalKey<ScaffoldState> _scaffoldKEy = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKEy,
       backgroundColor: cBackgroundColor,
-      body: CustomScrollView(
+      body: BlocBuilder<CatalogBloc, CatalogState>(
+  builder: (context, state) {
+    return CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: [
           SliverAppBar(
@@ -71,8 +74,7 @@ class _ProductPageState extends State<ProductPage> {
                 ],
               ),
               titlePadding: EdgeInsets.only(top: 10.h),
-              title:
-              Column(
+              title: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Padding(
@@ -88,6 +90,7 @@ class _ProductPageState extends State<ProductPage> {
                               fontFamily: 'Medium'),
                         ),
                         InkWell(
+                          overlayColor: MaterialStateProperty.all(Colors.transparent),
                           onTap: () {
                             setState(() {
                               isLarge = !isLarge;
@@ -117,7 +120,7 @@ class _ProductPageState extends State<ProductPage> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 12.h,right: isLarge ? 10:0),
+                    margin: EdgeInsets.only(top: 12.h, right: isLarge ? 10 : 0),
                     height: isLarge ? 320 : 100,
                     child: CatalogItems(isLarge: isLarge),
                   ),
@@ -202,7 +205,9 @@ class _ProductPageState extends State<ProductPage> {
                 }),
           )
         ],
-      ),
+      );
+  },
+),
     );
   }
 }

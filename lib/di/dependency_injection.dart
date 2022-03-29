@@ -6,6 +6,7 @@ import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 import 'package:savdo_agnet_client/features/firmalar/presentation/bloc/firma_cubit.dart';
 import 'package:savdo_agnet_client/features/lock/domain/bloc/pass_bloc.dart';
 import 'package:savdo_agnet_client/features/lock/domain/repositories/lock_repositories.dart';
+import 'package:savdo_agnet_client/features/password/presentation/bloc/pin_bloc.dart';
 import 'package:savdo_agnet_client/features/product/data/datasource/product_local_datasources.dart';
 import 'package:savdo_agnet_client/features/product/data/model/category_model1.dart';
 import 'package:savdo_agnet_client/features/product/data/repositories/repository_impl.dart';
@@ -22,8 +23,10 @@ import '../features/korzina_screen/data/korzina_hive/korzina_hive.dart';
 import '../features/lock/data/datasources/lock_local_datasources.dart';
 import '../features/lock/data/repositories/lock_repositories.dart';
 import '../features/lock/domain/usescases/u_lock.dart';
+import '../features/product/data/datasource/product_remote_datasources.dart';
 
 final di = GetIt.instance;
+
 //di is referred to as Service Locator
 
 Future<void> init() async {
@@ -43,6 +46,9 @@ Future<void> init() async {
   );
   di.registerFactory(
     () => ProductItemsCubit(maxsulotlarBulimiCubit: di()),
+  );
+  di.registerFactory(
+    () => PinBloc(),
   );
 
   ///Repositories
@@ -75,8 +81,14 @@ Future<void> init() async {
   // di.registerLazySingleton(
   //   () => SendDataRemoteDatasourceImpl(sharedPreferences: di(), client: di()),
   // );
+
   di.registerLazySingleton(
     () => PassLocalDataSourceImpl(sharedPreferences: di()),
+  );
+
+
+  di.registerLazySingleton(
+    () => CatalogRemoteDatasourceImpl(sharedPreferences: di(), client: di()),
   );
   di.registerLazySingleton(
     () => CatalogLocalDataSourceImpl(),

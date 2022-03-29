@@ -74,6 +74,7 @@ class _PhotoReportDialogState extends State<PhotoReportDialog> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 InkWell(
+
                     onTap: () {},
                     overlayColor: MaterialStateProperty.all(Colors.transparent),
                     child: SvgPicture.asset('assets/icons/ic_add_image.svg')),

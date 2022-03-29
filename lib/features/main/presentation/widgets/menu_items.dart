@@ -26,6 +26,7 @@ class MenuItems extends StatelessWidget {
         borderRadius: BorderRadius.circular(15.r),
       ),
       child: InkWell(
+        overlayColor: MaterialStateProperty.all(Colors.transparent),
         onTap: onTap,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

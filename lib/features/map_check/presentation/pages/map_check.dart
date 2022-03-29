@@ -37,18 +37,24 @@ class MapCheckState extends State<MapCheck> {
     position: LatLng(41.311155, 69.279700),
     icon: BitmapDescriptor.defaultMarker,
   );
-@override
+
+  @override
   void dispose() {
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(20.r))),
         backgroundColor: Colors.white,
         leading: Padding(
           padding: const EdgeInsets.only(left: 15),
           child: IconButton(
+
             onPressed: () {
               Navigator.pop(context);
             },
@@ -65,10 +71,11 @@ class MapCheckState extends State<MapCheck> {
           ),
         ),
         centerTitle: true,
+        toolbarHeight: 94,
         bottom: PreferredSize(
           preferredSize: const Size(double.infinity, 100),
           child: Padding(
-            padding: const EdgeInsets.all(22.0),
+            padding: const EdgeInsets.all(20.0),
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.r),
@@ -132,7 +139,6 @@ class MapCheckState extends State<MapCheck> {
             ),
           ),
         ),
-        toolbarHeight: 60,
       ),
       body: Stack(
         children: [

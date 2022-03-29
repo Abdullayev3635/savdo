@@ -32,6 +32,7 @@ class _ReportDialogState extends State<ReportDialog> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             InkWell(
+              overlayColor: MaterialStateProperty.all(Colors.transparent),
               onTap: () {
                 pickDateRange(context)
                     .then((value) => {setState(() {})});
@@ -63,6 +64,7 @@ class _ReportDialogState extends State<ReportDialog> {
               ),
             ),
             InkWell(
+              overlayColor: MaterialStateProperty.all(Colors.transparent),
               onTap: () {
                 pickDateRange(context)
                     .then((value) => {setState(() {})});

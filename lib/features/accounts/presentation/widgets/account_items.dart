@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 import 'package:savdo_agnet_client/features/product_items/presentation/pages/products.dart';
 
@@ -18,8 +17,9 @@ class AccountItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      overlayColor: MaterialStateProperty.all(Colors.transparent),
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => Products.screen(title),));
+        // Navigator.push(context, MaterialPageRoute(builder: (context) => Products.screen(title),));
       },
       child: Container(
         decoration: BoxDecoration(
@@ -32,11 +32,15 @@ class AccountItemWidget extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 0.h, horizontal: 0.w),
               width: 71.w,
               height: 71.h,
-              child: Image.asset(image,
-                  fit: BoxFit.fill,
-                  // width: 40.w,
-                  // color: const Color(0xffBFC3FA),
-                  // height: 40.h,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10.r),
+                child: Image.asset(image,
+                    fit: BoxFit.fill,
+                    
+                    // width: 40.w,
+                    // color: const Color(0xffBFC3FA),
+                    // height: 40.h,
+                ),
               ),
               decoration: BoxDecoration(
                   color: cImageB2Color,

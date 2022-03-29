@@ -6,20 +6,6 @@ import 'package:flutter_svg/svg.dart';
 
 import '../utils/app_constants.dart';
 
-class SystemPadding extends StatelessWidget {
-  final Widget child;
-
-  const SystemPadding({Key? key, required this.child}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    var mediaQuery = MediaQuery.of(context);
-    return AnimatedContainer(
-        padding: mediaQuery.padding,
-        duration: const Duration(milliseconds: 300),
-        child: child);
-  }
-}
 
 class AllDialogSkeleton extends StatefulWidget {
   final List<Widget> children;
@@ -51,7 +37,7 @@ class _AllDialogSkeletonState extends State<AllDialogSkeleton> {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20.r)),
           insetPadding:
-              const EdgeInsets.symmetric(vertical: 20, horizontal: 0),
+               EdgeInsets.symmetric(vertical: 20.h, horizontal: 0),
           child: Container(
             padding: const EdgeInsets.all(16),
             decoration:
@@ -75,6 +61,7 @@ class _AllDialogSkeletonState extends State<AllDialogSkeleton> {
                       ),
                     ),
                     InkWell(
+                      overlayColor: MaterialStateProperty.all(Colors.transparent),
                       borderRadius: BorderRadius.circular(22.r),
                       onTap: () => Navigator.pop(context),
                       child: SvgPicture.asset('assets/icons/ic_close_red.svg',

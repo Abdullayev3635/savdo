@@ -7,6 +7,7 @@ import '../../data/model/category_model1.dart';
 import '../../domain/usescase/usescase.dart';
 
 part 'catalog_event.dart';
+
 part 'catalog_state.dart';
 
 class CatalogBloc extends Bloc<CatalogEvent, CatalogState> {
@@ -25,23 +26,29 @@ class CatalogBloc extends Bloc<CatalogEvent, CatalogState> {
     final result = await home(GetCategoryParams());
 
     result.fold(
-            (failure) => {
-          if (failure is NoConnectionFailure)
-            {emit(const ProductFailureState(isLarge: false))}
-          else if (failure is ServerFailure)
-            {emit(const ProductFailureState(isLarge: false))}
-        },
-            (r) => {
-          if (r.isEmpty)
-            {emit(const ProductFailureState(isLarge: false))}
-          else
-            {emit(ProductSuccessState(list: r, selected: 0, isLarge: false))}
-        });
+        (failure) => {
+              if (failure is NoConnectionFailure)
+                {emit(const ProductFailureState(isLarge: false))}
+              else if (failure is ServerFailure)
+                {emit(const ProductFailureState(isLarge: false))}
+            },
+        (r) => {
+              if (r.isEmpty)
+                {emit(const ProductFailureState(isLarge: false))}
+              else
+                {
+                  emit(ProductSuccessState(
+                      list: r, selected: 0, isLarge: false, count: 20))
+                }
+            });
   }
 
   FutureOr<void> changeColor(
       ChangeColor event, Emitter<CatalogState> emit) async {
     emit(ProductSuccessState(
-        list: event.list, selected: event.index, isLarge: !event.isLarge));
+        list: event.list,
+        selected: event.index,
+        isLarge: !event.isLarge,
+        count: 20));
   }
 }
