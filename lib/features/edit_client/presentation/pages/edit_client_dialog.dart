@@ -6,6 +6,7 @@ import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 import 'package:savdo_agnet_client/features/map_check/presentation/pages/map_check.dart';
 
 import '../../../../core/widgets/dialog_frame.dart';
+import '../../../select_client/presentation/pages/select_client.dart';
 
 class EditClientDialog extends StatefulWidget {
   const EditClientDialog({Key? key}) : super(key: key);
@@ -30,7 +31,13 @@ class _EditClientDialogState extends State<EditClientDialog> {
         children: [
           SizedBox(height: 39.h),
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return  SelectPart.screen();
+                  });
+            },
             child: Container(
               height: 60.h,
               padding: EdgeInsets.only(left: 18.w, right: 10.w),

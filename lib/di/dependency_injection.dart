@@ -15,6 +15,8 @@ import 'package:savdo_agnet_client/features/product/domain/usescase/usescase.dar
 import 'package:savdo_agnet_client/features/product/presentation/bloc/catalog_bloc.dart';
 import 'package:savdo_agnet_client/features/product_items/presentation/bloc/product_items_cubit.dart';
 import 'package:savdo_agnet_client/features/select_client/data/model/agent_model.dart';
+import 'package:savdo_agnet_client/features/select_client/data/model/client_model.dart';
+import 'package:savdo_agnet_client/features/select_client/data/repository/select_client_repository.dart';
 import 'package:savdo_agnet_client/features/select_client/domain/usescase/client_usescase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -81,7 +83,11 @@ Future<void> init() async {
   );
 
   di.registerLazySingleton(
-    () => SelectClientLocalDataSourceImpl(sharedPreferences: di()),
+    () => SelectCaARepositoryImpl(
+      localDataSourceImpl: di(),
+      networkInfo: di(),
+      remoteDataSourceImpl: di(),
+    ),
   );
 
   /// UsesCases
@@ -143,9 +149,9 @@ Future<void> init() async {
   Hive.registerAdapter(KorzinaCardAdapter());
   await Hive.openBox(korzinaBox);
   // client dialog
-  Hive.registerAdapter(CatalogModelAdapter());
+  Hive.registerAdapter(ClientModelAdapter());
   await Hive.openBox(clientBox);
-  // client dialog
+  // agent dialog
   Hive.registerAdapter(AgentModelAdapter());
   await Hive.openBox(agentBox);
 
