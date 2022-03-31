@@ -17,6 +17,8 @@ class EditClientDialog extends StatefulWidget {
 
 class _EditClientDialogState extends State<EditClientDialog> {
   var maskFormatter = MaskTextInputFormatter(mask: '(##) ###-##-##');
+  int clientId = 0;
+  String clientName = 'Mijozni tanlang';
   final TextEditingController tel = TextEditingController();
 
   @override
@@ -37,7 +39,15 @@ class _EditClientDialogState extends State<EditClientDialog> {
                   context: context,
                   builder: (context) {
                     return SelectPart.screen();
-                  });
+                  }).then((value) => {
+                if (value != null)
+                  {
+                    setState(() {
+                      clientId = value['id'];
+                      clientName = value['name'].toString();
+                    }),
+                  }
+              });
             },
             child: Container(
               height: 60.h,
@@ -49,7 +59,7 @@ class _EditClientDialogState extends State<EditClientDialog> {
                 children: [
                   Expanded(
                     child: Text(
-                      'Mijozni tanlang',
+                      clientName,
                       style: TextStyle(
                           color: primaryColor,
                           fontFamily: 'Medium',

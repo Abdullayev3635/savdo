@@ -11,9 +11,9 @@ class SelectPart extends StatefulWidget {
   const SelectPart({Key? key}) : super(key: key);
 
   static Widget screen() => BlocProvider(
-    create: (context) => di<SelectPartBloc>()..add(GetSelectClientEvent()),
-    child: const SelectPart(),
-  );
+        create: (context) => di<SelectPartBloc>()..add(GetSelectClientEvent()),
+        child: const SelectPart(),
+      );
 
   @override
   _SelectPartState createState() => _SelectPartState();
@@ -92,11 +92,72 @@ class _SelectPartState extends State<SelectPart> {
                                 color: primaryColor),
                             child: Padding(
                               padding:
-                              const EdgeInsets.symmetric(horizontal: 15),
+                                  const EdgeInsets.symmetric(horizontal: 15),
                               child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
                                   state.list[index].name!,
+                                  style: TextStyle(
+                                      fontSize: 16.sp, color: cWhiteColor),
+                                  maxLines: 2,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(height: 20.h),
+                ],
+              );
+            } else if (state is SelectPartLoading) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(height: 20.h),
+                  TextField(
+                      textAlign: TextAlign.left,
+                      decoration: InputDecoration(
+                        hintText: 'Қидириш',
+                        prefixIcon: const Icon(Icons.search),
+                        contentPadding: EdgeInsets.all(20.0.sp),
+                      ),
+                      onChanged: (text) {
+                        // _bloc.add(FilterSelectPartEvent(
+                        //     text: text, list: state.list));
+                      }),
+                  Expanded(
+                    child: ListView.builder(
+                      padding: EdgeInsets.only(top: 20.h),
+                      physics: const BouncingScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: 20,
+                      // state.list.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context, {
+                              "name": '$index',
+                              "id": index,
+                            });
+                          },
+                          child: Container(
+                            height: 50,
+                            width: MediaQuery.of(context).size.width,
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 10.w, vertical: 6.h),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: primaryColor),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  'Salllllll',
+                                  // state.list[index].name!,
                                   style: TextStyle(
                                       fontSize: 16.sp, color: cWhiteColor),
                                   maxLines: 2,
@@ -113,11 +174,10 @@ class _SelectPartState extends State<SelectPart> {
                   ),
                 ],
               );
-            } else if (state is SelectPartLoading) {
-              return SizedBox(
-                child: const CupertinoActivityIndicator(),
-                height: 350.h,
-              );
+              // return SizedBox(
+              //   child: const CupertinoActivityIndicator(),
+              //   height: 350.h,
+              // );
             } else {
               return Container();
             }
