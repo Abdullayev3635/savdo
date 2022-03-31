@@ -31,11 +31,12 @@ class _EditClientDialogState extends State<EditClientDialog> {
         children: [
           SizedBox(height: 39.h),
           GestureDetector(
+            key: const ValueKey('SelectPart'),
             onTap: () {
               showDialog(
                   context: context,
                   builder: (context) {
-                    return  SelectPart.screen();
+                    return SelectPart.screen();
                   });
             },
             child: Container(
@@ -63,7 +64,11 @@ class _EditClientDialogState extends State<EditClientDialog> {
           SizedBox(height: 16.h),
           GestureDetector(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const MapCheck(),));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const MapCheck(),
+                  ));
             },
             child: Container(
               height: 60.h,

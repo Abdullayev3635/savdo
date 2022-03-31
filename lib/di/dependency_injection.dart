@@ -17,6 +17,7 @@ import 'package:savdo_agnet_client/features/product_items/presentation/bloc/prod
 import 'package:savdo_agnet_client/features/select_client/data/model/agent_model.dart';
 import 'package:savdo_agnet_client/features/select_client/data/model/client_model.dart';
 import 'package:savdo_agnet_client/features/select_client/data/repository/select_client_repository.dart';
+import 'package:savdo_agnet_client/features/select_client/domain/repositories/client_repository.dart';
 import 'package:savdo_agnet_client/features/select_client/domain/usescase/client_usescase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -82,7 +83,7 @@ Future<void> init() async {
     ),
   );
 
-  di.registerLazySingleton(
+  di.registerLazySingleton<SelectCaARepository>(
     () => SelectCaARepositoryImpl(
       localDataSourceImpl: di(),
       networkInfo: di(),
