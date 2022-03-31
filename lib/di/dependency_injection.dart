@@ -14,6 +14,8 @@ import 'package:savdo_agnet_client/features/product/domain/repositories/catalog_
 import 'package:savdo_agnet_client/features/product/domain/usescase/usescase.dart';
 import 'package:savdo_agnet_client/features/product/presentation/bloc/catalog_bloc.dart';
 import 'package:savdo_agnet_client/features/product_items/presentation/bloc/product_items_cubit.dart';
+import 'package:savdo_agnet_client/features/select_client/data/model/agent_model.dart';
+import 'package:savdo_agnet_client/features/select_client/domain/usescase/client_usescase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -24,6 +26,9 @@ import '../features/lock/data/datasources/lock_local_datasources.dart';
 import '../features/lock/data/repositories/lock_repositories.dart';
 import '../features/lock/domain/usescases/u_lock.dart';
 import '../features/product/data/datasource/product_remote_datasources.dart';
+import '../features/select_client/data/datasources/client_local_datasource.dart';
+import '../features/select_client/data/datasources/client_remote_datasource.dart';
+import '../features/select_client/presentation/bloc/select_part_bloc.dart';
 
 final di = GetIt.instance;
 
@@ -48,7 +53,10 @@ Future<void> init() async {
     () => ProductItemsCubit(maxsulotlarBulimiCubit: di()),
   );
   di.registerFactory(
-    () => PinBloc(),
+    () => PinBloc(sharedPreferences: di()),
+  );
+  di.registerFactory(
+    () => SelectPartBloc(usesSelectClient: di()),
   );
 
   ///Repositories
@@ -63,6 +71,7 @@ Future<void> init() async {
   di.registerLazySingleton<PassRepository>(
     () => PassRepositoryImpl(passLocalDataSource: di()),
   );
+
   di.registerLazySingleton<CatalogRepository>(
     () => CatalogRepositoryImpl(
       homeLocalDatasourceImpl: di(),
@@ -71,11 +80,16 @@ Future<void> init() async {
     ),
   );
 
+  di.registerLazySingleton(
+    () => SelectClientLocalDataSourceImpl(sharedPreferences: di()),
+  );
+
   /// UsesCases
   //   di.registerLazySingleton(() => SendData(sendDataRepository: di()));
 
   di.registerLazySingleton(() => Pass(repository: di()));
   di.registerLazySingleton(() => ProductCatalog(catalogRepository: di()));
+  di.registerLazySingleton(() => UsesSelectClient(repository: di()));
 
   /// Data sources
   // di.registerLazySingleton(
@@ -86,12 +100,19 @@ Future<void> init() async {
     () => PassLocalDataSourceImpl(sharedPreferences: di()),
   );
 
-
   di.registerLazySingleton(
     () => CatalogRemoteDatasourceImpl(sharedPreferences: di(), client: di()),
   );
   di.registerLazySingleton(
     () => CatalogLocalDataSourceImpl(),
+  );
+
+  di.registerLazySingleton(
+    () =>
+        SelectClientRemoteDataSourceImpl(sharedPreferences: di(), client: di()),
+  );
+  di.registerLazySingleton(
+    () => SelectClientLocalDataSourceImpl(sharedPreferences: di()),
   );
 
   /// Image picker
@@ -118,9 +139,15 @@ Future<void> init() async {
   // home
   Hive.registerAdapter(CatalogModelAdapter());
   await Hive.openBox(catalogBox);
-  // home
+  // korzina
   Hive.registerAdapter(KorzinaCardAdapter());
   await Hive.openBox(korzinaBox);
+  // client dialog
+  Hive.registerAdapter(CatalogModelAdapter());
+  await Hive.openBox(clientBox);
+  // client dialog
+  Hive.registerAdapter(AgentModelAdapter());
+  await Hive.openBox(agentBox);
 
   // home
   // Hive.registerAdapter(CategoryModelAdapter());

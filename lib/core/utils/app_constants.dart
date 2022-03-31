@@ -28,7 +28,8 @@ const String userData = 'user_data';
 // All table names for local databases
 const String catalogBox = 'catalog_box';
 const String korzinaBox = 'korzina_box';
-const String oldHistoryBox = 'old_history_box';
+const String clientBox = 'client_box';
+const String agentBox = 'agent_box';
 const String profileBox = 'profile_box';
 const String forSendBox = 'for_send_box';
 

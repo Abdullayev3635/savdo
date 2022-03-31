@@ -3,8 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:savdo_agnet_client/features/lock/presentation/pages/lock_page.dart';
+import 'package:savdo_agnet_client/features/main/presentation/pages/main_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/utils/app_constants.dart';
+import '../../../../di/dependency_injection.dart';
 
 class LoginWidget extends StatefulWidget {
   const LoginWidget({
@@ -24,6 +27,7 @@ class LoginWidget extends StatefulWidget {
 
 class _LoginWidgetState extends State<LoginWidget> {
   bool isVisible = false;
+  SharedPreferences sharedPreferences = di.get();
 
   @override
   Widget build(BuildContext context) {
@@ -156,7 +160,10 @@ class _LoginWidgetState extends State<LoginWidget> {
             onPressed: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => PasswordScreen.screen(),
+                  builder: (context) =>
+                      sharedPreferences.getString('pin_code') != null
+                          ? PasswordScreen.screen()
+                          : const MainPage(),
                 )),
             style: buttonStyle,
             child: Text(

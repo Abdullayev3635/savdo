@@ -9,7 +9,6 @@ class PassLocalDataSourceImpl implements PassLocalDataSource {
 
   PassLocalDataSourceImpl({required this.sharedPreferences});
 
-  final String _pass = "0000";
 
   @override
   Future<bool> setCompile(String pass) async {
