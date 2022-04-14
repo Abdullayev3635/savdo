@@ -95,7 +95,7 @@ class _MainPageState extends State<MainPage> {
                             showDialog(
                                 context: context,
                                 builder: (context) {
-                                  return const BuyurtmaDialog();
+                                  return  BuyurtmaDialog.screen();
                                 });
                           },
                           title: 'Yangi buyurtma',

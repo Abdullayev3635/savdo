@@ -15,7 +15,7 @@ class ArxivItems extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           color: cWhiteColor,
-          borderRadius: BorderRadius.horizontal(right: Radius.circular(15.r))),
+          borderRadius: BorderRadius.all(Radius.circular(15.r))),
       margin: EdgeInsets.only(bottom: 16.h),
       height: 140.h,
       child: Row(

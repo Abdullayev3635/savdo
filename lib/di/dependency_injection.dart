@@ -1,8 +1,13 @@
-import 'package:http/http.dart' as http;
 import 'package:get_it/get_it.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:savdo_agnet_client/core/photo/image_picker_utils.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
+import 'package:savdo_agnet_client/features/buyurtma/data/datasources/buyurtma_local_datasource.dart';
+import 'package:savdo_agnet_client/features/buyurtma/data/repository/buyurtma_repository.dart';
+import 'package:savdo_agnet_client/features/buyurtma/domain/repositories/buyurtma_repository.dart';
+import 'package:savdo_agnet_client/features/buyurtma/domain/usescase/buyurtma_usescase.dart';
 import 'package:savdo_agnet_client/features/firmalar/presentation/bloc/firma_cubit.dart';
 import 'package:savdo_agnet_client/features/lock/domain/bloc/pass_bloc.dart';
 import 'package:savdo_agnet_client/features/lock/domain/repositories/lock_repositories.dart';
@@ -20,10 +25,10 @@ import 'package:savdo_agnet_client/features/select_client/data/repository/select
 import 'package:savdo_agnet_client/features/select_client/domain/repositories/client_repository.dart';
 import 'package:savdo_agnet_client/features/select_client/domain/usescase/client_usescase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 import '../core/location/location_service.dart';
 import '../core/network/network_info.dart';
+import '../features/buyurtma/presentation/bloc/buyurtma_dialog_bloc.dart';
 import '../features/korzina_screen/data/korzina_hive/korzina_hive.dart';
 import '../features/lock/data/datasources/lock_local_datasources.dart';
 import '../features/lock/data/repositories/lock_repositories.dart';
@@ -31,7 +36,8 @@ import '../features/lock/domain/usescases/u_lock.dart';
 import '../features/product/data/datasource/product_remote_datasources.dart';
 import '../features/select_client/data/datasources/client_local_datasource.dart';
 import '../features/select_client/data/datasources/client_remote_datasource.dart';
-import '../features/select_client/presentation/bloc/select_part_bloc.dart';
+import '../features/select_client/domain/usescase/agent_usescase.dart';
+import '../features/select_client/presentation/bloc/client/select_client_bloc.dart';
 
 final di = GetIt.instance;
 
@@ -59,7 +65,10 @@ Future<void> init() async {
     () => PinBloc(sharedPreferences: di()),
   );
   di.registerFactory(
-    () => SelectPartBloc(usesSelectClient: di()),
+    () => SelectClientBloc(usesSelectClient: di()),
+  );
+  di.registerFactory(
+    () => BuyurtmaDialogBloc(),
   );
 
   ///Repositories
@@ -90,13 +99,22 @@ Future<void> init() async {
       remoteDataSourceImpl: di(),
     ),
   );
+  di.registerLazySingleton<BuyurtmaRepository>(
+    () => BuyurtmaRepositoryImpl(
+      localDataSourceImpl: di(),
+      networkInfo: di(),
+      remoteDataSourceImpl: di(),
+    ),
+  );
 
   /// UsesCases
   //   di.registerLazySingleton(() => SendData(sendDataRepository: di()));
 
   di.registerLazySingleton(() => Pass(repository: di()));
   di.registerLazySingleton(() => ProductCatalog(catalogRepository: di()));
-  di.registerLazySingleton(() => UsesSelectClient(repository: di()));
+  di.registerLazySingleton(() => UsesSelectClient(clientRepository: di()));
+  di.registerLazySingleton(() => UsesSelectAgent(agentRepository: di()));
+  di.registerLazySingleton(() => UsesBuyurtma(repository: di()));
 
   /// Data sources
   // di.registerLazySingleton(
@@ -121,6 +139,12 @@ Future<void> init() async {
   di.registerLazySingleton(
     () => SelectClientLocalDataSourceImpl(sharedPreferences: di()),
   );
+  di.registerLazySingleton(
+    () => BuyurtmaLocalDataSourceImpl(sharedPreferences: di()),
+  );
+  // di.registerLazySingleton(
+  //   () => BuyurtmaRemoteDataSourceImpl(sharedPreferences: di()),
+  // );
 
   /// Image picker
   di.registerLazySingleton<ImagePickerUtils>(() => ImagePickerUtilsImpl());
@@ -155,6 +179,9 @@ Future<void> init() async {
   // agent dialog
   Hive.registerAdapter(AgentModelAdapter());
   await Hive.openBox(agentBox);
+  // buyurtma dialog
+  // Hive.registerAdapter(BuyurtmaModelAdapter());
+  // await Hive.openBox(buyurtmaBox);
 
   // home
   // Hive.registerAdapter(CategoryModelAdapter());

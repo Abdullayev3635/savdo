@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
+import 'package:savdo_agnet_client/features/select_client/presentation/pages/select_client.dart';
 
 import '../../../../core/widgets/dialog_frame.dart';
 
@@ -13,6 +14,9 @@ class PhotoReportDialog extends StatefulWidget {
 }
 
 class _PhotoReportDialogState extends State<PhotoReportDialog> {
+  int clientId = 0;
+  String clientName = 'Mijozni tanlang';
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -24,26 +28,43 @@ class _PhotoReportDialogState extends State<PhotoReportDialog> {
         icon: 'assets/icons/ic_camera.svg',
         children: [
           SizedBox(height: 23.h),
-          Container(
-            height: 60.h,
-            margin: EdgeInsets.only(bottom: 16.h),
-            padding: EdgeInsets.only(left: 18.w, right: 10.w),
-            decoration: BoxDecoration(
-                color: cTextFieldColor,
-                borderRadius: BorderRadius.circular(10.r)),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    'Region tanlang',
-                    style: TextStyle(
-                        color: primaryColor,
-                        fontFamily: 'Medium',
-                        fontSize: 14.sp),
+          GestureDetector(
+            onTap: () {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return SelectPart.screen();
+                  }).then((value) => {
+                    if (value != null)
+                      {
+                        setState(() {
+                          clientId = value['id'];
+                          clientName = value['name'].toString();
+                        })
+                      }
+                  });
+            },
+            child: Container(
+              height: 60.h,
+              margin: EdgeInsets.only(bottom: 16.h),
+              padding: EdgeInsets.only(left: 18.w, right: 10.w),
+              decoration: BoxDecoration(
+                  color: cTextFieldColor,
+                  borderRadius: BorderRadius.circular(10.r)),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Region tanlang',
+                      style: TextStyle(
+                          color: primaryColor,
+                          fontFamily: 'Medium',
+                          fontSize: 14.sp),
+                    ),
                   ),
-                ),
-                SvgPicture.asset('assets/icons/ic_dropdown.svg')
-              ],
+                  SvgPicture.asset('assets/icons/ic_dropdown.svg')
+                ],
+              ),
             ),
           ),
           Container(
@@ -57,7 +78,7 @@ class _PhotoReportDialogState extends State<PhotoReportDialog> {
               children: [
                 Expanded(
                   child: Text(
-                    'Mijoz tanlang',
+                    clientName,
                     style: TextStyle(
                       color: primaryColor,
                       fontFamily: 'Medium',
@@ -74,7 +95,6 @@ class _PhotoReportDialogState extends State<PhotoReportDialog> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 InkWell(
-
                     onTap: () {},
                     overlayColor: MaterialStateProperty.all(Colors.transparent),
                     child: SvgPicture.asset('assets/icons/ic_add_image.svg')),

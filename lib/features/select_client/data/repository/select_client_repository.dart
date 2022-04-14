@@ -18,7 +18,7 @@ class SelectCaARepositoryImpl extends SelectCaARepository {
   });
 
   @override
-  Future<Either<Failure, dynamic>> getSelectAgent(String? agentId) async {
+  Future<Either<Failure, dynamic>> getSelectAgent(String agentId) async {
     try {
       final result = localDataSourceImpl.getSelectAgent(agentId);
       return Right(result);
@@ -28,9 +28,9 @@ class SelectCaARepositoryImpl extends SelectCaARepository {
   }
 
   @override
-  Future<Either<Failure, dynamic>> getSelectClient(int? userId) async {
+  Future<Either<Failure, dynamic>> getSelectClient(int clientId) async {
     try {
-      final result = localDataSourceImpl.getSelectClient(userId);
+      final result = localDataSourceImpl.getSelectClient(clientId);
       return Right(result);
     } on ServerFailure {
       return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));

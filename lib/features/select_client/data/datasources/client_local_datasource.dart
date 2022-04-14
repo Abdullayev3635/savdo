@@ -16,7 +16,7 @@ class SelectClientLocalDataSourceImpl implements SelectClientLocalDataSource {
   SelectClientLocalDataSourceImpl({required this.sharedPreferences});
 
   @override
-  Future<dynamic> getSelectAgent(String? agentId) async {
+  Future<dynamic> getSelectAgent(String agentId) async {
     try {
       final box = Hive.box(clientBox);
       final eventsFromHive = box.get(clientBox)?.cast<ClientModel>() ?? [];
@@ -27,7 +27,7 @@ class SelectClientLocalDataSourceImpl implements SelectClientLocalDataSource {
   }
 
   @override
-  Future<dynamic> getSelectClient(int? userId) async {
+  Future<dynamic> getSelectClient(int userId) async {
     try {
       final box = Hive.box(agentBox);
       final eventsFromHive = box.get(agentBox).cast<AgentModel>() ?? [];

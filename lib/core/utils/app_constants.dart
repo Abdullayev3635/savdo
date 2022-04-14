@@ -30,6 +30,8 @@ const String catalogBox = 'catalog_box';
 const String korzinaBox = 'korzina_box';
 const String clientBox = 'client_box';
 const String agentBox = 'agent_box';
+const String buyurtmaBox = 'buyurtma_box';
+
 const String profileBox = 'profile_box';
 const String forSendBox = 'for_send_box';
 

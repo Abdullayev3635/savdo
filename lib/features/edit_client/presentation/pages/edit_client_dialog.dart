@@ -26,7 +26,6 @@ class _EditClientDialogState extends State<EditClientDialog> {
     return SingleChildScrollView(
       controller: ScrollController(),
       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 5),
-      // reverse: true,
       child: AllDialogSkeleton(
         title: 'Mijoz o’zgartirish',
         icon: 'assets/icons/ic_two_person.svg',

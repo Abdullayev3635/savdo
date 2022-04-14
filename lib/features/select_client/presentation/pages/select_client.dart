@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
-import 'package:savdo_agnet_client/features/select_client/presentation/bloc/select_part_bloc.dart';
 
 import '../../../../di/dependency_injection.dart';
+import '../bloc/client/select_client_bloc.dart';
 
 class SelectPart extends StatefulWidget {
   const SelectPart({Key? key}) : super(key: key);
 
   static Widget screen() => BlocProvider(
-        create: (context) => di<SelectPartBloc>()..add(GetSelectClientEvent()),
+        create: (context) => di<SelectClientBloc>()..add(GetSelectClientEvent()),
         child: const SelectPart(),
       );
 
@@ -19,13 +19,13 @@ class SelectPart extends StatefulWidget {
 }
 
 class _SelectPartState extends State<SelectPart> {
-  late SelectPartBloc _bloc;
+  late SelectClientBloc _bloc;
 
   TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {
-    _bloc = BlocProvider.of<SelectPartBloc>(context);
+    _bloc = BlocProvider.of<SelectClientBloc>(context);
     super.initState();
   }
 
@@ -38,7 +38,6 @@ class _SelectPartState extends State<SelectPart> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      // backgroundColor: cBackButtonColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.r),
       ),
@@ -47,10 +46,9 @@ class _SelectPartState extends State<SelectPart> {
       child: Container(
         width: MediaQuery.of(context).size.width,
         margin: EdgeInsets.symmetric(horizontal: 10.w),
-        // color: cBackButtonColor,
-        child: BlocBuilder<SelectPartBloc, SelectPartState>(
+        child: BlocBuilder<SelectClientBloc, SelectClientState>(
           builder: (context, state) {
-            if (state is SelectPartSuccess) {
+            if (state is SelectClientSuccess) {
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -110,7 +108,7 @@ class _SelectPartState extends State<SelectPart> {
                   SizedBox(height: 20.h),
                 ],
               );
-            } else if (state is SelectPartLoading) {
+            } else if (state is SelectClientLoading) {
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -124,7 +122,7 @@ class _SelectPartState extends State<SelectPart> {
                       ),
                       onChanged: (text) {
                         // _bloc.add(FilterSelectPartEvent(
-                        //     text: text, list: state.list));
+                        //     text: text, list: state.list));///todo
                       }),
                   Expanded(
                     child: ListView.builder(
@@ -132,13 +130,16 @@ class _SelectPartState extends State<SelectPart> {
                       physics: const BouncingScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: 20,
-                      // state.list.length,
+                      // state.list.length,///todo
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
                             Navigator.pop(context, {
                               "name": '$index',
                               "id": index,
+                              "qarz": (index * 6000)
+
+                              ///todo
                             });
                           },
                           child: Container(
@@ -155,7 +156,9 @@ class _SelectPartState extends State<SelectPart> {
                               child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  'Salllllll',
+                                  'Saltillo',
+
+                                  ///todo
                                   // state.list[index].name!,
                                   style: TextStyle(
                                       fontSize: 16.sp, color: cWhiteColor),
@@ -168,9 +171,7 @@ class _SelectPartState extends State<SelectPart> {
                       },
                     ),
                   ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
+                  SizedBox(height: 20.h),
                 ],
               );
               // return SizedBox(
