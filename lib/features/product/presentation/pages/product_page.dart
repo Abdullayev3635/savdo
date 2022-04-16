@@ -228,9 +228,9 @@ class ProductPage extends StatefulWidget {
   const ProductPage({Key? key}) : super(key: key);
 
   static Widget screen() => BlocProvider(
-    create: (context) => di<CatalogBloc>()..add(GetCatalog()),
-    child: const ProductPage(),
-  );
+        create: (context) => di<CatalogBloc>()..add(GetCatalog()),
+        child: const ProductPage(),
+      );
 
   @override
   _ProductPageState createState() => _ProductPageState();
@@ -270,8 +270,8 @@ class _ProductPageState extends State<ProductPage> {
           if (state is ProductLoadingState) {
             const Center(
                 child: CupertinoActivityIndicator(
-                  key: ValueKey('value'),
-                ));
+              key: ValueKey('value'),
+            ));
           } else if (state is ProductSuccessState) {
             return CustomScrollView(
               physics: const BouncingScrollPhysics(),
@@ -306,13 +306,7 @@ class _ProductPageState extends State<ProductPage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                'Bo’limlar',
-                                style: TextStyle(
-                                    color: primaryColor,
-                                    fontSize: 14.sp,
-                                    fontFamily: 'Medium'),
-                              ),
+                              Text('Bo’limlar', style: textStylePrimaryMed14),
                               InkWell(
                                 onTap: () {
                                   _catalogBloc.add(ChangeColor(state.list, 0,
@@ -320,14 +314,14 @@ class _ProductPageState extends State<ProductPage> {
                                 },
                                 child: Padding(
                                   padding:
-                                  const EdgeInsets.symmetric(vertical: 8.0),
+                                      const EdgeInsets.symmetric(vertical: 8.0),
                                   child: Row(
                                     children: [
                                       Text(
                                         'Barchasi ',
                                         style: TextStyle(
                                             decoration:
-                                            TextDecoration.underline,
+                                                TextDecoration.underline,
                                             color: cHintTextColor,
                                             fontSize: 10.sp,
                                             fontFamily: 'Medium'),
@@ -350,7 +344,7 @@ class _ProductPageState extends State<ProductPage> {
                           child: GridView.builder(
                             itemCount: 50,
                             gridDelegate:
-                            SliverGridDelegateWithFixedCrossAxisCount(
+                                SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: state.isLarge ? 4 : 1,
                               mainAxisExtent: 90.w,
                               crossAxisSpacing: 10.h,
@@ -361,7 +355,7 @@ class _ProductPageState extends State<ProductPage> {
                             padding: EdgeInsets.only(
                                 left: state.isLarge ? 3.w : 11.w, top: 5),
                             scrollDirection:
-                            state.isLarge ? Axis.vertical : Axis.horizontal,
+                                state.isLarge ? Axis.vertical : Axis.horizontal,
                             itemBuilder: (context, index) => Padding(
                               padding: EdgeInsets.symmetric(horizontal: 10.w),
                               child: GestureDetector(
@@ -380,7 +374,7 @@ class _ProductPageState extends State<ProductPage> {
                                         children: [
                                           ClipRRect(
                                             borderRadius:
-                                            BorderRadius.circular(15.r),
+                                                BorderRadius.circular(15.r),
                                             child: ShaderMask(
                                                 shaderCallback: (Rect bounds) {
                                                   return LinearGradient(
@@ -401,53 +395,53 @@ class _ProductPageState extends State<ProductPage> {
                                           ),
                                           SizedBox(
                                               height:
-                                              state.isLarge ? 12.h : 18.h),
+                                                  state.isLarge ? 12.h : 18.h),
                                           state.isLarge
                                               ? const Text(
-                                            'Yuk mashina',
-                                            style: TextStyle(
-                                                color: primaryColor,
-                                                fontFamily: 'Medium',
-                                                fontSize: 10),
-                                          )
+                                                  'Yuk mashina',
+                                                  style: TextStyle(
+                                                      color: primaryColor,
+                                                      fontFamily: 'Medium',
+                                                      fontSize: 10),
+                                                )
                                               : Container(
-                                            width: 13.w,
-                                            height: 3.h,
-                                            decoration: BoxDecoration(
-                                              color: primaryColor,
-                                              borderRadius:
-                                              BorderRadius.circular(
-                                                  3.5.r),
-                                            ),
-                                          )
+                                                  width: 13.w,
+                                                  height: 3.h,
+                                                  decoration: BoxDecoration(
+                                                    color: primaryColor,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            3.5.r),
+                                                  ),
+                                                )
                                         ],
                                       ),
                                       count == 0
                                           ? Container()
                                           : Positioned(
-                                        top: -4,
-                                        right: -5,
-                                        child: Container(
-                                          width: 18.w,
-                                          height: 18.h,
-                                          alignment: Alignment.center,
-                                          decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color:
-                                              const Color(0xffEB5757),
-                                              border: Border.all(
-                                                  width: 3,
-                                                  color: cWhiteColor)),
-                                          child: Text(
-                                            '$count',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                color: cWhiteColor,
-                                                fontFamily: 'Medium',
-                                                fontSize: 9.sp),
-                                          ),
-                                        ),
-                                      ),
+                                              top: -4,
+                                              right: -5,
+                                              child: Container(
+                                                width: 18.w,
+                                                height: 18.h,
+                                                alignment: Alignment.center,
+                                                decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color:
+                                                        const Color(0xffEB5757),
+                                                    border: Border.all(
+                                                        width: 3,
+                                                        color: cWhiteColor)),
+                                                child: Text(
+                                                  '$count',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      color: cWhiteColor,
+                                                      fontFamily: 'Medium',
+                                                      fontSize: 9.sp),
+                                                ),
+                                              ),
+                                            ),
                                     ],
                                   ),
                                 ),

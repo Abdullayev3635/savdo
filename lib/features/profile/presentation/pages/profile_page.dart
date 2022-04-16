@@ -41,21 +41,20 @@ class _ProfilePageState extends State<ProfilePage> {
                   height: 118.h, width: 80.w, fit: BoxFit.fitHeight),
             ),
             SizedBox(height: 19.h),
-            GestureDetector(
+            ProfileItemsWidgets(
               onTap: () {},
-              child: ProfileItemsWidgets(
-                icon: 'assets/icons/ic_person.svg',
-                title: 'Jakhongir Ruzaliev',
-              ),
+              icon: 'assets/icons/ic_person.svg',
+              title: 'Jakhongir Ruzaliev',
             ),
-            GestureDetector(
+            ProfileItemsWidgets(
               onTap: () {},
-              child: ProfileItemsWidgets(
-                icon: 'assets/icons/ic_firma.svg',
-                title: 'Firma nomi',
-              ),
+              icon: 'assets/icons/ic_firma.svg',
+              title: 'Firma nomi',
             ),
-            GestureDetector(
+            ProfileItemsWidgets(
+              leading: 'assets/icons/ic_arrow_right.svg',
+              icon: 'assets/icons/ic_two_person.svg',
+              title: 'Akkauntlar',
               onTap: () {
                 Navigator.push(
                     context,
@@ -63,13 +62,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       builder: (context) => const AccountPage(),
                     ));
               },
-              child: ProfileItemsWidgets(
-                leading: 'assets/icons/ic_arrow_right.svg',
-                icon: 'assets/icons/ic_two_person.svg',
-                title: 'Akkauntlar',
-              ),
             ),
-            GestureDetector(
+            ProfileItemsWidgets(
               onTap: () {
                 showDialog(
                     context: context,
@@ -79,34 +73,26 @@ class _ProfilePageState extends State<ProfilePage> {
                   setState(() {});
                 });
               },
-              child: ProfileItemsWidgets(
-                icon: 'assets/icons/ic_shield-security.svg',
-                title: 'Parolni o’rnatish(o’zgartirish)',
-              ),
+              icon: 'assets/icons/ic_shield-security.svg',
+              title: 'Parolni o’rnatish(o’zgartirish)',
             ),
-            GestureDetector(
+            ProfileItemsWidgets(
               onTap: () {},
-              child: ProfileItemsWidgets(
-                color: cHintTextColor,
-                icon: 'assets/icons/ic_call.svg',
-                title: '+998 (33) 510-95-95',
-              ),
+              color: cHintTextColor,
+              icon: 'assets/icons/ic_call.svg',
+              title: '+998 (33) 510-95-95',
             ),
-            GestureDetector(
-              onTap: () {},
-              child: ProfileItemsWidgets(
-                color: cHintTextColor,
-                icon: 'assets/icons/ic_hudud.svg',
-                title: 'Farg’ona viloyati',
-              ),
+            ProfileItemsWidgets(
+              onTap: (){},
+              color: cHintTextColor,
+              icon: 'assets/icons/ic_hudud.svg',
+              title: 'Farg’ona viloyati',
             ),
-            GestureDetector(
+            ProfileItemsWidgets(
               onTap: () {},
-              child: ProfileItemsWidgets(
-                color: cHintTextColor,
-                icon: 'assets/icons/ic_gps.svg',
-                title: 'Oltiariq tumani, Turon, 39-uy',
-              ),
+              color: cHintTextColor,
+              icon: 'assets/icons/ic_gps.svg',
+              title: 'Oltiariq tumani, Turon, 39-uy',
             ),
           ],
         ),

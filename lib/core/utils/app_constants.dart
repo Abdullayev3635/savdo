@@ -53,15 +53,16 @@ const String version = "1.0.2";
 TextStyle textStylePrimaryMed16 =
     TextStyle(fontSize: 16.sp, fontFamily: 'Medium', color: primaryColor);
 
-
 TextStyle textStylePrimaryReg16 =
     TextStyle(fontSize: 16.sp, color: primaryColor, fontFamily: "Regular");
 TextStyle textStylePrimaryReg14 =
     TextStyle(fontSize: 14.sp, color: primaryColor, fontFamily: "Regular");
-TextStyle activeTextStyle =
-    TextStyle(color: primaryColor, fontFamily: 'Regular', fontSize: 16.sp);
 TextStyle inActiveTextStyle =
     TextStyle(color: cWhiteColor, fontFamily: 'Regular', fontSize: 16.sp);
+TextStyle textStyleHintColorReg14 =
+    TextStyle(fontSize: 14.sp, color: cHintTextColor, fontFamily: "Regular");
+TextStyle textStylePrimaryMed14 =
+    TextStyle(fontSize: 14.sp, color: primaryColor, fontFamily: "Medium");
 TextStyle dateTextStyle = TextStyle(
     fontSize: 10.sp, color: const Color(0xff939EB4), fontFamily: 'Medium');
 // buttons Style

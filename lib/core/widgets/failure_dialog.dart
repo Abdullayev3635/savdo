@@ -42,10 +42,7 @@ class _FailureDialogState extends State<FailureDialog> {
                 Text(
                   'Ma’lumot yuklashda hatolik yuz berdi,iltimos qayta urinib ko’ring!',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: primaryColor,
-                      fontFamily: 'Medium',
-                      fontSize: 14.sp),
+                  style: textStylePrimaryMed14,
                 ),
                 SizedBox(height: 22.h),
                 ElevatedButton(

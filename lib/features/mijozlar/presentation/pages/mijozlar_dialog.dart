@@ -20,32 +20,32 @@ class _MijozlarDialogState extends State<MijozlarDialog> {
     return AllDialogSkeleton(
       title: 'Mijozlar',
       icon: 'assets/icons/ic_two_person.svg',
-      children: [
-        SizedBox(height: 34.h,),
-        ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const AddClientPage(),));
-            },
-            style: buttonStyle,
-            child: const Text(
-              'Yangi mijoz qo’shish',
-              textAlign: TextAlign.center,
-               )),
-        SizedBox(height: 16.h),
-        ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-              showDialog(context: context, builder: (context) {
-                return const EditClientDialog();
-              });
-            },
-            style: buttonStyle,
-            child: const Text(
-              'Mijoz ma’lumotlarini o’zgartirish',
-              textAlign: TextAlign.center,
-            )),
-      ],
+      child: Column(
+        children: [  SizedBox(height: 34.h,),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const AddClientPage(),));
+              },
+              style: buttonStyle,
+              child: const Text(
+                'Yangi mijoz qo’shish',
+                textAlign: TextAlign.center,
+              )),
+          SizedBox(height: 16.h),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+                showDialog(context: context, builder: (context) {
+                  return const EditClientDialog();
+                });
+              },
+              style: buttonStyle,
+              child: const Text(
+                'Mijoz ma’lumotlarini o’zgartirish',
+                textAlign: TextAlign.center,
+              )),],
+      ),
     );
   }
 }

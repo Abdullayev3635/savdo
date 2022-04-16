@@ -7,12 +7,12 @@ import 'package:flutter_svg/svg.dart';
 import '../utils/app_constants.dart';
 
 class AllDialogSkeleton extends StatefulWidget {
-  final List<Widget> children;
+  final Widget child;
   final String title, icon;
 
   const AllDialogSkeleton({
     Key? key,
-    required this.children,
+    required this.child,
     required this.title,
     required this.icon,
   }) : super(key: key);
@@ -62,10 +62,7 @@ class _AllDialogSkeletonState extends State<AllDialogSkeleton> {
                     ),
                   ],
                 ),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: widget.children,
-                ),
+                widget.child,
               ],
             ),
           ),

@@ -24,14 +24,9 @@ class _ReportRadioGroupWidgetState extends State<ReportRadioGroupWidget> {
       mainAxisSize: MainAxisSize.min,
       children: values
           .map((value) => RadioListTile<String>(
-
               activeColor: primaryColor,
               value: value,
-              title: Text(
-                value,
-                style: TextStyle(
-                    color: primaryColor, fontSize: 16.sp, fontFamily: 'Medium'),
-              ),
+              title: Text(value, style: textStylePrimaryMed16),
               groupValue: selectedValue,
               onChanged: (value) => setState(() {
                     selectedValue = value.toString();

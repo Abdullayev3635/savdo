@@ -53,7 +53,7 @@ class _SelectPartState extends State<SelectPart> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(
-                    height: 20.h,
+                    height: 20.h
                   ),
                   TextField(
                       textAlign: TextAlign.left,
