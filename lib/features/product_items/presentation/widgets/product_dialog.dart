@@ -64,41 +64,39 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
         child: AllDialogSkeleton(
           title: '',
           icon: '',
-          children: [
-            BlocBuilder<KorzinaBloc, KorzinaState>(
-              builder: (context, state) {
-                return Container(
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(22.r)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(top: 9.h),
-                        decoration: BoxDecoration(
-                          color: cWhiteColor,
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(22.r)),
-                        ),
-                        child: ClipRRect(
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(22.r)),
-                          child: Image.asset(
-                            widget.image,
-                            height: 214.h,
-                            width: 340.w,
-                            fit: BoxFit.fitHeight,
-                          ),
+          child: BlocBuilder<KorzinaBloc, KorzinaState>(
+            builder: (context, state) {
+              return Container(
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(22.r)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(top: 9.h),
+                      decoration: BoxDecoration(
+                        color: cWhiteColor,
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(22.r)),
+                      ),
+                      child: ClipRRect(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(22.r)),
+                        child: Image.asset(
+                          widget.image,
+                          height: 214.h,
+                          width: 340.w,
+                          fit: BoxFit.fitHeight,
                         ),
                       ),
-                      dialogContent(context)
-                    ],
-                  ),
-                );
-              },
-            ),
-          ],
+                    ),
+                    dialogContent(context)
+                  ],
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
@@ -309,10 +307,7 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                     },
                     child: Text(
                       'Qaytish',
-                      style: TextStyle(
-                          color: primaryColor,
-                          fontFamily: 'Medium',
-                          fontSize: 16.sp),
+                      style: textStylePrimaryMed16,
                     ),
                     style: ButtonStyle(
                       fixedSize: MaterialStateProperty.all(Size(155.w, 57.h)),
@@ -357,9 +352,9 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
         style: isValyuta
             ? this.isValyuta
                 ? inActiveTextStyle
-                : activeTextStyle
+                : textStylePrimaryReg16
             : this.isValyuta
-                ? activeTextStyle
+                ? textStylePrimaryReg16
                 : inActiveTextStyle,
       ),
       style: isValyuta

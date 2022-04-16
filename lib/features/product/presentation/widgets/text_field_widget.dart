@@ -52,10 +52,7 @@ class _ProductTextFieldWidgetState extends State<ProductTextFieldWidget> {
                   border: InputBorder.none,
                   contentPadding: const EdgeInsets.only(bottom: 0),
                   hintText: "Qidirish",
-                  hintStyle: TextStyle(
-                      fontSize: 14.sp,
-                      color: cHintTextColor,
-                      fontFamily: "Regular"),
+                  hintStyle: textStyleHintColorReg14,
                   prefixIconConstraints: BoxConstraints(
                     maxWidth: 30.w,
                     maxHeight: 30.h,

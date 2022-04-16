@@ -79,16 +79,14 @@ class _FirmalarPageState extends State<FirmalarPage> {
                       ),
                       itemCount: state.firma.length,
                       itemBuilder: (BuildContext ctx, index) {
-                        return GestureDetector(
+                        return GridViewItemsWidget(
                           onTap: () => Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => const LoginPage(),
                               )),
-                          child: GridViewItemsWidget(
-                            index: index,
-                            state: state,
-                          ),
+                          index: index,
+                          state: state,
                         );
                       }),
                 ),

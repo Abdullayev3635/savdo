@@ -154,7 +154,8 @@ class _AddClientPageState extends State<AddClientPage> {
                       width: 18.w,
                     ),
                     Expanded(
-                      child: Text('Viloyatni tanlang', style: textStylePrimaryReg16),
+                      child: Text('Viloyatni tanlang',
+                          style: textStylePrimaryReg16),
                     ),
                     SvgPicture.asset('assets/icons/ic_dropdown.svg')
                   ],
@@ -299,8 +300,6 @@ class _AddClientPageState extends State<AddClientPage> {
     );
   }
 
-
-  TextStyle  hintStyle =
+  TextStyle hintStyle =
       TextStyle(fontSize: 16.sp, color: cHintTextColor, fontFamily: "Regular");
-
 }

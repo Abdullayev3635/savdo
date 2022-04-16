@@ -55,10 +55,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
                   border: InputBorder.none,
                   contentPadding: const EdgeInsets.only(bottom: 0),
                   hintText: "Qidirish",
-                  hintStyle: TextStyle(
-                      fontSize: 14.sp,
-                      color: cHintTextColor,
-                      fontFamily: "Regular"),
+                  hintStyle: textStyleHintColorReg14,
                   prefixIconConstraints: BoxConstraints(
                     maxWidth: 30.w,
                     maxHeight: 30.h,
@@ -72,7 +69,11 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
             IconButton(
               highlightColor: Colors.transparent,
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) =>  const KorzinaScreen(),));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const KorzinaScreen(),
+                    ));
               },
               icon: SvgPicture.asset(
                 'assets/icons/ic_shopping_cart.svg',
