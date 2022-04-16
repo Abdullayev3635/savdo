@@ -103,7 +103,7 @@ Future<void> init() async {
     () => BuyurtmaRepositoryImpl(
       localDataSourceImpl: di(),
       networkInfo: di(),
-      remoteDataSourceImpl: di(),
+      // remoteDataSourceImpl: di(),
     ),
   );
 

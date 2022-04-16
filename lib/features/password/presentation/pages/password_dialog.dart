@@ -87,10 +87,7 @@ class _PasswordEditDialogState extends State<PasswordEditDialog> {
                                 minWidth: 25.w,
                               ),
                             ),
-                            style: TextStyle(
-                                fontSize: 16.sp,
-                                color: primaryColor,
-                                fontFamily: "Regular"),
+                            style: textStylePrimaryReg16,
                           ),
                         ),
                         IconButton(

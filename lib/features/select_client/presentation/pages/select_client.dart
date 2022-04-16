@@ -157,7 +157,7 @@ class _SelectPartState extends State<SelectPart> {
                                 alignment: Alignment.centerLeft,
                                 child: Text(
                                   'Saltillo',
-
+// bjbjhbjhbhjk
                                   ///todo
                                   // state.list[index].name!,
                                   style: TextStyle(

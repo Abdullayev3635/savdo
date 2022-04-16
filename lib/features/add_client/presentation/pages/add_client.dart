@@ -44,10 +44,7 @@ class _AddClientState extends State<AddClient> {
                               color: cHintTextColor,
                               fontFamily: "Regular"),
                         ),
-                        style: TextStyle(
-                            fontSize: 16.sp,
-                            color: primaryColor,
-                            fontFamily: "Regular"),
+                        style: textStylePrimaryReg16,
                       ),
                     ),
                   ],
@@ -79,10 +76,7 @@ class _AddClientState extends State<AddClient> {
                               color: cHintTextColor,
                               fontFamily: "Regular"),
                         ),
-                        style: TextStyle(
-                            fontSize: 16.sp,
-                            color: primaryColor,
-                            fontFamily: "Regular"),
+                        style: textStylePrimaryMed16,
                       ),
                     ),
                   ],
@@ -91,15 +85,7 @@ class _AddClientState extends State<AddClient> {
             ),
             Row(
               children: [
-                Text(
-                  "Tug'ilgan sana",
-                  style: TextStyle(
-                    fontFamily: "Medium",
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w400,
-                    color: primaryColor,
-                  ),
-                ),
+                Text("Tug'ilgan sana", style: textStylePrimaryMed16),
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.r),
@@ -134,7 +120,6 @@ class _AddClientState extends State<AddClient> {
                     ),
                   ),
                 ),
-
               ],
             )
           ],
