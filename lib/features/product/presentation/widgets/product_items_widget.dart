@@ -50,7 +50,7 @@ class ProductWidget extends StatelessWidget {
                 )),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 31.w, vertical: 38.h),
-              child: Text(count, style: textStylePrimary16),
+              child: Text(count, style: textStylePrimaryReg16),
             )
           ],
         ),

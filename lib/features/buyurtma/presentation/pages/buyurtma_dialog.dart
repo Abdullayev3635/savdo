@@ -121,10 +121,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                       Expanded(
                         child: Text(
                           'Qarzdorligi:',
-                          style: TextStyle(
-                              color: primaryColor,
-                              fontSize: 16.sp,
-                              fontFamily: 'Medium'),
+                          style: textStylePrimaryMed16,
                         ),
                       ),
                       Column(
@@ -162,12 +159,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text.rich(TextSpan(children: [
-                        TextSpan(
-                            text: 'Kurs: ',
-                            style: TextStyle(
-                                fontFamily: 'Medium',
-                                fontSize: 16.sp,
-                                color: primaryColor)),
+                        TextSpan(text: 'Kurs: ', style: textStylePrimaryMed16),
                         TextSpan(
                             text: '${state.kurs} so’m',
                             style: TextStyle(
@@ -186,11 +178,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text('Narx turi:',
-                          style: TextStyle(
-                              fontFamily: 'Medium',
-                              fontSize: 16.sp,
-                              color: primaryColor)),
+                      Text('Narx turi:', style: textStylePrimaryMed16),
                     ],
                   ),
                 ),
@@ -239,11 +227,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text('Savdo turi:',
-                          style: TextStyle(
-                              fontFamily: 'Medium',
-                              fontSize: 16.sp,
-                              color: primaryColor)),
+                      Text('Savdo turi:', style: textStylePrimaryMed16),
                     ],
                   ),
                 ),
@@ -376,13 +360,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
-                      child: Text(
-                        'Qarzdorligi:',
-                        style: TextStyle(
-                            color: primaryColor,
-                            fontSize: 16.sp,
-                            fontFamily: 'Medium'),
-                      ),
+                      child: Text('Qarzdorligi:', style: textStylePrimaryMed16),
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
@@ -421,10 +399,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                     Text.rich(TextSpan(children: [
                       TextSpan(
                           text: 'Kurs: ',
-                          style: TextStyle(
-                              fontFamily: 'Medium',
-                              fontSize: 16.sp,
-                              color: primaryColor)),
+                          style: textStylePrimaryMed16),
                       TextSpan(
                           text: '0 so’m',
                           style: TextStyle(
@@ -444,10 +419,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text('Narx turi:',
-                        style: TextStyle(
-                            fontFamily: 'Medium',
-                            fontSize: 16.sp,
-                            color: primaryColor)),
+                        style: textStylePrimaryMed16),
                   ],
                 ),
               ),
@@ -497,10 +469,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text('Savdo turi:',
-                        style: TextStyle(
-                            fontFamily: 'Medium',
-                            fontSize: 16.sp,
-                            color: primaryColor)),
+                        style: textStylePrimaryMed16),
                   ],
                 ),
               ),

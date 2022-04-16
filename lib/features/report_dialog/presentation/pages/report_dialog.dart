@@ -85,7 +85,7 @@ class _ReportDialogState extends State<ReportDialog> {
                     Expanded(
                       child: Text(
                         '${end.day}/${end.month}/${end.year}',
-                        style: textStylePrimary14,
+                        style: textStylePrimaryReg14,
                       ),
                     ),
                     SvgPicture.asset('assets/icons/ic_dropdown.svg')

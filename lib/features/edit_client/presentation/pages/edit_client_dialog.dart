@@ -143,10 +143,7 @@ class _EditClientDialogState extends State<EditClientDialog> {
                           minWidth: 25.w,
                         ),
                       ),
-                      style: TextStyle(
-                          fontSize: 16.sp,
-                          color: primaryColor,
-                          fontFamily: "Regular"),
+                      style:textStylePrimaryMed16,
                     ),
                   ),
                 ],

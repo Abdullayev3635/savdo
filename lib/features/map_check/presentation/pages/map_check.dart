@@ -107,10 +107,7 @@ class MapCheckState extends State<MapCheck> {
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: "Qidirish",
-                          hintStyle: TextStyle(
-                              fontSize: 16.sp,
-                              color: cHintTextColor,
-                              fontFamily: "Regular"),
+                          hintStyle: textStylePrimaryReg16,
                           prefixIconConstraints: BoxConstraints(
                             maxWidth: 30.w,
                             maxHeight: 30.h,
@@ -118,10 +115,7 @@ class MapCheckState extends State<MapCheck> {
                             minWidth: 25.w,
                           ),
                         ),
-                        style: TextStyle(
-                            fontSize: 16.sp,
-                            color: primaryColor,
-                            fontFamily: "Regular"),
+                        style:textStylePrimaryReg16,
                       ),
                     ),
                     IconButton(

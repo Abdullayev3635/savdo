@@ -132,10 +132,7 @@ class _PhotoReportDialogState extends State<PhotoReportDialog> {
                             color: cHintTextColor,
                             fontFamily: "Regular"),
                       ),
-                      style: TextStyle(
-                          fontSize: 16.sp,
-                          color: primaryColor,
-                          fontFamily: "Regular"),
+                      style: textStylePrimaryMed16,
                     ),
                   ),
                 ],

@@ -86,7 +86,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                           minWidth: 25.w,
                         ),
                       ),
-                      style: textStylePrimary16,
+                      style: textStylePrimaryReg16,
                     ),
                   ),
                 ],
@@ -127,10 +127,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                           minWidth: 25.w,
                         ),
                       ),
-                      style: TextStyle(
-                          fontSize: 16.sp,
-                          color: primaryColor,
-                          fontFamily: "Regular"),
+                      style:textStylePrimaryReg16,
                     ),
                   ),
                   IconButton(
@@ -169,12 +166,9 @@ class _LoginWidgetState extends State<LoginWidget> {
             child: Text(
               'Kirish',
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 16.sp,
-                fontFamily: "Regular",
+              style: textStylePrimaryReg16
               ),
             ),
-          ),
         ],
       ),
     );
