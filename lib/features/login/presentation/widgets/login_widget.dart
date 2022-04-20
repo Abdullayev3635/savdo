@@ -86,7 +86,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                           minWidth: 25.w,
                         ),
                       ),
-                      style: textStylePrimary16,
+                      style: textStylePrimaryReg16,
                     ),
                   ),
                 ],
@@ -127,10 +127,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                           minWidth: 25.w,
                         ),
                       ),
-                      style: TextStyle(
-                          fontSize: 16.sp,
-                          color: primaryColor,
-                          fontFamily: "Regular"),
+                      style: textStylePrimaryReg16,
                     ),
                   ),
                   IconButton(
@@ -161,19 +158,17 @@ class _LoginWidgetState extends State<LoginWidget> {
                 context,
                 MaterialPageRoute(
                   builder: (context) =>
-                      sharedPreferences.getString('pin_code') != null
+                      (sharedPreferences.getString('pin_code') ?? '') != ''
                           ? PasswordScreen.screen()
                           : const MainPage(),
                 )),
             style: buttonStyle,
-            child: Text(
-              'Kirish',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 16.sp,
-                fontFamily: "Regular",
-              ),
-            ),
+            child: Text('Kirish',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: cWhiteColor,
+                    fontSize: 16.sp,
+                    fontFamily: 'Regular')),
           ),
         ],
       ),

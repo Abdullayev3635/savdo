@@ -52,7 +52,7 @@ class _AddClientPageState extends State<AddClientPage> {
                             hintText: "Ism Familiya",
                             hintStyle: hintStyle,
                           ),
-                          style: textStylePrimary16,
+                          style: textStylePrimaryReg16,
                         ),
                       ),
                     ],
@@ -89,7 +89,7 @@ class _AddClientPageState extends State<AddClientPage> {
                             hintStyle: hintStyle,
                             prefixIconConstraints: boxConstraintsTextField,
                           ),
-                          style: textStylePrimary16,
+                          style: textStylePrimaryReg16,
                         ),
                       ),
                     ],
@@ -103,7 +103,7 @@ class _AddClientPageState extends State<AddClientPage> {
                   children: [
                     Text(
                       'Tug’ulgan sana',
-                      style: textStylePrimary16,
+                      style: textStylePrimaryReg16,
                     ),
                     Container(
                       alignment: Alignment.center,
@@ -130,7 +130,7 @@ class _AddClientPageState extends State<AddClientPage> {
                                 hintText: "Kun   /   Oy   /   Yil",
                                 hintStyle: hintStyle,
                               ),
-                              style: textStylePrimary16,
+                              style: textStylePrimaryReg16,
                             ),
                           ),
                         ],
@@ -154,7 +154,8 @@ class _AddClientPageState extends State<AddClientPage> {
                       width: 18.w,
                     ),
                     Expanded(
-                      child: Text('Viloyatni tanlang', style: textStylePrimary16),
+                      child: Text('Viloyatni tanlang',
+                          style: textStylePrimaryReg16),
                     ),
                     SvgPicture.asset('assets/icons/ic_dropdown.svg')
                   ],
@@ -180,7 +181,7 @@ class _AddClientPageState extends State<AddClientPage> {
                             hintText: "Manzil",
                             hintStyle: hintStyle,
                           ),
-                          style: textStylePrimary16,
+                          style: textStylePrimaryReg16,
                         ),
                       ),
                     ],
@@ -211,7 +212,7 @@ class _AddClientPageState extends State<AddClientPage> {
                             hintStyle: hintStyle,
                             prefixIconConstraints: boxConstraintsTextField,
                           ),
-                          style: textStylePrimary16,
+                          style: textStylePrimaryReg16,
                         ),
                       ),
                     ],
@@ -242,7 +243,7 @@ class _AddClientPageState extends State<AddClientPage> {
                             hintStyle: hintStyle,
                             prefixIconConstraints: boxConstraintsTextField,
                           ),
-                          style: textStylePrimary16,
+                          style: textStylePrimaryReg16,
                         ),
                       ),
                     ],
@@ -276,7 +277,7 @@ class _AddClientPageState extends State<AddClientPage> {
                               hintStyle: hintStyle,
                               prefixIconConstraints: boxConstraintsTextField,
                             ),
-                            style: textStylePrimary16,
+                            style: textStylePrimaryReg16,
                           ),
                         ),
                       ],
@@ -299,8 +300,6 @@ class _AddClientPageState extends State<AddClientPage> {
     );
   }
 
-
-  TextStyle  hintStyle =
+  TextStyle hintStyle =
       TextStyle(fontSize: 16.sp, color: cHintTextColor, fontFamily: "Regular");
-
 }

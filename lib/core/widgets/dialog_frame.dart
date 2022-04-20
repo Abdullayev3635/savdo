@@ -6,14 +6,13 @@ import 'package:flutter_svg/svg.dart';
 
 import '../utils/app_constants.dart';
 
-
 class AllDialogSkeleton extends StatefulWidget {
-  final List<Widget> children;
+  final Widget child;
   final String title, icon;
 
   const AllDialogSkeleton({
     Key? key,
-    required this.children,
+    required this.child,
     required this.title,
     required this.icon,
   }) : super(key: key);
@@ -34,10 +33,9 @@ class _AllDialogSkeletonState extends State<AllDialogSkeleton> {
         child: Dialog(
           clipBehavior: Clip.none,
           alignment: Alignment.center,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.r)),
-          insetPadding:
-               EdgeInsets.symmetric(vertical: 20.h, horizontal: 0),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r)),
+          insetPadding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 0),
           child: Container(
             padding: const EdgeInsets.all(16),
             decoration:
@@ -52,16 +50,11 @@ class _AllDialogSkeletonState extends State<AllDialogSkeleton> {
                         color: primaryColor, height: 20.h, width: 20.w),
                     SizedBox(width: 8.w),
                     Expanded(
-                      child: Text(
-                        widget.title,
-                        style: TextStyle(
-                            fontSize: 16.sp,
-                            fontFamily: 'Medium',
-                            color: primaryColor),
-                      ),
+                      child: Text(widget.title, style: textStylePrimaryMed16),
                     ),
                     InkWell(
-                      overlayColor: MaterialStateProperty.all(Colors.transparent),
+                      overlayColor:
+                          MaterialStateProperty.all(Colors.transparent),
                       borderRadius: BorderRadius.circular(22.r),
                       onTap: () => Navigator.pop(context),
                       child: SvgPicture.asset('assets/icons/ic_close_red.svg',
@@ -69,10 +62,7 @@ class _AllDialogSkeletonState extends State<AllDialogSkeleton> {
                     ),
                   ],
                 ),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: widget.children,
-                ),
+                widget.child,
               ],
             ),
           ),

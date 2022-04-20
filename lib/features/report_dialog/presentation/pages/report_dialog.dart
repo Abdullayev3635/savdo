@@ -25,170 +25,166 @@ class _ReportDialogState extends State<ReportDialog> {
     start = dateTimeRange.start;
     end = dateTimeRange.end;
     return AllDialogSkeleton(
-      title: 'Hisobot',
-      icon: 'assets/icons/ic_hisobot.svg',
-      children: [
-        SizedBox(height: 23.h),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        title: 'Hisobot',
+        icon: 'assets/icons/ic_hisobot.svg',
+        child: Column(
           children: [
-            InkWell(
-              overlayColor: MaterialStateProperty.all(Colors.transparent),
-              onTap: () {
-                pickDateRange(context)
-                    .then((value) => {setState(() {})});
-              },
-              child: Container(
-                height: 60.h,
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width / 2.5,
-                padding: EdgeInsets.only(left: 18.w, right: 10.w),
-                decoration: BoxDecoration(
-                    color: cTextFieldColor,
-                    borderRadius: BorderRadius.circular(10.r)),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        '${start.day}/${start.month}/${start.year}',
-                        style: TextStyle(
-                            color: primaryColor,
-                            fontFamily: 'Medium',
-                            fontSize: 14.sp),
-                      ),
-                    ),
-                    SvgPicture.asset('assets/icons/ic_dropdown.svg')
-                  ],
-                ),
-              ),
-            ),
-            InkWell(
-              overlayColor: MaterialStateProperty.all(Colors.transparent),
-              onTap: () {
-                pickDateRange(context)
-                    .then((value) => {setState(() {})});
-              },
-              child: Container(
-                height: 60.h,
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width / 2.5,
-                padding: EdgeInsets.only(left: 18.w, right: 10.w),
-                decoration: BoxDecoration(
-                    color: cTextFieldColor,
-                    borderRadius: BorderRadius.circular(10.r)),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        '${end.day}/${end.month}/${end.year}',
-                        style: textStylePrimary14,
-                      ),
-                    ),
-                    SvgPicture.asset('assets/icons/ic_dropdown.svg')
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: 16.h),
-        GestureDetector(
-          onTap: () {
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return SelectPart.screen();
-                }).then((value) =>
-            {
-              if (value != null) {setState(() {
-                clientId = value['id'];
-                clientName = value['name'].toString();
-              })}
-            });
-          },
-          child: Container(
-            height: 60.h,
-            padding: EdgeInsets.only(left: 18.w, right: 10.w),
-            decoration: BoxDecoration(
-                color: cTextFieldColor,
-                borderRadius: BorderRadius.circular(10.r)),
-            child: Row(
+            SizedBox(height: 23.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(
-                  child: Text(
-                    clientName,
-                    style: TextStyle(
-                        color: primaryColor,
-                        fontFamily: 'Medium',
-                        fontSize: 14.sp),
+                InkWell(
+                  overlayColor: MaterialStateProperty.all(Colors.transparent),
+                  onTap: () {
+                    pickDateRange(context)
+                        .then((value) => {setState(() {})});
+                  },
+                  child: Container(
+                    height: 60.h,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width / 2.5,
+                    padding: EdgeInsets.only(left: 18.w, right: 10.w),
+                    decoration: BoxDecoration(
+                        color: cTextFieldColor,
+                        borderRadius: BorderRadius.circular(10.r)),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                              '${start.day}/${start.month}/${start.year}',
+                              style: textStylePrimaryMed14
+                          ),
+                        ),
+                        SvgPicture.asset('assets/icons/ic_dropdown.svg')
+                      ],
+                    ),
                   ),
                 ),
-                SvgPicture.asset('assets/icons/ic_dropdown.svg')
+                InkWell(
+                  overlayColor: MaterialStateProperty.all(Colors.transparent),
+                  onTap: () {
+                    pickDateRange(context)
+                        .then((value) => {setState(() {})});
+                  },
+                  child: Container(
+                    height: 60.h,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width / 2.5,
+                    padding: EdgeInsets.only(left: 18.w, right: 10.w),
+                    decoration: BoxDecoration(
+                        color: cTextFieldColor,
+                        borderRadius: BorderRadius.circular(10.r)),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            '${end.day}/${end.month}/${end.year}',
+                            style: textStylePrimaryReg14,
+                          ),
+                        ),
+                        SvgPicture.asset('assets/icons/ic_dropdown.svg')
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
-          ),
-        ),
-        SizedBox(
-          height: 22.h,
-        ),
-        Row(
-          children: [
-            Radio(
-                value: 'Qarz qoldiq',
-                groupValue: group1,
-                fillColor: MaterialStateProperty.all(primaryColor),
-                activeColor: primaryColor,
-                onChanged: (value) {
-                  setState(() {
-                    group1 = value.toString();
-                  });
-                }),
-            Text('Qarz qoldiq', style: radioButtonTextStyle),
+            SizedBox(height: 16.h),
+            GestureDetector(
+              onTap: () {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return SelectPart.screen();
+                    }).then((value) =>
+                {
+                  if (value != null) {setState(() {
+                    clientId = value['id'];
+                    clientName = value['name'].toString();
+                  })}
+                });
+              },
+              child: Container(
+                height: 60.h,
+                padding: EdgeInsets.only(left: 18.w, right: 10.w),
+                decoration: BoxDecoration(
+                    color: cTextFieldColor,
+                    borderRadius: BorderRadius.circular(10.r)),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        clientName,
+                        style: textStylePrimaryMed14,
+                      ),
+                    ),
+                    SvgPicture.asset('assets/icons/ic_dropdown.svg')
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 22.h,
+            ),
+            Row(
+              children: [
+                Radio(
+                    value: 'Qarz qoldiq',
+                    groupValue: group1,
+                    fillColor: MaterialStateProperty.all(primaryColor),
+                    activeColor: primaryColor,
+                    onChanged: (value) {
+                      setState(() {
+                        group1 = value.toString();
+                      });
+                    }),
+                Text('Qarz qoldiq', style: textStylePrimaryMed14),
+              ],
+            ),
+            Row(
+              children: [
+                Radio(
+                    value: 'Solishtirma dal',
+                    groupValue: group1,
+                    fillColor: MaterialStateProperty.all(primaryColor),
+                    activeColor: primaryColor,
+                    onChanged: (value) {
+                      setState(() {
+                        group1 = value.toString();
+                      });
+                    }),
+                Text('Solishtirma dal', style: textStylePrimaryMed16),
+              ],
+            ),
+            Row(
+              children: [
+                Radio(
+                    value: 'Mijoz kartasi orqali',
+                    groupValue: group1,
+                    fillColor: MaterialStateProperty.all(primaryColor),
+                    activeColor: primaryColor,
+                    onChanged: (value) {
+                      setState(() {
+                        group1 = value.toString();
+                      });
+                    }),
+                Text('Mijoz kartasi orqali', style: textStylePrimaryMed16),
+              ],
+            ),
+            SizedBox(height: 24.h),
+            ElevatedButton(
+                onPressed: () {},
+                style: buttonStyle,
+                child: const Text(
+                  'Davom etish',
+                  textAlign: TextAlign.center,
+                )),
           ],
-        ),
-        Row(
-          children: [
-            Radio(
-                value: 'Solishtirma dal',
-                groupValue: group1,
-                fillColor: MaterialStateProperty.all(primaryColor),
-                activeColor: primaryColor,
-                onChanged: (value) {
-                  setState(() {
-                    group1 = value.toString();
-                  });
-                }),
-            Text('Solishtirma dal', style: radioButtonTextStyle),
-          ],
-        ),
-        Row(
-          children: [
-            Radio(
-                value: 'Mijoz kartasi orqali',
-                groupValue: group1,
-                fillColor: MaterialStateProperty.all(primaryColor),
-                activeColor: primaryColor,
-                onChanged: (value) {
-                  setState(() {
-                    group1 = value.toString();
-                  });
-                }),
-            Text('Mijoz kartasi orqali', style: radioButtonTextStyle),
-          ],
-        ),
-        SizedBox(height: 24.h),
-        ElevatedButton(
-            onPressed: () {},
-            style: buttonStyle,
-            child: const Text(
-              'Davom etish',
-              textAlign: TextAlign.center,
-            )),
-      ],
+        )
     );
   }
 
@@ -220,6 +216,4 @@ class _ReportDialogState extends State<ReportDialog> {
   DateTimeRange(start: DateTime.now(), end: DateTime.now());
 
 
-  TextStyle radioButtonTextStyle =
-  TextStyle(color: primaryColor, fontFamily: 'Medium', fontSize: 16.sp);
 }

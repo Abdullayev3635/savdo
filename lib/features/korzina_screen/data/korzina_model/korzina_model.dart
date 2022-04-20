@@ -61,7 +61,7 @@ class _KorzinaCardModelState extends State<KorzinaCardModel> {
                       widget.title!,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: textStylePrimary16,
+                      style: textStylePrimaryReg16,
                     ),
                   ),
                 ),

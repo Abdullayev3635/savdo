@@ -51,10 +51,7 @@ class _MainPageState extends State<MainPage> {
                       children: [
                         Text(
                           'Hayrli kun! ',
-                          style: TextStyle(
-                              color: primaryColor,
-                              fontSize: 16.sp,
-                              fontFamily: 'Medium'),
+                          style:textStylePrimaryMed16
                         ),
                         Image.asset(
                           'assets/icons/ic_hand.png',
