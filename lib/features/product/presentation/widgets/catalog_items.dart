@@ -1,15 +1,16 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/utils/app_constants.dart';
+import '../bloc/catalog/catalog_bloc.dart';
 
 // ignore: must_be_immutable
 class CatalogItems extends StatefulWidget {
-  // CatalogState state;
-  bool isLarge = false;
+  CatalogSuccessState state;
 
   CatalogItems({
     Key? key,
-    required this.isLarge,
+    required this.state,
   }) : super(key: key);
 
   @override
@@ -18,21 +19,22 @@ class CatalogItems extends StatefulWidget {
 
 class _CatalogItemsState extends State<CatalogItems> {
   bool isActive = false;
+  CatalogFailureState? failureState;
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      itemCount: 50,
+      itemCount: widget.state.list.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: widget.isLarge ? 4 : 1,
+        crossAxisCount: widget.state.isLarge ? 4 : 1,
         mainAxisExtent: 90.w,
         crossAxisSpacing: 10.h,
         childAspectRatio: 1 / 1,
-        mainAxisSpacing: widget.isLarge ? 20.w : 0,
+        mainAxisSpacing: widget.state.isLarge ? 20.w : 0,
       ),
       physics: const BouncingScrollPhysics(),
-      padding: EdgeInsets.only(left: widget.isLarge ? 3.w : 11.w, top: 5),
-      scrollDirection: widget.isLarge ? Axis.vertical : Axis.horizontal,
+      padding: EdgeInsets.only(left: widget.state.isLarge ? 3.w : 11.w, top: 5),
+      scrollDirection: widget.state.isLarge ? Axis.vertical : Axis.horizontal,
       itemBuilder: (context, index) => Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w),
         child: GestureDetector(
@@ -43,7 +45,7 @@ class _CatalogItemsState extends State<CatalogItems> {
           },
           child: SizedBox(
             width: 89.w,
-            height: widget.isLarge ? 380 : 91.h,
+            height: widget.state.isLarge ? 380 : 91.h,
             child: Stack(
               clipBehavior: Clip.none,
               alignment: Alignment.topRight,
@@ -63,7 +65,7 @@ class _CatalogItemsState extends State<CatalogItems> {
                             ]).createShader(bounds);
                           },
                           blendMode: BlendMode.srcATop,
-                          child: Image.asset('assets/images/truck.png')),
+                          child: Image.network(widget.state.list[index].image!)),
                     ),
                     SizedBox(height: isActive ? 12.h : 18.h),
                     isActive

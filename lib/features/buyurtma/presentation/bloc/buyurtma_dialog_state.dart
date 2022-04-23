@@ -3,11 +3,7 @@ part of 'buyurtma_dialog_bloc.dart';
 @immutable
 abstract class BuyurtmaDialogState {}
 
-class BuyurtmaDialogInitialState extends BuyurtmaDialogState {
-  final int qarzdorlik;
-
-  BuyurtmaDialogInitialState({required this.qarzdorlik});
-}
+class BuyurtmaDialogInitialState extends BuyurtmaDialogState {}
 
 class BuyurtmaDialogLoadingState extends BuyurtmaDialogState {}
 
@@ -18,9 +14,8 @@ class BuyurtmaDialogFailureState extends BuyurtmaDialogState {
 }
 
 class BuyurtmaDialogSelectedSuccessState extends BuyurtmaDialogState {
-  final int qarzdorlik;
-  final int kurs;
+  final BuyurtmaModel buyurtmaList;
 
   BuyurtmaDialogSelectedSuccessState(
-      {required this.qarzdorlik, required this.kurs});
+      {required this.buyurtmaList});
 }

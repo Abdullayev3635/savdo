@@ -66,22 +66,6 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
                 style: textStylePrimaryReg16,
               ),
             ),
-            IconButton(
-              highlightColor: Colors.transparent,
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const KorzinaScreen(),
-                    ));
-              },
-              icon: SvgPicture.asset(
-                'assets/icons/ic_shopping_cart.svg',
-                width: 28.w,
-                height: 28.h,
-                color: primaryColor,
-              ),
-            ),
           ],
         ),
       ),

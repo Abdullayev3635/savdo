@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:savdo_agnet_client/core/errors/failures.dart';
 import 'package:savdo_agnet_client/core/usescases/usecase.dart';
 
+import '../entity/buyurtma_entity.dart';
 import '../repositories/buyurtma_repository.dart';
 
 class UsesBuyurtma extends UseCase<dynamic, BuyurtmaParams> {
@@ -12,15 +13,12 @@ class UsesBuyurtma extends UseCase<dynamic, BuyurtmaParams> {
 
   @override
   Future<Either<Failure, dynamic>> call(BuyurtmaParams params) {
-    return repository.getBuyurtma(params.buyurtmaId);
+    return repository.getBuyurtma();
   }
 }
 
 class BuyurtmaParams extends Equatable {
-  final int buyurtmaId;
-
-  const BuyurtmaParams({required this.buyurtmaId});
 
   @override
-  List<Object?> get props => [buyurtmaId];
+  List<Object?> get props => [];
 }
