@@ -39,7 +39,7 @@ class _MainPageState extends State<MainPage> {
                   children: [
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 2,
-                      child: AutoSizeText('Jakhongir Sagatov',
+                      child: AutoSizeText('Jakhongir \nSagatov',
                           maxLines: 2,
                           style: TextStyle(
                               fontFamily: 'ExtraBold',

@@ -6,18 +6,18 @@ import 'package:savdo_agnet_client/features/product/domain/repositories/catalog_
 import '../../../../core/errors/failures.dart';
 import '../../../../core/usescases/usecase.dart';
 
-class ProductCatalog extends UseCase<dynamic, GetCategoryParams> {
+class ProductCatalog extends UseCase<dynamic, GetCatalogParams> {
   final CatalogRepository catalogRepository;
 
   ProductCatalog({required this.catalogRepository});
 
   @override
-  Future<Either<Failure, dynamic>> call(GetCategoryParams params) {
+  Future<Either<Failure, dynamic>> call(GetCatalogParams params) {
     return catalogRepository.getCatalog();
   }
 }
 
-class GetCategoryParams extends Equatable {
+class GetCatalogParams extends Equatable {
   @override
   List<Object?> get props => [];
 }

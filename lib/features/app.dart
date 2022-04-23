@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:savdo_agnet_client/features/firmalar/presentation/pages/firmalar_page.dart';
+import 'package:savdo_agnet_client/features/product/presentation/pages/product_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../di/dependency_injection.dart';
@@ -35,7 +36,7 @@ class App extends StatelessWidget {
           );
         },
         debugShowCheckedModeBanner: false,
-        home: FirmalarPage.screen(),
+        home: ProductPage.screen(),
       ),
     );
   }

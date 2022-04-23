@@ -18,21 +18,23 @@ class CatalogRepositoryImpl extends CatalogRepository {
 
   @override
   Future<Either<Failure, dynamic>> getCatalog() async {
-    if (await networkInfo.isConnected) {
-      try {
-        final result = await homeRemoteDatasourceImpl.getCatalog();
-        homeLocalDatasourceImpl.setCatalog(result);
-        return Right(result);
-      } on ServerFailure {
-        return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));
-      }
-    } else {
-      try {
-        final result = await homeLocalDatasourceImpl.getCatalog();
-        return Right(result);
-      } on LocalFailure {
-        return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));
-      }
+    try {
+      final result = await homeRemoteDatasourceImpl.getCatalog();
+      return Right(result);
+    } on ServerFailure {
+      return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));
+    }
+  }
+
+  @override
+  Future<Either<Failure, dynamic>> getBrand(
+      int productTypeId, int priceTypeId) async {
+    try {
+      final result = await homeRemoteDatasourceImpl.getBrand(
+          productTypeId: productTypeId, priceTypeId: priceTypeId);
+      return Right(result);
+    } on ServerFailure {
+      return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));
     }
   }
 }
