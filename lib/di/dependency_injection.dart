@@ -102,7 +102,7 @@ Future<void> init() async {
   di.registerLazySingleton<BuyurtmaRepository>(
     () => BuyurtmaRepositoryImpl(
       localDataSourceImpl: di(),
-      networkInfo: di(),
+      networkInfo: di(), remoteDataSourceImpl: di(),
       // remoteDataSourceImpl: di(),
     ),
   );
