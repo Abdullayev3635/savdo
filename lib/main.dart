@@ -13,5 +13,6 @@ void main() async {
     runApp(const AppProvider());
   }, (error, stacktrace) {
     log('runZonedGuarded Errors: $error');
+    debugPrint("add new branch");
   });
 }
