@@ -17,7 +17,6 @@ import 'package:savdo_agnet_client/features/product/domain/repositories/catalog_
 import 'package:savdo_agnet_client/features/product/domain/usescase/catalog.dart';
 
 import 'package:savdo_agnet_client/features/product_items/presentation/bloc/product_items_cubit.dart';
-import 'package:savdo_agnet_client/features/select_client/data/model/agent_model.dart';
 import 'package:savdo_agnet_client/features/select_client/data/repository/select_client_repository.dart';
 import 'package:savdo_agnet_client/features/select_client/domain/repositories/client_repository.dart';
 import 'package:savdo_agnet_client/features/select_client/domain/usescase/client_usescase.dart';
@@ -37,7 +36,6 @@ import '../features/product/presentation/bloc/brand/brand_bloc.dart';
 import '../features/product/presentation/bloc/catalog/catalog_bloc.dart';
 import '../features/select_client/data/datasources/client_local_datasource.dart';
 import '../features/select_client/data/datasources/client_remote_datasource.dart';
-import '../features/select_client/domain/usescase/agent_usescase.dart';
 import '../features/select_client/presentation/bloc/client/select_client_bloc.dart';
 
 final di = GetIt.instance;
@@ -46,9 +44,6 @@ final di = GetIt.instance;
 
 Future<void> init() async {
   /// bloc
-  // di.registerFactory(
-  //   () => NotSendBloc(notSend: di(), notSendLocal: di()),
-  // );
   di.registerFactory(
     () => SearchFirmaItemsCubit(
         id: di(), title: di(), image: di(), maxsulotlarBulimiCubit: di()),
@@ -90,7 +85,7 @@ Future<void> init() async {
   );
 
   di.registerLazySingleton<SelectCaARepository>(
-    () => SelectCaARepositoryImpl(
+    () => SelectClientRepositoryImpl(
       localDataSourceImpl: di(),
       networkInfo: di(),
       remoteDataSourceImpl: di(),
@@ -110,7 +105,6 @@ Future<void> init() async {
   di.registerLazySingleton(() => ProductCatalog(catalogRepository: di()));
   di.registerLazySingleton(() => BrandCatalog(catalogRepository: di()));
   di.registerLazySingleton(() => UsesSelectClient(clientRepository: di()));
-  di.registerLazySingleton(() => UsesSelectAgent(agentRepository: di()));
   di.registerLazySingleton(() => UsesBuyurtma(repository: di()));
 
   /// Data sources
@@ -164,14 +158,7 @@ Future<void> init() async {
   // korzina
   Hive.registerAdapter(KorzinaCardAdapter());
   await Hive.openBox(korzinaBox);
-
   // client dialog
-  // Hive.registerAdapter(ClientModelAdapter());
-  // await Hive.openBox(clientBox);
-
-  // agent dialog
-  Hive.registerAdapter(AgentModelAdapter());
-  await Hive.openBox(agentBox);
   // buyurtma dialog
   // Hive.registerAdapter(BuyurtmaModelAdapter());
   // await Hive.openBox(buyurtmaBox);

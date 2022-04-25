@@ -27,8 +27,8 @@ class _SelectPartState extends State<SelectPart> {
 
   @override
   void initState() {
-    super.initState();
     _bloc = BlocProvider.of<SelectClientBloc>(context);
+    super.initState();
   }
 
   @override
@@ -50,12 +50,7 @@ class _SelectPartState extends State<SelectPart> {
         margin: EdgeInsets.symmetric(horizontal: 10.w),
         child: BlocBuilder<SelectClientBloc, SelectClientState>(
           builder: (context, state) {
-            if (state is SelectClientLoading) {
-              return SizedBox(
-                child: const CupertinoActivityIndicator(),
-                height: 350.h,
-              );
-            } else if (state is SelectClientSuccess) {
+            if (state is SelectClientSuccess) {
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -85,10 +80,12 @@ class _SelectPartState extends State<SelectPart> {
                             });
                           },
                           child: Container(
-                            height: 50,
+                            height: 50.h,
                             width: MediaQuery.of(context).size.width,
                             margin: EdgeInsets.symmetric(
-                                horizontal: 10.w, vertical: 6.h),
+                              horizontal: 10.w,
+                              vertical: 6.h,
+                            ),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 color: primaryColor),
@@ -113,9 +110,10 @@ class _SelectPartState extends State<SelectPart> {
                   SizedBox(height: 20.h),
                 ],
               );
-            } else if (state is SelectClientNoInternetState) {
-              return Center(
-                child: Text(state.message),
+            } else if (state is SelectClientLoading) {
+              return SizedBox(
+                child: const CupertinoActivityIndicator(),
+                height: 350.h,
               );
             } else {
               return Container();

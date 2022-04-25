@@ -58,12 +58,12 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                   builder: (context) {
                     return SelectPart.screen();
                   }).then((value) => {
-                if (value != null)
+                /// add event dialog
+                    if (value != null)
                   {
                     setState(() {
                       clientId = value['id'];
                       clientName = value['name'].toString();
-                      clientQarzi = value['qarz'];
                     })
                   }
               });

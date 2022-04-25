@@ -1,17 +1,16 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 import 'package:savdo_agnet_client/core/errors/failures.dart';
-import 'package:savdo_agnet_client/features/select_client/data/model/agent_model.dart';
+import 'package:savdo_agnet_client/core/utils/api_path.dart';
 import 'package:savdo_agnet_client/features/select_client/data/model/client_model.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../../core/utils/api_path.dart';
 
 abstract class SelectClientRemoteDataSource {
-  Future<List<ClientModel>> getSelectClient();
-
-  Future<List<AgentModel>> getSelectAgent(String agentId);
+  Future<List<ClientModel>> getClient();
 }
 
 class SelectClientRemoteDataSourceImpl implements SelectClientRemoteDataSource {
@@ -22,17 +21,11 @@ class SelectClientRemoteDataSourceImpl implements SelectClientRemoteDataSource {
       {required this.sharedPreferences, required this.client});
 
   @override
-  Future<List<AgentModel>> getSelectAgent(String agentId) {
-    // TODO: implement getSelectAgent
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<List<ClientModel>> getSelectClient() async {
+  Future<List<ClientModel>> getClient() async {
     List<ClientModel> list = [];
     try {
       final response = await client.get(
-        Uri.parse(base2 + clientPHP),
+        Uri.parse(baseUrl + clientPHP),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json'
@@ -40,6 +33,7 @@ class SelectClientRemoteDataSourceImpl implements SelectClientRemoteDataSource {
         },
       );
       if (response.statusCode == 200) {
+        log(response.body.toString());
         final parsed = jsonDecode(response.body);
         for (int i = 0; i < (parsed["data"] as List).length; i++) {
           list.add(ClientModel.fromJson(parsed["data"][i]));
@@ -52,14 +46,5 @@ class SelectClientRemoteDataSourceImpl implements SelectClientRemoteDataSource {
       return [];
     }
   }
-
-// @override
-// Future<List<ClientModel>> getClient() async {
-//   List<ClientModel> list = [];
-//   try {
-//     return true;
-//   } on LocalFailure {
-//     return false;
-//   }
-// }
 }
+
