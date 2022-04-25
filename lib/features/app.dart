@@ -39,7 +39,7 @@ class App extends StatelessWidget {
           );
         },
         debugShowCheckedModeBanner: false,
-        home: ProductPage.screen(),
+        home: FirmalarPage.screen(),
       ),
     );
   }

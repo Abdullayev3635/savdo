@@ -85,7 +85,6 @@ class _ProductPageState extends State<ProductPage> {
                     elevation: 0,
                     backgroundColor: cBackgroundColor,
                     automaticallyImplyLeading: false,
-                    // toolbarHeight: 30,
                     floating: false,
                     pinned: true,
                     title: Padding(

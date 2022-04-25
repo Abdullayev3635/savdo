@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,7 +11,8 @@ class SelectPart extends StatefulWidget {
   const SelectPart({Key? key}) : super(key: key);
 
   static Widget screen() => BlocProvider(
-        create: (context) => di<SelectClientBloc>()..add(GetSelectClientEvent()),
+        create: (context) =>
+            di<SelectClientBloc>()..add(GetSelectClientEvent()),
         child: const SelectPart(),
       );
 
@@ -25,8 +27,8 @@ class _SelectPartState extends State<SelectPart> {
 
   @override
   void initState() {
-    _bloc = BlocProvider.of<SelectClientBloc>(context);
     super.initState();
+    _bloc = BlocProvider.of<SelectClientBloc>(context);
   }
 
   @override
@@ -48,13 +50,16 @@ class _SelectPartState extends State<SelectPart> {
         margin: EdgeInsets.symmetric(horizontal: 10.w),
         child: BlocBuilder<SelectClientBloc, SelectClientState>(
           builder: (context, state) {
-            if (state is SelectClientSuccess) {
+            if (state is SelectClientLoading) {
+              return SizedBox(
+                child: const CupertinoActivityIndicator(),
+                height: 350.h,
+              );
+            } else if (state is SelectClientSuccess) {
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(
-                    height: 20.h
-                  ),
+                  SizedBox(height: 20.h),
                   TextField(
                       textAlign: TextAlign.left,
                       decoration: InputDecoration(
@@ -108,76 +113,10 @@ class _SelectPartState extends State<SelectPart> {
                   SizedBox(height: 20.h),
                 ],
               );
-            } else if (state is SelectClientLoading) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SizedBox(height: 20.h),
-                  TextField(
-                      textAlign: TextAlign.left,
-                      decoration: InputDecoration(
-                        hintText: 'Қидириш',
-                        prefixIcon: const Icon(Icons.search),
-                        contentPadding: EdgeInsets.all(20.0.sp),
-                      ),
-                      onChanged: (text) {
-                        // _bloc.add(FilterSelectPartEvent(
-                        //     text: text, list: state.list));///todo
-                      }),
-                  Expanded(
-                    child: ListView.builder(
-                      padding: EdgeInsets.only(top: 20.h),
-                      physics: const BouncingScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: 20,
-                      // state.list.length,///todo
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context, {
-                              "name": '$index',
-                              "id": index,
-                              "qarz": (index * 6000)
-
-                              ///todo
-                            });
-                          },
-                          child: Container(
-                            height: 50,
-                            width: MediaQuery.of(context).size.width,
-                            margin: EdgeInsets.symmetric(
-                                horizontal: 10.w, vertical: 6.h),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: primaryColor),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 15),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  'Saltillo',
-// bjbjhbjhbhjk
-                                  ///todo
-                                  // state.list[index].name!,
-                                  style: TextStyle(
-                                      fontSize: 16.sp, color: cWhiteColor),
-                                  maxLines: 2,
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  SizedBox(height: 20.h),
-                ],
+            } else if (state is SelectClientNoInternetState) {
+              return Center(
+                child: Text(state.message),
               );
-              // return SizedBox(
-              //   child: const CupertinoActivityIndicator(),
-              //   height: 350.h,
-              // );
             } else {
               return Container();
             }

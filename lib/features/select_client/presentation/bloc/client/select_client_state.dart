@@ -13,7 +13,12 @@ class SelectClientSuccess extends SelectClientState {
   SelectClientSuccess({required this.list});
 }
 
-class SelectClientNoInternetState extends SelectClientState {}
+class SelectClientNoInternetState extends SelectClientState {
+  final String message;
+
+  SelectClientNoInternetState({required this.message});
+
+}
 
 class SelectClientFailureState extends SelectClientState {
   final String message;

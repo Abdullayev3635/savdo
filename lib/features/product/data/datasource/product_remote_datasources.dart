@@ -61,7 +61,7 @@ class CatalogRemoteDatasourceImpl implements CatalogRemoteDatasource {
         "price_type_id": priceTypeId
       };
       final response = await client.post(
-        Uri.parse(baseUrl + brandPHP),
+        Uri.parse(base2 + brandPHP),
         body: jsonEncode(json),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',

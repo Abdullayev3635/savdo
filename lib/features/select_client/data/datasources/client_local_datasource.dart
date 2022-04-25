@@ -5,7 +5,7 @@ import 'package:savdo_agnet_client/features/select_client/data/model/client_mode
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class SelectClientLocalDataSource {
-  Future<dynamic> getSelectClient(int userId);
+  Future<dynamic> getSelectClient();
 
   Future<dynamic> getSelectAgent(String agentId);
 }
@@ -27,7 +27,7 @@ class SelectClientLocalDataSourceImpl implements SelectClientLocalDataSource {
   }
 
   @override
-  Future<dynamic> getSelectClient(int userId) async {
+  Future<dynamic> getSelectClient() async {
     try {
       final box = Hive.box(agentBox);
       final eventsFromHive = box.get(agentBox).cast<AgentModel>() ?? [];

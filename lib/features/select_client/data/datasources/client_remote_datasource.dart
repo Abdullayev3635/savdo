@@ -1,10 +1,15 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
+import 'package:savdo_agnet_client/core/errors/failures.dart';
 import 'package:savdo_agnet_client/features/select_client/data/model/agent_model.dart';
 import 'package:savdo_agnet_client/features/select_client/data/model/client_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../../core/utils/api_path.dart';
+
 abstract class SelectClientRemoteDataSource {
-  Future<List<ClientModel>> getSelectClient(int clientId);
+  Future<List<ClientModel>> getSelectClient();
 
   Future<List<AgentModel>> getSelectAgent(String agentId);
 }
@@ -23,9 +28,29 @@ class SelectClientRemoteDataSourceImpl implements SelectClientRemoteDataSource {
   }
 
   @override
-  Future<List<ClientModel>> getSelectClient(int clientId) {
-    // TODO: implement getSelectClient
-    throw UnimplementedError();
+  Future<List<ClientModel>> getSelectClient() async {
+    List<ClientModel> list = [];
+    try {
+      final response = await client.get(
+        Uri.parse(base2 + clientPHP),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json'
+          // "Authorization": "Bearer ${sharedPreferences.getString("token")}"
+        },
+      );
+      if (response.statusCode == 200) {
+        final parsed = jsonDecode(response.body);
+        for (int i = 0; i < (parsed["data"] as List).length; i++) {
+          list.add(ClientModel.fromJson(parsed["data"][i]));
+        }
+        return list;
+      } else {
+        return [];
+      }
+    } on InputFormatterFailure {
+      return [];
+    }
   }
 
 // @override

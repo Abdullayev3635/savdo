@@ -11,15 +11,11 @@ class UsesSelectClient extends UseCase<dynamic, SelectClientParams> {
 
   @override
   Future<Either<Failure, dynamic>> call(SelectClientParams params) {
-    return clientRepository.getSelectClient(params.clientId);
+    return clientRepository.getSelectClient();
   }
 }
 
 class SelectClientParams extends Equatable {
-  final int clientId;
-
-  const SelectClientParams({required this.clientId});
-
   @override
-  List<Object?> get props => [clientId];
+  List<Object?> get props => [];
 }

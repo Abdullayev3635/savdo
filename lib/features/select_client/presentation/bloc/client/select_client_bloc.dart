@@ -25,13 +25,15 @@ class SelectClientBloc extends Bloc<SelectPartEvent, SelectClientState> {
       GetSelectClientEvent event, Emitter<SelectClientState> emit) async {
     emit(SelectClientLoading());
     final result = await usesSelectClient(
-      const SelectClientParams(clientId: 0),
+       SelectClientParams(),
     );
     result.fold(
         (failure) => {
               if (failure is NoConnectionFailure)
-                {emit(SelectClientNoInternetState())}
+                {emit(SelectClientNoInternetState(message: ''))}
               else if (failure is ServerFailure)
+                {emit(SelectClientFailureState(message: failure.message))}
+              else if (failure is InputFormatterFailure)
                 {emit(SelectClientFailureState(message: failure.message))}
             },
         (r) => {

@@ -12,14 +12,12 @@ import 'package:savdo_agnet_client/features/lock/domain/bloc/pass_bloc.dart';
 import 'package:savdo_agnet_client/features/lock/domain/repositories/lock_repositories.dart';
 import 'package:savdo_agnet_client/features/password/presentation/bloc/pin_bloc.dart';
 import 'package:savdo_agnet_client/features/product/data/datasource/product_local_datasources.dart';
-import 'package:savdo_agnet_client/features/product/data/model/category_model.dart';
 import 'package:savdo_agnet_client/features/product/data/repositories/repository_impl.dart';
 import 'package:savdo_agnet_client/features/product/domain/repositories/catalog_repository.dart';
 import 'package:savdo_agnet_client/features/product/domain/usescase/catalog.dart';
 
 import 'package:savdo_agnet_client/features/product_items/presentation/bloc/product_items_cubit.dart';
 import 'package:savdo_agnet_client/features/select_client/data/model/agent_model.dart';
-import 'package:savdo_agnet_client/features/select_client/data/model/client_model.dart';
 import 'package:savdo_agnet_client/features/select_client/data/repository/select_client_repository.dart';
 import 'package:savdo_agnet_client/features/select_client/domain/repositories/client_repository.dart';
 import 'package:savdo_agnet_client/features/select_client/domain/usescase/client_usescase.dart';
@@ -166,9 +164,11 @@ Future<void> init() async {
   // korzina
   Hive.registerAdapter(KorzinaCardAdapter());
   await Hive.openBox(korzinaBox);
+
   // client dialog
-  Hive.registerAdapter(ClientModelAdapter());
-  await Hive.openBox(clientBox);
+  // Hive.registerAdapter(ClientModelAdapter());
+  // await Hive.openBox(clientBox);
+
   // agent dialog
   Hive.registerAdapter(AgentModelAdapter());
   await Hive.openBox(agentBox);
