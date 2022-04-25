@@ -6,49 +6,24 @@ import 'package:savdo_agnet_client/features/select_client/domain/repositories/cl
 
 import '../datasources/client_local_datasource.dart';
 
-class SelectCaARepositoryImpl extends SelectCaARepository {
+class SelectClientRepositoryImpl extends SelectCaARepository {
   final SelectClientLocalDataSourceImpl localDataSourceImpl;
   final SelectClientRemoteDataSourceImpl remoteDataSourceImpl;
   final NetworkInfo networkInfo;
 
-  SelectCaARepositoryImpl({
+  SelectClientRepositoryImpl({
     required this.localDataSourceImpl,
     required this.networkInfo,
     required this.remoteDataSourceImpl,
   });
 
   @override
-  Future<Either<Failure, dynamic>> getSelectAgent(String agentId) async {
+  Future<Either<Failure, dynamic>> getClient() async {
     try {
-      final result = localDataSourceImpl.getSelectAgent(agentId);
+      final result = await remoteDataSourceImpl.getClient();
       return Right(result);
     } on ServerFailure {
       return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));
     }
   }
-
-  @override
-  Future<Either<Failure, dynamic>> getSelectClient(int clientId) async {
-    try {
-      final result = localDataSourceImpl.getSelectClient(clientId);
-      return Right(result);
-    } on ServerFailure {
-      return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));
-    }
-  }
-
-// @override
-// Future<Either<Failure, dynamic>> getSelectClient() async {
-//   if (await networkInfo.isConnected) {
-//     try {
-//       final result = await remoteDataSourceImpl.getClient();
-//       localDataSourceImpl.setClientLocal(result);
-//       return Right(result);
-//     } on ServerFailure {
-//       return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));
-//     }
-//   } else {
-//     final result = localDataSourceImpl.setClientLocal(list)
-//   }
-// }
 }

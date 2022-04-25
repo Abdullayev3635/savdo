@@ -1,13 +1,5 @@
-
-import 'package:hive/hive.dart';
-
-part 'client_model.g.dart';
-
-@HiveType(typeId: 3)
-class ClientModel extends HiveObject{
-  @HiveField(0)
+class ClientModel {
   int? id;
-  @HiveField(1)
   String? name;
 
   ClientModel({
@@ -15,15 +7,15 @@ class ClientModel extends HiveObject{
     this.name,
   });
 
-  ClientModel.fromJson(Map<String, dynamic> json) {
+  ClientModel.fromJson(dynamic json) {
     id = json['id'];
     name = json['name'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['name'] = name;
-    return data;
+    final map = <String, dynamic>{};
+    map['id'] = id;
+    map['name'] = name;
+    return map;
   }
 }
