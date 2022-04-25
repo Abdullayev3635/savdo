@@ -1,5 +1,6 @@
 class ClientModel {
   int? id;
+  // int? qarzdorligi;
   String? name;
 
   ClientModel({

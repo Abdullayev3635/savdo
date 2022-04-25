@@ -81,86 +81,105 @@ class _ProductPageState extends State<ProductPage> {
                       ],
                     ),
                   ),
-                  SliverAppBar(
-                    elevation: 0,
-                    backgroundColor: cBackgroundColor,
-                    automaticallyImplyLeading: false,
-                    floating: false,
-                    pinned: true,
-                    title: Padding(
-                      padding: EdgeInsets.only(left: 10.w, top: 10.h),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Bo’limlar',
-                            style: TextStyle(
-                                color: primaryColor,
-                                fontSize: 14.sp,
-                                fontFamily: 'Medium'),
-                          ),
-                          InkWell(
-                            overlayColor:
-                                MaterialStateProperty.all(Colors.transparent),
-                            onTap: () {
-                              setState(() {
-                                isLarge = !isLarge;
-                              });
+                  BlocBuilder<CatalogBloc, CatalogState>(
+                    builder: (context, state) {
+                      return SliverAppBar(
+                        elevation: 0,
+                        backgroundColor: cBackgroundColor,
+                        automaticallyImplyLeading: false,
+                        floating: false,
+                        pinned: true,
+                        title: Padding(
+                          padding: EdgeInsets.only(left: 10.w, top: 10.h),
+                          child: BlocBuilder<CatalogBloc, CatalogState>(
+                            builder: (context, state) {
+                              if (state is CatalogSuccessState) {
+                                return Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Bo’limlar',
+                                      style: TextStyle(
+                                          color: primaryColor,
+                                          fontSize: 14.sp,
+                                          fontFamily: 'Medium'),
+                                    ),
+                                    InkWell(
+                                      overlayColor: MaterialStateProperty.all(
+                                          Colors.transparent),
+                                      onTap: () {
+                                        setState(() {
+                                          _catalogBloc.add(ChangeColor(
+                                              state.list,
+                                              0,
+                                              state.count,
+                                              !state.isLarge));
+                                          // state.isLarge = !isLarge;
+                                        });
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 8.0),
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              'Barchasi ',
+                                              style: TextStyle(
+                                                  decoration:
+                                                      TextDecoration.underline,
+                                                  color: cHintTextColor,
+                                                  fontSize: 10.sp,
+                                                  fontFamily: 'Medium'),
+                                            ),
+                                            SvgPicture.asset(
+                                                'assets/icons/ic_arrow_right.svg',
+                                                width: 3.w,
+                                                color: cHintTextColor)
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }
+                              return Container();
                             },
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 8.0),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    'Barchasi ',
-                                    style: TextStyle(
-                                        decoration: TextDecoration.underline,
-                                        color: cHintTextColor,
-                                        fontSize: 10.sp,
-                                        fontFamily: 'Medium'),
-                                  ),
-                                  SvgPicture.asset(
-                                      'assets/icons/ic_arrow_right.svg',
-                                      width: 3.w,
-                                      color: cHintTextColor)
-                                ],
-                              ),
-                            ),
                           ),
-                        ],
-                      ),
-                    ),
-                    bottom: PreferredSize(
-                      preferredSize: Size(
-                        double.infinity,
-                        isLarge ? 330.h : 90.h,
-                      ),
-                      child: BlocBuilder<CatalogBloc, CatalogState>(
-                        builder: (context, state) {
-                          if (state is CatalogLoadingState) {
-                            return const Center(
-                              child: CupertinoActivityIndicator(),
-                            );
-                          } else if (state is CatalogSuccessState) {
-                            _brandBloc.add(
-                              GetBrandEvent(
-                                productTypeId: state.list[0].id ?? 0,
-                                priceTypeId: 0,
-                              ),
-                            );
-                            return Container(
-                              margin: EdgeInsets.only(right: isLarge ? 10 : 0),
-                              height: isLarge ? 320 : 100,
-                              child: CatalogItems(state: state),
-                            );
-                          } else if (state is CatalogFailureState) {
-                            return Center(child: Text(state.message));
-                          }
-                          return Container();
-                        },
-                      ),
-                    ),
+                        ),
+                        bottom: PreferredSize(
+                          preferredSize: Size(
+                            double.infinity,
+                            isLarge ? 330.h : 90.h,
+                          ),
+                          child: BlocBuilder<CatalogBloc, CatalogState>(
+                            builder: (context, state) {
+                              if (state is CatalogLoadingState) {
+                                return const Center(
+                                  child: CupertinoActivityIndicator(),
+                                );
+                              } else if (state is CatalogSuccessState) {
+                                _brandBloc.add(
+                                  GetBrandEvent(
+                                    productTypeId: state.list[0].id ?? 0,
+                                    priceTypeId: 0,
+                                  ),
+                                );
+                                return Container(
+                                  margin:
+                                      EdgeInsets.only(right: isLarge ? 10 : 0),
+                                  height: isLarge ? 320 : 100,
+                                  child: CatalogItems(state: state),
+                                );
+                              } else if (state is CatalogFailureState) {
+                                return Center(child: Text(state.message));
+                              }
+                              return Container();
+                            },
+                          ),
+                        ),
+                      );
+                    },
                   ),
                   SliverToBoxAdapter(
                     child: BlocBuilder<BrandBloc, BrandState>(
@@ -170,7 +189,10 @@ class _ProductPageState extends State<ProductPage> {
                             state: state,
                           );
                         } else if (state is BrandLoadingState) {
-                          return SizedBox(height:120.h,child: const Center(child: CupertinoActivityIndicator()));
+                          return SizedBox(
+                              height: 120.h,
+                              child: const Center(
+                                  child: CupertinoActivityIndicator()));
                         } else if (state is BrandFailureState) {
                           return Center(
                             child: Text(state.message),

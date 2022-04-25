@@ -43,8 +43,8 @@ class CatalogBloc extends Bloc<CatalogEvent, CatalogState> {
                 {emit(const CatalogFailureState(isLarge: false, message: ""))}
               else
                 {
-                  emit(
-                      CatalogSuccessState(list: r, selected: 0, isLarge: false))
+                  emit(CatalogSuccessState(
+                      list: r, selected: 0, isLarge: false, count: 6))
                 }
             });
   }
@@ -52,6 +52,9 @@ class CatalogBloc extends Bloc<CatalogEvent, CatalogState> {
   FutureOr<void> changeColor(
       ChangeColor event, Emitter<CatalogState> emit) async {
     emit(CatalogSuccessState(
-        list: event.list, selected: event.index, isLarge: !event.isLarge));
-    }
+        count: 6,
+        list: event.list,
+        selected: event.index,
+        isLarge: !event.isLarge));
+  }
 }

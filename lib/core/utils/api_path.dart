@@ -7,3 +7,4 @@ const String narxTuriPHP = "/mobile/narx-turi";
 const String catalogPHP = "categories";
 const String brandPHP = "categories/brands";
 const String clientPHP = "clients";
+const String onSelectClientPHP = "customer-debit-credit";

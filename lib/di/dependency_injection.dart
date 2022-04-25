@@ -20,6 +20,7 @@ import 'package:savdo_agnet_client/features/product_items/presentation/bloc/prod
 import 'package:savdo_agnet_client/features/select_client/data/repository/select_client_repository.dart';
 import 'package:savdo_agnet_client/features/select_client/domain/repositories/client_repository.dart';
 import 'package:savdo_agnet_client/features/select_client/domain/usescase/client_usescase.dart';
+import 'package:savdo_agnet_client/features/select_client/domain/usescase/select_usescase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../core/location/location_service.dart';
@@ -64,7 +65,7 @@ Future<void> init() async {
     () => PinBloc(sharedPreferences: di()),
   );
   di.registerFactory(
-    () => SelectClientBloc(usesSelectClient: di()),
+    () => SelectClientBloc(usesSelectClient: di(), onSelectClient: di()),
   );
   di.registerFactory(
     () => BuyurtmaDialogBloc(usesBuyurtma: di()),
@@ -105,6 +106,7 @@ Future<void> init() async {
   di.registerLazySingleton(() => ProductCatalog(catalogRepository: di()));
   di.registerLazySingleton(() => BrandCatalog(catalogRepository: di()));
   di.registerLazySingleton(() => UsesSelectClient(clientRepository: di()));
+  di.registerLazySingleton(() => OnSelectClient(clientRepository: di()));
   di.registerLazySingleton(() => UsesBuyurtma(repository: di()));
 
   /// Data sources

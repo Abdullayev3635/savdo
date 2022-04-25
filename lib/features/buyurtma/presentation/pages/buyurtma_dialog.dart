@@ -49,6 +49,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
       title: 'Buyurtma',
       icon: 'assets/icons/ic_shopping_cart.svg',
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           SizedBox(height: 23.h),
           GestureDetector(
@@ -58,15 +59,15 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                   builder: (context) {
                     return SelectPart.screen();
                   }).then((value) => {
-                /// add event dialog
+                    /// add event dialog
                     if (value != null)
-                  {
-                    setState(() {
-                      clientId = value['id'];
-                      clientName = value['name'].toString();
-                    })
-                  }
-              });
+                      {
+                        setState(() {
+                          clientId = value['id'];
+                          clientName = value['name'].toString();
+                        })
+                      }
+                  });
             },
             child: Container(
               height: 60.h,
@@ -77,8 +78,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
               child: Row(
                 children: [
                   Expanded(
-                    child: Text(clientName,
-                        style: textStylePrimaryMed14),
+                    child: Text(clientName, style: textStylePrimaryMed14),
                   ),
                   SvgPicture.asset('assets/icons/ic_dropdown.svg')
                 ],
@@ -86,8 +86,8 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(
-                right: 7.w, top: 22.h, left: 7.w, bottom: 34.h),
+            padding:
+                EdgeInsets.only(right: 7.w, top: 22.h, left: 7.w, bottom: 34.h),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -107,9 +107,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                           fontSize: 18.sp,
                           fontFamily: 'Regular'),
                     ),
-                    SizedBox(
-                      height: 14.h,
-                    ),
+                    SizedBox(height: 14.h),
                     Text(
                       '0 \$',
                       style: TextStyle(
@@ -122,18 +120,16 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
               ],
             ),
           ),
-          SvgPicture.asset('assets/icons/ic_divider.svg',
-              fit: BoxFit.cover),
+          SvgPicture.asset('assets/icons/ic_divider.svg', fit: BoxFit.cover),
           // SizedBox(height: 25.h,),
           Padding(
-            padding: EdgeInsets.only(
-                right: 7.w, top: 24.h, left: 7.w, bottom: 28.h),
+            padding:
+                EdgeInsets.only(right: 7.w, top: 24.h, left: 7.w, bottom: 28.h),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text.rich(TextSpan(children: [
-                  TextSpan(
-                      text: 'Kurs: ', style: textStylePrimaryMed16),
+                  TextSpan(text: 'Kurs: ', style: textStylePrimaryMed16),
                   TextSpan(
                       text: '${0} so’m',
                       style: TextStyle(
@@ -144,11 +140,10 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
               ],
             ),
           ),
-          SvgPicture.asset('assets/icons/ic_divider.svg',
-              fit: BoxFit.cover),
+          SvgPicture.asset('assets/icons/ic_divider.svg', fit: BoxFit.cover),
           Padding(
-            padding: EdgeInsets.only(
-                right: 7.w, top: 24.h, left: 7.w, bottom: 14.h),
+            padding:
+                EdgeInsets.only(right: 7.w, top: 24.h, left: 7.w, bottom: 14.h),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -164,8 +159,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                   Radio(
                       value: 'So’m',
                       groupValue: group1,
-                      fillColor:
-                      MaterialStateProperty.all(primaryColor),
+                      fillColor: MaterialStateProperty.all(primaryColor),
                       activeColor: primaryColor,
                       onChanged: (value) {
                         setState(() {
@@ -181,8 +175,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                   Radio(
                       value: 'Valyuta',
                       groupValue: group1,
-                      fillColor:
-                      MaterialStateProperty.all(primaryColor),
+                      fillColor: MaterialStateProperty.all(primaryColor),
                       activeColor: primaryColor,
                       onChanged: (value) {
                         setState(() {
@@ -195,17 +188,54 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
             ],
           ),
           SizedBox(height: 5.h),
-          SvgPicture.asset('assets/icons/ic_divider.svg',
-              fit: BoxFit.cover),
+          SvgPicture.asset('assets/icons/ic_divider.svg', fit: BoxFit.cover),
           Padding(
-            padding: EdgeInsets.only(
-                right: 7.w, top: 24.h, left: 7.w, bottom: 14.h),
+            padding:
+                EdgeInsets.only(right: 7.w, top: 24.h, left: 7.w, bottom: 14.h),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text('Savdo turi:', style: textStylePrimaryMed16),
               ],
             ),
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: SizedBox(
+                  height: 50.h,
+                  child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemCount: 4,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              group2 = '$index';
+                            });
+                          },
+                          child: Row(
+                            children: [
+                              Radio(
+                                  value: '$index',
+                                  groupValue: group2,
+                                  fillColor:
+                                      MaterialStateProperty.all(primaryColor),
+                                  activeColor: primaryColor,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      group2 = value.toString();
+                                    });
+                                  }),
+                              Text('Chakana', style: textStylePrimaryMed14),
+                            ],
+                          ),
+                        );
+                      }),
+                ),
+              ),
+            ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -215,8 +245,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                   Radio(
                       value: 'Chakana',
                       groupValue: group2,
-                      fillColor:
-                      MaterialStateProperty.all(primaryColor),
+                      fillColor: MaterialStateProperty.all(primaryColor),
                       activeColor: primaryColor,
                       onChanged: (value) {
                         setState(() {
@@ -231,8 +260,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                   Radio(
                       value: 'Ulgurji',
                       groupValue: group2,
-                      fillColor:
-                      MaterialStateProperty.all(primaryColor),
+                      fillColor: MaterialStateProperty.all(primaryColor),
                       activeColor: primaryColor,
                       onChanged: (value) {
                         setState(() {
@@ -247,8 +275,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                   Radio(
                       value: 'Plastik',
                       groupValue: group2,
-                      fillColor:
-                      MaterialStateProperty.all(primaryColor),
+                      fillColor: MaterialStateProperty.all(primaryColor),
                       activeColor: primaryColor,
                       onChanged: (value) {
                         setState(() {

@@ -26,4 +26,16 @@ class SelectClientRepositoryImpl extends SelectCaARepository {
       return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));
     }
   }
+
+  @override
+  Future<Either<Failure, dynamic>> selectClient(
+      int customerId, int salesAgentId) async {
+    try {
+      final result = await remoteDataSourceImpl.selectClient(
+          customerId: customerId, salesAgentId: salesAgentId);
+      return Right(result);
+    } on ServerFailure {
+      return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));
+    }
+  }
 }

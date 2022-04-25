@@ -61,17 +61,20 @@ class _CatalogItemsState extends State<CatalogItems> {
                               0.0
                             ], colors: [
                               Colors.transparent,
-                              isActive ? primaryColor07 : Colors.transparent
+                              widget.state.selected == index
+                                  ? primaryColor07
+                                  : Colors.transparent
                             ]).createShader(bounds);
                           },
                           blendMode: BlendMode.srcATop,
-                          child: Image.network(widget.state.list[index].image!)),
+                          child:
+                              Image.network(widget.state.list[index].image!)),
                     ),
                     SizedBox(height: isActive ? 12.h : 18.h),
-                    isActive
-                        ? const Text(
-                            'Yuk mashina',
-                            style: TextStyle(
+                    widget.state.selected == index
+                        ? Text(
+                            '${widget.state.list[widget.state.selected].name}',
+                            style: const TextStyle(
                                 color: primaryColor,
                                 fontFamily: 'Medium',
                                 fontSize: 10),
