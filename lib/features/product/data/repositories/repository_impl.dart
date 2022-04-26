@@ -18,11 +18,16 @@ class CatalogRepositoryImpl extends CatalogRepository {
 
   @override
   Future<Either<Failure, dynamic>> getCatalog() async {
-    try {
-      final result = await homeRemoteDatasourceImpl.getCatalog();
-      return Right(result);
-    } on ServerFailure {
-      return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await homeRemoteDatasourceImpl.getCatalog();
+        return Right(result);
+      } on ServerFailure {
+        return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));
+      }
+    } else {
+      return const Left(
+          NoConnectionFailure("Интернет билан алоқани қайта текширинг"));
     }
   }
 

@@ -27,7 +27,9 @@ class CatalogSuccessState extends CatalogState {
     required bool isLarge,
   }) : super(isLarge: isLarge);
 }
-
+class CatalogNoInternetState extends CatalogState{
+  const CatalogNoInternetState({required bool isLarge}) : super(isLarge: isLarge);
+}
 class CatalogFailureState extends CatalogState {
   final String message;
 

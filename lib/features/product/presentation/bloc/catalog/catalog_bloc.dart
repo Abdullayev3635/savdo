@@ -32,7 +32,7 @@ class CatalogBloc extends Bloc<CatalogEvent, CatalogState> {
     result.fold(
         (failure) => {
               if (failure is NoConnectionFailure)
-                {emit(const CatalogFailureState(isLarge: false, message: ""))}
+                {emit(const CatalogNoInternetState(isLarge: false))}
               else if (failure is ServerFailure)
                 {emit(const CatalogFailureState(isLarge: false, message: ""))}
               else if (failure is InputFormatterFailure)

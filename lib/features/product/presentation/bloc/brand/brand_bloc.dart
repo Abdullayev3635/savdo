@@ -28,12 +28,13 @@ class BrandBloc extends Bloc<BrandEvent, BrandState> {
     brandList.clear();
     emit(BrandLoadingState());
     final result = await brandCategory(
-      GetBrandParams(priceTypeId: event.priceTypeId, productTypeId: event.productTypeId),
+      GetBrandParams(
+          priceTypeId: event.priceTypeId, productTypeId: event.productTypeId),
     );
     result.fold(
         (failure) => {
               if (failure is NoConnectionFailure)
-                {emit(BrandFailureState(message: ""))}
+                {emit(BrandNoInternetState())}
               else if (failure is ServerFailure)
                 {emit(BrandFailureState(message: ""))}
               else if (failure is InputFormatterFailure)
