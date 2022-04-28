@@ -1,9 +1,7 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:savdo_agnet_client/features/product/data/model/brand_model.dart';
 import 'package:savdo_agnet_client/features/product/data/model/category_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../core/errors/failures.dart';
@@ -17,12 +15,10 @@ abstract class CatalogRemoteDatasource {
 }
 
 class CatalogRemoteDatasourceImpl implements CatalogRemoteDatasource {
-  final SharedPreferences sharedPreferences;
   final http.Client client;
 
   CatalogRemoteDatasourceImpl({
     required this.client,
-    required this.sharedPreferences,
   });
 
   @override

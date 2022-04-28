@@ -14,7 +14,7 @@ class BuyurtmaDialogFailureState extends BuyurtmaDialogState {
 }
 
 class BuyurtmaDialogSelectedSuccessState extends BuyurtmaDialogState {
-  final BuyurtmaModel buyurtmaList;
+  final List<BuyurtmaModel> buyurtmaList;
 
   BuyurtmaDialogSelectedSuccessState(
       {required this.buyurtmaList});

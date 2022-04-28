@@ -1,9 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
-import 'package:savdo_agnet_client/features/buyurtma/presentation/bloc/buyurtma_dialog_bloc.dart';
+import 'package:savdo_agnet_client/features/buyurtma/data/model/currency_model.dart';
+import 'package:savdo_agnet_client/features/buyurtma/data/model/price_type_model.dart';
+import 'package:savdo_agnet_client/features/buyurtma/presentation/bloc/buyurtma_bloc/buyurtma_dialog_bloc.dart';
+import 'package:savdo_agnet_client/features/buyurtma/presentation/bloc/qarizdorlik_bloc/qarizdorlik_bloc.dart';
 import 'package:savdo_agnet_client/features/product/presentation/pages/product_page.dart';
 import 'package:savdo_agnet_client/features/select_client/presentation/pages/select_client.dart';
 
@@ -13,8 +17,14 @@ import '../../../../di/dependency_injection.dart';
 class BuyurtmaDialog extends StatefulWidget {
   const BuyurtmaDialog({Key? key}) : super(key: key);
 
-  static Widget screen() => BlocProvider(
-        create: (context) => di<BuyurtmaDialogBloc>(),
+  static Widget screen() => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) =>
+                di<BuyurtmaDialogBloc>()..add(BuyurtmaInitialEvent()),
+          ),
+          BlocProvider(create: (context) => di<QarizdorlikBloc>()),
+        ],
         child: const BuyurtmaDialog(),
       );
 
@@ -26,20 +36,23 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
   String group1 = 'So’m', group2 = 'Chakana';
   int clientId = 0;
   int clientQarzi = 0;
-  int kurs = 11360;
+  String kurs = "0";
 
   String clientName = 'Mijozni tanlang';
-  late BuyurtmaDialogBloc bloc;
+  late BuyurtmaDialogBloc dialogBloc;
+  late QarizdorlikBloc qarizdorlikBloc;
 
   @override
   void initState() {
     super.initState();
-    bloc = BlocProvider.of<BuyurtmaDialogBloc>(context);
+    dialogBloc = BlocProvider.of<BuyurtmaDialogBloc>(context);
+    qarizdorlikBloc = BlocProvider.of<QarizdorlikBloc>(context);
   }
 
   @override
   void dispose() {
-    bloc.close();
+    dialogBloc.close();
+    qarizdorlikBloc.close();
     super.dispose();
   }
 
@@ -49,260 +62,337 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
       title: 'Buyurtma',
       icon: 'assets/icons/ic_shopping_cart.svg',
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(height: 23.h),
-          GestureDetector(
-            onTap: () {
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return SelectPart.screen();
-                  }).then((value) => {
-                    /// add event dialog
-                    if (value != null)
-                      {
-                        setState(() {
-                          clientId = value['id'];
-                          clientName = value['name'].toString();
-                        })
-                      }
-                  });
-            },
-            child: Container(
-              height: 60.h,
-              padding: EdgeInsets.only(left: 18.w, right: 10.w),
-              decoration: BoxDecoration(
-                  color: cTextFieldColor,
-                  borderRadius: BorderRadius.circular(10.r)),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(clientName, style: textStylePrimaryMed14),
-                  ),
-                  SvgPicture.asset('assets/icons/ic_dropdown.svg')
-                ],
-              ),
-            ),
-          ),
-          Padding(
-            padding:
-                EdgeInsets.only(right: 7.w, top: 22.h, left: 7.w, bottom: 34.h),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Text(
-                    'Qarzdorligi:',
-                    style: textStylePrimaryMed16,
-                  ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+          BlocBuilder<QarizdorlikBloc, QarizdorlikState>(
+            builder: (context, state) {
+              if (state is QarizdorlikInitial) {
+                return Column(
                   children: [
-                    Text(
-                      '0 so’m',
-                      style: TextStyle(
-                          color: cOrangeColor,
-                          fontSize: 18.sp,
-                          fontFamily: 'Regular'),
-                    ),
-                    SizedBox(height: 14.h),
-                    Text(
-                      '0 \$',
-                      style: TextStyle(
-                          color: cOrangeColor,
-                          fontSize: 18.sp,
-                          fontFamily: 'Regular'),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          SvgPicture.asset('assets/icons/ic_divider.svg', fit: BoxFit.cover),
-          // SizedBox(height: 25.h,),
-          Padding(
-            padding:
-                EdgeInsets.only(right: 7.w, top: 24.h, left: 7.w, bottom: 28.h),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text.rich(TextSpan(children: [
-                  TextSpan(text: 'Kurs: ', style: textStylePrimaryMed16),
-                  TextSpan(
-                      text: '${0} so’m',
-                      style: TextStyle(
-                          fontFamily: 'Regular',
-                          fontSize: 18.sp,
-                          color: primaryColor)),
-                ])),
-              ],
-            ),
-          ),
-          SvgPicture.asset('assets/icons/ic_divider.svg', fit: BoxFit.cover),
-          Padding(
-            padding:
-                EdgeInsets.only(right: 7.w, top: 24.h, left: 7.w, bottom: 14.h),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text('Narx turi:', style: textStylePrimaryMed16),
-              ],
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Radio(
-                      value: 'So’m',
-                      groupValue: group1,
-                      fillColor: MaterialStateProperty.all(primaryColor),
-                      activeColor: primaryColor,
-                      onChanged: (value) {
-                        setState(() {
-                          group1 = value.toString();
+                    SizedBox(height: 23.h),
+                    GestureDetector(
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return SelectPart.screen();
+                            }).then((value) => {
+                          if (value != null)
+                            {
+                              setState(() {
+                                clientId = value['id'];
+                                clientName = value['name'].toString();
+                                qarizdorlikBloc.add(ClientSelectedEvent(customerId: clientId,salesAgentId: 1));
+                              })
+                            },
                         });
-                      }),
-                  Text('So’m', style: textStylePrimaryMed14),
-                ],
-              ),
-              SizedBox(width: 50.w),
-              Row(
-                children: [
-                  Radio(
-                      value: 'Valyuta',
-                      groupValue: group1,
-                      fillColor: MaterialStateProperty.all(primaryColor),
-                      activeColor: primaryColor,
-                      onChanged: (value) {
-                        setState(() {
-                          group1 = value.toString();
-                        });
-                      }),
-                  Text('Valyuta', style: textStylePrimaryMed14),
-                ],
-              ),
-            ],
-          ),
-          SizedBox(height: 5.h),
-          SvgPicture.asset('assets/icons/ic_divider.svg', fit: BoxFit.cover),
-          Padding(
-            padding:
-                EdgeInsets.only(right: 7.w, top: 24.h, left: 7.w, bottom: 14.h),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text('Savdo turi:', style: textStylePrimaryMed16),
-              ],
-            ),
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: SizedBox(
-                  height: 50.h,
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      itemCount: 4,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              group2 = '$index';
-                            });
-                          },
-                          child: Row(
+                      },
+                      child: Container(
+                        height: 60.h,
+                        padding: EdgeInsets.only(left: 18.w, right: 10.w),
+                        decoration: BoxDecoration(
+                            color: cTextFieldColor,
+                            borderRadius: BorderRadius.circular(10.r)),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child:
+                              Text(clientName, style: textStylePrimaryMed14),
+                            ),
+                            SvgPicture.asset('assets/icons/ic_dropdown.svg')
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          right: 7.w, top: 22.h, left: 7.w, bottom: 34.h),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              'Qarzdorligi:',
+                              style: textStylePrimaryMed16,
+                            ),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              Radio(
-                                  value: '$index',
-                                  groupValue: group2,
-                                  fillColor:
-                                      MaterialStateProperty.all(primaryColor),
-                                  activeColor: primaryColor,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      group2 = value.toString();
-                                    });
-                                  }),
-                              Text('Chakana', style: textStylePrimaryMed14),
+                              Text(
+                                '0 so’m',
+                                style: TextStyle(
+                                    color: cOrangeColor,
+                                    fontSize: 18.sp,
+                                    fontFamily: 'Regular'),
+                              ),
+                              SizedBox(height: 14.h),
+                              Text(
+                                '0 \$',
+                                style: TextStyle(
+                                    color: cOrangeColor,
+                                    fontSize: 18.sp,
+                                    fontFamily: 'Regular'),
+                              ),
                             ],
                           ),
-                        );
-                      }),
-                ),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Radio(
-                      value: 'Chakana',
-                      groupValue: group2,
-                      fillColor: MaterialStateProperty.all(primaryColor),
-                      activeColor: primaryColor,
-                      onChanged: (value) {
-                        setState(() {
-                          group2 = value.toString();
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+              } else if (state is QarizdorlikLoading) {
+                return SizedBox(
+                    child: const Center(child: CupertinoActivityIndicator()),
+                    height: 350.h);
+              } else if (state is QarizdorlikLoaded) {
+                return Column(
+                  children: [
+                    SizedBox(height: 23.h),
+                    GestureDetector(
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return SelectPart.screen();
+                            }).then((value) => {
+                          if (value != null)
+                            {
+                              setState(() {
+                                clientId = value['id'];
+                                clientName = value['name'].toString();
+                              })
+                            },
                         });
-                      }),
-                  Text('Chakana', style: textStylePrimaryMed14),
-                ],
-              ),
-              Row(
-                children: [
-                  Radio(
-                      value: 'Ulgurji',
-                      groupValue: group2,
-                      fillColor: MaterialStateProperty.all(primaryColor),
-                      activeColor: primaryColor,
-                      onChanged: (value) {
-                        setState(() {
-                          group2 = value.toString();
-                        });
-                      }),
-                  Text('Ulgurji', style: textStylePrimaryMed14),
-                ],
-              ),
-              Row(
-                children: [
-                  Radio(
-                      value: 'Plastik',
-                      groupValue: group2,
-                      fillColor: MaterialStateProperty.all(primaryColor),
-                      activeColor: primaryColor,
-                      onChanged: (value) {
-                        setState(() {
-                          group2 = value.toString();
-                        });
-                      }),
-                  Text('Plastik', style: textStylePrimaryMed14),
-                ],
-              ),
-              SizedBox(width: 10.w),
-            ],
-          ),
-          SizedBox(height: 32.h),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ProductPage.screen(),
-                  ));
+                      },
+                      child: Container(
+                        height: 60.h,
+                        padding: EdgeInsets.only(left: 18.w, right: 10.w),
+                        decoration: BoxDecoration(
+                            color: cTextFieldColor,
+                            borderRadius: BorderRadius.circular(10.r)),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child:
+                              Text(clientName, style: textStylePrimaryMed14),
+                            ),
+                            SvgPicture.asset('assets/icons/ic_dropdown.svg')
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          right: 7.w, top: 22.h, left: 7.w, bottom: 34.h),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              'Qarzdorligi:',
+                              style: textStylePrimaryMed16,
+                            ),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                "${state.debitList[0].value} ${state.debitList[0].name}",
+                                style: TextStyle(
+                                    color: cOrangeColor,
+                                    fontSize: 18.sp,
+                                    fontFamily: 'Regular'),
+                              ),
+                              SizedBox(height: 14.h),
+                              Text(
+                                '0 \$',
+                                style: TextStyle(
+                                    color: cOrangeColor,
+                                    fontSize: 18.sp,
+                                    fontFamily: 'Regular'),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+              } else {return Container();}
             },
-            style: buttonStyle,
-            child: const Text(
-              'Mahsulotga o’tish',
-              textAlign: TextAlign.center,
-            ),
+          ),
+          BlocBuilder<BuyurtmaDialogBloc, BuyurtmaDialogState>(
+            builder: (context, state) {
+              if (state is BuyurtmaDialogSelectedSuccessState) {
+                List<CurrencyModel>? currencyList =
+                    state.buyurtmaList[0].currency;
+                List<PriceTypeModel>? priceTypeList =
+                    state.buyurtmaList[0].priceType;
+
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SvgPicture.asset('assets/icons/ic_divider.svg',
+                        fit: BoxFit.cover),
+                    // SizedBox(height: 25.h,),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          right: 7.w, top: 24.h, left: 7.w, bottom: 28.h),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text.rich(TextSpan(children: [
+                            TextSpan(
+                                text: 'Kurs: ', style: textStylePrimaryMed16),
+                            TextSpan(
+                                text: '$kurs so’m',
+                                style: TextStyle(
+                                    fontFamily: 'Regular',
+                                    fontSize: 18.sp,
+                                    color: primaryColor)),
+                          ])),
+                        ],
+                      ),
+                    ),
+                    SvgPicture.asset('assets/icons/ic_divider.svg',
+                        fit: BoxFit.cover),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          right: 7.w, top: 24.h, left: 7.w, bottom: 14.h),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text('Narx turi:', style: textStylePrimaryMed16),
+                        ],
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: SizedBox(
+                            height: 50.h,
+                            child: ListView.builder(
+                                physics: const BouncingScrollPhysics(),
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                itemCount: currencyList?.length,
+                                itemBuilder: (context, index) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        group1 = '$index';
+                                      });
+                                    },
+                                    child: Row(
+                                      children: [
+                                        Radio(
+                                            value: '$index',
+                                            groupValue: group1,
+                                            fillColor:
+                                                MaterialStateProperty.all(
+                                                    primaryColor),
+                                            activeColor: primaryColor,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                group1 = value.toString();
+                                                kurs = currencyList![index]
+                                                        .value ??
+                                                    "0";
+                                              });
+                                            }),
+                                        Text(
+                                            currencyList![index].name ?? "null",
+                                            style: textStylePrimaryMed14),
+                                      ],
+                                    ),
+                                  );
+                                }),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 5.h),
+                    SvgPicture.asset('assets/icons/ic_divider.svg',
+                        fit: BoxFit.cover),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          right: 7.w, top: 24.h, left: 7.w, bottom: 14.h),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text('Savdo turi:', style: textStylePrimaryMed16),
+                        ],
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: SizedBox(
+                            height: 50.h,
+                            child: ListView.builder(
+                                physics: const BouncingScrollPhysics(),
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                itemCount: 4,
+                                itemBuilder: (context, index) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        group2 = '$index';
+                                      });
+                                    },
+                                    child: Row(
+                                      children: [
+                                        Radio(
+                                            value: '$index',
+                                            groupValue: group2,
+                                            fillColor:
+                                                MaterialStateProperty.all(
+                                                    primaryColor),
+                                            activeColor: primaryColor,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                group2 = value.toString();
+                                              });
+                                            }),
+                                        Text(
+                                            priceTypeList![index].name ??
+                                                "null",
+                                            style: textStylePrimaryMed14),
+                                      ],
+                                    ),
+                                  );
+                                }),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 32.h),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ProductPage.screen(),
+                            ));
+                      },
+                      style: buttonStyle,
+                      child: const Text(
+                        'Mahsulotga o’tish',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                );
+              } else if (state is BuyurtmaDialogLoadingState) {
+                return SizedBox(
+                    child: const Center(child: CupertinoActivityIndicator()),
+                    height: 350.h);
+              } else {
+                return Container();
+              }
+            },
           ),
         ],
       ),
