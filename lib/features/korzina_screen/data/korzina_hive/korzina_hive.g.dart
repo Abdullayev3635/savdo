@@ -17,40 +17,46 @@ class KorzinaCardAdapter extends TypeAdapter<KorzinaCard> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return KorzinaCard(
-      title: fields[3] as String,
-      valyuta: fields[6] as String,
-      hajmi: fields[5] as String,
-      image: fields[1] as String,
-      number: fields[4] as int,
+      blok: fields[10] as String,
+      residue: fields[6] as int,
+      price: fields[5] as String,
+      name: fields[1] as String,
+      dona: fields[9] as String,
       id: fields[0] as int,
-      price: fields[2] as int,
-      rating: fields[7] as int,
-      carType: fields[8] as String,
+      category: fields[2] as String,
+      size: fields[7] as String,
+      currencyId: fields[3] as int,
+      currencyName: fields[4] as String,
+      image: fields[8] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, KorzinaCard obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(11)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.image)
+      ..write(obj.name)
       ..writeByte(2)
-      ..write(obj.price)
+      ..write(obj.category)
       ..writeByte(3)
-      ..write(obj.title)
+      ..write(obj.currencyId)
       ..writeByte(4)
-      ..write(obj.number)
+      ..write(obj.currencyName)
       ..writeByte(5)
-      ..write(obj.hajmi)
+      ..write(obj.price)
       ..writeByte(6)
-      ..write(obj.valyuta)
+      ..write(obj.residue)
       ..writeByte(7)
-      ..write(obj.rating)
+      ..write(obj.size)
       ..writeByte(8)
-      ..write(obj.carType);
+      ..write(obj.image)
+      ..writeByte(9)
+      ..write(obj.dona)
+      ..writeByte(10)
+      ..write(obj.blok);
   }
 
   @override

@@ -8,32 +8,38 @@ class KorzinaCard extends HiveObject {
   @HiveField(0)
   int id;
   @HiveField(1)
-  String image;
+  String name;
   @HiveField(2)
-  int price;
+  String category;
   @HiveField(3)
-  String title;
+  int currencyId;
   @HiveField(4)
-  int number;
+  String currencyName;
   @HiveField(5)
-  String hajmi;
+  String price;
   @HiveField(6)
-  String valyuta;
+  int residue;
   @HiveField(7)
-  int rating;
+  String size;
   @HiveField(8)
-  String carType;
+  String image;
+  @HiveField(9)
+  String dona;
+  @HiveField(10)
+  String blok;
 
   KorzinaCard({
-    required this.title,
-    required this.valyuta,
-    required this.hajmi,
-    required this.image,
-    required this.number,
-    required this.id,
+    required this.blok,
+    required this.residue,
     required this.price,
-    required this.rating,
-    required this.carType,
+    required this.name,
+    required this.dona,
+    required this.id,
+    required this.category,
+    required this.size,
+    required this.currencyId,
+    required this.currencyName,
+    required this.image,
   });
 }
 //flutter packages pub run build_runner build

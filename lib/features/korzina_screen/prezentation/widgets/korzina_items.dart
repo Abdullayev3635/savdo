@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 
 class KorzinaItemsWidget extends StatefulWidget {
-  final String title, image, count, carType, brandNomi;
-  final int rating, price, id;
+  final String? name, category, currencyName, image;
+  final String price, size, brandNomi, dona, blok;
+  final int currencyId, id, residue;
 
   const KorzinaItemsWidget({
-    required this.title,
+    Key? key,
+    required this.name,
     required this.price,
-    required this.rating,
-    required this.carType,
-    required this.count,
     required this.image,
     required this.brandNomi,
     required this.id,
-    Key? key,
+    required this.category,
+    required this.currencyName,
+    required this.size,
+    required this.dona,
+    required this.blok,
+    required this.currencyId,
+    required this.residue,
   }) : super(key: key);
 
   @override
@@ -42,18 +46,25 @@ class _KorzinaItemsWidgetState extends State<KorzinaItemsWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: 125.h,
-            width: 120.w,
+            height: 124.h,
+            width: 121.w,
             margin: EdgeInsets.only(bottom: 9.h),
-            padding: const EdgeInsets.all(45),
+            // padding: const EdgeInsets.all(45),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.r),
               color: cBackgroundColor,
             ),
             child: SizedBox(
-              child: SvgPicture.asset("assets/icons/ic_gallery.svg",
-                  width: 40.w, color: const Color(0xffBFC3FA), height: 40.h),
-            ),
+                child:
+                    // widget.image == null?
+                    SvgPicture.asset(
+              "assets/icons/ic_gallery.svg",
+              fit: BoxFit.none,
+              color: const Color(0xffBFC3FA),
+            )
+                // : Image.network(widget.image!),
+                ///todo: imageni ko'rish kerak
+                ),
           ),
           Padding(
             padding: EdgeInsets.only(left: 23.w),
@@ -61,44 +72,27 @@ class _KorzinaItemsWidgetState extends State<KorzinaItemsWidget> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('COMPRESSOR OIL'.toUpperCase(),
+                Text(widget.name!.toUpperCase(),
                     style: TextStyle(
                       color: primaryColor,
                       fontSize: 18.sp,
                       fontFamily: 'GilroyMedium',
                     )),
+                SizedBox(height: 4.h),
                 Text(
-                  'Yengil mashinalar',
+                  widget.category ?? '',
                   style: TextStyle(
                       fontFamily: 'GilroyRegular',
                       fontSize: 12.sp,
                       color: primaryColor),
                 ),
-                SizedBox(
-                  height: 7.h,
-                ),
+                SizedBox(height: 7.h),
                 Text(
-                  '47 450 000 cўм',
+                  '${widget.price} ${widget.currencyName}',
                   style: TextStyle(
                       color: const Color(0xffDC200E),
                       fontSize: 16.sp,
                       fontFamily: 'GilroyMedium'),
-                ),
-                SizedBox(height: 7.h),
-                Row(
-                  children: [
-                    RatingBar.builder(
-                        minRating: 1,
-                        itemSize: 15,
-                        ignoreGestures: true,
-                        initialRating: widget.rating.toDouble(),
-                        itemBuilder: (context, index) => const Icon(
-                              Icons.star,
-                              size: 12,
-                              color: primaryColor,
-                            ),
-                        onRatingUpdate: (rating) {}),
-                  ],
                 ),
               ],
             ),

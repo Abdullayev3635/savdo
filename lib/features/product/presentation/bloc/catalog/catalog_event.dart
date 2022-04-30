@@ -5,7 +5,6 @@ abstract class CatalogEvent {}
 
 class GetCategory extends CatalogEvent {}
 
-
 class ChangeColor extends CatalogEvent {
   final List<CatalogModel> list;
   final int index;

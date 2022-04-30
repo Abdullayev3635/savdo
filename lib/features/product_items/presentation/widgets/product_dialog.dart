@@ -3,33 +3,41 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hive/hive.dart';
 import 'package:savdo_agnet_client/core/widgets/dialog_frame.dart';
+import 'package:savdo_agnet_client/features/korzina_screen/data/korzina_hive/korzina_hive.dart';
+import 'package:savdo_agnet_client/features/korzina_screen/prezentation/bloc/korzina_bloc.dart';
 
 import '../../../../core/utils/app_constants.dart';
 import '../../../../core/widgets/costum_toast.dart';
 import '../../../korzina_screen/data/database/database.dart';
-import '../../../korzina_screen/domain/bloc/korzina_bloc.dart';
 import 'dialog_text_field_widget.dart';
 
 class ProductItemDialog extends StatefulWidget {
   const ProductItemDialog({
     Key? key,
-    required this.title,
+    required this.id,
+    required this.name,
+    required this.size,
     required this.price,
     required this.image,
-    required this.id,
+    required this.residue,
+    required this.category,
     required this.brendNomi,
-    required this.carType,
-    required this.rating,
+    required this.currencyId,
+    required this.currencyName,
   }) : super(key: key);
-  final String title;
-  final String image;
-  final String carType;
-  final String brendNomi;
-
-  final int price;
-  final int rating;
   final int id;
+  final int? residue;
+  final int? currencyId;
+  final String? name;
+  final String? size;
+  final String? image;
+  final String? price;
+  final String? category;
+  final String? brendNomi;
+  final String? currencyName;
 
   @override
   _ProductItemDialogState createState() => _ProductItemDialogState();
@@ -57,7 +65,7 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => KorzinaBloc(Database()),
+      create: (context) => KorzinaBloc(cardDatabase: Database()),
       child: SingleChildScrollView(
         reverse: true,
         clipBehavior: Clip.none,
@@ -83,12 +91,24 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                       child: ClipRRect(
                         borderRadius:
                             BorderRadius.vertical(top: Radius.circular(22.r)),
-                        child: Image.asset(
-                          widget.image,
-                          height: 214.h,
-                          width: 340.w,
-                          fit: BoxFit.fitHeight,
-                        ),
+                        child: widget.image == null
+                            ? Container(
+                                decoration: BoxDecoration(
+                                    color: cTextFieldColor,
+                                    borderRadius: BorderRadius.circular(20.r)),
+                                height: 200.h,
+                                width: 340.w,
+                                child: SvgPicture.asset(
+                                    'assets/icons/ic_gallery.svg',
+                                    fit: BoxFit.none,
+                                    height: 200),
+                              )
+                            : Image.network(
+                                widget.image ?? '',
+                                height: 214.h,
+                                width: 340.w,
+                                fit: BoxFit.fitHeight,
+                              ),
                       ),
                     ),
                     dialogContent(context)
@@ -109,14 +129,14 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text(widget.title,
+          Text(widget.name ?? '',
               style: TextStyle(
                 fontFamily: 'Medium',
                 fontSize: 16.sp,
                 color: const Color(0xff09051C),
               )),
           Text(
-            '${widget.price} so’m',
+            '${widget.price ?? 0} so’m',
             style: TextStyle(
               fontFamily: 'Medium',
               fontSize: 14.sp,
@@ -292,7 +312,7 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
             Text('Maxsulot qoldig’i:', style: titleTSM13),
             Padding(
               padding: EdgeInsets.only(right: 32.w),
-              child: Text('275', style: textStyleR20),
+              child: Text('${widget.residue ?? 0}', style: textStyleR20),
             )
           ]),
           SizedBox(height: 34.h),
@@ -319,13 +339,26 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                       )),
                     )),
                 ElevatedButton(
-                  style: ButtonStyle(
-                      fixedSize: MaterialStateProperty.all(Size(155.w, 57.h)),
-                      backgroundColor: MaterialStateProperty.all(primaryColor),
-                      elevation: MaterialStateProperty.all(0),
-                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)))),
-                  onPressed: () {
+                  style: buttonStyle,
+                  onPressed: () async {
+                    final productAddKorzina = KorzinaCard(
+                      blok: blokController.text,
+                      residue: widget.residue!,
+                      price: widget.price!,
+                      name: widget.name!,
+                      dona: piecesController.text,
+                      id: widget.id,
+                      category: widget.category!,
+                      size: widget.size!,
+                      currencyId: widget.currencyId ?? 0,
+                      currencyName: widget.currencyName ?? '',
+                      image: widget.image ?? '',
+                    );
+                    final box = Hive.box<KorzinaCard>(korzinaBox);
+
+                    ///korzinaga qo'shyapti
+                    box.put(widget.id, productAddKorzina);
+
                     Navigator.pop(context);
                     CustomToast.showToast('Муваффакиятли сакланди');
                   },
@@ -419,3 +452,10 @@ TextStyle titleTSM13 = TextStyle(
     fontFamily: 'Medium', fontSize: 13.sp, color: const Color(0xff09051C));
 TextStyle textStyleR20 =
     TextStyle(color: primaryColor, fontFamily: 'Regular', fontSize: 20.sp);
+
+ButtonStyle buttonStyle = ButtonStyle(
+    fixedSize: MaterialStateProperty.all(Size(155.w, 57.h)),
+    backgroundColor: MaterialStateProperty.all(primaryColor),
+    elevation: MaterialStateProperty.all(0),
+    shape: MaterialStateProperty.all(
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))));

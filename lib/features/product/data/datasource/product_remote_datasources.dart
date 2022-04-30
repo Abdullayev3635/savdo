@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:savdo_agnet_client/features/product/data/model/brand_model.dart';
+import 'package:savdo_agnet_client/features/product/data/model/brand_product_model.dart';
 import 'package:savdo_agnet_client/features/product/data/model/category_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -14,6 +14,9 @@ abstract class CatalogRemoteDatasource {
 
   Future<List<BrandModel>> getBrand(
       {required int productTypeId, required int priceTypeId});
+
+  Future<List<BrandProductModel>> getBrandProducts(
+      {required int salesAgentId,required int priceTypeId,required int brandId});
 }
 
 class CatalogRemoteDatasourceImpl implements CatalogRemoteDatasource {
@@ -74,6 +77,40 @@ class CatalogRemoteDatasourceImpl implements CatalogRemoteDatasource {
         final parsed = jsonDecode(response.body);
         for (int i = 0; i < (parsed["data"] as List).length; i++) {
           list.add(BrandModel.fromJson(parsed["data"][i]));
+        }
+        return list;
+      } else {
+        return [];
+      }
+    } on InputFormatterFailure {
+      return [];
+    }
+  }
+
+  @override
+  Future<List<BrandProductModel>> getBrandProducts(
+      {required int salesAgentId, required int priceTypeId, required int brandId}) async {
+    List<BrandProductModel> list = [];
+    try {
+      dynamic json = {
+        "sales_agent_id": salesAgentId,
+        "price_type_id": priceTypeId,
+        "brand_id": brandId
+      };
+      final response = await client.post(
+        Uri.parse(baseUrl + brandProductsPHP),
+        body: jsonEncode(json),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json'
+          // "Authorization": "Bearer ${sharedPreferences.getString("token")}"
+        },
+      );
+      if (response.statusCode == 200) {
+        // log(response.body.toString());
+        final parsed = jsonDecode(response.body);
+        for (int i = 0; i < (parsed["data"] as List).length; i++) {
+          list.add(BrandProductModel.fromJson(parsed["data"][i]));
         }
         return list;
       } else {

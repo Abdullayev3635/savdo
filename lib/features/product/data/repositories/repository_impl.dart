@@ -34,12 +34,36 @@ class CatalogRepositoryImpl extends CatalogRepository {
   @override
   Future<Either<Failure, dynamic>> getBrand(
       int productTypeId, int priceTypeId) async {
-    try {
-      final result = await homeRemoteDatasourceImpl.getBrand(
-          productTypeId: productTypeId, priceTypeId: priceTypeId);
-      return Right(result);
-    } on ServerFailure {
-      return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await homeRemoteDatasourceImpl.getBrand(
+            productTypeId: productTypeId, priceTypeId: priceTypeId);
+        return Right(result);
+      } on ServerFailure {
+        return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));
+      }
+    } else {
+      return const Left(
+          NoConnectionFailure("Интернет билан алоқани қайта текширинг"));
+    }
+  }
+
+  @override
+  Future<Either<Failure, dynamic>> getBrandProducts(
+      int salesAgentId, int priceTypeId, int brandId) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await homeRemoteDatasourceImpl.getBrandProducts(
+            salesAgentId: salesAgentId,
+            priceTypeId: priceTypeId,
+            brandId: brandId);
+        return Right(result);
+      } on ServerFailure {
+        return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));
+      }
+    } else {
+      return const Left(
+          NoConnectionFailure("Интернет билан алоқани қайта текширинг"));
     }
   }
 }

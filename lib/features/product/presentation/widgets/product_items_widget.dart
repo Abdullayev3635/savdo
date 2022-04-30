@@ -1,8 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
-import 'package:savdo_agnet_client/features/product_items/presentation/pages/products.dart';
+import 'package:savdo_agnet_client/features/product_items/presentation/pages/brand_products.dart';
 
 import '../bloc/brand/brand_bloc.dart';
 
@@ -28,8 +29,12 @@ class ProductWidget extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        Products.screen(state.list[index].name ?? ""),
+                    builder: (context) => Products.screen(
+                      brandName: state.list[index].name ?? "",
+                      brandId: state.list[index].id,
+                      priceTypeId: 1,
+                      salesAgentId: 1,
+                    ),
                   ));
             },
             child: Container(
@@ -41,15 +46,29 @@ class ProductWidget extends StatelessWidget {
                 children: [
                   Container(
                     margin: EdgeInsets.all(13.w),
-                    padding:
-                        EdgeInsets.symmetric(vertical: 18.h, horizontal: 8.w),
+                    // padding:
+                    //     EdgeInsets.symmetric(vertical: 18.h, horizontal: 8.w),
                     width: 71.w,
                     height: 71.h,
-                    child: Image.network(state.list[index].name!,
-                        fit: BoxFit.scaleDown,
-                        width: 40.w,
-                        color: const Color(0xffBFC3FA),
-                        height: 40.h),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10.r),
+                      child: CachedNetworkImage(
+                        imageUrl:
+                            "https://via.placeholder.com/640x480.png/00ee00?text=ut",
+
+                        /// todo: manashu yerga image bo'lishi kerak
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) {
+                          return Container(
+                            margin: const EdgeInsets.all(20),
+                            child: SvgPicture.asset(
+                              'assets/icons/ic_fon_gallery.svg',
+                              fit: BoxFit.cover,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
                     decoration: BoxDecoration(
                         color: cImageB2Color,
                         borderRadius: BorderRadius.circular(10.r)),
@@ -63,10 +82,14 @@ class ProductWidget extends StatelessWidget {
                         fontFamily: 'Medium',
                         color: cGrayColor),
                   )),
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 31.w, vertical: 38.h),
+                  Container(
+                    width: 105.w,
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 31.w, vertical: 38.h),
                     child: Text("${state.list[index].count ?? 0}",
+                        maxLines: 1,
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
                         style: textStylePrimaryReg16),
                   )
                 ],

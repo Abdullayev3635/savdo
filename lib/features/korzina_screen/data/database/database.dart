@@ -7,7 +7,7 @@ class Database {
 
   ///open Box
   Future<Box> korzinaBox() async {
-    var box = await Hive.openBox<KorzinaCard>(korzinaName);
+    var box =  Hive.box<KorzinaCard>(korzinaName);
     return box;
   }
 

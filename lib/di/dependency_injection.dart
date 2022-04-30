@@ -8,13 +8,21 @@ import 'package:savdo_agnet_client/features/buyurtma/data/repository/buyurtma_re
 import 'package:savdo_agnet_client/features/buyurtma/domain/repositories/buyurtma_repository.dart';
 import 'package:savdo_agnet_client/features/buyurtma/domain/usescase/buyurtma_usescase.dart';
 import 'package:savdo_agnet_client/features/firmalar/presentation/bloc/firma_cubit.dart';
+import 'package:savdo_agnet_client/features/korzina_screen/data/database/database.dart';
+import 'package:savdo_agnet_client/features/korzina_screen/prezentation/bloc/korzina_bloc.dart';
 import 'package:savdo_agnet_client/features/lock/domain/bloc/pass_bloc.dart';
 import 'package:savdo_agnet_client/features/lock/domain/repositories/lock_repositories.dart';
 import 'package:savdo_agnet_client/features/password/presentation/bloc/pin_bloc.dart';
 import 'package:savdo_agnet_client/features/product/data/datasource/product_local_datasources.dart';
 import 'package:savdo_agnet_client/features/product/data/repositories/repository_impl.dart';
 import 'package:savdo_agnet_client/features/product/domain/repositories/catalog_repository.dart';
+import 'package:savdo_agnet_client/features/product/domain/usescase/brandProducts.dart';
 import 'package:savdo_agnet_client/features/product/domain/usescase/catalog.dart';
+import 'package:savdo_agnet_client/features/product_items/data/datasource/product_local_datasources.dart';
+import 'package:savdo_agnet_client/features/product_items/data/datasource/product_remote_datasources.dart';
+import 'package:savdo_agnet_client/features/product_items/data/repositories/repository_impl.dart';
+import 'package:savdo_agnet_client/features/product_items/domain/repositories/brand_products_repository.dart';
+import 'package:savdo_agnet_client/features/product_items/presentation/bloc/brand_products/brands_products_bloc.dart';
 
 import 'package:savdo_agnet_client/features/product_items/presentation/bloc/product_items_cubit.dart';
 import 'package:savdo_agnet_client/features/select_client/data/repository/select_client_repository.dart';
@@ -56,6 +64,9 @@ Future<void> init() async {
     () => BrandBloc(brandCategory: di()),
   );
   di.registerFactory(
+    () => BrandsProductsBloc(brandProducts: di()),
+  );
+  di.registerFactory(
     () => PassBloc(pass: di()),
   );
   di.registerFactory(
@@ -70,6 +81,9 @@ Future<void> init() async {
   di.registerFactory(
     () => BuyurtmaDialogBloc(usesBuyurtma: di()),
   );
+ di.registerFactory(
+    () => KorzinaBloc(cardDatabase: Database()),
+  );
 
   ///Repositories
 
@@ -81,6 +95,13 @@ Future<void> init() async {
     () => CatalogRepositoryImpl(
       homeLocalDatasourceImpl: di(),
       homeRemoteDatasourceImpl: di(),
+      networkInfo: di(),
+    ),
+  );
+  di.registerLazySingleton<BrandProductsRepository>(
+    () => BrandProductsRepositoryImpl(
+      remoteDatasource: di(),
+      localDataSource: di(),
       networkInfo: di(),
     ),
   );
@@ -105,15 +126,12 @@ Future<void> init() async {
   di.registerLazySingleton(() => Pass(repository: di()));
   di.registerLazySingleton(() => ProductCatalog(catalogRepository: di()));
   di.registerLazySingleton(() => BrandCatalog(catalogRepository: di()));
+  di.registerLazySingleton(() => BrandProductsCatalog(catalogRepository: di()));
   di.registerLazySingleton(() => UsesSelectClient(clientRepository: di()));
   di.registerLazySingleton(() => OnSelectClient(clientRepository: di()));
   di.registerLazySingleton(() => UsesBuyurtma(repository: di()));
 
   /// Data sources
-  // di.registerLazySingleton(
-  //   () => SendDataRemoteDatasourceImpl(sharedPreferences: di(), client: di()),
-  // );
-
   di.registerLazySingleton(
     () => PassLocalDataSourceImpl(sharedPreferences: di()),
   );
@@ -123,6 +141,13 @@ Future<void> init() async {
   );
   di.registerLazySingleton(
     () => CatalogLocalDataSourceImpl(),
+  );
+  di.registerLazySingleton(
+    () => BrandProductsLocalDataSourceImpl(),
+  );
+  di.registerLazySingleton(
+    () => BrandProductsRemoteDatasourceImpl(
+        sharedPreferences: di(), client: di()),
   );
 
   di.registerLazySingleton(
@@ -159,7 +184,7 @@ Future<void> init() async {
   await Hive.initFlutter();
   // korzina
   Hive.registerAdapter(KorzinaCardAdapter());
-  await Hive.openBox(korzinaBox);
+  await Hive.openBox<KorzinaCard>(korzinaBox);
   // client dialog
   // buyurtma dialog
   // Hive.registerAdapter(BuyurtmaModelAdapter());

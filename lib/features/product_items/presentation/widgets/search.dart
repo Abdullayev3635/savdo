@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:savdo_agnet_client/features/product_items/presentation/bloc/brand_products/brands_products_bloc.dart';
 
 import '../../../../core/utils/app_constants.dart';
 
 class ProductItemsTextFieldWidget extends StatefulWidget {
-  const ProductItemsTextFieldWidget({
+  ProductItemsTextFieldWidget({
     Key? key,
     required this.controller,
+    required this.bloc,
   }) : super(key: key);
 
   final TextEditingController? controller;
+  late BrandsProductsBloc bloc;
 
   @override
   State<ProductItemsTextFieldWidget> createState() =>
@@ -28,7 +31,7 @@ class _ProductItemsTextFieldWidgetState
         boxShadow: [textFieldShadow],
       ),
       height: 65.h,
-      margin: EdgeInsets.only(top: 27.h),
+      // margin: EdgeInsets.only(top: 27.h),
       padding: EdgeInsets.fromLTRB(13.w, 2.h, 13.w, 0.h),
       child: Center(
         child: Row(
@@ -43,8 +46,7 @@ class _ProductItemsTextFieldWidgetState
             Expanded(
               child: TextFormField(
                   onChanged: (value) {
-                    // BlocProvider.of<ProductItemsCubit>(context)
-                    //     .searchMaxsulot(value);
+                    widget.bloc.add(GetSearchProductEvent(txt: value));
                     setState(() {});
                   },
                   textAlignVertical: TextAlignVertical.top,

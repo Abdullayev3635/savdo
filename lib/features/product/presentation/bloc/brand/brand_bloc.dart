@@ -18,9 +18,7 @@ class BrandBloc extends Bloc<BrandEvent, BrandState> {
   List<BrandModel> brandList = [];
   bool isStatus = false;
 
-  BrandBloc({
-    required this.brandCategory,
-  }) : super(BrandInitial()) {
+  BrandBloc({required this.brandCategory}) : super(BrandInitial()) {
     on<GetBrandEvent>(getBrand, transformer: sequential());
   }
 

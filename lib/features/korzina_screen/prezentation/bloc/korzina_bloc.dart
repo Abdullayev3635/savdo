@@ -13,7 +13,7 @@ class KorzinaBloc extends Bloc<KorzinaEvent, KorzinaState> {
   final Database cardDatabase;
   List<KorzinaCard> cards = [];
 
-  KorzinaBloc(this.cardDatabase) : super(KorzinaInitial()) {
+  KorzinaBloc({required this.cardDatabase}) : super(KorzinaInitial()) {
     on<KorzinaInitialEvent>((event, emit) async {
       emit(KorzinaLoadingState());
       await getCard();
@@ -22,30 +22,34 @@ class KorzinaBloc extends Bloc<KorzinaEvent, KorzinaState> {
     on<KorzinaAddEvent>((event, emit) async {
       emit(KorzinaLoadingState());
       await korzinaAdd(
-        rating: event.rating,
-        carType: event.carType,
-        hajmi: event.hajmi,
-        price: event.price,
-        image: event.image,
-        title: event.title,
         id: event.id,
-        number: event.number,
-        valyuta: event.valyuta,
+        name: event.name,
+        category: event.category,
+        currencyId: event.currencyId,
+        currencyName: event.currencyName,
+        price: event.price,
+        residue: event.residue,
+        size: event.size,
+        image: event.image,
+        blok: event.blok,
+        dona: event.dona,
       );
       emit(YourKorzinaState(cards: cards));
     });
     on<KorzinaEditEvent>((event, emit) async {
       emit(KorzinaLoadingState());
       await korzinaUpdate(
-        rating: event.rating,
-        carType: event.carType,
-        hajmi: event.hajmi,
-        price: event.price,
-        image: event.image,
-        title: event.title,
         id: event.id,
-        number: event.number,
-        valyuta: event.valyuta,
+        name: event.name,
+        category: event.category,
+        currencyId: event.currencyId,
+        currencyName: event.currencyName,
+        price: event.price,
+        residue: event.residue,
+        size: event.size,
+        image: event.image,
+        blok: event.blok,
+        dona: event.dona,
       );
       emit(YourKorzinaState(cards: cards));
     });
@@ -53,8 +57,8 @@ class KorzinaBloc extends Bloc<KorzinaEvent, KorzinaState> {
       emit(KorzinaLoadingState());
       await deleteCard(index: event.index);
       cards.sort((a, b) {
-        var aData = a.title;
-        var bData = b.title;
+        var aData = a.name;
+        var bData = b.name;
         return aData.compareTo(bData);
       });
       emit(YourKorzinaState(cards: cards));
@@ -71,50 +75,58 @@ class KorzinaBloc extends Bloc<KorzinaEvent, KorzinaState> {
   }
 
   Future<void> korzinaAdd(
-      {required String title,
+      {required int id,
+      required String name,
+      required String category,
+      required int currencyId,
+      required String currencyName,
+      required String price,
+      required int residue,
+      required String size,
       required String image,
-      required int price,
-      required String hajmi,
-      required String carType,
-      required int id,
-      required int rating,
-      required String valyuta,
-      required int number}) async {
+      required String dona,
+      required String blok}) async {
     await cardDatabase.addElement(KorzinaCard(
-        hajmi: hajmi,
-        price: price,
-        image: image,
-        title: title,
         id: id,
-        number: number,
-        carType: carType,
-        rating: rating,
-        valyuta: valyuta));
+        name: name,
+        category: category,
+        currencyId: currencyId,
+        currencyName: currencyName,
+        price: price,
+        residue: residue,
+        size: size,
+        image: image,
+        dona: dona,
+        blok: blok));
     await getCard();
   }
 
   Future<void> korzinaUpdate(
-      {required String title,
-        required String image,
-        required int price,
-        required String hajmi,
-        required String carType,
-        required int id,
-        required int rating,
-        required String valyuta,
-        required int number}) async {
+      {required int id,
+      required String name,
+      required String category,
+      required int currencyId,
+      required String currencyName,
+      required String price,
+      required int residue,
+      required String size,
+      required String image,
+      required String dona,
+      required String blok}) async {
     await cardDatabase.updateElement(
         id,
         KorzinaCard(
-            hajmi: hajmi,
-            price: price,
-            image: image,
-            title: title,
             id: id,
-            number: number,
-            carType: carType,
-            rating: rating,
-            valyuta: valyuta));
+            name: name,
+            category: category,
+            currencyId: currencyId,
+            currencyName: currencyName,
+            price: price,
+            residue: residue,
+            size: size,
+            image: image,
+            dona: dona,
+            blok: blok));
     await getCard();
   }
 }

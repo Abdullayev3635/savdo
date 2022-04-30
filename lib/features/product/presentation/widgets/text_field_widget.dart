@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/prezentation/pages/korzina_screen.dart';
-import 'package:savdo_agnet_client/features/product_items/presentation/pages/products.dart';
+import 'package:savdo_agnet_client/features/product_items/presentation/pages/brand_products.dart';
 
 import '../../../../core/utils/app_constants.dart';
 
@@ -43,7 +43,7 @@ class _ProductTextFieldWidgetState extends State<ProductTextFieldWidget> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>  Products.screen('Brend nomi'),
+                        builder: (context) =>  Products.screen(brandName: 'Brend nomi'),
                       ));
                 },
                 readOnly: true,
@@ -65,7 +65,7 @@ class _ProductTextFieldWidgetState extends State<ProductTextFieldWidget> {
             IconButton(
               highlightColor: Colors.transparent,
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) =>  const KorzinaScreen(),));
+                Navigator.push(context, MaterialPageRoute(builder: (context) =>  KorzinaScreen.screen(),));
               },
               icon: SvgPicture.asset(
                 'assets/icons/ic_shopping_cart.svg',

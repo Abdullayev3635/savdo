@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:savdo_agnet_client/core/network/network_info.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
+import 'package:savdo_agnet_client/core/widgets/costum_toast.dart';
+import 'package:savdo_agnet_client/core/widgets/failure_dialog.dart';
 
 import '../../../../di/dependency_injection.dart';
 import '../bloc/brand/brand_bloc.dart';
@@ -30,8 +33,9 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
+  final GlobalKey<ScaffoldState> _scaffoldKEy = GlobalKey<ScaffoldState>();
   TextEditingController controller = TextEditingController();
-
+  NetworkInfo networkInfo = di.get();
   late CatalogBloc _catalogBloc;
   late BrandBloc _brandBloc;
 
@@ -49,8 +53,10 @@ class _ProductPageState extends State<ProductPage> {
     _brandBloc.close();
   }
 
-  bool isLarge = false;
-  final GlobalKey<ScaffoldState> _scaffoldKEy = GlobalKey<ScaffoldState>();
+  Future _handleRefresh() async {
+    print('rrrrrrrrrrrrrrrrrrr');
+    return _catalogBloc.add(GetCategory());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +69,7 @@ class _ProductPageState extends State<ProductPage> {
           body: CustomScrollView(
             physics: const BouncingScrollPhysics(),
             slivers: [
+              CupertinoSliverRefreshControl(onRefresh: _handleRefresh),
               SliverAppBar(
                 elevation: 0,
                 backgroundColor: cBackgroundColor,
@@ -72,8 +79,8 @@ class _ProductPageState extends State<ProductPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Padding(
-                      padding:
-                          EdgeInsets.only(top: 50.h, left: 10.w, bottom: 50.h),
+                      padding: EdgeInsets.only(
+                          top: 50.h, left: 10.w, bottom: 50.h, right: 10.w),
                       child: const ProductTextFieldWidget(),
                     ),
                   ],
@@ -96,11 +103,23 @@ class _ProductPageState extends State<ProductPage> {
                         ),
                       ),
                     );
+                  } else if (state is CatalogNoInternetState) {
+                    return SliverToBoxAdapter(
+                      child: ShowFailureDialog(onTap: () async {
+                        if (await networkInfo.isConnected) {
+                          _catalogBloc.add(GetCategory());
+                          Navigator.pop(context);
+                        } else {
+                          CustomToast.showToast(
+                              'Internet bilan aloqani tekshiring!');
+                        }
+                      }),
+                    );
                   } else if (state is CatalogSuccessState) {
                     _brandBloc.add(
                       GetBrandEvent(
-                        productTypeId: state.list[0].id ?? 0,
-                        priceTypeId: 0,
+                        productTypeId: state.list[state.selected].id ?? 0,
+                        priceTypeId: state.selected,
                       ),
                     );
                     return SliverAppBar(
@@ -115,25 +134,36 @@ class _ProductPageState extends State<ProductPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Bo’limlar',
-                              style: TextStyle(
-                                  color: primaryColor,
-                                  fontSize: 14.sp,
-                                  fontFamily: 'Medium'),
-                            ),
+                                '${state.list[state.selected].name![0].toUpperCase()}${state.list[state.selected].name!.substring(1)}',
+                                style: textStylePrimaryMed14),
                             InkWell(
                               overlayColor:
                                   MaterialStateProperty.all(Colors.transparent),
-                              onTap: () {
-                                setState(() {
-                                  _catalogBloc.add(ChangeColor(state.list, 0,
-                                      state.count, !state.isLarge));
-                                  // state.isLarge = !isLarge;
-                                });
+                              onTap: () async {
+                                if (await networkInfo.isConnected) {
+                                  _catalogBloc.add(ChangeColor(
+                                      state.list,
+                                      state.selected,
+                                      state.count,
+                                      state.isLarge));
+                                } else {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return FailureDialog(onTap: () async {
+                                          if (await networkInfo.isConnected) {
+                                            _catalogBloc.add(GetCategory());
+                                            Navigator.pop(context);
+                                          } else {
+                                            CustomToast.showToast(
+                                                'Internet bilan aloqani tekshiring!');
+                                          }
+                                        });
+                                      });
+                                }
                               },
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 8.0),
+                              child: Container(
+                                margin: const EdgeInsets.only(right: 10),
                                 child: Row(
                                   children: [
                                     Text(
@@ -158,56 +188,40 @@ class _ProductPageState extends State<ProductPage> {
                       bottom: PreferredSize(
                         preferredSize: Size(
                           double.infinity,
-                          isLarge ? 330.h : 90.h,
+                          state.isLarge ? 330.h : 90.h,
                         ),
                         child: Container(
-                          margin: EdgeInsets.only(right: isLarge ? 10 : 0),
-                          height: isLarge ? 320 : 100,
-                          child: CatalogItems(state: state),
+                          margin:
+                              EdgeInsets.only(right: state.isLarge ? 10 : 0),
+                          height: state.isLarge ? 320 : 100,
+                          child: CatalogItems(
+                            state: state,
+                            bloc: _catalogBloc,
+                          ),
                         ),
                       ),
                     );
-                  } else if (state is CatalogNoInternetState) {
-                    return const SliverAppBar(
-                      elevation: 0,
-                      backgroundColor: cBackgroundColor,
-                      automaticallyImplyLeading: false,
-                      floating: false,
-                      pinned: true,
-                      centerTitle: true,
-                      // title: Text(
-                      //   'Internet bilan aloqa yo`q',
-                      //   style: TextStyle(
-                      //     color: Colors.grey,
-                      //   ),
-                      // ),
+                  } else if (state is BrandNoInternetState) {
+                    return SliverToBoxAdapter(
+                      child: ShowFailureDialog(onTap: () async {
+                        if (await networkInfo.isConnected) {
+                          _catalogBloc.add(GetCategory());
+                          Navigator.pop(context);
+                        } else {
+                          CustomToast.showToast(
+                              'Internet bilan aloqani tekshiring!');
+                        }
+                      }),
                     );
                   }
-                  return const SliverAppBar(
-                    elevation: 0,
-                    backgroundColor: cBackgroundColor,
-                    automaticallyImplyLeading: false,
-                    floating: false,
-                    pinned: true,
-                  );
+                  return const SliverToBoxAdapter();
                 },
               ),
               SliverToBoxAdapter(
                 child: BlocBuilder<BrandBloc, BrandState>(
                   builder: (context, state) {
                     if (state is BrandSuccessState) {
-                      return ProductWidget(
-                        state: state,
-                      );
-                    } else if (state is BrandNoInternetState) {
-                      return const Center(
-                        child: Text(
-                          'Internet bilan aloqa yo`q',
-                          style: TextStyle(
-                            color: Colors.grey,
-                          ),
-                        ),
-                      );
+                      return ProductWidget(state: state);
                     } else if (state is BrandLoadingState) {
                       return SizedBox(
                           height: 120.h,

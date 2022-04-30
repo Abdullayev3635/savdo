@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:meta/meta.dart';
+import 'package:savdo_agnet_client/features/product/data/model/brand_model.dart';
 import 'package:savdo_agnet_client/features/product/data/model/category_model.dart';
 
 import '../../../../../core/errors/failures.dart';
@@ -52,7 +53,7 @@ class CatalogBloc extends Bloc<CatalogEvent, CatalogState> {
   FutureOr<void> changeColor(
       ChangeColor event, Emitter<CatalogState> emit) async {
     emit(CatalogSuccessState(
-        count: 6,
+        count: event.count,
         list: event.list,
         selected: event.index,
         isLarge: !event.isLarge));
