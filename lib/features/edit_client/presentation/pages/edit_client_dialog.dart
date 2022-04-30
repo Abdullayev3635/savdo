@@ -7,7 +7,6 @@ import 'package:savdo_agnet_client/core/widgets/drop_down_widget.dart';
 import 'package:savdo_agnet_client/features/map_check/presentation/pages/map_check.dart';
 
 import '../../../../core/widgets/dialog_frame.dart';
-import '../../../select_client/presentation/pages/select_client.dart';
 
 class EditClientDialog extends StatefulWidget {
   const EditClientDialog({Key? key}) : super(key: key);

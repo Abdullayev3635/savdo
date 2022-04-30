@@ -4,7 +4,7 @@
 // import 'package:flutter_screenutil/flutter_screenutil.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
 // import 'package:savdo_agnet_client/core/utils/app_constants.dart';
-// import 'package:savdo_agnet_client/features/product/presentation/bloc/catalog_bloc.dart';
+// import 'package:savdo_agnet_client/features/product/presentation/buyurtma_bloc/catalog_bloc.dart';
 //
 // import '../../../../core/widgets/costum_toast.dart';
 // import '../../../../di/dependency_injection.dart';

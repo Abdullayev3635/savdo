@@ -74,9 +74,6 @@ class _SelectPartState extends State<SelectPart> {
                       itemBuilder: (context, index) {
                         return InkWell(
                           onTap: () {
-                            _bloc.add(OnSelectedClient(
-                                salesAgentId: state.list[index].id ?? 0,
-                                customerId: state.list[index].id ?? 0));
                             Navigator.pop(context, {
                               "name": state.list[index].name!,
                               "id": state.list[index].id,

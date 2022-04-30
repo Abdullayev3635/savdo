@@ -30,7 +30,6 @@ class _KorzinaCardModelState extends State<KorzinaCardModel> {
   @override
   Widget build(BuildContext context) {
     var box = Hive.box<KorzinaCard>('korzina_box');
-    KorzinaCard? cad = box.getAt(widget.id!);
     return Container(
         width: 314.w,
         height: 87.h,

@@ -1,9 +1,9 @@
-import 'package:savdo_agnet_client/features/buyurtma/data/model/narx_turi_model.dart';
-import 'package:savdo_agnet_client/features/buyurtma/data/model/savdo_turi_model.dart';
+import 'package:savdo_agnet_client/features/buyurtma/data/model/currency_model.dart';
+import 'package:savdo_agnet_client/features/buyurtma/data/model/price_type_model.dart';
 
 class BuyurtmaModel {
-  List<NarxTuriModel>? narxTuri;
-  List<SavdoTuriModel>? savdoTuri;
+  List<CurrencyModel>? currency;
+  List<PriceTypeModel>? priceType;
 
-  BuyurtmaModel({required this.narxTuri, required this.savdoTuri});
-}
+  BuyurtmaModel({this.currency, this.priceType});
+  }

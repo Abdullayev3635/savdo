@@ -3,7 +3,6 @@ import 'package:equatable/equatable.dart';
 import 'package:savdo_agnet_client/core/errors/failures.dart';
 import 'package:savdo_agnet_client/core/usescases/usecase.dart';
 
-import '../entity/buyurtma_entity.dart';
 import '../repositories/buyurtma_repository.dart';
 
 class UsesBuyurtma extends UseCase<dynamic, BuyurtmaParams> {
