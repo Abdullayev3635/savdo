@@ -7,12 +7,7 @@ import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 import 'package:savdo_agnet_client/features/buyurtma/data/repository/buyurtma_repository_impl.dart';
 import 'package:savdo_agnet_client/features/buyurtma/domain/repositories/buyurtma_repository.dart';
 import 'package:savdo_agnet_client/features/buyurtma/domain/usescase/buyurtma_usescase.dart';
-import 'package:savdo_agnet_client/features/buyurtma/domain/usescase/select_usescase.dart';
-import 'package:savdo_agnet_client/features/buyurtma/presentation/bloc/buyurtma_bloc/buyurtma_dialog_bloc.dart';
-import 'package:savdo_agnet_client/features/buyurtma/presentation/bloc/qarizdorlik_bloc/qarizdorlik_bloc.dart';
 import 'package:savdo_agnet_client/features/firmalar/presentation/bloc/firma_cubit.dart';
-import 'package:savdo_agnet_client/features/korzina_screen/data/database/database.dart';
-import 'package:savdo_agnet_client/features/korzina_screen/prezentation/bloc/korzina_bloc.dart';
 import 'package:savdo_agnet_client/features/lock/domain/bloc/pass_bloc.dart';
 import 'package:savdo_agnet_client/features/lock/domain/repositories/lock_repositories.dart';
 import 'package:savdo_agnet_client/features/password/presentation/bloc/pin_bloc.dart';
@@ -39,6 +34,7 @@ import '../features/lock/data/datasources/lock_local_datasources.dart';
 import '../features/lock/data/repositories/lock_repositories.dart';
 import '../features/lock/domain/usescases/u_lock.dart';
 import '../features/product/data/datasource/product_remote_datasources.dart';
+import '../features/product/domain/usescase/brand.dart';
 import '../features/product/presentation/bloc/brand/brand_bloc.dart';
 import '../features/product/presentation/bloc/catalog/catalog_bloc.dart';
 import '../features/select_client/data/datasources/client_local_datasource.dart';
@@ -50,7 +46,7 @@ final di = GetIt.instance;
 //di is referred to as Service Locator
 
 Future<void> init() async {
-  /// buyurtma_bloc
+  /// bloc
   di.registerFactory(
     () => SearchFirmaItemsCubit(
         id: di(), title: di(), image: di(), maxsulotlarBulimiCubit: di()),
@@ -60,9 +56,6 @@ Future<void> init() async {
   );
   di.registerFactory(
     () => BrandBloc(brandCategory: di()),
-  );
-  di.registerFactory(
-    () => BrandsProductsBloc(brandProducts: di()),
   );
   di.registerFactory(
     () => PassBloc(pass: di()),
@@ -80,6 +73,9 @@ Future<void> init() async {
     () => BuyurtmaDialogBloc(usesBuyurtma: di()),
   );
   di.registerFactory(
+    () => QarizdorlikBloc(onSelectClient: di()),
+  );
+  di.registerFactory(
     () => KorzinaBloc(cardDatabase: Database()),
   );
   di.registerFactory(
@@ -88,13 +84,6 @@ Future<void> init() async {
 
 
   ///Repositories
-  // di.registerLazySingleton<SendDataRepository>(
-  //   () => SendDataRepositoryImpl(
-  //       networkInfo: di(),
-  //       dataRemoteDatasource: di(),
-  //       sharedPreferences: di(),
-  //       dataLocalDatasource: di()),
-  // );
 
   di.registerLazySingleton<PassRepository>(
     () => PassRepositoryImpl(passLocalDataSource: di()),
@@ -104,13 +93,6 @@ Future<void> init() async {
     () => CatalogRepositoryImpl(
       homeLocalDatasourceImpl: di(),
       homeRemoteDatasourceImpl: di(),
-      networkInfo: di(),
-    ),
-  );
-  di.registerLazySingleton<BrandProductsRepository>(
-    () => BrandProductsRepositoryImpl(
-      remoteDatasource: di(),
-      localDataSource: di(),
       networkInfo: di(),
     ),
   );
@@ -134,6 +116,7 @@ Future<void> init() async {
 
   di.registerLazySingleton(() => Pass(repository: di()));
   di.registerLazySingleton(() => ProductCatalog(catalogRepository: di()));
+  di.registerLazySingleton(() => BrandCatalog(catalogRepository: di()));
   di.registerLazySingleton(() => UsesSelectClient(clientRepository: di()));
   di.registerLazySingleton(() => UsesBuyurtma(repository: di()));
   di.registerLazySingleton(() => OnSelectClient(clientRepository: di()));
@@ -189,9 +172,6 @@ Future<void> init() async {
 
   /// Local datasource
   await Hive.initFlutter();
-  // // home
-  // Hive.registerAdapter(CatalogModelAdapter());
-  // await Hive.openBox<CatalogModel>(catalogBox);
   // korzina
   Hive.registerAdapter(KorzinaCardAdapter());
   await Hive.openBox<KorzinaCard>(korzinaBox);

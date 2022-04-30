@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -333,7 +332,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                                 physics: const BouncingScrollPhysics(),
                                 scrollDirection: Axis.horizontal,
                                 shrinkWrap: true,
-                                itemCount: priceTypeList?.length,
+                                itemCount: 4,
                                 itemBuilder: (context, index) {
                                   return GestureDetector(
                                     onTap: () {
