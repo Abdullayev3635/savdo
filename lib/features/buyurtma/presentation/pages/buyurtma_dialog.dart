@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -69,22 +70,21 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                   children: [
                     SizedBox(height: 23.h),
                     GestureDetector(
-                      onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return SelectPart.screen();
-                            }).then((value) => {
-                          if (value != null)
-                            {
-                              setState(() {
-                                clientId = value['id'];
-                                clientName = value['name'].toString();
-                                qarizdorlikBloc.add(ClientSelectedEvent(customerId: clientId,salesAgentId: 1));
-                              })
-                            },
-                        });
-                      },
+                      onTap: () => showDialog(
+                          context: context,
+                          builder: (context) {
+                            return SelectPart.screen();
+                          }).then((value) => {
+                            if (value != null)
+                              {
+                                setState(() {
+                                  clientId = value['id'];
+                                  clientName = value['name'].toString();
+                                  qarizdorlikBloc.add(ClientSelectedEvent(
+                                      customerId: clientId, salesAgentId: 1));
+                                })
+                              },
+                          }),
                       child: Container(
                         height: 60.h,
                         padding: EdgeInsets.only(left: 18.w, right: 10.w),
@@ -94,47 +94,12 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                         child: Row(
                           children: [
                             Expanded(
-                              child:
-                              Text(clientName, style: textStylePrimaryMed14),
+                              child: Text(clientName,
+                                  style: textStylePrimaryMed14),
                             ),
                             SvgPicture.asset('assets/icons/ic_dropdown.svg')
                           ],
                         ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          right: 7.w, top: 22.h, left: 7.w, bottom: 34.h),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              'Qarzdorligi:',
-                              style: textStylePrimaryMed16,
-                            ),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                '0 so’m',
-                                style: TextStyle(
-                                    color: cOrangeColor,
-                                    fontSize: 18.sp,
-                                    fontFamily: 'Regular'),
-                              ),
-                              SizedBox(height: 14.h),
-                              Text(
-                                '0 \$',
-                                style: TextStyle(
-                                    color: cOrangeColor,
-                                    fontSize: 18.sp,
-                                    fontFamily: 'Regular'),
-                              ),
-                            ],
-                          ),
-                        ],
                       ),
                     ),
                   ],
@@ -142,7 +107,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
               } else if (state is QarizdorlikLoading) {
                 return SizedBox(
                     child: const Center(child: CupertinoActivityIndicator()),
-                    height: 350.h);
+                    height: 200.h);
               } else if (state is QarizdorlikLoaded) {
                 return Column(
                   children: [
@@ -154,14 +119,14 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                             builder: (context) {
                               return SelectPart.screen();
                             }).then((value) => {
-                          if (value != null)
-                            {
-                              setState(() {
-                                clientId = value['id'];
-                                clientName = value['name'].toString();
-                              })
-                            },
-                        });
+                              if (value != null)
+                                {
+                                  setState(() {
+                                    clientId = value['id'];
+                                    clientName = value['name'].toString();
+                                  })
+                                },
+                            });
                       },
                       child: Container(
                         height: 60.h,
@@ -172,8 +137,8 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                         child: Row(
                           children: [
                             Expanded(
-                              child:
-                              Text(clientName, style: textStylePrimaryMed14),
+                              child: Text(clientName,
+                                  style: textStylePrimaryMed14),
                             ),
                             SvgPicture.asset('assets/icons/ic_dropdown.svg')
                           ],
@@ -182,42 +147,53 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                     ),
                     Padding(
                       padding: EdgeInsets.only(
-                          right: 7.w, top: 22.h, left: 7.w, bottom: 34.h),
+                          right: 7.w, top: 22.h, left: 7.w, bottom: 24.h),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Expanded(
+                            flex: 3,
                             child: Text(
                               'Qarzdorligi:',
                               style: textStylePrimaryMed16,
                             ),
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                "${state.debitList[0].value} ${state.debitList[0].name}",
-                                style: TextStyle(
-                                    color: cOrangeColor,
-                                    fontSize: 18.sp,
-                                    fontFamily: 'Regular'),
+                          Expanded(
+                            child: Container(
+                              height: 60,
+                              child: ListView.builder(
+                                physics: const BouncingScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: state.debitList.length,
+                                itemBuilder: (context, index) {
+                                  return state.debitList[index].value! < 0
+                                      ? Text(
+                                          "${state.debitList[index].value} ${state.debitList[index].name}",
+                                          style: TextStyle(
+                                              color: cOrangeColor,
+                                              fontSize: 18.sp,
+                                              fontFamily: 'Regular'),
+                                        )
+                                      : Text(
+                                          "${state.debitList[index].value} ${state.debitList[index].name}",
+                                          style: TextStyle(
+                                              color: primaryColor,
+                                              fontSize: 18.sp,
+                                              fontFamily: 'Regular'));
+                                },
                               ),
-                              SizedBox(height: 14.h),
-                              Text(
-                                '0 \$',
-                                style: TextStyle(
-                                    color: cOrangeColor,
-                                    fontSize: 18.sp,
-                                    fontFamily: 'Regular'),
-                              ),
-                            ],
+                            ),
                           ),
                         ],
                       ),
                     ),
+                    SvgPicture.asset('assets/icons/ic_divider.svg',
+                        fit: BoxFit.cover),
                   ],
                 );
-              } else {return Container();}
+              } else {
+                return Container();
+              }
             },
           ),
           BlocBuilder<BuyurtmaDialogBloc, BuyurtmaDialogState>(
@@ -231,9 +207,6 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                 return Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    SvgPicture.asset('assets/icons/ic_divider.svg',
-                        fit: BoxFit.cover),
-                    // SizedBox(height: 25.h,),
                     Padding(
                       padding: EdgeInsets.only(
                           right: 7.w, top: 24.h, left: 7.w, bottom: 28.h),
@@ -332,7 +305,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                                 physics: const BouncingScrollPhysics(),
                                 scrollDirection: Axis.horizontal,
                                 shrinkWrap: true,
-                                itemCount: 4,
+                                itemCount: priceTypeList?.length,
                                 itemBuilder: (context, index) {
                                   return GestureDetector(
                                     onTap: () {
@@ -387,7 +360,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
               } else if (state is BuyurtmaDialogLoadingState) {
                 return SizedBox(
                     child: const Center(child: CupertinoActivityIndicator()),
-                    height: 350.h);
+                    height: 400.h);
               } else {
                 return Container();
               }
@@ -398,3 +371,39 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
     );
   }
 }
+
+// Padding(
+//   padding: EdgeInsets.only(
+//       right: 7.w, top: 22.h, left: 7.w, bottom: 34.h),
+//   child: Row(
+//     crossAxisAlignment: CrossAxisAlignment.center,
+//     children: [
+//       Expanded(
+//         child: Text(
+//           'Qarzdorligi:',
+//           style: textStylePrimaryMed16,
+//         ),
+//       ),
+//       Column(
+//         crossAxisAlignment: CrossAxisAlignment.end,
+//         children: [
+//           Text(
+//             '0 so’m',
+//             style: TextStyle(
+//                 color: cOrangeColor,
+//                 fontSize: 18.sp,
+//                 fontFamily: 'Regular'),
+//           ),
+//           SizedBox(height: 14.h),
+//           Text(
+//             '0 \$',
+//             style: TextStyle(
+//                 color: cOrangeColor,
+//                 fontSize: 18.sp,
+//                 fontFamily: 'Regular'),
+//           ),
+//         ],
+//       ),
+//     ],
+//   ),
+// ),

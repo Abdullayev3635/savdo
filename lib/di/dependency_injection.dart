@@ -7,13 +7,19 @@ import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 import 'package:savdo_agnet_client/features/buyurtma/data/repository/buyurtma_repository_impl.dart';
 import 'package:savdo_agnet_client/features/buyurtma/domain/repositories/buyurtma_repository.dart';
 import 'package:savdo_agnet_client/features/buyurtma/domain/usescase/buyurtma_usescase.dart';
+import 'package:savdo_agnet_client/features/buyurtma/domain/usescase/select_usescase.dart';
+import 'package:savdo_agnet_client/features/buyurtma/presentation/bloc/buyurtma_bloc/buyurtma_dialog_bloc.dart';
+import 'package:savdo_agnet_client/features/buyurtma/presentation/bloc/qarizdorlik_bloc/qarizdorlik_bloc.dart';
 import 'package:savdo_agnet_client/features/firmalar/presentation/bloc/firma_cubit.dart';
+import 'package:savdo_agnet_client/features/korzina_screen/data/database/database.dart';
+import 'package:savdo_agnet_client/features/korzina_screen/prezentation/bloc/korzina_bloc.dart';
 import 'package:savdo_agnet_client/features/lock/domain/bloc/pass_bloc.dart';
 import 'package:savdo_agnet_client/features/lock/domain/repositories/lock_repositories.dart';
 import 'package:savdo_agnet_client/features/password/presentation/bloc/pin_bloc.dart';
 import 'package:savdo_agnet_client/features/product/data/datasource/product_local_datasources.dart';
 import 'package:savdo_agnet_client/features/product/data/repositories/repository_impl.dart';
 import 'package:savdo_agnet_client/features/product/domain/repositories/catalog_repository.dart';
+import 'package:savdo_agnet_client/features/product/domain/usescase/brandProducts.dart';
 import 'package:savdo_agnet_client/features/product/domain/usescase/catalog.dart';
 import 'package:savdo_agnet_client/features/product_items/data/datasource/product_local_datasources.dart';
 import 'package:savdo_agnet_client/features/product_items/data/datasource/product_remote_datasources.dart';
@@ -76,12 +82,12 @@ Future<void> init() async {
     () => QarizdorlikBloc(onSelectClient: di()),
   );
   di.registerFactory(
-    () => KorzinaBloc(cardDatabase: Database()),
-  );
-  di.registerFactory(
-    () => QarizdorlikBloc(onSelectClient: di()),
+    () => KorzinaBloc(usesBuyurtma: di()),
   );
 
+  di.registerFactory(
+    () => BrandsProductsBloc(brandProducts: di()),
+  );
 
   ///Repositories
 
@@ -110,6 +116,13 @@ Future<void> init() async {
       remoteDataSourceImpl: di(),
     ),
   );
+  di.registerLazySingleton<BrandProductsRepository>(
+    () => BrandProductsRepositoryImpl(
+      localDataSource: di(),
+      networkInfo: di(),
+      remoteDatasource: di(),
+    ),
+  );
 
   /// UsesCases
   //   di.registerLazySingleton(() => SendData(sendDataRepository: di()));
@@ -117,6 +130,7 @@ Future<void> init() async {
   di.registerLazySingleton(() => Pass(repository: di()));
   di.registerLazySingleton(() => ProductCatalog(catalogRepository: di()));
   di.registerLazySingleton(() => BrandCatalog(catalogRepository: di()));
+  di.registerLazySingleton(() => BrandProductsCatalog(catalogRepository: di()));
   di.registerLazySingleton(() => UsesSelectClient(clientRepository: di()));
   di.registerLazySingleton(() => UsesBuyurtma(repository: di()));
   di.registerLazySingleton(() => OnSelectClient(clientRepository: di()));

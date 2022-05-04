@@ -17,7 +17,8 @@ class KorzinaCardAdapter extends TypeAdapter<KorzinaCard> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return KorzinaCard(
-      blok: fields[10] as String,
+      bloklarSoni: fields[10] as String,
+      blok: fields[11] as String,
       residue: fields[6] as int,
       price: fields[5] as String,
       name: fields[1] as String,
@@ -34,7 +35,7 @@ class KorzinaCardAdapter extends TypeAdapter<KorzinaCard> {
   @override
   void write(BinaryWriter writer, KorzinaCard obj) {
     writer
-      ..writeByte(11)
+      ..writeByte(12)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -56,6 +57,8 @@ class KorzinaCardAdapter extends TypeAdapter<KorzinaCard> {
       ..writeByte(9)
       ..write(obj.dona)
       ..writeByte(10)
+      ..write(obj.bloklarSoni)
+      ..writeByte(11)
       ..write(obj.blok);
   }
 

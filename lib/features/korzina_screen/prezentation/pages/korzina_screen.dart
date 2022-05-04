@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:savdo_agnet_client/core/widgets/appBarWidget.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/data/korzina_hive/korzina_hive.dart';
@@ -22,6 +21,8 @@ class KorzinaScreen extends StatefulWidget {
 }
 
 class _KorzinaScreenState extends State<KorzinaScreen> {
+  num jamiSumma = 0;
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<KorzinaBloc, KorzinaState>(
@@ -29,35 +30,34 @@ class _KorzinaScreenState extends State<KorzinaScreen> {
         return ValueListenableBuilder<Box<KorzinaCard>>(
           valueListenable: Hive.box<KorzinaCard>('korzina_box').listenable(),
           builder: (context, box, _) {
+            jamiSumma = 0;
             var transaction = box.values.toList().cast<KorzinaCard>();
+            for (int i = 0; i < transaction.length; i++) {
+              jamiSumma += ((int.parse(transaction[i].bloklarSoni) *
+                          int.parse(transaction[i].blok)) +
+                      int.parse(transaction[i].dona)) *
+                  int.parse(transaction[i].price);
+            }
             return Scaffold(
               backgroundColor: cBackgroundColor,
               appBar: appBarWidget(context, 'Savatcha'),
-              body: Center(
-                child: transaction.isEmpty
-                    ? Container()
-                    : ListView.builder(
-                        reverse: transaction.length <= 2 ? false : true,
-                        physics: const BouncingScrollPhysics(),
-                        padding: EdgeInsets.symmetric(horizontal: 21.w),
-                        itemCount: transaction.length,
-                        itemBuilder: (context, index) {
-                          return KorzinaItemsWidget(
-                            price: transaction[index].price,
-                            size: transaction[index].size,
-                            name: transaction[index].name,
-                            image: transaction[index].image,
-                            blok: transaction[index].blok,
-                            id: transaction[index].id,
-                            brandNomi: 'a',
-                            residue: transaction[index].residue,
-                            currencyId: transaction[index].currencyId,
-                            category: transaction[index].category,
-                            currencyName: transaction[index].currencyName,
-                            dona: transaction[index].dona,
-                          );
-                        },
-                      ),
+              body: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 21.w, bottom: 10.h),
+                    child: Text('Jami summa: $jamiSumma so’m',
+                        style: textStylePrimaryMed16),
+                  ),
+                  Container(
+                    child: transaction.isEmpty
+                        ? Container()
+                        : SizedBox(
+                            height: MediaQuery.of(context).size.height / 1.3,
+                            child: KorzinaItemsWidget(
+                                box: box, transaction: transaction)),
+                  ),
+                ],
               ),
               floatingActionButton: Visibility(
                 visible: transaction.isEmpty ? false : true,
@@ -103,7 +103,7 @@ class _KorzinaScreenState extends State<KorzinaScreen> {
 //           id: index,
 //           brandNomi: 'Bradley Hand',
 //           image: 'assets/images/truck.png',
-//           title: 'Liqui Moly',
+//           title: 'Liqui Molly',
 //           count: '40',
 //           price: 10000,
 //           carType: 'Yengil mashinalar',

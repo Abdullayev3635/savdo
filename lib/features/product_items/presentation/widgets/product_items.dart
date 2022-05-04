@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 import 'package:savdo_agnet_client/features/product_items/presentation/widgets/product_dialog.dart';
 
 class ProductItemsWidget extends StatefulWidget {
-  final String? title,size, price, image, count, category, currencyName, brandNomi;
+  final String? title,
+      size,
+      price,
+      image,
+      count,
+      blok,
+      category,
+      currencyName,
+      brandNomi;
   final int? id, currencyId, residue;
-
 
   const ProductItemsWidget({
     required this.id,
     required this.size,
     required this.title,
+    required this.blok,
     required this.price,
     required this.count,
     required this.image,
@@ -107,16 +114,18 @@ class _ProductItemsWidgetState extends State<ProductItemsWidget> {
                               context: context,
                               builder: (context) {
                                 return ProductItemDialog(
-                                  brendNomi: widget.brandNomi ?? '',
+                                  bloklarSoni: '0',
+                                  // brendNomi: widget.brandNomi ?? '',
                                   category: widget.category ?? '',
                                   name: widget.title ?? '',
                                   price: widget.price ?? '',
                                   image: widget.image,
                                   residue: widget.residue,
-                                  id: widget.id!,
+                                  id: widget.id ?? 0,
                                   size: widget.size,
                                   currencyName: widget.currencyName,
                                   currencyId: widget.currencyId,
+                                  blok: widget.blok ?? '1',
                                 );
                               });
                         },

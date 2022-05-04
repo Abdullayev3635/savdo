@@ -26,9 +26,12 @@ class KorzinaCard extends HiveObject {
   @HiveField(9)
   String dona;
   @HiveField(10)
+  String bloklarSoni;
+  @HiveField(11)
   String blok;
 
   KorzinaCard({
+    required this.bloklarSoni,
     required this.blok,
     required this.residue,
     required this.price,

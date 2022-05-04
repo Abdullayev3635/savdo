@@ -6,12 +6,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive/hive.dart';
 import 'package:savdo_agnet_client/core/widgets/dialog_frame.dart';
+import 'package:savdo_agnet_client/di/dependency_injection.dart';
+import 'package:savdo_agnet_client/features/buyurtma/data/model/currency_model.dart';
+import 'package:savdo_agnet_client/features/buyurtma/data/model/price_type_model.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/data/korzina_hive/korzina_hive.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/prezentation/bloc/korzina_bloc.dart';
 
 import '../../../../core/utils/app_constants.dart';
 import '../../../../core/widgets/costum_toast.dart';
-import '../../../korzina_screen/data/database/database.dart';
 import 'dialog_text_field_widget.dart';
 
 class ProductItemDialog extends StatefulWidget {
@@ -24,9 +26,11 @@ class ProductItemDialog extends StatefulWidget {
     required this.image,
     required this.residue,
     required this.category,
-    required this.brendNomi,
+    required this.bloklarSoni,
     required this.currencyId,
     required this.currencyName,
+    required this.blok,
+    this.dona,
   }) : super(key: key);
   final int id;
   final int? residue;
@@ -36,7 +40,10 @@ class ProductItemDialog extends StatefulWidget {
   final String? image;
   final String? price;
   final String? category;
-  final String? brendNomi;
+  final String? bloklarSoni;
+  final String? dona;
+
+  final String blok;
   final String? currencyName;
 
   @override
@@ -44,10 +51,12 @@ class ProductItemDialog extends StatefulWidget {
 }
 
 class _ProductItemDialogState extends State<ProductItemDialog> {
-  int blok = 1;
+  String group1 = 'AFN';
+  String group2 = 'Chakana';
+  int bloklarSoni = 1;
   int dona = 1;
-  String initialBlok = '0';
-  String initialPieces = '0';
+  late String initialBlok;
+  late String initialPieces;
   TextEditingController blokController = TextEditingController();
   TextEditingController piecesController = TextEditingController();
 
@@ -58,6 +67,8 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
   @override
   void initState() {
     super.initState();
+    initialBlok = widget.bloklarSoni ?? '0';
+    initialPieces = widget.dona ?? "0";
     blokController.text = initialBlok;
     piecesController.text = initialPieces;
   }
@@ -65,56 +76,64 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => KorzinaBloc(cardDatabase: Database()),
+      create: (context) => di<KorzinaBloc>()..add(KorzinaInitialEvent()),
       child: SingleChildScrollView(
-        reverse: true,
+        // reverse: true,
         clipBehavior: Clip.none,
         child: AllDialogSkeleton(
           title: '',
           icon: '',
           child: BlocBuilder<KorzinaBloc, KorzinaState>(
             builder: (context, state) {
-              return Container(
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(22.r)),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(top: 9.h),
-                      decoration: BoxDecoration(
-                        color: cWhiteColor,
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(22.r)),
+              if (state is KorzinaSuccessState) {
+                List<CurrencyModel>? currencyList =
+                    state.buyurtmaList[0].currency;
+                List<PriceTypeModel>? priceTypeList =
+                    state.buyurtmaList[0].priceType;
+                return Container(
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(22.r)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 9.h),
+                        decoration: BoxDecoration(
+                          color: cWhiteColor,
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(22.r)),
+                        ),
+                        child: ClipRRect(
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(22.r)),
+                          child: widget.image == null
+                              ? Container(
+                                  decoration: BoxDecoration(
+                                      color: cTextFieldColor,
+                                      borderRadius:
+                                          BorderRadius.circular(20.r)),
+                                  height: 200.h,
+                                  width: 340.w,
+                                  child: SvgPicture.asset(
+                                      'assets/icons/ic_gallery.svg',
+                                      fit: BoxFit.none,
+                                      height: 200),
+                                )
+                              : Image.network(
+                                  widget.image ?? '',
+                                  height: 214.h,
+                                  width: 340.w,
+                                  fit: BoxFit.fitHeight,
+                                ),
+                        ),
                       ),
-                      child: ClipRRect(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(22.r)),
-                        child: widget.image == null
-                            ? Container(
-                                decoration: BoxDecoration(
-                                    color: cTextFieldColor,
-                                    borderRadius: BorderRadius.circular(20.r)),
-                                height: 200.h,
-                                width: 340.w,
-                                child: SvgPicture.asset(
-                                    'assets/icons/ic_gallery.svg',
-                                    fit: BoxFit.none,
-                                    height: 200),
-                              )
-                            : Image.network(
-                                widget.image ?? '',
-                                height: 214.h,
-                                width: 340.w,
-                                fit: BoxFit.fitHeight,
-                              ),
-                      ),
-                    ),
-                    dialogContent(context)
-                  ],
-                ),
-              );
+                      dialogContent(context, currencyList, priceTypeList)
+                    ],
+                  ),
+                );
+              }
+              return Container();
             },
           ),
         ),
@@ -122,7 +141,11 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
     );
   }
 
-  Padding dialogContent(BuildContext context) {
+  Padding dialogContent(
+    BuildContext context,
+    List<CurrencyModel>? currencyList,
+    List<PriceTypeModel>? priceTypeList,
+  ) {
     return Padding(
       padding: EdgeInsets.only(left: 10.w, top: 38.h),
       child: Column(
@@ -144,14 +167,94 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
             ),
           ),
           SizedBox(height: 24.h),
-          Text('Valyuta:', style: titleTSM13),
-          SizedBox(height: 12.h),
-          Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-            valyutaButton(true, 'So’m'),
-            SizedBox(width: 12.w),
-            valyutaButton(false, 'Valyuta'),
-          ]),
-          SizedBox(height: 27.h),
+          Text('Narx turi:', style: titleTSM13),
+          // SizedBox(height: 12.h),
+          Row(
+            children: [
+              Expanded(
+                child: SizedBox(
+                  height: 50.h,
+                  child: ListView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemCount: currencyList?.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              group1 = '$index';
+                            });
+                          },
+                          child: Row(
+                            children: [
+                              Radio(
+                                  value: '$index',
+                                  groupValue: group1,
+                                  fillColor:
+                                      MaterialStateProperty.all(primaryColor),
+                                  activeColor: primaryColor,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      group1 = value.toString();
+                                      print(group1);
+                                    });
+                                  }),
+                              Text(currencyList![index].name ?? "null",
+                                  style: textStylePrimaryMed14),
+                            ],
+                          ),
+                        );
+                      }),
+                ),
+              ),
+            ],
+          ),
+          // SizedBox(height: 12.h),
+          Text('Savdo turi:', style: titleTSM13),
+          // SizedBox(height: 12.h),
+          Row(
+            children: [
+              Expanded(
+                child: SizedBox(
+                  height: 50.h,
+                  child: ListView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemCount: priceTypeList?.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              group2 = '$index';
+                            });
+                          },
+                          child: Row(
+                            children: [
+                              Radio(
+                                  value: '$index',
+                                  groupValue: group2,
+                                  fillColor:
+                                      MaterialStateProperty.all(primaryColor),
+                                  activeColor: primaryColor,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      group2 = value.toString();
+                                      print(group2);
+                                    });
+                                  }),
+                              Text(priceTypeList![index].name ?? "null",
+                                  style: textStylePrimaryMed14),
+                            ],
+                          ),
+                        );
+                      }),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 10.h),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -168,17 +271,17 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                         // onTapInOrDecrementPeriodic(count, isInc, newValue);
                         timer = Timer.periodic(
                             const Duration(milliseconds: 100), (t) {
-                          if (blok > 1) {
+                          if (bloklarSoni > 1) {
                             if (blokController.text.isEmpty) {
-                              blok = 0;
+                              bloklarSoni = 0;
                             } else {
-                              blok = int.parse(blokController.text);
+                              bloklarSoni = int.parse(blokController.text);
                             }
                             if (dona > 1) {
-                              blok--;
+                              bloklarSoni--;
                             }
-                            blokController.text = blok.toString();
-                            initialBlok = blok.toString();
+                            blokController.text = bloklarSoni.toString();
+                            initialBlok = bloklarSoni.toString();
                           }
                         });
                       },
@@ -196,20 +299,20 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                     TextFieldWidgetInProductDialog(controller: blokController),
                     GestureDetector(
                       onTap: () => onTapInOrDecrement(
-                          count: blok, isInc: true, blokOrPieces: true),
+                          count: bloklarSoni, isInc: true, blokOrPieces: true),
                       onTapDown: (TapDownDetails details) =>
                           timer = Timer.periodic(
                         const Duration(milliseconds: 100),
                         (t) => setState(
                           () {
                             if (blokController.text.isEmpty) {
-                              blok = 0;
+                              bloklarSoni = 0;
                             } else {
-                              blok = int.parse(blokController.text);
+                              bloklarSoni = int.parse(blokController.text);
                             }
-                            blok++;
-                            blokController.text = blok.toString();
-                            initialBlok = blok.toString();
+                            bloklarSoni++;
+                            blokController.text = bloklarSoni.toString();
+                            initialBlok = bloklarSoni.toString();
                           },
                         ),
                       ),
@@ -315,7 +418,7 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
               child: Text('${widget.residue ?? 0}', style: textStyleR20),
             )
           ]),
-          SizedBox(height: 34.h),
+          SizedBox(height: 10.h),
           Container(
             margin: EdgeInsets.only(right: 10.w),
             child: Row(
@@ -342,7 +445,8 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                   style: buttonStyle,
                   onPressed: () async {
                     final productAddKorzina = KorzinaCard(
-                      blok: blokController.text,
+                      blok: widget.blok,
+                      bloklarSoni: blokController.text,
                       residue: widget.residue!,
                       price: widget.price!,
                       name: widget.name!,
@@ -376,29 +480,29 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
     );
   }
 
-  ElevatedButton valyutaButton(bool isValyuta, String title) {
-    return ElevatedButton(
-      key: ValueKey('$isValyuta'),
-      onPressed: () => setState(() => this.isValyuta = isValyuta),
-      child: Text(
-        title,
-        style: isValyuta
-            ? this.isValyuta
-                ? inActiveTextStyle
-                : textStylePrimaryReg16
-            : this.isValyuta
-                ? textStylePrimaryReg16
-                : inActiveTextStyle,
-      ),
-      style: isValyuta
-          ? this.isValyuta
-              ? activeButtonStyle
-              : inActiveButtonStyle
-          : this.isValyuta
-              ? inActiveButtonStyle
-              : activeButtonStyle,
-    );
-  }
+  // ElevatedButton valyutaButton(bool isValyuta, String title) {
+  //   return ElevatedButton(
+  //     key: ValueKey('$isValyuta'),
+  //     onPressed: () => setState(() => this.isValyuta = isValyuta),
+  //     child: Text(
+  //       title,
+  //       style: isValyuta
+  //           ? this.isValyuta
+  //               ? inActiveTextStyle
+  //               : textStylePrimaryReg16
+  //           : this.isValyuta
+  //               ? textStylePrimaryReg16
+  //               : inActiveTextStyle,
+  //     ),
+  //     style: isValyuta
+  //         ? this.isValyuta
+  //             ? activeButtonStyle
+  //             : inActiveButtonStyle
+  //         : this.isValyuta
+  //             ? inActiveButtonStyle
+  //             : activeButtonStyle,
+  //   );
+  // }
 
   void onTapInOrDecrement(
       {required int count, required bool isInc, required bool blokOrPieces}) {
@@ -406,12 +510,12 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
       setState(() => blokOrPieces
           ? {
               if (blokController.text.isEmpty)
-                {blok = 0}
+                {bloklarSoni = 0}
               else
-                {blok = int.parse(blokController.text)},
-              blok++,
-              blokController.text = blok.toString(),
-              initialBlok = blok.toString(),
+                {bloklarSoni = int.parse(blokController.text)},
+              bloklarSoni++,
+              blokController.text = bloklarSoni.toString(),
+              initialBlok = bloklarSoni.toString(),
             }
           : {
               if (piecesController.text.isEmpty)
@@ -427,12 +531,12 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
         blokOrPieces
             ? {
                 if (blokController.text.isEmpty)
-                  {blok = 0}
+                  {bloklarSoni = 0}
                 else
-                  {blok = int.parse(blokController.text)},
-                if (blok > 1) blok--,
-                blokController.text = blok.toString(),
-                initialBlok = blok.toString(),
+                  {bloklarSoni = int.parse(blokController.text)},
+                if (bloklarSoni > 1) bloklarSoni--,
+                blokController.text = bloklarSoni.toString(),
+                initialBlok = bloklarSoni.toString(),
               }
             : {
                 if (piecesController.text.isEmpty)

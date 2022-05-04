@@ -7,16 +7,18 @@ class BrandProductModel {
   String? price;
   int? residue;
   String? size;
+  String? blok;
 
   BrandProductModel(
       {this.id,
-        this.name,
-        this.category,
-        this.currencyId,
-        this.currencyName,
-        this.price,
-        this.residue,
-        this.size});
+      this.name,
+      this.blok,
+      this.category,
+      this.currencyId,
+      this.currencyName,
+      this.price,
+      this.residue,
+      this.size});
 
   BrandProductModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -27,6 +29,7 @@ class BrandProductModel {
     price = json['price'];
     residue = json['residue'];
     size = json['size'];
+    blok = json['blok'];
   }
 
   Map<String, dynamic> toJson() {
@@ -39,6 +42,7 @@ class BrandProductModel {
     data['price'] = price;
     data['residue'] = residue;
     data['size'] = size;
+    data['blok'] = blok;
     return data;
   }
 }

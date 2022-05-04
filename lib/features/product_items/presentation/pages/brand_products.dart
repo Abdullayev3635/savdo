@@ -32,8 +32,7 @@ class Products extends StatefulWidget {
     gbrandId = brandId;
     gsalesAgentId = salesAgentId;
     return BlocProvider(
-      create: (context) =>
-      di<BrandsProductsBloc>()
+      create: (context) => di<BrandsProductsBloc>()
         ..add(GetBrandsProductsEvent(
             priceTypeId: priceTypeId,
             brandId: brandId,
@@ -132,7 +131,7 @@ class _ProductsState extends State<Products> {
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   contentPadding:
-                                  const EdgeInsets.only(bottom: 0),
+                                      const EdgeInsets.only(bottom: 0),
                                   hintText: "Qidirish",
                                   hintStyle: textStyleHintColorReg14,
                                   prefixIconConstraints: BoxConstraints(
@@ -160,6 +159,7 @@ class _ProductsState extends State<Products> {
                           itemCount: state.list.length,
                           itemBuilder: (context, index) {
                             return ProductItemsWidget(
+                              blok: state.list[index].blok,
                               id: state.list[index].id!,
                               brandNomi: state.list[index].currencyName!,
                               image: null,

@@ -11,17 +11,14 @@ class KorzinaInitial extends KorzinaState {}
 
 class KorzinaLoadingState extends KorzinaState {}
 
-class KorzinaEditState extends KorzinaState {
-  final KorzinaCard card;
+class KorzinaSuccessState extends KorzinaState {
+  final List<BuyurtmaModel> buyurtmaList;
 
-  const KorzinaEditState({required this.card});
-
-}
-class YourKorzinaState extends KorzinaState {
-  final List<KorzinaCard> cards;
-
-  const YourKorzinaState({required this.cards});
-
+  const KorzinaSuccessState({required this.buyurtmaList});
 }
 
-class KorzinaNewCardState extends KorzinaState {}
+class KorzinaFailureState extends KorzinaState {
+  final String message;
+
+  const KorzinaFailureState({required this.message});
+}
