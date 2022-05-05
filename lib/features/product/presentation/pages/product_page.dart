@@ -10,7 +10,7 @@ import 'package:savdo_agnet_client/core/widgets/failure_dialog.dart';
 
 import '../../../../di/dependency_injection.dart';
 import '../bloc/brand/brand_bloc.dart';
-import '../bloc/catalog/catalog_bloc.dart';
+import '../bloc/catalog/category_bloc.dart';
 import '../widgets/catalog_items.dart';
 import '../widgets/product_items_widget.dart';
 import '../widgets/text_field_widget.dart';
@@ -110,19 +110,21 @@ class _ProductPageState extends State<ProductPage> {
                         ),
                       ),
                     );
-                  } else if (state is CatalogNoInternetState) {
-                    return SliverToBoxAdapter(
-                      child: ShowFailureDialog(onTap: () async {
-                        if (await networkInfo.isConnected) {
-                          _catalogBloc.add(GetCategory());
-                          Navigator.pop(context);
-                        } else {
-                          CustomToast.showToast(
-                              'Internet bilan aloqani tekshiring!');
-                        }
-                      }),
-                    );
-                  } else if (state is CatalogSuccessState) {
+                  }
+                  // else if (state is CatalogNoInternetState) {
+                  //   return SliverToBoxAdapter(
+                  //     child: ShowFailureDialog(onTap: () async {
+                  //       if (await networkInfo.isConnected) {
+                  //         _catalogBloc.add(GetCategory());
+                  //         Navigator.pop(context);
+                  //       } else {
+                  //         CustomToast.showToast(
+                  //             'Internet bilan aloqani tekshiring!');
+                  //       }
+                  //     }),
+                  //   );
+                  // }
+                    else if (state is CatalogSuccessState) {
                     _brandBloc.add(
                       GetBrandEvent(
                         productTypeId: state.list[state.selected].id ?? 0,
@@ -147,27 +149,27 @@ class _ProductPageState extends State<ProductPage> {
                               overlayColor:
                                   MaterialStateProperty.all(Colors.transparent),
                               onTap: () async {
-                                if (await networkInfo.isConnected) {
+                                // if (await networkInfo.isConnected) {
                                   _catalogBloc.add(ChangeColor(
                                       state.list,
                                       state.selected,
                                       state.count,
                                       state.isLarge));
-                                } else {
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return FailureDialog(onTap: () async {
-                                          if (await networkInfo.isConnected) {
-                                            _catalogBloc.add(GetCategory());
-                                            Navigator.pop(context);
-                                          } else {
-                                            CustomToast.showToast(
-                                                'Internet bilan aloqani tekshiring!');
-                                          }
-                                        });
-                                      });
-                                }
+                                // } else {
+                                //   showDialog(
+                                //       context: context,
+                                //       builder: (context) {
+                                //         return FailureDialog(onTap: () async {
+                                //           if (await networkInfo.isConnected) {
+                                //             _catalogBloc.add(GetCategory());
+                                //             Navigator.pop(context);
+                                //           } else {
+                                //             CustomToast.showToast(
+                                //                 'Internet bilan aloqani tekshiring!');
+                                //           }
+                                //         });
+                                //       });
+                                // }
                               },
                               child: Container(
                                 margin: const EdgeInsets.only(right: 10),

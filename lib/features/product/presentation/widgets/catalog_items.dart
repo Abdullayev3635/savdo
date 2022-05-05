@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/utils/app_constants.dart';
-import '../bloc/catalog/catalog_bloc.dart';
+import '../bloc/catalog/category_bloc.dart';
 
 // ignore: must_be_immutable
 class CatalogItems extends StatefulWidget {

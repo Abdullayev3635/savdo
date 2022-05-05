@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
@@ -28,6 +29,7 @@ class SelectClientBloc extends Bloc<SelectPartEvent, SelectClientState> {
     final result = await usesSelectClient(
       GetClientParams(),
     );
+    // final box = Hive.box(clientBox);
     result.fold(
         (failure) => {
               if (failure is NoConnectionFailure)
@@ -42,11 +44,13 @@ class SelectClientBloc extends Bloc<SelectPartEvent, SelectClientState> {
                       SelectClientFailureState(message: "hech narsa yo'q ekan"))
                 }
               else
-                {emit(SelectClientSuccess(list: r))}
+                {
+                  emit(SelectClientSuccess(list: r)),
+                  listOld = r,
+                  log(listOld.length.toString()),
+                }
             });
   }
-
-
 
   FutureOr<void> getFilterPart(
       FilterSelectPartEvent event, Emitter<SelectClientState> emit) async {

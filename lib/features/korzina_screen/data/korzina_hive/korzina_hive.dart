@@ -4,7 +4,6 @@ import 'package:savdo_agnet_client/di/dependency_injection.dart';
 import 'package:savdo_agnet_client/features/product_items/presentation/pages/brand_products.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// part 'group.g.dart';
 part 'korzina_hive.g.dart';
 
 SharedPreferences sharedPreferences = di.get();

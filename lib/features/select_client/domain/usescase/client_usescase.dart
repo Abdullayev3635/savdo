@@ -16,6 +16,9 @@ class UsesSelectClient extends UseCase<dynamic, GetClientParams> {
 }
 
 class GetClientParams extends Equatable {
+  // final int clientId;
+
+  // const GetClientParams({required this.clientId});
   @override
   List<Object?> get props => [];
 }

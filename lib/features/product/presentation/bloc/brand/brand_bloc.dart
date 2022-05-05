@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:meta/meta.dart';
+import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 import 'package:savdo_agnet_client/features/product/data/model/brand_model.dart';
 
 import '../../../../../core/errors/failures.dart';
@@ -29,6 +31,7 @@ class BrandBloc extends Bloc<BrandEvent, BrandState> {
       GetBrandParams(
           priceTypeId: event.priceTypeId, productTypeId: event.productTypeId),
     );
+    final box = Hive.box(brandBox);
     result.fold(
         (failure) => {
               if (failure is NoConnectionFailure)

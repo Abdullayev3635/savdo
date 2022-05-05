@@ -8,8 +8,8 @@ import 'package:http/http.dart' as http;
 import '../../../../core/errors/failures.dart';
 import '../../../../core/utils/api_path.dart';
 
-abstract class CatalogRemoteDatasource {
-  Future<List<CatalogModel>> getCatalog();
+abstract class CategoryRemoteDatasource {
+  Future<List<CategoryModel>> getCategory();
 
   Future<List<BrandModel>> getBrand(
       {required int productTypeId, required int priceTypeId});
@@ -18,16 +18,16 @@ abstract class CatalogRemoteDatasource {
       {required int salesAgentId,required int priceTypeId,required int brandId});
 }
 
-class CatalogRemoteDatasourceImpl implements CatalogRemoteDatasource {
+class CategoryRemoteDatasourceImpl implements CategoryRemoteDatasource {
   final http.Client client;
 
-  CatalogRemoteDatasourceImpl({
+  CategoryRemoteDatasourceImpl({
     required this.client,
   });
 
   @override
-  Future<List<CatalogModel>> getCatalog() async {
-    List<CatalogModel> list = [];
+  Future<List<CategoryModel>> getCategory() async {
+    List<CategoryModel> list = [];
     try {
       final response = await client.get(
         Uri.parse(baseUrl + catalogPHP),
@@ -40,7 +40,7 @@ class CatalogRemoteDatasourceImpl implements CatalogRemoteDatasource {
       if (response.statusCode == 200) {
         final parsed = jsonDecode(response.body);
         for (int i = 0; i < (parsed["data"] as List).length; i++) {
-          list.add(CatalogModel.fromJson(parsed["data"][i]));
+          list.add(CategoryModel.fromJson(parsed["data"][i]));
         }
         return list;
       } else {

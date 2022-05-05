@@ -13,7 +13,7 @@ class ProductCatalog extends UseCase<dynamic, GetCatalogParams> {
 
   @override
   Future<Either<Failure, dynamic>> call(GetCatalogParams params) {
-    return catalogRepository.getCatalog();
+    return catalogRepository.getCategory();
   }
 }
 

@@ -4,6 +4,10 @@ import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:savdo_agnet_client/core/photo/image_picker_utils.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
+import 'package:savdo_agnet_client/features/buyurtma/data/datasources/buyurtma_locale_datasource.dart';
+import 'package:savdo_agnet_client/features/buyurtma/data/model/buyurtma_model.dart';
+import 'package:savdo_agnet_client/features/buyurtma/data/model/currency_model.dart';
+import 'package:savdo_agnet_client/features/buyurtma/data/model/price_type_model.dart';
 import 'package:savdo_agnet_client/features/buyurtma/data/repository/buyurtma_repository_impl.dart';
 import 'package:savdo_agnet_client/features/buyurtma/domain/repositories/buyurtma_repository.dart';
 import 'package:savdo_agnet_client/features/buyurtma/domain/usescase/buyurtma_usescase.dart';
@@ -20,6 +24,9 @@ import 'package:savdo_agnet_client/features/lock/domain/bloc/pass_bloc.dart';
 import 'package:savdo_agnet_client/features/lock/domain/repositories/lock_repositories.dart';
 import 'package:savdo_agnet_client/features/password/presentation/bloc/pin_bloc.dart';
 import 'package:savdo_agnet_client/features/product/data/datasource/product_local_datasources.dart';
+import 'package:savdo_agnet_client/features/product/data/model/brand_model.dart';
+import 'package:savdo_agnet_client/features/product/data/model/brand_product_model.dart';
+import 'package:savdo_agnet_client/features/product/data/model/category_model.dart';
 import 'package:savdo_agnet_client/features/product/data/repositories/repository_impl.dart';
 import 'package:savdo_agnet_client/features/product/domain/repositories/catalog_repository.dart';
 import 'package:savdo_agnet_client/features/product/domain/usescase/brandProducts.dart';
@@ -30,6 +37,7 @@ import 'package:savdo_agnet_client/features/product_items/data/repositories/repo
 import 'package:savdo_agnet_client/features/product_items/domain/repositories/brand_products_repository.dart';
 import 'package:savdo_agnet_client/features/product_items/presentation/bloc/brand_products/brands_products_bloc.dart';
 import 'package:savdo_agnet_client/features/product_items/presentation/bloc/product_items_cubit.dart';
+import 'package:savdo_agnet_client/features/select_client/data/model/client_model.dart';
 import 'package:savdo_agnet_client/features/select_client/data/repository/select_client_repository.dart';
 import 'package:savdo_agnet_client/features/select_client/domain/repositories/client_repository.dart';
 import 'package:savdo_agnet_client/features/select_client/domain/usescase/client_usescase.dart';
@@ -38,6 +46,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../core/location/location_service.dart';
 import '../core/network/network_info.dart';
 import '../features/buyurtma/data/datasources/buyurtma_remote_datasource.dart';
+import '../features/buyurtma/data/model/client_debit_credit.dart';
 import '../features/korzina_screen/data/korzina_hive/korzina_hive.dart';
 import '../features/lock/data/datasources/lock_local_datasources.dart';
 import '../features/lock/data/repositories/lock_repositories.dart';
@@ -45,7 +54,7 @@ import '../features/lock/domain/usescases/u_lock.dart';
 import '../features/product/data/datasource/product_remote_datasources.dart';
 import '../features/product/domain/usescase/brand.dart';
 import '../features/product/presentation/bloc/brand/brand_bloc.dart';
-import '../features/product/presentation/bloc/catalog/catalog_bloc.dart';
+import '../features/product/presentation/bloc/catalog/category_bloc.dart';
 import '../features/select_client/data/datasources/client_local_datasource.dart';
 import '../features/select_client/data/datasources/client_remote_datasource.dart';
 import '../features/select_client/presentation/bloc/client/select_client_bloc.dart';
@@ -105,9 +114,9 @@ Future<void> init() async {
   );
 
   di.registerLazySingleton<CatalogRepository>(
-    () => CatalogRepositoryImpl(
-      homeLocalDatasourceImpl: di(),
-      homeRemoteDatasourceImpl: di(),
+    () => CategoryRepositoryImpl(
+      categoryLocalDatasourceImpl: di(),
+      categoryRemoteDatasourceImpl: di(),
       networkInfo: di(),
     ),
   );
@@ -122,6 +131,7 @@ Future<void> init() async {
   di.registerLazySingleton<BuyurtmaRepository>(
     () => BuyurtmaRepositoryImpl(
       networkInfo: di(),
+      localeDatasourceImpl: di(),
       remoteDataSourceImpl: di(),
     ),
   );
@@ -144,17 +154,16 @@ Future<void> init() async {
   di.registerLazySingleton(() => UsesBuyurtma(repository: di()));
   di.registerLazySingleton(() => OnSelectClient(clientRepository: di()));
 
-
   /// Data sources
   di.registerLazySingleton(
     () => PassLocalDataSourceImpl(sharedPreferences: di()),
   );
 
   di.registerLazySingleton(
-    () => CatalogRemoteDatasourceImpl(client: di()),
+    () => CategoryRemoteDatasourceImpl(client: di()),
   );
   di.registerLazySingleton(
-    () => CatalogLocalDataSourceImpl(),
+    () => CategoryLocalDataSourceImpl(),
   );
   di.registerLazySingleton(
     () => BrandProductsLocalDataSourceImpl(),
@@ -169,10 +178,13 @@ Future<void> init() async {
         SelectClientRemoteDataSourceImpl(sharedPreferences: di(), client: di()),
   );
   di.registerLazySingleton(
-    () => SelectClientLocalDataSourceImpl(sharedPreferences: di()),
+    () => SelectClientLocalDataSourceImpl(),
   );
   di.registerLazySingleton(
     () => BuyurtmaRemoteDataSourceImpl(client: di()),
+  );
+  di.registerLazySingleton(
+    () => BuyurtmaLocaleDatasourceImpl(),
   );
   di.registerLazySingleton<KorzinaOrderRemoteDatasource>(
     () => KorzinaOrderRemoteDatasourceImpl(client: di()),
@@ -199,19 +211,40 @@ Future<void> init() async {
 
   /// Local datasource
   await Hive.initFlutter();
+
   // korzina
   Hive.registerAdapter(KorzinaCardAdapter());
   await Hive.openBox<KorzinaCard>(korzinaBox);
-  // // client dialog
-  // Hive.registerAdapter(ClientModelAdapter());
-  // await Hive.openBox<ClientModel>(clientBox);
-  // agent dialog
+
+  // category
+  Hive.registerAdapter(CategoryModelAdapter());
+  await Hive.openBox(categoryBox);
+
+  // brand
+  Hive.registerAdapter(BrandModelAdapter());
+  await Hive.openBox(brandBox);
+
+  // brandProducts
+  Hive.registerAdapter(BrandProductModelAdapter());
+  await Hive.openBox(brandProductsBox);
+
+  // clientModel
+  Hive.registerAdapter(ClientModelAdapter());
+  await Hive.openBox(clientBox);
 
   // buyurtma dialog
-  // Hive.registerAdapter(BuyurtmaModelAdapter());
-  // await Hive.openBox(buyurtmaBox);
+  Hive.registerAdapter(BuyurtmaModelAdapter());
+  await Hive.openBox(buyurtmaBox);
 
-  // home
-  // Hive.registerAdapter(CategoryModelAdapter());
-  // await Hive.openBox(categoryBox);
+  // debit credit model
+  Hive.registerAdapter(ClientDebitCreditModelAdapter());
+  await Hive.openBox(clientDebitCreditBox);
+
+  // currency model
+  Hive.registerAdapter(CurrencyModelAdapter());
+  await Hive.openBox(currencyBox);
+
+  // price type model
+  Hive.registerAdapter(PriceTypeModelAdapter());
+  await Hive.openBox(priceTypeBox);
 }

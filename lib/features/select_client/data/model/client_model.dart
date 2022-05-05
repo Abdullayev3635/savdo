@@ -1,5 +1,12 @@
+import 'package:hive/hive.dart';
+
+part 'client_model.g.dart';
+
+@HiveType(typeId: 6)
 class ClientModel {
+  @HiveField(0)
   int? id;
+  @HiveField(1)
   String? name;
 
   ClientModel({

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:savdo_agnet_client/features/product/data/datasource/product_local_datasources.dart';
 import 'package:savdo_agnet_client/features/product/data/datasource/product_remote_datasources.dart';
@@ -6,28 +8,34 @@ import 'package:savdo_agnet_client/features/product/domain/repositories/catalog_
 import '../../../../core/errors/failures.dart';
 import '../../../../core/network/network_info.dart';
 
-class CatalogRepositoryImpl extends CatalogRepository {
-  final CatalogRemoteDatasourceImpl homeRemoteDatasourceImpl;
-  final CatalogLocalDataSourceImpl homeLocalDatasourceImpl;
+class CategoryRepositoryImpl extends CatalogRepository {
+  final CategoryRemoteDatasourceImpl categoryRemoteDatasourceImpl;
+  final CategoryLocalDataSourceImpl categoryLocalDatasourceImpl;
   final NetworkInfo networkInfo;
 
-  CatalogRepositoryImpl(
-      {required this.homeRemoteDatasourceImpl,
-      required this.homeLocalDatasourceImpl,
+  CategoryRepositoryImpl(
+      {required this.categoryRemoteDatasourceImpl,
+      required this.categoryLocalDatasourceImpl,
       required this.networkInfo});
 
   @override
-  Future<Either<Failure, dynamic>> getCatalog() async {
+  Future<Either<Failure, dynamic>> getCategory() async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await homeRemoteDatasourceImpl.getCatalog();
+        final result = await categoryRemoteDatasourceImpl.getCategory();
+        categoryLocalDatasourceImpl.setCategory(result);
+        log(result.toString());
         return Right(result);
       } on ServerFailure {
         return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));
       }
     } else {
-      return const Left(
-          NoConnectionFailure("Интернет билан алоқани қайта текширинг"));
+      try {
+        final result = await categoryLocalDatasourceImpl.getCategory();
+        return Right(result);
+      } on LocalFailure {
+        return const Left(LocalFailure("Маълумот юкланишда хатолик бўлди"));
+      }
     }
   }
 
@@ -36,15 +44,20 @@ class CatalogRepositoryImpl extends CatalogRepository {
       int productTypeId, int priceTypeId) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await homeRemoteDatasourceImpl.getBrand(
+        final result = await categoryRemoteDatasourceImpl.getBrand(
             productTypeId: productTypeId, priceTypeId: priceTypeId);
+        categoryLocalDatasourceImpl.setBrand(result);
         return Right(result);
       } on ServerFailure {
         return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));
       }
     } else {
-      return const Left(
-          NoConnectionFailure("Интернет билан алоқани қайта текширинг"));
+      try {
+        final result = await categoryLocalDatasourceImpl.getBrand();
+        return Right(result);
+      } on LocalFailure {
+        return const Left(LocalFailure("Маълумот юкланишда хатолик бўлди"));
+      }
     }
   }
 
@@ -53,17 +66,22 @@ class CatalogRepositoryImpl extends CatalogRepository {
       int salesAgentId, int priceTypeId, int brandId) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await homeRemoteDatasourceImpl.getBrandProducts(
+        final result = await categoryRemoteDatasourceImpl.getBrandProducts(
             salesAgentId: salesAgentId,
             priceTypeId: priceTypeId,
             brandId: brandId);
+        categoryLocalDatasourceImpl.setBrandProducts(result);
         return Right(result);
       } on ServerFailure {
         return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));
       }
     } else {
-      return const Left(
-          NoConnectionFailure("Интернет билан алоқани қайта текширинг"));
+      try {
+        final result = await categoryLocalDatasourceImpl.getBrandProducts();
+        return Right(result);
+      } on LocalFailure {
+        return const Left(LocalFailure("Маълумот юкланишда хатолик бўлди"));
+      }
     }
   }
 }

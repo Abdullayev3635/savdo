@@ -1,4 +1,4 @@
-part of 'catalog_bloc.dart';
+part of 'category_bloc.dart';
 
 @immutable
 abstract class CatalogState {
@@ -16,7 +16,7 @@ class CatalogLoadingState extends CatalogState {
 }
 
 class CatalogSuccessState extends CatalogState {
-  final List<CatalogModel> list;
+  final List<CategoryModel> list;
   final int selected;
   final int count;
 
@@ -27,9 +27,9 @@ class CatalogSuccessState extends CatalogState {
     required bool isLarge,
   }) : super(isLarge: isLarge);
 }
-class CatalogNoInternetState extends CatalogState{
-  const CatalogNoInternetState({required bool isLarge}) : super(isLarge: isLarge);
-}
+// class CatalogNoInternetState extends CatalogState{
+//   const CatalogNoInternetState({required bool isLarge}) : super(isLarge: isLarge);
+// }
 class CatalogFailureState extends CatalogState {
   final String message;
 

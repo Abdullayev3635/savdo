@@ -1,3 +1,8 @@
+import 'package:hive/hive.dart';
+
+part 'brand_product_model.g.dart';
+
+@HiveType(typeId: 3)
 class BrandProductModel {
   int? id;
   String? name;

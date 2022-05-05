@@ -19,11 +19,21 @@ class SelectClientRepositoryImpl extends SelectCaARepository {
 
   @override
   Future<Either<Failure, dynamic>> getClient() async {
-    try {
-      final result = await remoteDataSourceImpl.getClient();
-      return Right(result);
-    } on ServerFailure {
-      return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await remoteDataSourceImpl.getClient();
+        localDataSourceImpl.setSelectClient(result);
+        return Right(result);
+      } on ServerFailure {
+        return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));
+      }
+    } else {
+      try {
+        final result = await localDataSourceImpl.getSelectClient();
+        return Right(result);
+      } on LocalFailure {
+        return const Left(LocalFailure("Маълумот юкланишда хатолик бўлди"));
+      }
     }
   }
 }
