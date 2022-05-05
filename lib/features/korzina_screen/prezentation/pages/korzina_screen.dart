@@ -1,9 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:savdo_agnet_client/core/widgets/appBarWidget.dart';
+import 'package:savdo_agnet_client/core/widgets/costum_toast.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/data/korzina_hive/korzina_hive.dart';
+import 'package:savdo_agnet_client/features/savatcha_failure/presentation/pages/savatcha_failure_dialog.dart';
 
 import '../../../../../../../core/utils/app_constants.dart';
 import '../../../../di/dependency_injection.dart';
@@ -14,7 +17,9 @@ class KorzinaScreen extends StatefulWidget {
   const KorzinaScreen({Key? key}) : super(key: key);
 
   static Widget screen() => BlocProvider(
-      create: (context) => di<KorzinaBloc>(), child: const KorzinaScreen());
+        create: (context) => di<KorzinaBloc>()..add(KorzinaInitialEvent()),
+        child: const KorzinaScreen(),
+      );
 
   @override
   State<KorzinaScreen> createState() => _KorzinaScreenState();
@@ -22,22 +27,42 @@ class KorzinaScreen extends StatefulWidget {
 
 class _KorzinaScreenState extends State<KorzinaScreen> {
   num jamiSumma = 0;
+  late KorzinaBloc bloc;
+
+  @override
+  void initState() {
+    super.initState();
+    bloc = BlocProvider.of<KorzinaBloc>(context);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<KorzinaBloc, KorzinaState>(
-      builder: (context, state) {
-        return ValueListenableBuilder<Box<KorzinaCard>>(
-          valueListenable: Hive.box<KorzinaCard>('korzina_box').listenable(),
-          builder: (context, box, _) {
-            jamiSumma = 0;
-            var transaction = box.values.toList().cast<KorzinaCard>();
-            for (int i = 0; i < transaction.length; i++) {
-              jamiSumma += ((int.parse(transaction[i].bloklarSoni) *
-                          int.parse(transaction[i].blok)) +
-                      int.parse(transaction[i].dona)) *
-                  int.parse(transaction[i].price);
-            }
+    return Scaffold(
+      body: BlocBuilder<KorzinaBloc, KorzinaState>(
+        builder: (context, state) {
+          if (state is KorzinaFailureState) {
+            CustomToast.showToast('Malumot uzatishda xatolik yuz berdi');
+          } else if (state is KorzinaLoadingState) {
+            return const Scaffold(
+              body: Center(
+                child: CupertinoActivityIndicator(),
+              ),
+            );
+          } else if (state is KorzinaErrorMessageState) {
+            state.korzinaErrorList.isEmpty
+                ? {
+                    Navigator.pop(context),
+                    // CustomToast.showToast('Malumot muvvafaqiyatli uzatildi!'),
+                  }
+                : showDialog(
+                    context: context,
+                    builder: (context) {
+                      return const SavatchaFailureDialog();
+                    });
+          } else if (state is KorzinaNoInternetState) {
+            CustomToast.showToast('Internet bilan aloqani tekshiring!');
+          } else if (state is KorzinaSuccessState) {
+            var box = Hive.box<KorzinaCard>('korzina_box');
             return Scaffold(
               backgroundColor: cBackgroundColor,
               appBar: appBarWidget(context, 'Savatcha'),
@@ -50,19 +75,25 @@ class _KorzinaScreenState extends State<KorzinaScreen> {
                         style: textStylePrimaryMed16),
                   ),
                   Container(
-                    child: transaction.isEmpty
-                        ? Container()
+                    child: state.korzinaSaveList.isEmpty
+                        ? Container(
+                            width: 200,
+                            height: 200,
+                            color: Colors.red,
+                          )
                         : SizedBox(
                             height: MediaQuery.of(context).size.height / 1.3,
                             child: KorzinaItemsWidget(
-                                box: box, transaction: transaction)),
+                                box: box, transaction: state.korzinaSaveList)),
                   ),
                 ],
               ),
               floatingActionButton: Visibility(
-                visible: transaction.isEmpty ? false : true,
+                visible: state.korzinaSaveList.isNotEmpty,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    bloc.add(KorzinaSendDataEvent(card: state.korzinaSaveList));
+                  },
                   child: Text('Buyurtma berish',
                       style: TextStyle(
                           fontFamily: 'Medium',
@@ -84,9 +115,24 @@ class _KorzinaScreenState extends State<KorzinaScreen> {
               floatingActionButtonLocation:
                   FloatingActionButtonLocation.centerDocked,
             );
-          },
-        );
-      },
+          }
+          return const Scaffold();
+          // return ValueListenableBuilder<Box<KorzinaCard>>(
+          //   valueListenable: Hive.box<KorzinaCard>('korzina_box').listenable(),
+          //   builder: (context, box, _) {
+          //     jamiSumma = 0;
+          //     var transaction = box.values.toList().cast<KorzinaCard>();
+          //     for (int i = 0; i < transaction.length; i++) {
+          //       jamiSumma += ((int.parse(transaction[i].bloklarSoni!) *
+          //                   int.parse(transaction[i].blok!)) +
+          //               int.parse(transaction[i].dona!)) *
+          //           int.parse(transaction[i].price!);
+          //     }
+          //     return Scaffold();
+          //   },
+          // );
+        },
+      ),
     );
   }
 }

@@ -10,3 +10,4 @@ const String brandPHP = "categories/brands";
 const String brandProductsPHP = "brands/products";
 const String clientPHP = "clients";
 const String onSelectClientPHP = "customer-debit-credit";
+const String orderPHP = "order/create";

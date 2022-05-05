@@ -28,7 +28,7 @@ class BuyurtmaDialogBloc
     result.fold(
         (failure) => {
               if (failure is NoConnectionFailure)
-                {emit(BuyurtmaDialogFailureState(message: failure.message))}
+                {emit(BuyurtmaDialogNoInternetState())}
               else if (failure is ServerFailure)
                 {emit(BuyurtmaDialogFailureState(message: failure.message))}
             },

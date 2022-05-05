@@ -6,6 +6,7 @@ abstract class BuyurtmaDialogState {}
 class BuyurtmaDialogInitialState extends BuyurtmaDialogState {}
 
 class BuyurtmaDialogLoadingState extends BuyurtmaDialogState {}
+class BuyurtmaDialogNoInternetState extends BuyurtmaDialogState {}
 
 class BuyurtmaDialogFailureState extends BuyurtmaDialogState {
   final String message;

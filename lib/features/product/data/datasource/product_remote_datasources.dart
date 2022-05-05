@@ -55,33 +55,33 @@ class CatalogRemoteDatasourceImpl implements CatalogRemoteDatasource {
   Future<List<BrandModel>> getBrand(
       {required int productTypeId, required int priceTypeId}) async {
     List<BrandModel> list = [];
-    try {
-      dynamic json = {
-        "product_type_id": productTypeId,
-        "price_type_id": priceTypeId
-      };
-      final response = await client.post(
-        Uri.parse(baseUrl + brandPHP),
-        body: jsonEncode(json),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Accept': 'application/json'
-          // "Authorization": "Bearer ${sharedPreferences.getString("token")}"
-        },
-      );
-      if (response.statusCode == 200) {
-        // log(response.body.toString());
-        final parsed = jsonDecode(response.body);
-        for (int i = 0; i < (parsed["data"] as List).length; i++) {
-          list.add(BrandModel.fromJson(parsed["data"][i]));
+      try {
+        dynamic json = {
+          "product_type_id": productTypeId,
+          "price_type_id": priceTypeId
+        };
+        final response = await client.post(
+          Uri.parse(baseUrl + brandPHP),
+          body: jsonEncode(json),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json'
+            // "Authorization": "Bearer ${sharedPreferences.getString("token")}"
+          },
+        );
+        if (response.statusCode == 200) {
+          // log(response.body.toString());
+          final parsed = jsonDecode(response.body);
+          for (int i = 0; i < (parsed["data"] as List).length; i++) {
+            list.add(BrandModel.fromJson(parsed["data"][i]));
+          }
+          return list;
+        } else {
+          return [];
         }
-        return list;
-      } else {
+      } on InputFormatterFailure {
         return [];
       }
-    } on InputFormatterFailure {
-      return [];
-    }
   }
 
   @override

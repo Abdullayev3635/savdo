@@ -11,7 +11,10 @@ import 'package:savdo_agnet_client/features/buyurtma/domain/usescase/select_uses
 import 'package:savdo_agnet_client/features/buyurtma/presentation/bloc/buyurtma_bloc/buyurtma_dialog_bloc.dart';
 import 'package:savdo_agnet_client/features/buyurtma/presentation/bloc/qarizdorlik_bloc/qarizdorlik_bloc.dart';
 import 'package:savdo_agnet_client/features/firmalar/presentation/bloc/firma_cubit.dart';
-import 'package:savdo_agnet_client/features/korzina_screen/data/database/database.dart';
+import 'package:savdo_agnet_client/features/korzina_screen/data/datasources/korzina_remote_datasources.dart';
+import 'package:savdo_agnet_client/features/korzina_screen/data/repositories/korzina_repository.dart';
+import 'package:savdo_agnet_client/features/korzina_screen/domain/repositories/i_korzina_repository.dart';
+import 'package:savdo_agnet_client/features/korzina_screen/domain/usescase/u_order_list.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/prezentation/bloc/korzina_bloc.dart';
 import 'package:savdo_agnet_client/features/lock/domain/bloc/pass_bloc.dart';
 import 'package:savdo_agnet_client/features/lock/domain/repositories/lock_repositories.dart';
@@ -82,7 +85,7 @@ Future<void> init() async {
     () => QarizdorlikBloc(onSelectClient: di()),
   );
   di.registerFactory(
-    () => KorzinaBloc(usesBuyurtma: di()),
+    () => KorzinaBloc(usesBuyurtma: di(), karzina: di()),
   );
 
   di.registerFactory(
@@ -93,6 +96,12 @@ Future<void> init() async {
 
   di.registerLazySingleton<PassRepository>(
     () => PassRepositoryImpl(passLocalDataSource: di()),
+  );
+  di.registerLazySingleton<KorzinaRepository>(
+    () => KorzinaRepositoryImpl(
+      remoteDatasource: di(),
+      networkInfo: di(),
+    ),
   );
 
   di.registerLazySingleton<CatalogRepository>(
@@ -126,7 +135,7 @@ Future<void> init() async {
 
   /// UsesCases
   //   di.registerLazySingleton(() => SendData(sendDataRepository: di()));
-
+  di.registerLazySingleton(() => UKorzinaOrderList(korzinaRepository: di()));
   di.registerLazySingleton(() => Pass(repository: di()));
   di.registerLazySingleton(() => ProductCatalog(catalogRepository: di()));
   di.registerLazySingleton(() => BrandCatalog(catalogRepository: di()));
@@ -134,6 +143,7 @@ Future<void> init() async {
   di.registerLazySingleton(() => UsesSelectClient(clientRepository: di()));
   di.registerLazySingleton(() => UsesBuyurtma(repository: di()));
   di.registerLazySingleton(() => OnSelectClient(clientRepository: di()));
+
 
   /// Data sources
   di.registerLazySingleton(
@@ -163,6 +173,9 @@ Future<void> init() async {
   );
   di.registerLazySingleton(
     () => BuyurtmaRemoteDataSourceImpl(client: di()),
+  );
+  di.registerLazySingleton<KorzinaOrderRemoteDatasource>(
+    () => KorzinaOrderRemoteDatasourceImpl(client: di()),
   );
 
   /// Image picker

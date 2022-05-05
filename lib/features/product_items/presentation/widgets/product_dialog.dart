@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,7 +18,7 @@ import '../../../../core/widgets/costum_toast.dart';
 import 'dialog_text_field_widget.dart';
 
 class ProductItemDialog extends StatefulWidget {
-  const ProductItemDialog({
+  ProductItemDialog({
     Key? key,
     required this.id,
     required this.name,
@@ -32,12 +33,17 @@ class ProductItemDialog extends StatefulWidget {
     required this.blok,
     this.dona,
   }) : super(key: key);
+
+  // List<KorzinaCard> list;
+  final String? image;
+
   final int id;
   final int? residue;
   final int? currencyId;
   final String? name;
   final String? size;
-  final String? image;
+
+  // final String? image;
   final String? price;
   final String? category;
   final String? bloklarSoni;
@@ -133,7 +139,9 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                   ),
                 );
               }
-              return Container();
+              return SizedBox(
+                  child: const Center(child: CupertinoActivityIndicator()),
+                  height: MediaQuery.of(context).size.height / 1.2);
             },
           ),
         ),

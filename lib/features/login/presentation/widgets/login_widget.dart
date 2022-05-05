@@ -157,10 +157,12 @@ class _LoginWidgetState extends State<LoginWidget> {
             onPressed: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      (sharedPreferences.getString('pin_code') ?? '') != ''
+                  builder: (context) {
+                    sharedPreferences.setString(sharedSalesAgentId, '1');
+                    return (sharedPreferences.getString('pin_code') ?? '') != ''
                           ? PasswordScreen.screen()
-                          : const MainPage(),
+                          : const MainPage();
+                  },
                 )),
             style: buttonStyle,
             child: Text('Kirish',

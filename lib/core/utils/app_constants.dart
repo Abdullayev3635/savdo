@@ -97,3 +97,10 @@ ButtonStyle buttonStyle = ButtonStyle(
 // BoxConstraints
 BoxConstraints boxConstraintsTextField = BoxConstraints(
     maxWidth: 30.w, maxHeight: 30.h, minHeight: 25.h, minWidth: 25.w);
+
+//shared keys
+
+const String sharedCustomerId = 'customer_id';
+const String sharedCurrencyValue = 'currency_value';
+const String sharedSalesAgentId = 'sales_agent_id';
+const String sharedPriceTypeId = 'price_type_id';

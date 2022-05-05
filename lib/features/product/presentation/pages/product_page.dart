@@ -17,8 +17,15 @@ import '../widgets/text_field_widget.dart';
 
 class ProductPage extends StatefulWidget {
   const ProductPage({Key? key}) : super(key: key);
+  final int customerId = 0;
+  // final int salesAgentId = 0;
 
-  static Widget screen() => MultiBlocProvider(
+  static Widget screen({
+    required int customerId,
+    // required int salesAgentId,
+
+  }) =>
+      MultiBlocProvider(
         providers: [
           BlocProvider(
             create: (context) => di<CatalogBloc>()..add(GetCategory()),

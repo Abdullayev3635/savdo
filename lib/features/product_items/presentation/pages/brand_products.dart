@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:savdo_agnet_client/core/widgets/costum_toast.dart';
 import 'package:savdo_agnet_client/core/widgets/failure_dialog.dart';
 import 'package:savdo_agnet_client/di/dependency_injection.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/network/network_info.dart';
 import '../../../../core/utils/app_constants.dart';
@@ -16,7 +17,7 @@ import '../widgets/product_items.dart';
 String bName = '';
 int? gpriceId;
 int? gbrandId;
-int? gsalesAgentId;
+// int? gsalesAgentId;
 
 class Products extends StatefulWidget {
   const Products({Key? key}) : super(key: key);
@@ -30,7 +31,7 @@ class Products extends StatefulWidget {
     bName = brandName;
     gpriceId = priceTypeId;
     gbrandId = brandId;
-    gsalesAgentId = salesAgentId;
+    // gsalesAgentId = salesAgentId;
     return BlocProvider(
       create: (context) => di<BrandsProductsBloc>()
         ..add(GetBrandsProductsEvent(
@@ -66,8 +67,13 @@ class _ProductsState extends State<Products> {
   Future _handleRefresh() async {
     // print("refresh");
     return _brandBloc.add(GetBrandsProductsEvent(
-        priceTypeId: gpriceId, brandId: gbrandId, salesAgentId: gsalesAgentId));
+        priceTypeId: gpriceId,
+        brandId: gbrandId,
+        salesAgentId:
+            int.parse(sharedPreferences.getString(sharedSalesAgentId) ?? '')));
   }
+
+  SharedPreferences sharedPreferences = di.get();
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +96,9 @@ class _ProductsState extends State<Products> {
                   _brandBloc.add(GetBrandsProductsEvent(
                       priceTypeId: gpriceId,
                       brandId: gbrandId,
-                      salesAgentId: gsalesAgentId));
+                      salesAgentId: int.parse(
+                          sharedPreferences.getString(sharedSalesAgentId) ??
+                              '')));
                   Navigator.pop(context);
                 } else {
                   CustomToast.showToast('Internet bilan aloqani tekshiring!');

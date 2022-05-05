@@ -13,8 +13,24 @@ class KorzinaLoadingState extends KorzinaState {}
 
 class KorzinaSuccessState extends KorzinaState {
   final List<BuyurtmaModel> buyurtmaList;
+  final List<KorzinaCard> korzinaSaveList;
 
-  const KorzinaSuccessState({required this.buyurtmaList});
+  const KorzinaSuccessState({
+    required this.korzinaSaveList,
+    required this.buyurtmaList,
+  });
+}
+
+class KorzinaErrorMessageState extends KorzinaState {
+  final List<ErrorModel> korzinaErrorList;
+
+  const KorzinaErrorMessageState({required this.korzinaErrorList});
+}
+
+class KorzinaNoInternetState extends KorzinaState {
+  final String message;
+
+  const KorzinaNoInternetState({required this.message});
 }
 
 class KorzinaFailureState extends KorzinaState {

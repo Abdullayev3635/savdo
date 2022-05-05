@@ -53,15 +53,16 @@ class _KorzinaItemsWidgetState extends State<KorzinaItemsWidget> {
                           context: context,
                           builder: (context) {
                             return ProductItemDialog(
-                              bloklarSoni: widget.transaction[index].bloklarSoni,
+                              bloklarSoni:
+                                  widget.transaction[index].bloklarSoni,
                               dona: widget.transaction[index].dona,
-                              blok: widget.transaction[index].blok,
+                              blok: widget.transaction[index].blok ?? '0',
                               category: widget.transaction[index].category,
                               name: widget.transaction[index].name,
                               price: widget.transaction[index].price,
                               image: null,
                               residue: widget.transaction[index].residue,
-                              id: widget.transaction[index].id,
+                              id: widget.transaction[index].id!,
                               size: widget.transaction[index].size,
                               currencyName:
                                   widget.transaction[index].currencyName,
@@ -144,15 +145,16 @@ class _KorzinaItemsWidgetState extends State<KorzinaItemsWidget> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(widget.transaction[index].name.toUpperCase(),
+                          Text(
+                              widget.transaction[index].name ??
+                                  ''.toUpperCase(),
                               style: TextStyle(
-                                color: primaryColor,
-                                fontSize: 18.sp,
-                                fontFamily: 'GilroyMedium',
-                              )),
+                                  color: primaryColor,
+                                  fontSize: 18.sp,
+                                  fontFamily: 'GilroyMedium')),
                           SizedBox(height: 4.h),
                           Text(
-                            widget.transaction[index].category,
+                            widget.transaction[index].category ?? '',
                             style: TextStyle(
                                 fontFamily: 'GilroyRegular',
                                 fontSize: 12.sp,

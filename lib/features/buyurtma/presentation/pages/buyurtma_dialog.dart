@@ -4,13 +4,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
+import 'package:savdo_agnet_client/core/widgets/costum_toast.dart';
+import 'package:savdo_agnet_client/core/widgets/failure_dialog.dart';
 import 'package:savdo_agnet_client/features/buyurtma/data/model/currency_model.dart';
 import 'package:savdo_agnet_client/features/buyurtma/data/model/price_type_model.dart';
 import 'package:savdo_agnet_client/features/buyurtma/presentation/bloc/buyurtma_bloc/buyurtma_dialog_bloc.dart';
 import 'package:savdo_agnet_client/features/buyurtma/presentation/bloc/qarizdorlik_bloc/qarizdorlik_bloc.dart';
 import 'package:savdo_agnet_client/features/product/presentation/pages/product_page.dart';
 import 'package:savdo_agnet_client/features/select_client/presentation/pages/select_client.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../../core/network/network_info.dart';
 import '../../../../core/widgets/dialog_frame.dart';
 import '../../../../di/dependency_injection.dart';
 
@@ -56,8 +60,11 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
     super.dispose();
   }
 
+  NetworkInfo networkInfo = di.get();
+
   @override
   Widget build(BuildContext context) {
+    SharedPreferences sharedPreferences = di.get();
     return AllDialogSkeleton(
       title: 'Buyurtma',
       icon: 'assets/icons/ic_shopping_cart.svg',
@@ -80,9 +87,15 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                                 setState(() {
                                   clientId = value['id'];
                                   clientName = value['name'].toString();
+                                  // sharedPreferences.setString(
+                                  //     sharedCustomerId, value['id'].toString());
                                   qarizdorlikBloc.add(ClientSelectedEvent(
-                                      customerId: clientId, salesAgentId: 1));
-                                })
+                                      customerId: clientId,
+                                      salesAgentId: int.parse(sharedPreferences
+                                              .getString(sharedSalesAgentId) ??
+                                          '')));
+                                }),
+                                // print(sharedPreferences.getString(sharedPreferences.getString(sharedCustomerId)??'wqwqwqqqqqqqqqqqqqqq'))
                               },
                           }),
                       child: Container(
@@ -203,7 +216,6 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                     state.buyurtmaList[0].currency;
                 List<PriceTypeModel>? priceTypeList =
                     state.buyurtmaList[0].priceType;
-
                 return Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -342,11 +354,16 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                     SizedBox(height: 32.h),
                     ElevatedButton(
                       onPressed: () {
+                        sharedPreferences.setString(sharedCurrencyValue, kurs);
+                        sharedPreferences.setString(sharedCurrencyValue, group2);
+
                         Navigator.pop(context);
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ProductPage.screen(),
+                              builder: (context) => ProductPage.screen(
+                                customerId: clientId,
+                              ),
                             ));
                       },
                       style: buttonStyle,
@@ -361,9 +378,19 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                 return SizedBox(
                     child: const Center(child: CupertinoActivityIndicator()),
                     height: 400.h);
-              } else {
-                return Container();
+              } else if (state is BuyurtmaDialogNoInternetState) {
+                return ShowFailureDialog(onTap: () async {
+                  if (await networkInfo.isConnected) {
+                    dialogBloc.add(BuyurtmaInitialEvent());
+                    Navigator.pop(context);
+                  } else {
+                    CustomToast.showToast('Internet bilan aloqani tekshiring!');
+                  }
+                });
               }
+              return SizedBox(
+                  child: const Center(child: CupertinoActivityIndicator()),
+                  height: 400.h);
             },
           ),
         ],

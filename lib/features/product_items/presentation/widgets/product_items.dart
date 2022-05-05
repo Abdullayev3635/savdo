@@ -52,27 +52,27 @@ class _ProductItemsWidgetState extends State<ProductItemsWidget> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            height: 125.h,
-            width: 120.w,
-            margin: EdgeInsets.only(bottom: 9.h),
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              image: const DecorationImage(
-                opacity: 0.5,
-                image: AssetImage('assets/images/gallery.png'),
-              ),
-              borderRadius: BorderRadius.circular(10.r),
-              color: cBackgroundColor,
-            ),
-            child: SizedBox(
-                child: widget.image != null
-                    ? Image.network(widget.image ?? '')
-                    : null),
+        Container(
+        height: 125.h,
+        width: 120.w,
+        margin: EdgeInsets.only(bottom: 9.h),
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          image: const DecorationImage(
+            opacity: 0.5,
+            image: AssetImage('assets/images/gallery.png'),
           ),
-          Padding(
-            padding: EdgeInsets.only(left: 23.w),
-            child: Column(
+          borderRadius: BorderRadius.circular(10.r),
+          color: cBackgroundColor,
+        ),
+        child: SizedBox(
+            child: widget.image != null
+                ? Image.network(widget.image ?? '')
+                : null),
+      ),
+      Padding(
+          padding: EdgeInsets.only(left: 23.w),
+          child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

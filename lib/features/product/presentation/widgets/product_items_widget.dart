@@ -3,17 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
+import 'package:savdo_agnet_client/di/dependency_injection.dart';
 import 'package:savdo_agnet_client/features/product_items/presentation/pages/brand_products.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../bloc/brand/brand_bloc.dart';
 
 class ProductWidget extends StatelessWidget {
   final BrandSuccessState state;
 
-  const ProductWidget({
+  ProductWidget({
     required this.state,
     Key? key,
   }) : super(key: key);
+  final SharedPreferences sharedPreferences = di.get();
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +36,9 @@ class ProductWidget extends StatelessWidget {
                       brandName: state.list[index].name ?? "",
                       brandId: state.list[index].id,
                       priceTypeId: 1,
-                      salesAgentId: 1,
+                      salesAgentId: int.parse(
+                        sharedPreferences.getString(sharedSalesAgentId) ?? '',
+                      ),
                     ),
                   ));
             },
@@ -78,19 +83,22 @@ class ProductWidget extends StatelessWidget {
                       child: Text(
                     state.list[index].name ?? "",
                     style: TextStyle(
-                        fontSize: 18.sp,
-                        fontFamily: 'Medium',
-                        color: cGrayColor),
+                      fontSize: 18.sp,
+                      fontFamily: 'Medium',
+                      color: cGrayColor,
+                    ),
                   )),
                   Container(
                     width: 105.w,
-                    padding: EdgeInsets.symmetric(
-                        horizontal: 31.w, vertical: 38.h),
-                    child: Text("${state.list[index].count ?? 0}",
-                        maxLines: 1,
-                        textAlign: TextAlign.center,
-                        overflow: TextOverflow.ellipsis,
-                        style: textStylePrimaryReg16),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 31.w, vertical: 38.h),
+                    child: Text(
+                      "${state.list[index].count ?? 0}",
+                      maxLines: 1,
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      style: textStylePrimaryReg16,
+                    ),
                   )
                 ],
               ),
