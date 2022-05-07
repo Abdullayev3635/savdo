@@ -33,7 +33,7 @@ const String brandProductsBox = 'brand_products_box';
 const String korzinaBox = 'korzina_box';
 
 const String buyurtmaBox = 'buyurtma_box';
-const String clientDebitCreditBox = 'client_debit_credit_box';
+// const String clientDebitCreditBox = 'client_debit_credit_box';
 const String currencyBox = 'currency_box';
 const String priceTypeBox = 'price_type_box';
 

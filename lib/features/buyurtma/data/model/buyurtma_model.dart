@@ -4,7 +4,7 @@ import 'package:hive/hive.dart';
 
 part 'buyurtma_model.g.dart';
 
-@HiveType(typeId: 5)
+@HiveType(typeId: 7)
 class BuyurtmaModel {
   @HiveField(0)
   List<CurrencyModel>? currency;

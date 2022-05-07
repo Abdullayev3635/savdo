@@ -8,7 +8,7 @@ part of 'buyurtma_model.dart';
 
 class BuyurtmaModelAdapter extends TypeAdapter<BuyurtmaModel> {
   @override
-  final int typeId = 5;
+  final int typeId = 7;
 
   @override
   BuyurtmaModel read(BinaryReader reader) {

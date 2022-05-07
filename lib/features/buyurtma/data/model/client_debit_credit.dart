@@ -1,12 +1,12 @@
-import 'package:hive/hive.dart';
 
-part 'client_debit_credit.g.dart';
 
-@HiveType(typeId: 7)
+// part 'client_debit_credit.g.dart';
+
+// @HiveType(typeId: 7)
 class ClientDebitCreditModel {
-  @HiveField(0)
+  // @HiveField(0)
   String? name;
-  @HiveField(1)
+  // @HiveField(1)
   int? value;
 
   ClientDebitCreditModel({this.name, this.value});

@@ -7,6 +7,7 @@ abstract class KorzinaEvent extends Equatable {
 }
 
   class KorzinaInitialEvent extends KorzinaEvent {}
+
 class KorzinaSendDataEvent extends KorzinaEvent {
   final List<KorzinaCard> card;
 

@@ -28,7 +28,7 @@ dependencies:
   hive: ^2.0.6
   hive_flutter: ^1.1.0
   # 7.Message viewer
-  fluttertoast: ^8.0.8
+  fluttertoast: ^8.0.9
   # 8.Support svg icons
   flutter_svg: ^1.0.3
   # 9.Support text sizes
@@ -65,6 +65,9 @@ dependencies:
   flutter_rating_bar: ^4.0.0
   #slidable
   flutter_slidable: ^1.2.0
+  #shimmer
+  shimmer: ^2.0.0
+
 
 dev_dependencies:
   flutter_test:

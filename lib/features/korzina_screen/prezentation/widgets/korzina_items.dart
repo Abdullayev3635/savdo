@@ -4,11 +4,14 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive/hive.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
+import 'package:savdo_agnet_client/di/dependency_injection.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/data/korzina_hive/korzina_hive.dart';
 import 'package:savdo_agnet_client/features/product_items/presentation/widgets/product_dialog.dart';
 
+import '../bloc/korzina_bloc.dart';
+
 class KorzinaItemsWidget extends StatefulWidget {
-  final List<KorzinaCard> transaction;
+  final List<KorzinaCard>? transaction;
   final Box<KorzinaCard> box;
 
   const KorzinaItemsWidget({
@@ -22,7 +25,13 @@ class KorzinaItemsWidget extends StatefulWidget {
 }
 
 class _KorzinaItemsWidgetState extends State<KorzinaItemsWidget> {
-  // var rating = 3.0;
+  late KorzinaBloc bloc;
+
+  @override
+  void initState() {
+    super.initState();
+    bloc = di<KorzinaBloc>()..add(KorzinaInitialEvent());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +40,10 @@ class _KorzinaItemsWidgetState extends State<KorzinaItemsWidget> {
       primary: false,
       physics: const BouncingScrollPhysics(),
       padding: EdgeInsets.symmetric(horizontal: 21.w),
-      itemCount: widget.transaction.length,
+      itemCount: widget.transaction!.isEmpty ? 0 : widget.transaction?.length,
       itemBuilder: (context, index) {
         KorzinaCard? card = widget.box.getAt(index);
+
         return Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15.r), color: cWhiteColor),
@@ -54,19 +64,19 @@ class _KorzinaItemsWidgetState extends State<KorzinaItemsWidget> {
                           builder: (context) {
                             return ProductItemDialog(
                               bloklarSoni:
-                                  widget.transaction[index].bloklarSoni,
-                              dona: widget.transaction[index].dona,
-                              blok: widget.transaction[index].blok ?? '0',
-                              category: widget.transaction[index].category,
-                              name: widget.transaction[index].name,
-                              price: widget.transaction[index].price,
+                                  widget.transaction?[index].bloklarSoni,
+                              dona: widget.transaction?[index].dona,
+                              blok: widget.transaction?[index].blok ?? '0',
+                              category: widget.transaction?[index].category,
+                              name: widget.transaction?[index].name,
+                              price: widget.transaction?[index].price,
                               image: null,
-                              residue: widget.transaction[index].residue,
-                              id: widget.transaction[index].id!,
-                              size: widget.transaction[index].size,
+                              residue: widget.transaction?[index].residue,
+                              id: widget.transaction![index].id!,
+                              size: widget.transaction![index].size,
                               currencyName:
-                                  widget.transaction[index].currencyName,
-                              currencyId: widget.transaction[index].currencyId,
+                                  widget.transaction![index].currencyName,
+                              currencyId: widget.transaction![index].currencyId,
                             );
                           });
                     },
@@ -76,16 +86,14 @@ class _KorzinaItemsWidgetState extends State<KorzinaItemsWidget> {
                       width: 88.w,
                       height: 167.h,
                       decoration: const BoxDecoration(color: primaryColor),
-                      child: const Icon(
-                        Icons.edit,
-                        color: cWhiteColor,
-                      ),
+                      child: const Icon(Icons.edit, color: cWhiteColor),
                     ),
                   ),
                   InkWell(
-                    onTap: () async {
+                    onTap: () {
                       setState(() {});
                       card?.delete();
+                      bloc.add(KorzinaInitialEvent());
                     },
                     borderRadius:
                         BorderRadius.horizontal(right: Radius.circular(15.r)),
@@ -96,22 +104,13 @@ class _KorzinaItemsWidgetState extends State<KorzinaItemsWidget> {
                           color: Colors.red,
                           borderRadius: BorderRadius.horizontal(
                               right: Radius.circular(15.r))),
-                      child: const Icon(
-                        Icons.delete,
-                        color: cWhiteColor,
-                      ),
+                      child: const Icon(Icons.delete, color: cWhiteColor),
                     ),
                   ),
-
-                  // ElevatedButton(onPressed: (){}, child: Icon(Icons.delete)),
                 ],
               ),
               child: Container(
-                padding: EdgeInsets.only(
-                  top: 21.h,
-                  bottom: 12.h,
-                  left: 21.w,
-                ),
+                padding: EdgeInsets.only(top: 21.h, bottom: 12.h, left: 21.w),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15.r),
                     color: cWhiteColor),
@@ -146,7 +145,7 @@ class _KorzinaItemsWidgetState extends State<KorzinaItemsWidget> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                              widget.transaction[index].name ??
+                              widget.transaction![index].name ??
                                   ''.toUpperCase(),
                               style: TextStyle(
                                   color: primaryColor,
@@ -154,7 +153,7 @@ class _KorzinaItemsWidgetState extends State<KorzinaItemsWidget> {
                                   fontFamily: 'GilroyMedium')),
                           SizedBox(height: 4.h),
                           Text(
-                            widget.transaction[index].category ?? '',
+                            widget.transaction![index].category ?? '',
                             style: TextStyle(
                                 fontFamily: 'GilroyRegular',
                                 fontSize: 12.sp,
@@ -162,7 +161,7 @@ class _KorzinaItemsWidgetState extends State<KorzinaItemsWidget> {
                           ),
                           SizedBox(height: 7.h),
                           Text(
-                            '${widget.transaction[index].price} ${widget.transaction[index].currencyName}',
+                            '${widget.transaction![index].price} ${widget.transaction![index].currencyName}',
                             style: TextStyle(
                                 color: const Color(0xffDC200E),
                                 fontSize: 16.sp,

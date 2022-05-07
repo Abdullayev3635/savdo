@@ -22,7 +22,7 @@ class BuyurtmaRepositoryImpl extends BuyurtmaRepository {
     if (await networkInfo.isConnected) {
       try {
         final result = await remoteDataSourceImpl.getBuyurtma();
-        localeDatasourceImpl.setBuyurtma(result);
+        await localeDatasourceImpl.setBuyurtma(result);
         return Right(result);
       } on ServerFailure {
         return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));
@@ -40,23 +40,12 @@ class BuyurtmaRepositoryImpl extends BuyurtmaRepository {
   @override
   Future<Either<Failure, dynamic>> getClientDebitCredit(
       int customerId, int salesAgentId) async {
-    if (await networkInfo.isConnected) {
-      try {
-        final result = await remoteDataSourceImpl.getClientDebitCredit(
-            customerId: customerId, salesAgentId: salesAgentId);
-        localeDatasourceImpl.setDCredit(result);
-        return Right(result);
-
-      } on ServerFailure {
-        return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));
-      }
-    } else {
-      try {
-        final result = await localeDatasourceImpl.getDCredit();
-        return Right(result);
-      } on LocalFailure {
-        return const Left(LocalFailure("Маълумот юкланишда хатолик бўлди"));
-      }
+    try {
+      final result = await remoteDataSourceImpl.getClientDebitCredit(
+          customerId: customerId, salesAgentId: salesAgentId);
+      return Right(result);
+    } on ServerFailure {
+      return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));
     }
   }
 }

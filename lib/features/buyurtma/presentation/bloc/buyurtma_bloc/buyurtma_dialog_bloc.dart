@@ -32,6 +32,16 @@ class BuyurtmaDialogBloc
               else if (failure is ServerFailure)
                 {emit(BuyurtmaDialogFailureState(message: failure.message))}
             },
-        (r) => {emit(BuyurtmaDialogSelectedSuccessState(buyurtmaList: r))});
+        (r) => {
+              if (r.isNotEmpty)
+                {
+                  emit(BuyurtmaDialogSelectedSuccessState(buyurtmaList: r)),
+                }
+              else
+                {
+                  emit(BuyurtmaDialogFailureState(
+                      message: 'Internet bilan aloqani tekshiring!'))
+                }
+            });
   }
 }

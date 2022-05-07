@@ -6,6 +6,7 @@ import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
 import 'package:savdo_agnet_client/core/errors/failures.dart';
+import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 import 'package:savdo_agnet_client/features/buyurtma/data/model/buyurtma_model.dart';
 import 'package:savdo_agnet_client/features/buyurtma/domain/usescase/buyurtma_usescase.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/data/korzina_hive/error_model.dart';
@@ -33,7 +34,7 @@ class KorzinaBloc extends Bloc<KorzinaEvent, KorzinaState> {
     emit(KorzinaLoadingState());
     final result = await usesBuyurtma(BuyurtmaParams());
 
-    var box = Hive.box<KorzinaCard>('korzina_box');
+    var box = Hive.box<KorzinaCard>(korzinaBox);
     var transaction = box.values.toList().cast<KorzinaCard>();
     result.fold(
         (failure) => {

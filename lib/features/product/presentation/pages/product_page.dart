@@ -18,12 +18,12 @@ import '../widgets/text_field_widget.dart';
 class ProductPage extends StatefulWidget {
   const ProductPage({Key? key}) : super(key: key);
   final int customerId = 0;
+
   // final int salesAgentId = 0;
 
   static Widget screen({
     required int customerId,
     // required int salesAgentId,
-
   }) =>
       MultiBlocProvider(
         providers: [
@@ -111,20 +111,7 @@ class _ProductPageState extends State<ProductPage> {
                       ),
                     );
                   }
-                  // else if (state is CatalogNoInternetState) {
-                  //   return SliverToBoxAdapter(
-                  //     child: ShowFailureDialog(onTap: () async {
-                  //       if (await networkInfo.isConnected) {
-                  //         _catalogBloc.add(GetCategory());
-                  //         Navigator.pop(context);
-                  //       } else {
-                  //         CustomToast.showToast(
-                  //             'Internet bilan aloqani tekshiring!');
-                  //       }
-                  //     }),
-                  //   );
-                  // }
-                    else if (state is CatalogSuccessState) {
+                  else if (state is CatalogSuccessState) {
                     _brandBloc.add(
                       GetBrandEvent(
                         productTypeId: state.list[state.selected].id ?? 0,
@@ -150,26 +137,10 @@ class _ProductPageState extends State<ProductPage> {
                                   MaterialStateProperty.all(Colors.transparent),
                               onTap: () async {
                                 // if (await networkInfo.isConnected) {
-                                  _catalogBloc.add(ChangeColor(
-                                      state.list,
-                                      state.selected,
-                                      state.count,
-                                      state.isLarge));
-                                // } else {
-                                //   showDialog(
-                                //       context: context,
-                                //       builder: (context) {
-                                //         return FailureDialog(onTap: () async {
-                                //           if (await networkInfo.isConnected) {
-                                //             _catalogBloc.add(GetCategory());
-                                //             Navigator.pop(context);
-                                //           } else {
-                                //             CustomToast.showToast(
-                                //                 'Internet bilan aloqani tekshiring!');
-                                //           }
-                                //         });
-                                //       });
-                                // }
+                                _catalogBloc.add(
+                                  ChangeColor(state.list, state.selected,
+                                      state.count, state.isLarge),
+                                );
                               },
                               child: Container(
                                 margin: const EdgeInsets.only(right: 10),
@@ -230,7 +201,14 @@ class _ProductPageState extends State<ProductPage> {
                 child: BlocBuilder<BrandBloc, BrandState>(
                   builder: (context, state) {
                     if (state is BrandSuccessState) {
-                      return ProductWidget(state: state);
+                      if(state.list.isNotEmpty){
+                        return ProductWidget(state: state);
+                      }else{
+                        return const Center(
+                          child: Text('Maxsulotlar yo`q ekan',style: TextStyle(),),
+                        );
+                      }
+
                     } else if (state is BrandLoadingState) {
                       return SizedBox(
                           height: 120.h,

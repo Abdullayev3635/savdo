@@ -232,13 +232,10 @@ Future<void> init() async {
   Hive.registerAdapter(ClientModelAdapter());
   await Hive.openBox(clientBox);
 
-  // buyurtma dialog
-  Hive.registerAdapter(BuyurtmaModelAdapter());
-  await Hive.openBox(buyurtmaBox);
 
   // debit credit model
-  Hive.registerAdapter(ClientDebitCreditModelAdapter());
-  await Hive.openBox(clientDebitCreditBox);
+  // Hive.registerAdapter(ClientDebitCreditModelAdapter());
+  // await Hive.openBox(clientDebitCreditBox);
 
   // currency model
   Hive.registerAdapter(CurrencyModelAdapter());
@@ -247,4 +244,10 @@ Future<void> init() async {
   // price type model
   Hive.registerAdapter(PriceTypeModelAdapter());
   await Hive.openBox(priceTypeBox);
+
+  // buyurtma dialog
+  Hive.registerAdapter(BuyurtmaModelAdapter());
+
+  await Hive.openBox(buyurtmaBox);
+
 }

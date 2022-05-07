@@ -1,6 +1,5 @@
 import 'package:hive/hive.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
-import 'package:savdo_agnet_client/features/buyurtma/data/model/client_debit_credit.dart';
 import 'package:savdo_agnet_client/features/buyurtma/data/model/buyurtma_model.dart';
 import 'package:savdo_agnet_client/features/buyurtma/data/model/currency_model.dart';
 import 'package:savdo_agnet_client/features/buyurtma/data/model/price_type_model.dart';
@@ -10,9 +9,9 @@ abstract class BuyurtmaLocaleDatasource {
 
   Future<bool> setBuyurtma(List<BuyurtmaModel> list);
 
-  Future<List<ClientDebitCreditModel>> getDCredit();
+  // Future<List<ClientDebitCreditModel>> getDCredit();
 
-  Future<bool> setDCredit(List<ClientDebitCreditModel> list);
+  // Future<bool> setDCredit(List<ClientDebitCreditModel> list);
 
   Future<List<CurrencyModel>> getCurrency();
 
@@ -46,17 +45,17 @@ class BuyurtmaLocaleDatasourceImpl extends BuyurtmaLocaleDatasource {
     }
   }
 
-  @override
-  Future<List<ClientDebitCreditModel>> getDCredit() async {
-    try {
-      final box = Hive.box(clientDebitCreditBox);
-      final eventsFromHive =
-          box.get(clientDebitCreditBox)?.cast<ClientDebitCreditModel>() ?? [];
-      return eventsFromHive;
-    } catch (e) {
-      return [];
-    }
-  }
+  // @override
+  // Future<List<ClientDebitCreditModel>> getDCredit() async {
+  //   try {
+  //     final box = Hive.box(clientDebitCreditBox);
+  //     final eventsFromHive =
+  //         box.get(clientDebitCreditBox)?.cast<ClientDebitCreditModel>() ?? [];
+  //     return eventsFromHive;
+  //   } catch (e) {
+  //     return [];
+  //   }
+  // }
 
   @override
   Future<List<PriceTypeModel>> getPriceType() async {
@@ -74,7 +73,7 @@ class BuyurtmaLocaleDatasourceImpl extends BuyurtmaLocaleDatasource {
   Future<bool> setBuyurtma(List<BuyurtmaModel> list) async {
     try {
       final box = Hive.box(buyurtmaBox);
-      box.put(buyurtmaBox, list);
+      await box.put(buyurtmaBox, list);
       return true;
     } catch (e) {
       return false;
@@ -92,16 +91,17 @@ class BuyurtmaLocaleDatasourceImpl extends BuyurtmaLocaleDatasource {
     }
   }
 
-  @override
-  Future<bool> setDCredit(List<ClientDebitCreditModel> list) async {
-    try {
-      final box = Hive.box(clientDebitCreditBox);
-      box.put(clientDebitCreditBox, list);
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
+  //
+  // @override
+  // Future<bool> setDCredit(List<ClientDebitCreditModel> list) async {
+  //   try {
+  //     final box = Hive.box(clientDebitCreditBox);
+  //     box.put(clientDebitCreditBox, list);
+  //     return true;
+  //   } catch (e) {
+  //     return false;
+  //   }
+  // }
 
   @override
   Future<bool> setPriceType(List<PriceTypeModel> list) async {
