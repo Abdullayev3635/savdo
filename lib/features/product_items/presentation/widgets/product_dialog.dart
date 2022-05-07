@@ -84,7 +84,7 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
     return BlocProvider(
       create: (context) => di<KorzinaBloc>()..add(KorzinaInitialEvent()),
       child: SingleChildScrollView(
-        // reverse: true,
+        reverse: true,
         clipBehavior: Clip.none,
         child: AllDialogSkeleton(
           title: '',
@@ -273,9 +273,13 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     GestureDetector(
-                      onTap: () => onTapInOrDecrement(
-                          count: dona, isInc: false, blokOrPieces: true),
+                      onTap: () {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                        onTapInOrDecrement(
+                          count: dona, isInc: false, blokOrPieces: true);
+                      },
                       onTapDown: (TapDownDetails details) {
+                        FocusManager.instance.primaryFocus?.unfocus();
                         // onTapInOrDecrementPeriodic(count, isInc, newValue);
                         timer = Timer.periodic(
                             const Duration(milliseconds: 100), (t) {
@@ -306,10 +310,14 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                     ),
                     TextFieldWidgetInProductDialog(controller: blokController),
                     GestureDetector(
-                      onTap: () => onTapInOrDecrement(
-                          count: bloklarSoni, isInc: true, blokOrPieces: true),
-                      onTapDown: (TapDownDetails details) =>
-                          timer = Timer.periodic(
+                      onTap: () {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                        onTapInOrDecrement(
+                          count: bloklarSoni, isInc: true, blokOrPieces: true);
+                      },
+                      onTapDown: (TapDownDetails details) {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                        timer = Timer.periodic(
                         const Duration(milliseconds: 100),
                         (t) => setState(
                           () {
@@ -323,7 +331,8 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                             initialBlok = bloklarSoni.toString();
                           },
                         ),
-                      ),
+                      );
+                      },
                       onTapUp: (TapUpDetails details) => timer.cancel(),
                       onTapCancel: () => timer.cancel(),
                       child: Container(
@@ -353,9 +362,13 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     GestureDetector(
-                      onTap: () => onTapInOrDecrement(
-                          count: dona, isInc: false, blokOrPieces: false),
+                      onTap: () {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                        onTapInOrDecrement(
+                          count: dona, isInc: false, blokOrPieces: false);
+                      },
                       onTapDown: (TapDownDetails details) {
+                        FocusManager.instance.primaryFocus?.unfocus();
                         timer = Timer.periodic(
                             const Duration(milliseconds: 100), (t) {
                           if (piecesController.text.isEmpty) {
@@ -384,10 +397,14 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                     TextFieldWidgetInProductDialog(
                         controller: piecesController),
                     GestureDetector(
-                      onTap: () => onTapInOrDecrement(
-                          count: dona, isInc: true, blokOrPieces: false),
-                      onTapDown: (TapDownDetails details) =>
-                          timer = Timer.periodic(
+                      onTap: () {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                        onTapInOrDecrement(
+                          count: dona, isInc: true, blokOrPieces: false);
+                      },
+                      onTapDown: (TapDownDetails details) {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                        timer = Timer.periodic(
                               const Duration(milliseconds: 100),
                               (t) => setState(
                                     () {
@@ -400,7 +417,8 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                                       piecesController.text = dona.toString();
                                       initialPieces = dona.toString();
                                     },
-                                  )),
+                                  ));
+                      },
                       onTapUp: (TapUpDetails details) => timer.cancel(),
                       onTapCancel: () => timer.cancel(),
                       child: Container(
@@ -434,6 +452,7 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
               children: [
                 ElevatedButton(
                     onPressed: () {
+                      FocusManager.instance.primaryFocus?.unfocus();
                       Navigator.pop(context);
                     },
                     child: Text(
@@ -452,6 +471,7 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                 ElevatedButton(
                   style: buttonStyle,
                   onPressed: () async {
+                    FocusManager.instance.primaryFocus?.unfocus();
                     final productAddKorzina = KorzinaCard(
                       blok: widget.blok,
                       bloklarSoni: blokController.text,

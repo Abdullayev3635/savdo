@@ -42,6 +42,7 @@ import 'package:savdo_agnet_client/features/select_client/data/model/client_mode
 import 'package:savdo_agnet_client/features/select_client/data/repository/select_client_repository.dart';
 import 'package:savdo_agnet_client/features/select_client/domain/repositories/client_repository.dart';
 import 'package:savdo_agnet_client/features/select_client/domain/usescase/client_usescase.dart';
+import 'package:savdo_agnet_client/features/select_client/domain/usescase/client_usescase_local.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../core/location/location_service.dart';
@@ -85,10 +86,10 @@ Future<void> init() async {
     () => PinBloc(sharedPreferences: di()),
   );
   di.registerFactory(
-    () => SelectClientBloc(usesSelectClient: di()),
+    () => SelectClientBloc(usesSelectClient: di(), usesSelectClientLocal: di()),
   );
   di.registerFactory(
-    () => BuyurtmaDialogBloc(usesBuyurtma: di(),usesBuyurtmaLocal: di()),
+    () => BuyurtmaDialogBloc(usesBuyurtma: di(), usesBuyurtmaLocal: di()),
   );
   di.registerFactory(
     () => QarizdorlikBloc(onSelectClient: di()),
@@ -154,6 +155,7 @@ Future<void> init() async {
   di.registerLazySingleton(() => UsesBuyurtma(repository: di()));
   di.registerLazySingleton(() => UsesBuyurtmaLocal(repository: di()));
   di.registerLazySingleton(() => OnSelectClient(clientRepository: di()));
+  di.registerLazySingleton(() => UsesClientLocal(repository: di()));
 
   /// Data sources
   di.registerLazySingleton(

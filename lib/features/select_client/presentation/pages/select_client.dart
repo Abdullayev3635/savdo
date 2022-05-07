@@ -12,7 +12,7 @@ class SelectPart extends StatefulWidget {
 
   static Widget screen() => BlocProvider(
         create: (context) =>
-            di<SelectClientBloc>()..add(GetSelectClientEvent()),
+            di<SelectClientBloc>()..add(GetSelectClientLocalEvent()),
         child: const SelectPart(),
       );
 
@@ -28,6 +28,7 @@ class _SelectPartState extends State<SelectPart> {
   @override
   void initState() {
     _bloc = BlocProvider.of<SelectClientBloc>(context);
+    _bloc.add(GetSelectClientEvent());
     super.initState();
   }
 

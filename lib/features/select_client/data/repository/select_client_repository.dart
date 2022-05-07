@@ -36,4 +36,14 @@ class SelectClientRepositoryImpl extends SelectCaARepository {
       }
     }
   }
+
+  @override
+  Future<Either<Failure, dynamic>> getClientLocal() async {
+    try {
+      final result = await localDataSourceImpl.getSelectClient();
+      return Right(result);
+    } on LocalFailure {
+      return const Left(LocalFailure("Маълумот юкланишда хатолик бўлди"));
+    }
+  }
 }

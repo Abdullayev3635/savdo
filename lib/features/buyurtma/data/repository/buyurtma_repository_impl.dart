@@ -21,7 +21,6 @@ class BuyurtmaRepositoryImpl extends BuyurtmaRepository {
   Future<Either<Failure, dynamic>> getBuyurtma() async {
     if (await networkInfo.isConnected) {
       try {
-        await Future.delayed(const Duration(seconds: 2));
         final result = await remoteDataSourceImpl.getBuyurtma();
         await localeDatasourceImpl.setBuyurtma(result);
         return Right(result);
