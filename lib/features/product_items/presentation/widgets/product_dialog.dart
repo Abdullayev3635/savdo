@@ -18,7 +18,7 @@ import '../../../../core/widgets/costum_toast.dart';
 import 'dialog_text_field_widget.dart';
 
 class ProductItemDialog extends StatefulWidget {
-  ProductItemDialog({
+  const ProductItemDialog({
     Key? key,
     required this.id,
     required this.name,

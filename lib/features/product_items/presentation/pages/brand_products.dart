@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:savdo_agnet_client/core/widgets/costum_toast.dart';
 import 'package:savdo_agnet_client/core/widgets/failure_dialog.dart';
 import 'package:savdo_agnet_client/di/dependency_injection.dart';
+import 'package:savdo_agnet_client/features/product_items/presentation/widgets/brand_items_shimmer_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/network/network_info.dart';
@@ -86,10 +87,7 @@ class _ProductsState extends State<Products> {
         child: BlocBuilder<BrandsProductsBloc, BrandsProductsState>(
           builder: (context, state) {
             if (state is BrandsProductsLoadingState) {
-              return Center(
-                child: SizedBox(
-                    height: 400.h, child: const CupertinoActivityIndicator()),
-              );
+              return const BrandItemsShimmerWidget();
             } else if (state is BrandsProductsNoInternetState) {
               return ShowFailureDialog(onTap: () async {
                 if (await networkInfo.isConnected) {

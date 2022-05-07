@@ -12,6 +12,8 @@ import '../../../../di/dependency_injection.dart';
 import '../bloc/brand/brand_bloc.dart';
 import '../bloc/catalog/category_bloc.dart';
 import '../widgets/catalog_items.dart';
+import '../widgets/category_shimmer_widget.dart';
+import '../widgets/product_items_shimmer_widget.dart';
 import '../widgets/product_items_widget.dart';
 import '../widgets/text_field_widget.dart';
 
@@ -30,7 +32,8 @@ class ProductPage extends StatefulWidget {
           BlocProvider(
             create: (context) => di<CatalogBloc>()..add(GetCategory()),
           ),
-          BlocProvider(create: (context) => di<BrandBloc>()),
+          BlocProvider(
+              create: (context) => di<BrandBloc>()..add(BrandInitialEvent())),
         ],
         child: const ProductPage(),
       );
@@ -96,22 +99,10 @@ class _ProductPageState extends State<ProductPage> {
               BlocBuilder<CatalogBloc, CatalogState>(
                 builder: (context, state) {
                   if (state is CatalogLoadingState) {
-                    return SliverAppBar(
-                      elevation: 0,
-                      toolbarHeight: 90.h,
-                      backgroundColor: cBackgroundColor,
-                      automaticallyImplyLeading: false,
-                      floating: false,
-                      pinned: true,
-                      title: Center(
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 10.w, top: 10.h),
-                          child: const CupertinoActivityIndicator(),
-                        ),
-                      ),
+                    return const SliverToBoxAdapter(
+                      child: CategoryItemsShimmerWidget(),
                     );
-                  }
-                  else if (state is CatalogSuccessState) {
+                  } else if (state is CatalogSuccessState) {
                     _brandBloc.add(
                       GetBrandEvent(
                         productTypeId: state.list[state.selected].id ?? 0,
@@ -136,7 +127,6 @@ class _ProductPageState extends State<ProductPage> {
                               overlayColor:
                                   MaterialStateProperty.all(Colors.transparent),
                               onTap: () async {
-                                // if (await networkInfo.isConnected) {
                                 _catalogBloc.add(
                                   ChangeColor(state.list, state.selected,
                                       state.count, state.isLarge),
@@ -201,19 +191,20 @@ class _ProductPageState extends State<ProductPage> {
                 child: BlocBuilder<BrandBloc, BrandState>(
                   builder: (context, state) {
                     if (state is BrandSuccessState) {
-                      if(state.list.isNotEmpty){
+                      if (state.list.isNotEmpty) {
                         return ProductWidget(state: state);
-                      }else{
+                      } else {
                         return const Center(
-                          child: Text('Maxsulotlar yo`q ekan',style: TextStyle(),),
+                          child: Text(
+                            'Maxsulotlar yo`q ekan',
+                            style: TextStyle(),
+                          ),
                         );
                       }
-
+                    } else if (state is BrandInitial) {
+                      return const ProductItemsShimmerWidget();
                     } else if (state is BrandLoadingState) {
-                      return SizedBox(
-                          height: 120.h,
-                          child: const Center(
-                              child: CupertinoActivityIndicator()));
+                      return const ProductItemsShimmerWidget();
                     } else if (state is BrandFailureState) {
                       return Center(
                         child: Text(state.message),

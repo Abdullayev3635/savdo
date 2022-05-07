@@ -21,7 +21,13 @@ class BrandBloc extends Bloc<BrandEvent, BrandState> {
   bool isStatus = false;
 
   BrandBloc({required this.brandCategory}) : super(BrandInitial()) {
+    on<BrandInitialEvent>(getBrandInitial, transformer: sequential());
     on<GetBrandEvent>(getBrand, transformer: sequential());
+  }
+
+  FutureOr<void> getBrandInitial(
+      BrandInitialEvent event, Emitter<BrandState> emit) async {
+    emit(BrandInitial());
   }
 
   FutureOr<void> getBrand(GetBrandEvent event, Emitter<BrandState> emit) async {

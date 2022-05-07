@@ -11,6 +11,7 @@ import 'package:savdo_agnet_client/features/buyurtma/data/model/price_type_model
 import 'package:savdo_agnet_client/features/buyurtma/data/repository/buyurtma_repository_impl.dart';
 import 'package:savdo_agnet_client/features/buyurtma/domain/repositories/buyurtma_repository.dart';
 import 'package:savdo_agnet_client/features/buyurtma/domain/usescase/buyurtma_usescase.dart';
+import 'package:savdo_agnet_client/features/buyurtma/domain/usescase/buyurtma_usescase_local.dart';
 import 'package:savdo_agnet_client/features/buyurtma/domain/usescase/select_usescase.dart';
 import 'package:savdo_agnet_client/features/buyurtma/presentation/bloc/buyurtma_bloc/buyurtma_dialog_bloc.dart';
 import 'package:savdo_agnet_client/features/buyurtma/presentation/bloc/qarizdorlik_bloc/qarizdorlik_bloc.dart';
@@ -46,7 +47,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../core/location/location_service.dart';
 import '../core/network/network_info.dart';
 import '../features/buyurtma/data/datasources/buyurtma_remote_datasource.dart';
-import '../features/buyurtma/data/model/client_debit_credit.dart';
 import '../features/korzina_screen/data/korzina_hive/korzina_hive.dart';
 import '../features/lock/data/datasources/lock_local_datasources.dart';
 import '../features/lock/data/repositories/lock_repositories.dart';
@@ -88,7 +88,7 @@ Future<void> init() async {
     () => SelectClientBloc(usesSelectClient: di()),
   );
   di.registerFactory(
-    () => BuyurtmaDialogBloc(usesBuyurtma: di()),
+    () => BuyurtmaDialogBloc(usesBuyurtma: di(),usesBuyurtmaLocal: di()),
   );
   di.registerFactory(
     () => QarizdorlikBloc(onSelectClient: di()),
@@ -152,6 +152,7 @@ Future<void> init() async {
   di.registerLazySingleton(() => BrandProductsCatalog(catalogRepository: di()));
   di.registerLazySingleton(() => UsesSelectClient(clientRepository: di()));
   di.registerLazySingleton(() => UsesBuyurtma(repository: di()));
+  di.registerLazySingleton(() => UsesBuyurtmaLocal(repository: di()));
   di.registerLazySingleton(() => OnSelectClient(clientRepository: di()));
 
   /// Data sources
@@ -232,7 +233,6 @@ Future<void> init() async {
   Hive.registerAdapter(ClientModelAdapter());
   await Hive.openBox(clientBox);
 
-
   // debit credit model
   // Hive.registerAdapter(ClientDebitCreditModelAdapter());
   // await Hive.openBox(clientDebitCreditBox);
@@ -247,7 +247,5 @@ Future<void> init() async {
 
   // buyurtma dialog
   Hive.registerAdapter(BuyurtmaModelAdapter());
-
   await Hive.openBox(buyurtmaBox);
-
 }

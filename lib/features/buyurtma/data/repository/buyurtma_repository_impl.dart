@@ -21,6 +21,7 @@ class BuyurtmaRepositoryImpl extends BuyurtmaRepository {
   Future<Either<Failure, dynamic>> getBuyurtma() async {
     if (await networkInfo.isConnected) {
       try {
+        await Future.delayed(const Duration(seconds: 2));
         final result = await remoteDataSourceImpl.getBuyurtma();
         await localeDatasourceImpl.setBuyurtma(result);
         return Right(result);
@@ -46,6 +47,16 @@ class BuyurtmaRepositoryImpl extends BuyurtmaRepository {
       return Right(result);
     } on ServerFailure {
       return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));
+    }
+  }
+
+  @override
+  Future<Either<Failure, dynamic>> getBuyurtmaLocal() async {
+    try {
+      final result = await localeDatasourceImpl.getBuyurtma();
+      return Right(result);
+    } on LocalFailure {
+      return const Left(LocalFailure("Маълумот юкланишда хатолик бўлди"));
     }
   }
 }
