@@ -42,7 +42,7 @@ class BuyurtmaRemoteDataSourceImpl implements BuyurtmaRemoteDataSource {
       if (response.statusCode == 200) {
         try {
           final parsed = jsonDecode(response.body);
-          // log(response.body);
+          log(response.body);
           for (int i = 0; i < (parsed["currency"] as List).length; i++) {
             currencyList.add(CurrencyModel.fromJson(parsed["currency"][i]));
           }

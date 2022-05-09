@@ -6,6 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:savdo_agnet_client/core/widgets/appBarWidget.dart';
 import 'package:savdo_agnet_client/core/widgets/costum_toast.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/data/korzina_hive/korzina_hive.dart';
+import 'package:savdo_agnet_client/features/korzina_screen/prezentation/widgets/korzina_shimmer_widget.dart';
 import 'package:savdo_agnet_client/features/savatcha_failure/presentation/pages/savatcha_failure_dialog.dart';
 
 import '../../../../../../../core/utils/app_constants.dart';
@@ -43,9 +44,12 @@ class _KorzinaScreenState extends State<KorzinaScreen> {
           if (state is KorzinaFailureState) {
             CustomToast.showToast('Malumot uzatishda xatolik yuz berdi');
           } else if (state is KorzinaLoadingState) {
-            return const Scaffold(
-              body: Center(
-                child: CupertinoActivityIndicator(),
+            return Scaffold(
+              backgroundColor: cBackgroundColor,
+              appBar: appBarWidget(context, 'Savatcha'),
+              body: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.0),
+                child: KorzinaShimmerWidget(),
               ),
             );
           } else if (state is KorzinaErrorMessageState) {
@@ -59,19 +63,16 @@ class _KorzinaScreenState extends State<KorzinaScreen> {
                     builder: (context) {
                       return const SavatchaFailureDialog();
                     });
-          } else if (state is KorzinaNoInternetState) {
-            CustomToast.showToast('Internet bilan aloqani tekshiring!');
           } else if (state is KorzinaSuccessState) {
             return ValueListenableBuilder<Box<KorzinaCard>>(
-                valueListenable:
-                    Hive.box<KorzinaCard>(korzinaBox).listenable(),
+                valueListenable: Hive.box<KorzinaCard>(korzinaBox).listenable(),
                 builder: (context, box, _) {
                   jamiSumma = 0;
                   var transaction = box.values.toList().cast<KorzinaCard>();
                   for (int i = 0; i < transaction.length; i++) {
                     jamiSumma += ((int.parse(transaction[i].bloklarSoni!) *
-                        int.parse(transaction[i].blok!)) +
-                        int.parse(transaction[i].dona!)) *
+                                int.parse(transaction[i].blok!)) +
+                            int.parse(transaction[i].dona!)) *
                         double.parse(transaction[i].price!);
                   }
                   return Scaffold(
@@ -81,9 +82,15 @@ class _KorzinaScreenState extends State<KorzinaScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 21.w, bottom: 10.h),
-                          child: Text('Jami summa: $jamiSumma so’m',
-                              style: textStylePrimaryMed16),
+                          padding: EdgeInsets.only(left: 21.w, bottom: 10.h,right: 21.w),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Jami summa:', style: textStylePrimaryMed16),
+                              Text('${jamiSumma.toStringAsFixed(2)} so’m',
+                                  style: textStylePrimaryMed16),
+                            ],
+                          ),
                         ),
                         Container(
                           child: transaction.isEmpty

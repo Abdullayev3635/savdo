@@ -34,4 +34,10 @@ class BrandProductsRepositoryImpl extends BrandProductsRepository {
           NoConnectionFailure("Интернет билан алоқани қайта текширинг"));
     }
   }
+
+  @override
+  Future<Either<Failure, dynamic>> getBrandProductsLocal(int salesAgentId, int priceTypeId, int brandId) {
+    // TODO: implement getBrandProductsLocal
+    throw UnimplementedError();
+  }
 }

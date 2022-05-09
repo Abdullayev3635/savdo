@@ -38,11 +38,11 @@ class BuyurtmaDialog extends StatefulWidget {
 }
 
 class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
-  String group1 = 'So’m', group2 = 'Chakana';
+  String group1 = '0', group2 = '0';
   int clientId = 0;
   int clientQarzi = 0;
   String kurs = "0";
-
+  bool isFirstTap = true;
   String clientName = 'Mijozni tanlang';
   late BuyurtmaDialogBloc dialogBloc;
   late QarizdorlikBloc qarizdorlikBloc;
@@ -94,8 +94,6 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                                     setState(() {
                                       clientId = value['id'];
                                       clientName = value['name'].toString();
-                                      // sharedPreferences.setString(
-                                      //     sharedCustomerId, value['id'].toString());
                                       qarizdorlikBloc.add(ClientSelectedEvent(
                                           customerId: clientId,
                                           salesAgentId: int.parse(
@@ -103,7 +101,6 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                                                       sharedSalesAgentId) ??
                                                   '')));
                                     }),
-                                    // print(sharedPreferences.getString(sharedPreferences.getString(sharedCustomerId)??'wqwqwqqqqqqqqqqqqqqq'))
                                   },
                               }),
                           child: Container(
@@ -181,7 +178,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                                 ),
                               ),
                               Expanded(
-                                child: Container(
+                                child: SizedBox(
                                   height: 60,
                                   child: ListView.builder(
                                     physics: const BouncingScrollPhysics(),
@@ -225,6 +222,10 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                         state.buyurtmaList[0].currency;
                     List<PriceTypeModel>? priceTypeList =
                         state.buyurtmaList[0].priceType;
+                    if (isFirstTap) {
+                      kurs = currencyList![0].value!;
+                    }
+                    isFirstTap = false;
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -269,12 +270,14 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                                     physics: const BouncingScrollPhysics(),
                                     scrollDirection: Axis.horizontal,
                                     shrinkWrap: true,
-                                    itemCount: currencyList?.length,
+                                    itemCount: currencyList!.length,
                                     itemBuilder: (context, index) {
                                       return GestureDetector(
                                         onTap: () {
                                           setState(() {
-                                            group1 = '$index';
+                                            group1 = index.toString();
+                                            kurs = currencyList[index].value ??
+                                                "0";
                                           });
                                         },
                                         child: Row(
@@ -289,13 +292,13 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                                                 onChanged: (value) {
                                                   setState(() {
                                                     group1 = value.toString();
-                                                    kurs = currencyList![index]
+                                                    kurs = currencyList[index]
                                                             .value ??
                                                         "0";
                                                   });
                                                 }),
                                             Text(
-                                                currencyList![index].name ??
+                                                currencyList[index].name ??
                                                     "null",
                                                 style: textStylePrimaryMed14),
                                           ],
@@ -333,7 +336,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                                       return GestureDetector(
                                         onTap: () {
                                           setState(() {
-                                            group2 = '$index';
+                                            group2 = index.toString();
                                           });
                                         },
                                         child: Row(
@@ -365,10 +368,15 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                         SizedBox(height: 32.h),
                         ElevatedButton(
                           onPressed: () {
+                            sharedPreferences.setString(sharedCurrencyValue,
+                                currencyList[int.parse(group1)].value!);
+                            sharedPreferences.setString(sharedCurrencyId,
+                                currencyList[int.parse(group1)].id.toString());
                             sharedPreferences.setString(
-                                sharedCurrencyValue, kurs);
-                            sharedPreferences.setString(
-                                sharedCurrencyValue, group2);
+                                sharedPriceTypeId,
+                                priceTypeList![int.parse(group2)]
+                                    .id
+                                    .toString());
 
                             Navigator.pop(context);
                             Navigator.push(
@@ -389,8 +397,9 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                     );
                   } else if (state is BuyurtmaDialogLoadingState) {
                     return SizedBox(
-                        child:
-                            const Center(child: CupertinoActivityIndicator()),
+                        child: const Center(
+                          child: CupertinoActivityIndicator(),
+                        ),
                         height: 400.h);
                   } else if (state is BuyurtmaDialogNoInternetState) {
                     return ShowFailureDialog(onTap: () async {
@@ -415,39 +424,3 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
     );
   }
 }
-
-// Padding(
-//   padding: EdgeInsets.only(
-//       right: 7.w, top: 22.h, left: 7.w, bottom: 34.h),
-//   child: Row(
-//     crossAxisAlignment: CrossAxisAlignment.center,
-//     children: [
-//       Expanded(
-//         child: Text(
-//           'Qarzdorligi:',
-//           style: textStylePrimaryMed16,
-//         ),
-//       ),
-//       Column(
-//         crossAxisAlignment: CrossAxisAlignment.end,
-//         children: [
-//           Text(
-//             '0 so’m',
-//             style: TextStyle(
-//                 color: cOrangeColor,
-//                 fontSize: 18.sp,
-//                 fontFamily: 'Regular'),
-//           ),
-//           SizedBox(height: 14.h),
-//           Text(
-//             '0 \$',
-//             style: TextStyle(
-//                 color: cOrangeColor,
-//                 fontSize: 18.sp,
-//                 fontFamily: 'Regular'),
-//           ),
-//         ],
-//       ),
-//     ],
-//   ),
-// ),

@@ -98,7 +98,7 @@ class _ProductPageState extends State<ProductPage> {
               ),
               BlocBuilder<CatalogBloc, CatalogState>(
                 builder: (context, state) {
-                  if (state is CatalogLoadingState) {
+                  if (state   is CatalogLoadingState) {
                     return const SliverToBoxAdapter(
                       child: CategoryItemsShimmerWidget(),
                     );

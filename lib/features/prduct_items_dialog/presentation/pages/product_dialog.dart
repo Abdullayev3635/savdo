@@ -12,10 +12,11 @@ import 'package:savdo_agnet_client/features/buyurtma/data/model/currency_model.d
 import 'package:savdo_agnet_client/features/buyurtma/data/model/price_type_model.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/data/korzina_hive/korzina_hive.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/prezentation/bloc/korzina_bloc.dart';
+import 'package:savdo_agnet_client/features/product_items/presentation/widgets/dialog_text_field_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/utils/app_constants.dart';
 import '../../../../core/widgets/costum_toast.dart';
-import 'dialog_text_field_widget.dart';
 
 class ProductItemDialog extends StatefulWidget {
   const ProductItemDialog({
@@ -57,8 +58,8 @@ class ProductItemDialog extends StatefulWidget {
 }
 
 class _ProductItemDialogState extends State<ProductItemDialog> {
-  String group1 = 'AFN';
-  String group2 = 'Chakana';
+  String group1 = '0';
+  String group2 = '0';
   int bloklarSoni = 1;
   int dona = 1;
   late String initialBlok;
@@ -69,6 +70,7 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
   bool isValyuta = true;
   bool isHajmi = true;
   late Timer timer;
+  SharedPreferences sharedPreferences = di.get();
 
   @override
   void initState() {
@@ -140,7 +142,7 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                 );
               }
               return SizedBox(
-                  child: const Center(child: CupertinoActivityIndicator()),
+                  // child: const Center(child: CupertinoActivityIndicator()),
                   height: MediaQuery.of(context).size.height / 1.2);
             },
           ),
@@ -205,7 +207,7 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                                   onChanged: (value) {
                                     setState(() {
                                       group1 = value.toString();
-                                      print(group1);
+                                      // print(group1);
                                     });
                                   }),
                               Text(currencyList![index].name ?? "null",
@@ -249,7 +251,7 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                                   onChanged: (value) {
                                     setState(() {
                                       group2 = value.toString();
-                                      print(group2);
+                                      // print(group2);
                                     });
                                   }),
                               Text(priceTypeList![index].name ?? "null",
@@ -276,7 +278,7 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                       onTap: () {
                         FocusManager.instance.primaryFocus?.unfocus();
                         onTapInOrDecrement(
-                          count: dona, isInc: false, blokOrPieces: true);
+                            count: dona, isInc: false, blokOrPieces: true);
                       },
                       onTapDown: (TapDownDetails details) {
                         FocusManager.instance.primaryFocus?.unfocus();
@@ -313,25 +315,27 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                       onTap: () {
                         FocusManager.instance.primaryFocus?.unfocus();
                         onTapInOrDecrement(
-                          count: bloklarSoni, isInc: true, blokOrPieces: true);
+                            count: bloklarSoni,
+                            isInc: true,
+                            blokOrPieces: true);
                       },
                       onTapDown: (TapDownDetails details) {
                         FocusManager.instance.primaryFocus?.unfocus();
                         timer = Timer.periodic(
-                        const Duration(milliseconds: 100),
-                        (t) => setState(
-                          () {
-                            if (blokController.text.isEmpty) {
-                              bloklarSoni = 0;
-                            } else {
-                              bloklarSoni = int.parse(blokController.text);
-                            }
-                            bloklarSoni++;
-                            blokController.text = bloklarSoni.toString();
-                            initialBlok = bloklarSoni.toString();
-                          },
-                        ),
-                      );
+                          const Duration(milliseconds: 100),
+                          (t) => setState(
+                            () {
+                              if (blokController.text.isEmpty) {
+                                bloklarSoni = 0;
+                              } else {
+                                bloklarSoni = int.parse(blokController.text);
+                              }
+                              bloklarSoni++;
+                              blokController.text = bloklarSoni.toString();
+                              initialBlok = bloklarSoni.toString();
+                            },
+                          ),
+                        );
                       },
                       onTapUp: (TapUpDetails details) => timer.cancel(),
                       onTapCancel: () => timer.cancel(),
@@ -365,7 +369,7 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                       onTap: () {
                         FocusManager.instance.primaryFocus?.unfocus();
                         onTapInOrDecrement(
-                          count: dona, isInc: false, blokOrPieces: false);
+                            count: dona, isInc: false, blokOrPieces: false);
                       },
                       onTapDown: (TapDownDetails details) {
                         FocusManager.instance.primaryFocus?.unfocus();
@@ -400,24 +404,24 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                       onTap: () {
                         FocusManager.instance.primaryFocus?.unfocus();
                         onTapInOrDecrement(
-                          count: dona, isInc: true, blokOrPieces: false);
+                            count: dona, isInc: true, blokOrPieces: false);
                       },
                       onTapDown: (TapDownDetails details) {
                         FocusManager.instance.primaryFocus?.unfocus();
                         timer = Timer.periodic(
-                              const Duration(milliseconds: 100),
-                              (t) => setState(
-                                    () {
-                                      if (piecesController.text.isEmpty) {
-                                        dona = 0;
-                                      } else {
-                                        dona = int.parse(piecesController.text);
-                                      }
-                                      dona++;
-                                      piecesController.text = dona.toString();
-                                      initialPieces = dona.toString();
-                                    },
-                                  ));
+                            const Duration(milliseconds: 100),
+                            (t) => setState(
+                                  () {
+                                    if (piecesController.text.isEmpty) {
+                                      dona = 0;
+                                    } else {
+                                      dona = int.parse(piecesController.text);
+                                    }
+                                    dona++;
+                                    piecesController.text = dona.toString();
+                                    initialPieces = dona.toString();
+                                  },
+                                ));
                       },
                       onTapUp: (TapUpDetails details) => timer.cancel(),
                       onTapCancel: () => timer.cancel(),
@@ -471,6 +475,12 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                 ElevatedButton(
                   style: buttonStyle,
                   onPressed: () async {
+                    sharedPreferences.setString(sharedCurrencyValue,
+                        currencyList![int.parse(group1)].value!);
+                    sharedPreferences.setString(sharedCurrencyId,
+                        currencyList[int.parse(group1)].id.toString());
+                    sharedPreferences.setString(sharedPriceTypeId,
+                        priceTypeList![int.parse(group2)].id.toString());
                     FocusManager.instance.primaryFocus?.unfocus();
                     final productAddKorzina = KorzinaCard(
                       blok: widget.blok,
@@ -487,10 +497,8 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                       image: widget.image ?? '',
                     );
                     final box = Hive.box<KorzinaCard>(korzinaBox);
-
                     ///korzinaga qo'shyapti
                     box.put(widget.id, productAddKorzina);
-
                     Navigator.pop(context);
                     CustomToast.showToast('Муваффакиятли сакланди');
                   },
@@ -507,30 +515,6 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
       ),
     );
   }
-
-  // ElevatedButton valyutaButton(bool isValyuta, String title) {
-  //   return ElevatedButton(
-  //     key: ValueKey('$isValyuta'),
-  //     onPressed: () => setState(() => this.isValyuta = isValyuta),
-  //     child: Text(
-  //       title,
-  //       style: isValyuta
-  //           ? this.isValyuta
-  //               ? inActiveTextStyle
-  //               : textStylePrimaryReg16
-  //           : this.isValyuta
-  //               ? textStylePrimaryReg16
-  //               : inActiveTextStyle,
-  //     ),
-  //     style: isValyuta
-  //         ? this.isValyuta
-  //             ? activeButtonStyle
-  //             : inActiveButtonStyle
-  //         : this.isValyuta
-  //             ? inActiveButtonStyle
-  //             : activeButtonStyle,
-  //   );
-  // }
 
   void onTapInOrDecrement(
       {required int count, required bool isInc, required bool blokOrPieces}) {

@@ -8,23 +8,22 @@ import 'package:meta/meta.dart';
 import 'package:savdo_agnet_client/core/errors/failures.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 import 'package:savdo_agnet_client/features/buyurtma/data/model/buyurtma_model.dart';
-import 'package:savdo_agnet_client/features/buyurtma/domain/usescase/buyurtma_usescase.dart';
+import 'package:savdo_agnet_client/features/buyurtma/domain/usescase/buyurtma_usescase_local.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/data/korzina_hive/error_model.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/data/korzina_hive/korzina_hive.dart';
 
 import '../../domain/usescase/u_order_list.dart';
 
 part 'korzina_event.dart';
-
 part 'korzina_state.dart';
 
 class KorzinaBloc extends Bloc<KorzinaEvent, KorzinaState> {
   // final Database cardDatabase;
   // List<KorzinaCard> cards = [];
-  final UsesBuyurtma usesBuyurtma;
+  final UsesBuyurtmaLocal usesBuyurtmaLocal;
   final UKorzinaOrderList karzina;
 
-  KorzinaBloc({required this.usesBuyurtma, required this.karzina}) : super(KorzinaInitial()) {
+  KorzinaBloc({required this.usesBuyurtmaLocal, required this.karzina}) : super(KorzinaInitial()) {
     on<KorzinaInitialEvent>(initialState, transformer: sequential());
     on<KorzinaSendDataEvent>(getBuyurtma, transformer: sequential());
   }
@@ -32,8 +31,7 @@ class KorzinaBloc extends Bloc<KorzinaEvent, KorzinaState> {
   FutureOr<void> initialState(
       KorzinaInitialEvent event, Emitter<KorzinaState> emit) async {
     emit(KorzinaLoadingState());
-    final result = await usesBuyurtma(BuyurtmaParams());
-
+    final result = await usesBuyurtmaLocal(BuyurtmaParamsLocal());
     var box = Hive.box<KorzinaCard>(korzinaBox);
     var transaction = box.values.toList().cast<KorzinaCard>();
     result.fold(

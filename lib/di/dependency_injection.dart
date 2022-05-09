@@ -95,7 +95,7 @@ Future<void> init() async {
     () => QarizdorlikBloc(onSelectClient: di()),
   );
   di.registerFactory(
-    () => KorzinaBloc(usesBuyurtma: di(), karzina: di()),
+    () => KorzinaBloc(usesBuyurtmaLocal: di(), karzina: di()),
   );
 
   di.registerFactory(

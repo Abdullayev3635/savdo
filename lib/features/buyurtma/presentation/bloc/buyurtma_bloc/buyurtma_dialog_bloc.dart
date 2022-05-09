@@ -28,7 +28,6 @@ class BuyurtmaDialogBloc
   FutureOr<void> getBuyurtmaLocal(BuyurtmaInitialLocalEvent event,
       Emitter<BuyurtmaDialogState> emit) async {
     final result = await usesBuyurtmaLocal(BuyurtmaParamsLocal());
-    // getBuyurtma(BuyurtmaInitialEvent(), emit);
     result.fold(
         (failure) => {
               if (failure is NoConnectionFailure)

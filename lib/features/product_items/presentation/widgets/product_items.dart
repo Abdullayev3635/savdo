@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
-import 'package:savdo_agnet_client/features/product_items/presentation/widgets/product_dialog.dart';
+
+import '../../../prduct_items_dialog/presentation/pages/product_dialog.dart';
+// import 'package:savdo_agnet_client/features/product_items/presentation/widgets/product_dialog.dart';
 
 class ProductItemsWidget extends StatefulWidget {
   final String? title,

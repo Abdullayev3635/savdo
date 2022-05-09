@@ -6,7 +6,7 @@ import 'package:savdo_agnet_client/core/usescases/usecase.dart';
 import '../repositories/client_repository.dart';
 
 class UsesClientLocal extends UseCase<dynamic, ClientParamsLocal> {
-  SelectCaARepository repository;
+  final SelectCaARepository repository;
 
   UsesClientLocal({required this.repository});
 

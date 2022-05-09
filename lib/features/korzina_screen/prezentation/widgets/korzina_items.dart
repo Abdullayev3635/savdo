@@ -6,8 +6,9 @@ import 'package:hive/hive.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 import 'package:savdo_agnet_client/di/dependency_injection.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/data/korzina_hive/korzina_hive.dart';
-import 'package:savdo_agnet_client/features/product_items/presentation/widgets/product_dialog.dart';
+// import 'package:savdo_agnet_client/features/product_items/presentation/widgets/product_dialog.dart';
 
+import '../../../prduct_items_dialog/presentation/pages/product_dialog.dart';
 import '../bloc/korzina_bloc.dart';
 
 class KorzinaItemsWidget extends StatefulWidget {
@@ -43,7 +44,6 @@ class _KorzinaItemsWidgetState extends State<KorzinaItemsWidget> {
       itemCount: widget.transaction!.isEmpty ? 0 : widget.transaction?.length,
       itemBuilder: (context, index) {
         KorzinaCard? card = widget.box.getAt(index);
-
         return Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15.r), color: cWhiteColor),
