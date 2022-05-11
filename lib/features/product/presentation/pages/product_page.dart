@@ -158,7 +158,7 @@ class _ProductPageState extends State<ProductPage> {
                       bottom: PreferredSize(
                         preferredSize: Size(
                           double.infinity,
-                          state.isLarge ? 330.h : 90.h,
+                          state.isLarge ? 350.h : 90.h,
                         ),
                         child: Container(
                           margin:
