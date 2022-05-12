@@ -15,6 +15,7 @@ class BrandsProductsSuccessState extends BrandsProductsState {
 
 class BrandsProductsNoInternetState extends BrandsProductsState {}
 
+// ignore: must_be_immutable
 class BrandsProductsSearchState extends BrandsProductsState {
   late List<BrandProductModel> productList;
   late String? title;

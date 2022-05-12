@@ -64,7 +64,6 @@ class _ProductPageState extends State<ProductPage> {
   }
 
   Future _handleRefresh() async {
-    print('rrrrrrrrrrrrrrrrrrr');
     return _catalogBloc.add(GetCategory());
   }
 

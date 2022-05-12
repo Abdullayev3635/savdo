@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../../core/utils/app_constants.dart';
-import '../../../korzina_screen/prezentation/pages/korzina_screen.dart';
 import '../bloc/firma_cubit.dart';
 
 class TextFieldWidget extends StatefulWidget {

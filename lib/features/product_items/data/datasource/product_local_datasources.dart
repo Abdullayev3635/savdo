@@ -1,7 +1,5 @@
-import 'package:hive/hive.dart';
 import 'package:savdo_agnet_client/features/product/data/model/category_model.dart';
 
-import '../../../../core/utils/app_constants.dart';
 
 abstract class BrandProductsLocalDataSource {
   Future<dynamic> getCatalog();

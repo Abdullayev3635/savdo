@@ -1,10 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../../core/utils/app_constants.dart';
-import '../../data/korzina_hive/korzina_hive.dart';
-import 'divider_line.dart';
-
 // class OrderDescriptionWidget extends StatelessWidget {
 //   const OrderDescriptionWidget({
 //     Key? key,

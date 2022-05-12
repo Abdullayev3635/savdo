@@ -4,9 +4,8 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 import 'package:savdo_agnet_client/features/product/data/model/brand_product_model.dart';
-import 'package:savdo_agnet_client/features/product/domain/usescase/brandProducts.dart';
+import 'package:savdo_agnet_client/features/product/domain/usescase/brand_products.dart';
 
 import '../../../../../core/errors/failures.dart';
 

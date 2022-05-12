@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/utils/app_constants.dart';
 
+// ignore: must_be_immutable
 class TextFieldHintWidget extends StatelessWidget {
   String hintText;
   TextEditingController controller;
