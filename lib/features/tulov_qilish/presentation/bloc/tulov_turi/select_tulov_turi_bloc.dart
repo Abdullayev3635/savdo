@@ -8,11 +8,10 @@ import 'package:savdo_agnet_client/core/errors/failures.dart';
 import 'package:savdo_agnet_client/features/select_client/data/model/client_model.dart';
 import 'package:savdo_agnet_client/features/select_client/domain/usescase/client_usescase.dart';
 import 'package:savdo_agnet_client/features/select_client/domain/usescase/client_usescase_local.dart';
-import 'package:savdo_agnet_client/features/tulov_turi_dialog/data/model/tulov_turi_model.dart';
 
-part 'select_client_event.dart';
+part 'select_tulov_turi_event.dart';
 
-part 'select_client_state.dart';
+part 'select_tulov_turi_state.dart';
 
 class SelectClientBloc extends Bloc<SelectPartEvent, SelectClientState> {
   final UsesSelectClient usesSelectClient;
@@ -30,7 +29,6 @@ class SelectClientBloc extends Bloc<SelectPartEvent, SelectClientState> {
 
   FutureOr<void> getClient(
       GetSelectClientEvent event, Emitter<SelectClientState> emit) async {
-    emit(SelectClientLoading());
     final result = await usesSelectClientLocal(ClientParamsLocal());
     // final box = Hive.box(clientBox);
     result.fold(

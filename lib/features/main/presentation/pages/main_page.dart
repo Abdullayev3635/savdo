@@ -102,7 +102,7 @@ class _MainPageState extends State<MainPage> {
                             showDialog(
                                 context: context,
                                 builder: (context) {
-                                  return const TulovQilishDialog();
+                                  return  TulovQilishDialog.screen();
                                 });
                           },
                           title: 'To’lov',

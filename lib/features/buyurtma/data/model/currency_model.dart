@@ -1,6 +1,7 @@
 import 'package:hive/hive.dart';
 
 part 'currency_model.g.dart';
+
 @HiveType(typeId: 8)
 class CurrencyModel {
   @HiveField(0)

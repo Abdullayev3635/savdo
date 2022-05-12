@@ -9,5 +9,6 @@ const String catalogPHP = "categories";
 const String brandPHP = "categories/brands";
 const String brandProductsPHP = "brands/products";
 const String clientPHP = "clients";
+const String tulovTuriPHP = "payments/type";
 const String onSelectClientPHP = "customer-debit-credit";
 const String orderPHP = "order/create";

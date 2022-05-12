@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:pattern_formatter/numeric_formatter.dart';
 
 import '../../../../core/utils/app_constants.dart';
 
@@ -7,10 +10,12 @@ class TextFieldHintWidget extends StatelessWidget {
   String hintText;
   TextEditingController controller;
   TextInputType keyboardType;
+  bool? readOnly;
 
   TextFieldHintWidget({
     Key? key,
     required this.controller,
+    this.readOnly,
     required this.keyboardType,
     required this.hintText,
   }) : super(key: key);
@@ -31,6 +36,12 @@ class TextFieldHintWidget extends StatelessWidget {
             SizedBox(width: 5.w),
             Expanded(
               child: TextFormField(
+                readOnly: readOnly ?? false,
+                inputFormatters: [
+                  keyboardType == TextInputType.number
+                      ? ThousandsFormatter(allowFraction: true)
+                      : MaskTextInputFormatter()
+                ],
                 controller: controller,
                 keyboardType: keyboardType,
                 cursorColor: primaryColor,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 
-import '../../../prduct_items_dialog/presentation/pages/product_dialog.dart';
+import '../../../product_items_dialog/presentation/pages/product_dialog.dart';
 // import 'package:savdo_agnet_client/features/product_items/presentation/widgets/product_dialog.dart';
 
 class ProductItemsWidget extends StatefulWidget {
@@ -54,27 +54,27 @@ class _ProductItemsWidgetState extends State<ProductItemsWidget> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-        Container(
-        height: 125.h,
-        width: 120.w,
-        margin: EdgeInsets.only(bottom: 9.h),
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          image: const DecorationImage(
-            opacity: 0.5,
-            image: AssetImage('assets/images/gallery.png'),
+          Container(
+            height: 125.h,
+            width: 120.w,
+            margin: EdgeInsets.only(bottom: 9.h),
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              image: const DecorationImage(
+                opacity: 0.5,
+                image: AssetImage('assets/images/gallery.png'),
+              ),
+              borderRadius: BorderRadius.circular(10.r),
+              color: cBackgroundColor,
+            ),
+            child: SizedBox(
+                child: widget.image != null
+                    ? Image.network(widget.image ?? '')
+                    : null),
           ),
-          borderRadius: BorderRadius.circular(10.r),
-          color: cBackgroundColor,
-        ),
-        child: SizedBox(
-            child: widget.image != null
-                ? Image.network(widget.image ?? '')
-                : null),
-      ),
-      Padding(
-          padding: EdgeInsets.only(left: 23.w),
-          child: Column(
+          Padding(
+            padding: EdgeInsets.only(left: 23.w),
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

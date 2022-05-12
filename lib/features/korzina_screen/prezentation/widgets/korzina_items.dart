@@ -8,7 +8,7 @@ import 'package:savdo_agnet_client/di/dependency_injection.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/data/korzina_hive/korzina_hive.dart';
 // import 'package:savdo_agnet_client/features/product_items/presentation/widgets/product_dialog.dart';
 
-import '../../../prduct_items_dialog/presentation/pages/product_dialog.dart';
+import '../../../product_items_dialog/presentation/pages/product_dialog.dart';
 import '../bloc/korzina_bloc.dart';
 
 class KorzinaItemsWidget extends StatefulWidget {
@@ -48,7 +48,7 @@ class _KorzinaItemsWidgetState extends State<KorzinaItemsWidget> {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15.r), color: cWhiteColor),
           child: SlidableAutoCloseBehavior(
-            closeWhenTapped: true,
+            closeWhenTapped: false,
             child: Slidable(
               key: Key('${card?.id}'),
               direction: Axis.horizontal,

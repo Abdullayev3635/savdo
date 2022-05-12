@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:savdo_agnet_client/core/widgets/costum_toast.dart';
 import 'package:savdo_agnet_client/core/widgets/failure_dialog.dart';
 import 'package:savdo_agnet_client/di/dependency_injection.dart';
+import 'package:savdo_agnet_client/features/korzina_screen/prezentation/pages/korzina_screen.dart';
 import 'package:savdo_agnet_client/features/product_items/presentation/widgets/brand_items_shimmer_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -149,6 +150,14 @@ class _ProductsState extends State<Products> {
                                 ),
                                 style: textStylePrimaryReg16),
                           ),
+                          GestureDetector(
+                              onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                           KorzinaScreen.screen())),
+                              child: SvgPicture.asset(
+                                  'assets/icons/ic_shopping_cart.svg')),
                         ],
                       ),
                     ),

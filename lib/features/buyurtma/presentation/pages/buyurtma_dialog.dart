@@ -63,10 +63,9 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
   }
 
   NetworkInfo networkInfo = di.get();
-
+  SharedPreferences sharedPreferences = di.get();
   @override
   Widget build(BuildContext context) {
-    SharedPreferences sharedPreferences = di.get();
     return SingleChildScrollView(
       child: Container(
         height: MediaQuery.of(context).size.height / 1.1,
@@ -382,9 +381,8 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ProductPage.screen(
-                                    customerId: clientId,
-                                  ),
+                                  builder: (context) =>
+                                      ProductPage.screen(customerId: clientId),
                                 ));
                           },
                           style: buttonStyle,

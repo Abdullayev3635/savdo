@@ -100,7 +100,7 @@ class _KorzinaScreenState extends State<KorzinaScreen> {
                                       MediaQuery.of(context).size.height / 1.3,
                                   child: KorzinaItemsWidget(
                                       box: box,
-                                      transaction: state.korzinaSaveList)),
+                                      transaction: transaction)),
                         ),
                       ],
                     ),

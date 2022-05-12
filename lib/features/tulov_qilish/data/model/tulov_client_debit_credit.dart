@@ -1,10 +1,12 @@
-class ClientDebitCreditModel {
+
+
+class TulovClientDebitCreditModel {
   String? name;
   int? value;
 
-  ClientDebitCreditModel({this.name, this.value});
+  TulovClientDebitCreditModel({this.name, this.value});
 
-  ClientDebitCreditModel.fromJson(Map<String, dynamic> json) {
+  TulovClientDebitCreditModel.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     value = json['value'];
   }
