@@ -53,8 +53,10 @@ class _KorzinaScreenState extends State<KorzinaScreen> {
               ),
             );
           } else if (state is KorzinaErrorMessageState) {
+            var box = Hive.box<KorzinaCard>(korzinaBox);
             state.korzinaErrorList.isEmpty
                 ? {
+                    box.clear(),
                     Navigator.pop(context),
                     CustomToast.showToast('Malumot muvvafaqiyatli uzatildi!'),
                   }
