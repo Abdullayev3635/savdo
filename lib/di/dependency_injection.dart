@@ -30,7 +30,7 @@ import 'package:savdo_agnet_client/features/product/data/model/brand_product_mod
 import 'package:savdo_agnet_client/features/product/data/model/category_model.dart';
 import 'package:savdo_agnet_client/features/product/data/repositories/repository_impl.dart';
 import 'package:savdo_agnet_client/features/product/domain/repositories/catalog_repository.dart';
-import 'package:savdo_agnet_client/features/product/domain/usescase/brandProducts.dart';
+import 'package:savdo_agnet_client/features/product/domain/usescase/brand_products.dart';
 import 'package:savdo_agnet_client/features/product/domain/usescase/catalog.dart';
 import 'package:savdo_agnet_client/features/product_items/data/datasource/product_local_datasources.dart';
 import 'package:savdo_agnet_client/features/product_items/data/datasource/product_remote_datasources.dart';

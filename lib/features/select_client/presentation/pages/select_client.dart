@@ -77,9 +77,7 @@ class _SelectPartState extends State<SelectPart> {
                           onTap: () {
                             Navigator.pop(context, {
                               "id": state.list[index].id,
-                              "name": state.list[index].name!,
-                              "region_id": state.list[index].regionId,
-                              "region_name": state.list[index].regionName!,
+                              "name": state.list[index].name,
                             });
                           },
                           child: Container(

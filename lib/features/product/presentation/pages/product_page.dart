@@ -64,7 +64,6 @@ class _ProductPageState extends State<ProductPage> {
   }
 
   Future _handleRefresh() async {
-    print('rrrrrrrrrrrrrrrrrrr');
     return _catalogBloc.add(GetCategory());
   }
 
@@ -158,7 +157,7 @@ class _ProductPageState extends State<ProductPage> {
                       bottom: PreferredSize(
                         preferredSize: Size(
                           double.infinity,
-                          state.isLarge ? 330.h : 90.h,
+                          state.isLarge ? 350.h : 90.h,
                         ),
                         child: Container(
                           margin:

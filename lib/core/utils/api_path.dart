@@ -12,3 +12,4 @@ const String clientPHP = "clients";
 const String tulovTuriPHP = "payments/type";
 const String onSelectClientPHP = "customer-debit-credit";
 const String orderPHP = "order/create";
+const String photoPHP = "photo-report/create";

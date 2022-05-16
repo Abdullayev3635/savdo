@@ -5,8 +5,6 @@ import 'package:savdo_agnet_client/features/korzina_screen/data/datasources/korz
 import 'package:savdo_agnet_client/features/korzina_screen/data/korzina_hive/korzina_hive.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/domain/repositories/i_korzina_repository.dart';
 
-import '../korzina_hive/error_model.dart';
-
 class KorzinaRepositoryImpl extends KorzinaRepository {
   final KorzinaOrderRemoteDatasource remoteDatasource;
   final NetworkInfo networkInfo;

@@ -5,6 +5,7 @@ import 'package:pattern_formatter/numeric_formatter.dart';
 
 import '../../../../core/utils/app_constants.dart';
 
+// ignore: must_be_immutable
 class TextFieldHintWidget extends StatelessWidget {
   String hintText;
   TextEditingController controller;

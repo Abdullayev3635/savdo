@@ -1,7 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 import 'package:savdo_agnet_client/features/select_client/data/model/client_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class SelectClientLocalDataSource {
   Future<List<ClientModel>> getSelectClient();
