@@ -44,12 +44,12 @@ class ProductItemDialog extends StatefulWidget {
   final String? size;
 
   // final String? image;
-  final String? price;
+  final num? price;
   final String? category;
-  final String? bloklarSoni;
-  final String? dona;
+  final int? bloklarSoni;
+  final int? dona;
 
-  final String blok;
+  final int blok;
   final String? currencyName;
 
   @override
@@ -74,8 +74,8 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
   @override
   void initState() {
     super.initState();
-    initialBlok = widget.bloklarSoni ?? '0';
-    initialPieces = widget.dona ?? "0";
+    initialBlok = widget.bloklarSoni.toString();
+    initialPieces = widget.dona.toString();
     blokController.text = initialBlok;
     piecesController.text = initialPieces;
   }
@@ -483,11 +483,13 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                     FocusManager.instance.primaryFocus?.unfocus();
                     final productAddKorzina = KorzinaCard(
                       blok: widget.blok,
-                      bloklarSoni: blokController.text,
+                      quantity: int.parse(blokController.text) * widget.blok +
+                          int.parse(piecesController.text),
+                      bloklarSoni: int.parse(blokController.text),
                       residue: widget.residue!,
                       price: widget.price!,
                       name: widget.name!,
-                      dona: piecesController.text,
+                      dona: int.parse(piecesController.text),
                       id: widget.id,
                       category: widget.category!,
                       size: widget.size!,
@@ -496,6 +498,7 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                       image: widget.image ?? '',
                     );
                     final box = Hive.box<KorzinaCard>(korzinaBox);
+
                     ///korzinaga qo'shyapti
                     box.put(widget.id, productAddKorzina);
                     Navigator.pop(context);

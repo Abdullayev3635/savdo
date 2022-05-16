@@ -4,7 +4,7 @@ class ErrorModel {
   int? quantity;
   int? currencyId;
   String? currencyName;
-  int? price;
+  double? price;
   int? residue;
 
   ErrorModel(
@@ -27,14 +27,14 @@ class ErrorModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['product_id'] = this.productId;
-    data['product_name'] = this.productName;
-    data['quantity'] = this.quantity;
-    data['currency_id'] = this.currencyId;
-    data['currency_name'] = this.currencyName;
-    data['price'] = this.price;
-    data['residue'] = this.residue;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['product_id'] = productId;
+    data['product_name'] = productName;
+    data['quantity'] = quantity;
+    data['currency_id'] = currencyId;
+    data['currency_name'] = currencyName;
+    data['price'] = price;
+    data['residue'] = residue;
     return data;
   }
 }

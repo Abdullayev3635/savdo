@@ -6,7 +6,7 @@ abstract class KorzinaEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-  class KorzinaInitialEvent extends KorzinaEvent {}
+class KorzinaInitialEvent extends KorzinaEvent {}
 
 class KorzinaSendDataEvent extends KorzinaEvent {
   final List<KorzinaCard> card;

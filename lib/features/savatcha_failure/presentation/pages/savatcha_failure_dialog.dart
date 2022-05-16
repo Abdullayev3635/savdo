@@ -3,9 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 import 'package:savdo_agnet_client/core/widgets/dialog_frame.dart';
+import 'package:savdo_agnet_client/features/korzina_screen/data/korzina_hive/error_model.dart';
 
 class SavatchaFailureDialog extends StatefulWidget {
-  const SavatchaFailureDialog({Key? key}) : super(key: key);
+  const SavatchaFailureDialog({Key? key, required this.list}) : super(key: key);
+  final List<ErrorModel> list;
 
   @override
   _SavatchaFailureDialogState createState() => _SavatchaFailureDialogState();
@@ -36,7 +38,7 @@ class _SavatchaFailureDialogState extends State<SavatchaFailureDialog> {
               child: ListView.builder(
                   physics: const BouncingScrollPhysics(),
                   padding: EdgeInsets.symmetric(horizontal: 3.w),
-                  itemCount: 20,
+                  itemCount: widget.list.length,
                   itemBuilder: (context, index) {
                     return Container(
                       padding: EdgeInsets.symmetric(
@@ -55,7 +57,7 @@ class _SavatchaFailureDialogState extends State<SavatchaFailureDialog> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'TOP TEC ATF 1700',
+                                widget.list[index].productName ?? '',
                                 style: TextStyle(
                                     fontFamily: 'SemiBold',
                                     fontSize: 16.sp,

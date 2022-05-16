@@ -38,7 +38,7 @@ class BuyurtmaDialog extends StatefulWidget {
 }
 
 class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
-  String group1 = '0', group2 = '0';
+  String narxTuriGroup = '0', savdoTuriGroup = '0';
   int clientId = 0;
   int clientQarzi = 0;
   String kurs = "0";
@@ -274,7 +274,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                                       return GestureDetector(
                                         onTap: () {
                                           setState(() {
-                                            group1 = index.toString();
+                                            narxTuriGroup = index.toString();
                                             kurs = currencyList[index].value ??
                                                 "0";
                                           });
@@ -283,14 +283,14 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                                           children: [
                                             Radio(
                                                 value: '$index',
-                                                groupValue: group1,
+                                                groupValue: narxTuriGroup,
                                                 fillColor:
                                                     MaterialStateProperty.all(
                                                         primaryColor),
                                                 activeColor: primaryColor,
                                                 onChanged: (value) {
                                                   setState(() {
-                                                    group1 = value.toString();
+                                                    narxTuriGroup = value.toString();
                                                     kurs = currencyList[index]
                                                             .value ??
                                                         "0";
@@ -335,21 +335,21 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                                       return GestureDetector(
                                         onTap: () {
                                           setState(() {
-                                            group2 = index.toString();
+                                            savdoTuriGroup = index.toString();
                                           });
                                         },
                                         child: Row(
                                           children: [
                                             Radio(
                                                 value: '$index',
-                                                groupValue: group2,
+                                                groupValue: savdoTuriGroup,
                                                 fillColor:
                                                     MaterialStateProperty.all(
                                                         primaryColor),
                                                 activeColor: primaryColor,
                                                 onChanged: (value) {
                                                   setState(() {
-                                                    group2 = value.toString();
+                                                    savdoTuriGroup = value.toString();
                                                   });
                                                 }),
                                             Text(
@@ -368,12 +368,12 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                         ElevatedButton(
                           onPressed: () {
                             sharedPreferences.setString(sharedCurrencyValue,
-                                currencyList[int.parse(group1)].value!);
+                                currencyList[int.parse(narxTuriGroup)].value!);
                             sharedPreferences.setString(sharedCurrencyId,
-                                currencyList[int.parse(group1)].id.toString());
+                                currencyList[int.parse(narxTuriGroup)].id.toString());
                             sharedPreferences.setString(
                                 sharedPriceTypeId,
-                                priceTypeList![int.parse(group2)]
+                                priceTypeList![int.parse(savdoTuriGroup)]
                                     .id
                                     .toString());
 

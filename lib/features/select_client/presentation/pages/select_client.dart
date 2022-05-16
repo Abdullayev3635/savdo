@@ -76,8 +76,10 @@ class _SelectPartState extends State<SelectPart> {
                         return InkWell(
                           onTap: () {
                             Navigator.pop(context, {
-                              "name": state.list[index].name!,
                               "id": state.list[index].id,
+                              "name": state.list[index].name!,
+                              "region_id": state.list[index].regionId,
+                              "region_name": state.list[index].regionName!,
                             });
                           },
                           child: Container(

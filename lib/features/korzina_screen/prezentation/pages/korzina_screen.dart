@@ -58,11 +58,15 @@ class _KorzinaScreenState extends State<KorzinaScreen> {
                     Navigator.pop(context),
                     CustomToast.showToast('Malumot muvvafaqiyatli uzatildi!'),
                   }
-                : showDialog(
-                    context: context,
-                    builder: (context) {
-                      return const SavatchaFailureDialog();
-                    });
+                : Future.delayed(Duration.zero, () async {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return SavatchaFailureDialog(
+                            list: state.korzinaErrorList,
+                          );
+                        });
+                  });
           } else if (state is KorzinaSuccessState) {
             return ValueListenableBuilder<Box<KorzinaCard>>(
                 valueListenable: Hive.box<KorzinaCard>(korzinaBox).listenable(),
@@ -70,10 +74,10 @@ class _KorzinaScreenState extends State<KorzinaScreen> {
                   jamiSumma = 0;
                   var transaction = box.values.toList().cast<KorzinaCard>();
                   for (int i = 0; i < transaction.length; i++) {
-                    jamiSumma += ((int.parse(transaction[i].bloklarSoni!) *
-                                int.parse(transaction[i].blok!)) +
-                            int.parse(transaction[i].dona!)) *
-                        double.parse(transaction[i].price!);
+                    jamiSumma +=
+                        ((transaction[i].bloklarSoni! * transaction[i].blok!) +
+                                transaction[i].dona!) *
+                            transaction[i].price!;
                   }
                   return Scaffold(
                     backgroundColor: cBackgroundColor,
@@ -82,7 +86,8 @@ class _KorzinaScreenState extends State<KorzinaScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 21.w, bottom: 10.h,right: 21.w),
+                          padding: EdgeInsets.only(
+                              left: 21.w, bottom: 10.h, right: 21.w),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -99,8 +104,7 @@ class _KorzinaScreenState extends State<KorzinaScreen> {
                                   height:
                                       MediaQuery.of(context).size.height / 1.3,
                                   child: KorzinaItemsWidget(
-                                      box: box,
-                                      transaction: transaction)),
+                                      box: box, transaction: transaction)),
                         ),
                       ],
                     ),

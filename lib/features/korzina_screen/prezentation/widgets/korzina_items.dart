@@ -66,7 +66,7 @@ class _KorzinaItemsWidgetState extends State<KorzinaItemsWidget> {
                               bloklarSoni:
                                   widget.transaction?[index].bloklarSoni,
                               dona: widget.transaction?[index].dona,
-                              blok: widget.transaction?[index].blok ?? '0',
+                              blok: widget.transaction?[index].blok ?? 0,
                               category: widget.transaction?[index].category,
                               name: widget.transaction?[index].name,
                               price: widget.transaction?[index].price,

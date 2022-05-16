@@ -18,21 +18,26 @@ class KorzinaOrderRemoteDatasourceImpl extends KorzinaOrderRemoteDatasource {
   KorzinaOrderRemoteDatasourceImpl({required this.client});
 
   @override
-  Future<List<ErrorModel>> sendKorzinaData({required List<KorzinaCard> card}) async {
+  Future<List<ErrorModel>> sendKorzinaData(
+      {required List<KorzinaCard> card}) async {
     try {
       List<ErrorModel> listError = [];
       var jsonList = jsonEncode(card.map((e) => e.toJson()).toList());
       dynamic json1 = {
-        'sales_agent_id': sharedPreferences.getString(sharedSalesAgentId),
-        'customer_id': sharedPreferences.getString(sharedCustomerId),
-        'currency_value': sharedPreferences.getString(sharedCurrencyValue),
-        'price_type_id': sharedPreferences.getString(sharedPriceTypeId),
-        'description': ""
+        'sales_agent_id':
+            int.parse(sharedPreferences.getString(sharedSalesAgentId)!),
+        'customer_id': 1,
+        'currency_id': int.parse(sharedPreferences.getString(sharedCurrencyId)!),
+        'currency_value': int.parse(sharedPreferences.getString(sharedCurrencyValue)!),
+        'price_type_id': int.parse(sharedPreferences.getString(sharedPriceTypeId)!),
+        'description': "hkljhjljhlkjhklj"
       };
       dynamic json = {
         'order_info': json1,
-        'product_list': jsonList,
+        'product_list': jsonDecode(jsonList),
       };
+      print(json1);
+      print(jsonList);
       final response = await client.post(
         Uri.parse(baseUrl + orderPHP),
         body: jsonEncode(json),
@@ -46,6 +51,7 @@ class KorzinaOrderRemoteDatasourceImpl extends KorzinaOrderRemoteDatasource {
         final parsed = jsonDecode(response.body);
         for (int i = 0; i < (parsed["error_list"] as List).length; i++) {
           listError.add(ErrorModel.fromJson(parsed["error_list"][i]));
+          print(listError);
         }
         return listError;
       } else {

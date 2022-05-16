@@ -155,7 +155,7 @@ class _ProductsState extends State<Products> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                           KorzinaScreen.screen())),
+                                          KorzinaScreen.screen())),
                               child: SvgPicture.asset(
                                   'assets/icons/ic_shopping_cart.svg')),
                         ],
@@ -174,13 +174,14 @@ class _ProductsState extends State<Products> {
                           itemCount: state.list.length,
                           itemBuilder: (context, index) {
                             return ProductItemsWidget(
-                              blok: state.list[index].blok,
+                              blok: int.parse(state.list[index].blok!),
                               id: state.list[index].id!,
-                              brandNomi: state.list[index].currencyName!,
+                              brandNomi: state.list[index].currencyName ?? ' ',
                               image: null,
-                              title: state.list[index].name!,
+                              title: state.list[index].name?? 'hhhh',
                               count: state.list[index].size!,
-                              price: state.list[index].price!,
+                              price:
+                                  num.parse(state.list[index].price ?? '0'),
                               category: state.list[index].category!,
                               currencyId: state.list[index].currencyId!,
                               currencyName: state.list[index].currencyName,
