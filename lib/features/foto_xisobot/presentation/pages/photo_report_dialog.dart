@@ -53,10 +53,8 @@ class _PhotoReportDialogState extends State<PhotoReportDialog> {
                           setState(() {
                             clientId = value['id'];
                             clientName = value['name'].toString();
-                            regionId = value['region_id'];
-                            regionName = value['region_name'].toString();
                           })
-                        }
+                        },
                     });
               },
               child: Container(
@@ -117,12 +115,13 @@ class _PhotoReportDialogState extends State<PhotoReportDialog> {
                 hintText: 'Izoh'),
             SizedBox(height: 24.h),
             ElevatedButton(
-                onPressed: () {},
-                style: buttonStyle,
-                child: const Text(
-                  'Davom etish',
-                  textAlign: TextAlign.center,
-                )),
+              onPressed: () {},
+              style: buttonStyle,
+              child: const Text(
+                'Davom etish',
+                textAlign: TextAlign.center,
+              ),
+            ),
           ],
         ),
       ),
