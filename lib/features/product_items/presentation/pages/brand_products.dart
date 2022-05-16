@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:savdo_agnet_client/core/widgets/costum_toast.dart';
 import 'package:savdo_agnet_client/core/widgets/failure_dialog.dart';
 import 'package:savdo_agnet_client/di/dependency_injection.dart';
+import 'package:savdo_agnet_client/features/korzina_screen/prezentation/pages/korzina_screen.dart';
 import 'package:savdo_agnet_client/features/product_items/presentation/widgets/brand_items_shimmer_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -148,6 +149,14 @@ class _ProductsState extends State<Products> {
                                 ),
                                 style: textStylePrimaryReg16),
                           ),
+                          GestureDetector(
+                              onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          KorzinaScreen.screen())),
+                              child: SvgPicture.asset(
+                                  'assets/icons/ic_shopping_cart.svg')),
                         ],
                       ),
                     ),
@@ -164,13 +173,14 @@ class _ProductsState extends State<Products> {
                           itemCount: state.list.length,
                           itemBuilder: (context, index) {
                             return ProductItemsWidget(
-                              blok: state.list[index].blok,
+                              blok: int.parse(state.list[index].blok!),
                               id: state.list[index].id!,
-                              brandNomi: state.list[index].currencyName!,
+                              brandNomi: state.list[index].currencyName ?? ' ',
                               image: null,
-                              title: state.list[index].name!,
+                              title: state.list[index].name?? 'hhhh',
                               count: state.list[index].size!,
-                              price: state.list[index].price!,
+                              price:
+                                  num.parse(state.list[index].price ?? '0'),
                               category: state.list[index].category!,
                               currencyId: state.list[index].currencyId!,
                               currencyName: state.list[index].currencyName,

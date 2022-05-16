@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 // import 'package:savdo_agnet_client/features/product_items/presentation/widgets/product_dialog.dart';
 
 import '../../../../core/utils/app_constants.dart';
-import '../../../prduct_items_dialog/presentation/pages/product_dialog.dart';
+import '../../../product_items_dialog/presentation/pages/product_dialog.dart';
 
 class TextFieldWidgetInProductDialog extends StatelessWidget {
   const TextFieldWidgetInProductDialog({Key? key, required this.controller})

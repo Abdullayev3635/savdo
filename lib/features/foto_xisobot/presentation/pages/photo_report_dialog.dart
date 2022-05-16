@@ -9,7 +9,6 @@ import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 import 'package:savdo_agnet_client/di/dependency_injection.dart';
 import 'package:savdo_agnet_client/features/select_client/presentation/pages/select_client.dart';
 import 'package:savdo_agnet_client/core/widgets/dialog_frame.dart';
-
 import '../../../tulov_qilish/presentation/widgets/text_field_widget.dart';
 
 class PhotoReportDialog extends StatefulWidget {
@@ -21,7 +20,9 @@ class PhotoReportDialog extends StatefulWidget {
 
 class _PhotoReportDialogState extends State<PhotoReportDialog> {
   int clientId = 0;
+  int regionId = 0;
   String clientName = 'Mijozni tanlang';
+  String regionName = 'Region tanlang';
   File? _imageFile0, _imageFile1, _imageFile2;
   String sana0 = "", sana1 = "", sana2 = "";
 
@@ -52,6 +53,8 @@ class _PhotoReportDialogState extends State<PhotoReportDialog> {
                           setState(() {
                             clientId = value['id'];
                             clientName = value['name'].toString();
+                            regionId = value['region_id'];
+                            regionName = value['region_name'].toString();
                           })
                         }
                     });
@@ -67,7 +70,7 @@ class _PhotoReportDialogState extends State<PhotoReportDialog> {
                   children: [
                     Expanded(
                       child: Text(
-                        'Region tanlang',
+                        clientName,
                         style: textStylePrimaryMed14,
                       ),
                     ),
@@ -86,7 +89,7 @@ class _PhotoReportDialogState extends State<PhotoReportDialog> {
               child: Row(
                 children: [
                   Expanded(
-                    child: Text(clientName, style: textStylePrimaryMed14),
+                    child: Text(regionName, style: textStylePrimaryMed14),
                   ),
                   SvgPicture.asset('assets/icons/ic_dropdown.svg')
                 ],

@@ -29,7 +29,7 @@ class BrandProductModel {
     id = json['id'];
     name = json['name'];
     category = json['category'];
-    currencyId = json['currency_id'];
+    currencyId  = json['currency_id'];
     currencyName = json['currency_name'];
     price = json['price'];
     residue = json['residue'];

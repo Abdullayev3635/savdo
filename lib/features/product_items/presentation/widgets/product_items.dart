@@ -2,20 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 
-import '../../../prduct_items_dialog/presentation/pages/product_dialog.dart';
+import '../../../product_items_dialog/presentation/pages/product_dialog.dart';
 // import 'package:savdo_agnet_client/features/product_items/presentation/widgets/product_dialog.dart';
 
 class ProductItemsWidget extends StatefulWidget {
-  final String? title,
-      size,
-      price,
-      image,
-      count,
-      blok,
-      category,
-      currencyName,
-      brandNomi;
-  final int? id, currencyId, residue;
+  final String? title, size, image, count, category, currencyName, brandNomi;
+  final int? id, currencyId, residue, blok;
+  final num? price;
 
   const ProductItemsWidget({
     required this.id,
@@ -54,27 +47,27 @@ class _ProductItemsWidgetState extends State<ProductItemsWidget> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-        Container(
-        height: 125.h,
-        width: 120.w,
-        margin: EdgeInsets.only(bottom: 9.h),
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          image: const DecorationImage(
-            opacity: 0.5,
-            image: AssetImage('assets/images/gallery.png'),
+          Container(
+            height: 125.h,
+            width: 120.w,
+            margin: EdgeInsets.only(bottom: 9.h),
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              image: const DecorationImage(
+                opacity: 0.5,
+                image: AssetImage('assets/images/gallery.png'),
+              ),
+              borderRadius: BorderRadius.circular(10.r),
+              color: cBackgroundColor,
+            ),
+            child: SizedBox(
+                child: widget.image != null
+                    ? Image.network(widget.image ?? '')
+                    : null),
           ),
-          borderRadius: BorderRadius.circular(10.r),
-          color: cBackgroundColor,
-        ),
-        child: SizedBox(
-            child: widget.image != null
-                ? Image.network(widget.image ?? '')
-                : null),
-      ),
-      Padding(
-          padding: EdgeInsets.only(left: 23.w),
-          child: Column(
+          Padding(
+            padding: EdgeInsets.only(left: 23.w),
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -97,7 +90,7 @@ class _ProductItemsWidgetState extends State<ProductItemsWidget> {
                 ),
                 SizedBox(height: 7.h),
                 Text(
-                  '${widget.price ?? 0} ${widget.currencyName}',
+                  '${widget.price} ${widget.currencyName}',
                   style: TextStyle(
                       color: const Color(0xffDC200E),
                       fontSize: 16.sp,
@@ -116,18 +109,19 @@ class _ProductItemsWidgetState extends State<ProductItemsWidget> {
                               context: context,
                               builder: (context) {
                                 return ProductItemDialog(
-                                  bloklarSoni: '0',
+                                  bloklarSoni: 0,
+                                  dona: 0,
                                   // brendNomi: widget.brandNomi ?? '',
                                   category: widget.category ?? '',
                                   name: widget.title ?? '',
-                                  price: widget.price ?? '',
+                                  price: widget.price,
                                   image: widget.image,
                                   residue: widget.residue,
                                   id: widget.id ?? 0,
                                   size: widget.size,
                                   currencyName: widget.currencyName,
                                   currencyId: widget.currencyId,
-                                  blok: widget.blok ?? '1',
+                                  blok: widget.blok ?? 0,
                                 );
                               });
                         },

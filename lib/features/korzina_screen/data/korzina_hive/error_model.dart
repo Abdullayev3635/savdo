@@ -4,7 +4,7 @@ class ErrorModel {
   int? quantity;
   int? currencyId;
   String? currencyName;
-  int? price;
+  double? price;
   int? residue;
 
   ErrorModel(

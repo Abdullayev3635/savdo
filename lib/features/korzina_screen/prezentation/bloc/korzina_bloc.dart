@@ -68,9 +68,9 @@ class KorzinaBloc extends Bloc<KorzinaEvent, KorzinaState> {
             },
         (r) => {
           if (r.isNotEmpty)
-            {emit(const KorzinaErrorMessageState(korzinaErrorList: []))}
-          else
             {emit(KorzinaErrorMessageState(korzinaErrorList: r))}
+          else
+            {emit(const KorzinaErrorMessageState(korzinaErrorList: []))}
     });
   }
 }

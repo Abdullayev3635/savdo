@@ -50,7 +50,7 @@ class BuyurtmaRemoteDataSourceImpl implements BuyurtmaRemoteDataSource {
             priceTypeList.add(PriceTypeModel.fromJson(parsed["priceType"][i]));
           }
           buyurtmaList.add(BuyurtmaModel(currency: currencyList, priceType: priceTypeList));
-          // log(buyurtmaList[0].currency![0].id.toString());
+
           return buyurtmaList;
         } catch (e) {
           debugPrint(e.toString());

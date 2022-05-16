@@ -10,7 +10,7 @@ class ImagePickerUtilsImpl extends ImagePickerUtils {
     try {
       final ImagePicker _picker = ImagePicker();
       final XFile? image = await _picker.pickImage(
-          source: ImageSource.camera, maxHeight: 1024, maxWidth: 1024);
+          source: ImageSource.gallery, maxHeight: 1024, maxWidth: 1024);
       if (image != null) {
         return image.path;
       } else {

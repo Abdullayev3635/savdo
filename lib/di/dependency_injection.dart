@@ -43,6 +43,19 @@ import 'package:savdo_agnet_client/features/select_client/data/repository/select
 import 'package:savdo_agnet_client/features/select_client/domain/repositories/client_repository.dart';
 import 'package:savdo_agnet_client/features/select_client/domain/usescase/client_usescase.dart';
 import 'package:savdo_agnet_client/features/select_client/domain/usescase/client_usescase_local.dart';
+import 'package:savdo_agnet_client/features/tulov_qilish/data/datasources/tulov_remote_datasource.dart';
+import 'package:savdo_agnet_client/features/tulov_qilish/data/repository/tulov_repository_impl.dart';
+import 'package:savdo_agnet_client/features/tulov_qilish/domain/repositories/tulov_repository.dart';
+import 'package:savdo_agnet_client/features/tulov_qilish/domain/usescase/select_client_tulov_usescase.dart';
+import 'package:savdo_agnet_client/features/tulov_qilish/presentation/bloc/qarizdorlik_bloc/tulov_qarizdorlik_bloc.dart';
+import 'package:savdo_agnet_client/features/tulov_turi_dialog/data/datasources/tt_local_datasource.dart';
+import 'package:savdo_agnet_client/features/tulov_turi_dialog/data/datasources/tt_remote_datasource.dart';
+import 'package:savdo_agnet_client/features/tulov_turi_dialog/data/model/tulov_turi_model.dart';
+import 'package:savdo_agnet_client/features/tulov_turi_dialog/data/repository/tt_repository.dart';
+import 'package:savdo_agnet_client/features/tulov_turi_dialog/domain/repositories/tulov_turi_repository.dart';
+import 'package:savdo_agnet_client/features/tulov_turi_dialog/domain/usescase/tulov_turi_usescase.dart';
+import 'package:savdo_agnet_client/features/tulov_turi_dialog/domain/usescase/tulov_turi_usescase_local.dart';
+import 'package:savdo_agnet_client/features/tulov_turi_dialog/presentation/bloc/client/select_tt_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../core/location/location_service.dart';
@@ -89,6 +102,9 @@ Future<void> init() async {
     () => SelectClientBloc(usesSelectClient: di(), usesSelectClientLocal: di()),
   );
   di.registerFactory(
+    () => SelectTulovTuriBloc(usesTulovTuri: di(), usesTulovTuriLocal: di()),
+  );
+  di.registerFactory(
     () => BuyurtmaDialogBloc(usesBuyurtma: di(), usesBuyurtmaLocal: di()),
   );
   di.registerFactory(
@@ -100,6 +116,9 @@ Future<void> init() async {
 
   di.registerFactory(
     () => BrandsProductsBloc(brandProducts: di()),
+  );
+  di.registerFactory(
+    () => TulovQarizdorlikBloc(onSelectClientTulov: di()),
   );
 
   ///Repositories
@@ -118,6 +137,19 @@ Future<void> init() async {
     () => CategoryRepositoryImpl(
       categoryLocalDatasourceImpl: di(),
       categoryRemoteDatasourceImpl: di(),
+      networkInfo: di(),
+    ),
+  );
+  di.registerLazySingleton<SelectTulovTuriRepository>(
+    () => SelectTulovTuriRepositoryImpl(
+      localDataSourceImpl: di(),
+      remoteDataSourceImpl: di(),
+      networkInfo: di(),
+    ),
+  );
+  di.registerLazySingleton<TulovRepository>(
+    () => TulovRepositoryImpl(
+      remoteDataSourceImpl: di(),
       networkInfo: di(),
     ),
   );
@@ -148,6 +180,7 @@ Future<void> init() async {
   //   di.registerLazySingleton(() => SendData(sendDataRepository: di()));
   di.registerLazySingleton(() => UKorzinaOrderList(korzinaRepository: di()));
   di.registerLazySingleton(() => Pass(repository: di()));
+  di.registerLazySingleton(() => OnSelectClientTulov(tulovRepository: di()));
   di.registerLazySingleton(() => ProductCatalog(catalogRepository: di()));
   di.registerLazySingleton(() => BrandCatalog(catalogRepository: di()));
   di.registerLazySingleton(() => BrandProductsCatalog(catalogRepository: di()));
@@ -155,11 +188,22 @@ Future<void> init() async {
   di.registerLazySingleton(() => UsesBuyurtma(repository: di()));
   di.registerLazySingleton(() => UsesBuyurtmaLocal(repository: di()));
   di.registerLazySingleton(() => OnSelectClient(clientRepository: di()));
+
   di.registerLazySingleton(() => UsesClientLocal(repository: di()));
+  di.registerLazySingleton(() => UsesTulovTuriLocal(repository: di()));
+  di.registerLazySingleton(() => UsesTulovTuri(tulovTuriRepository: di()));
 
   /// Data sources
   di.registerLazySingleton(
     () => PassLocalDataSourceImpl(sharedPreferences: di()),
+  );
+  di.registerLazySingleton(
+    () => SelectTulovTuriLocalDataSourceImpl(),
+  );
+
+  di.registerLazySingleton(
+    () => SelectTulovTuriRemoteDataSourceImpl(
+        sharedPreferences: di(), client: di()),
   );
 
   di.registerLazySingleton(
@@ -174,6 +218,9 @@ Future<void> init() async {
   di.registerLazySingleton(
     () => BrandProductsRemoteDatasourceImpl(
         sharedPreferences: di(), client: di()),
+  );
+  di.registerLazySingleton(
+    () => TulovRemoteDataSourceImpl(client: di()),
   );
 
   di.registerLazySingleton(
@@ -250,4 +297,8 @@ Future<void> init() async {
   // buyurtma dialog
   Hive.registerAdapter(BuyurtmaModelAdapter());
   await Hive.openBox(buyurtmaBox);
+
+  // to'lov turi dialog
+  Hive.registerAdapter(TulovTuriModelAdapter());
+  await Hive.openBox(tulovTuriBox);
 }
