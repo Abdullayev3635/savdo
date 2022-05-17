@@ -36,8 +36,13 @@ class BrandProductsRepositoryImpl extends BrandProductsRepository {
   }
 
   @override
-  Future<Either<Failure, dynamic>> getBrandProductsLocal(int salesAgentId, int priceTypeId, int brandId) {
-    // TODO: implement getBrandProductsLocal
-    throw UnimplementedError();
+  Future<Either<Failure, dynamic>> getBrandProductsLocal(
+      int salesAgentId, int priceTypeId, int brandId) async {
+    try {
+      final result = await localDataSource.getCatalog();
+      return Right(result);
+    } on LocalFailure {
+      return const Left(LocalFailure("Маълумот юкланишда хатолик бўлди"));
+    }
   }
 }
