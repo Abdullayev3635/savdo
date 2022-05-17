@@ -16,6 +16,10 @@ import 'package:savdo_agnet_client/features/buyurtma/domain/usescase/select_uses
 import 'package:savdo_agnet_client/features/buyurtma/presentation/bloc/buyurtma_bloc/buyurtma_dialog_bloc.dart';
 import 'package:savdo_agnet_client/features/buyurtma/presentation/bloc/qarizdorlik_bloc/qarizdorlik_bloc.dart';
 import 'package:savdo_agnet_client/features/firmalar/presentation/bloc/firma_cubit.dart';
+import 'package:savdo_agnet_client/features/foto_xisobot/data/datasources/foto_remote_datasource.dart';
+import 'package:savdo_agnet_client/features/foto_xisobot/data/repository/foto_repository_impl.dart';
+import 'package:savdo_agnet_client/features/foto_xisobot/domain/repositories/foto_repository.dart';
+import 'package:savdo_agnet_client/features/foto_xisobot/domain/usescase/foto_xisobot_usescase.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/data/datasources/korzina_remote_datasources.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/data/repositories/korzina_repository.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/domain/repositories/i_korzina_repository.dart';
@@ -61,6 +65,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../core/location/location_service.dart';
 import '../core/network/network_info.dart';
 import '../features/buyurtma/data/datasources/buyurtma_remote_datasource.dart';
+import '../features/foto_xisobot/presentation/bloc/foto_bloc.dart';
 import '../features/korzina_screen/data/korzina_hive/korzina_hive.dart';
 import '../features/lock/data/datasources/lock_local_datasources.dart';
 import '../features/lock/data/repositories/lock_repositories.dart';
@@ -85,6 +90,9 @@ Future<void> init() async {
   );
   di.registerFactory(
     () => CatalogBloc(product: di()),
+  );
+  di.registerFactory(
+    () => FotoBloc(fotoUsesCase:  di()),
   );
   di.registerFactory(
     () => BrandBloc(brandCategory: di()),
@@ -147,6 +155,12 @@ Future<void> init() async {
       networkInfo: di(),
     ),
   );
+  di.registerLazySingleton<FotoRepository>(
+    () => FotoRepositoryImpl(
+      fotoRemoteDataSourceImpl: di(),
+      networkInfo: di(),
+    ),
+  );
   di.registerLazySingleton<TulovRepository>(
     () => TulovRepositoryImpl(
       remoteDataSourceImpl: di(),
@@ -188,7 +202,7 @@ Future<void> init() async {
   di.registerLazySingleton(() => UsesBuyurtma(repository: di()));
   di.registerLazySingleton(() => UsesBuyurtmaLocal(repository: di()));
   di.registerLazySingleton(() => OnSelectClient(clientRepository: di()));
-
+  di.registerLazySingleton(() => FotoUsesCase(fotoRepository:  di()));
   di.registerLazySingleton(() => UsesClientLocal(repository: di()));
   di.registerLazySingleton(() => UsesTulovTuriLocal(repository: di()));
   di.registerLazySingleton(() => UsesTulovTuri(tulovTuriRepository: di()));
@@ -196,6 +210,9 @@ Future<void> init() async {
   /// Data sources
   di.registerLazySingleton(
     () => PassLocalDataSourceImpl(sharedPreferences: di()),
+  );
+  di.registerLazySingleton(
+    () => FotoRemoteDataSourceImpl(client:  di()),
   );
   di.registerLazySingleton(
     () => SelectTulovTuriLocalDataSourceImpl(),

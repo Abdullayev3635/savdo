@@ -14,9 +14,23 @@ class FotoRepositoryImpl extends FotoRepository {
   });
 
   @override
-  Future<Either<Failure, dynamic>> sendFoto() async {
+  Future<Either<Failure, dynamic>> sendFoto(
+    String image1,
+    String image2,
+    String image3,
+    int customerId,
+    int salesAgentId,
+    int regionId,
+  ) async {
     try {
-      final result = await fotoRemoteDataSourceImpl.sendFoto();
+      final result = await fotoRemoteDataSourceImpl.sendFoto(
+        image1,
+        image2,
+        image3,
+        customerId,
+        salesAgentId,
+        regionId,
+      );
       return Right(result);
     } on ServerFailure {
       return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));

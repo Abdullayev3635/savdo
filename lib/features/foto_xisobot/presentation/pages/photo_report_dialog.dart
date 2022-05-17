@@ -1,18 +1,25 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:savdo_agnet_client/core/photo/image_picker_utils.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 import 'package:savdo_agnet_client/di/dependency_injection.dart';
+import 'package:savdo_agnet_client/features/foto_xisobot/presentation/bloc/foto_bloc.dart';
 import 'package:savdo_agnet_client/features/select_client/presentation/pages/select_client.dart';
 import 'package:savdo_agnet_client/core/widgets/dialog_frame.dart';
 import '../../../tulov_qilish/presentation/widgets/text_field_widget.dart';
 
 class PhotoReportDialog extends StatefulWidget {
   const PhotoReportDialog({Key? key}) : super(key: key);
+
+  static Widget screen() => BlocProvider(
+        create: (context) => di<FotoBloc>(),
+        child: const PhotoReportDialog(),
+      );
 
   @override
   _PhotoReportDialogState createState() => _PhotoReportDialogState();
@@ -27,6 +34,20 @@ class _PhotoReportDialogState extends State<PhotoReportDialog> {
   String sana0 = "", sana1 = "", sana2 = "";
 
   final customFormat = DateFormat('yyyy.MM.dd hh:mm');
+
+  late FotoBloc bloc;
+
+  @override
+  void initState() {
+    super.initState();
+    bloc = BlocProvider.of<FotoBloc>(context);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    bloc.close();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -114,13 +135,26 @@ class _PhotoReportDialogState extends State<PhotoReportDialog> {
                 controller: izohController,
                 hintText: 'Izoh'),
             SizedBox(height: 24.h),
-            ElevatedButton(
-              onPressed: () {},
-              style: buttonStyle,
-              child: const Text(
-                'Davom etish',
-                textAlign: TextAlign.center,
-              ),
+            BlocBuilder<FotoBloc, FotoState>(
+              builder: (context, state) {
+                return ElevatedButton(
+                  onPressed: () {
+                    bloc.add(SendFotoEvent(
+                      image1: _imageFile0!.path,
+                      image2: _imageFile1!.path,
+                      image3: _imageFile2!.path,
+                      customerId: 1,
+                      regionId: 1,
+                      salesAgentId: 1,
+                    ));
+                  },
+                  style: buttonStyle,
+                  child: const Text(
+                    'Davom etish',
+                    textAlign: TextAlign.center,
+                  ),
+                );
+              },
             ),
           ],
         ),
