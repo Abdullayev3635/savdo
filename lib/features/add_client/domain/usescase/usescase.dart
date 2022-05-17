@@ -6,10 +6,10 @@ import 'package:savdo_agnet_client/features/add_client/domain/repository/client_
 
 import '../../data/model/add_client_model.dart';
 
-class UsesClient extends UseCase<dynamic, AddClientParams> {
+class UsesAddClient extends UseCase<dynamic, AddClientParams> {
   final AddClientRepository clientRepository;
 
-  UsesClient({required this.clientRepository});
+  UsesAddClient({required this.clientRepository});
 
   @override
   Future<Either<Failure, dynamic>> call(AddClientParams params) {
