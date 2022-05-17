@@ -145,7 +145,7 @@ class _MainPageState extends State<MainPage> {
                             showDialog(
                                 context: context,
                                 builder: (context) {
-                                  return const PhotoReportDialog();
+                                  return PhotoReportDialog.screen();
                                 });
                           },
                           title: 'Foto hisobot',
