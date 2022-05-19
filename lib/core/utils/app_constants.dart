@@ -38,6 +38,7 @@ const String currencyBox = 'currency_box';
 const String priceTypeBox = 'price_type_box';
 
 const String clientBox = 'client_box';
+const String viloyatBox = 'viloyat_box';
 const String tulovTuriBox = 'tulov_turi_box';
 
 // All sizes
@@ -105,7 +106,7 @@ BoxConstraints boxConstraintsTextField = BoxConstraints(
 //shared keys
 
 const String sharedCustomerId = 'customer_id';
-const String sharedCurrencyValue = 'currency_value';
+  const String sharedCurrencyValue = 'currency_value';
 const String sharedCurrencyId = 'currency_id';
 const String sharedPriceTypeId = 'price_type_id';
 const String sharedSalesAgentId = 'sales_agent_id';

@@ -7,14 +7,20 @@ class TulovQarizdorlikInitial extends TulovQarizdorlikState {}
 
 class TulovQarizdorlikLoading extends TulovQarizdorlikState {}
 
-class TulovQarizdorlikLoaded extends TulovQarizdorlikState {
+class TulovQarizdorlikLoadedState extends TulovQarizdorlikState {
   final List<TulovClientDebitCreditModel> debitList;
 
-  TulovQarizdorlikLoaded({required this.debitList});
+  TulovQarizdorlikLoadedState({required this.debitList});
 }
 
 class TulovQarizdorlikFail extends TulovQarizdorlikState {
   final String message;
 
   TulovQarizdorlikFail({required this.message});
+}
+
+class TulovCreatedState extends TulovQarizdorlikState {
+  final String message;
+
+  TulovCreatedState({required this.message});
 }

@@ -1,27 +1,20 @@
-part of 'tulov_qarizdorlik_bloc.dart';
+part of 'tulov_qilish_bloc.dart';
 
 @immutable
-abstract class TulovQarizdorlikEvent {}
+abstract class TulovQilishEvent {}
 
-class TulovClientSelectedEvent extends TulovQarizdorlikEvent {
-  final int salesAgentId;
-  final int customerId;
 
-  TulovClientSelectedEvent(
-      {required this.salesAgentId, required this.customerId});
-}
-
-class TulovQilishEvent extends TulovQarizdorlikEvent {
+class TulovQilishSuccessEvent extends TulovQilishEvent {
   final int customerId;
   final int salesAgentId;
   final int branchId;
   final int currencyValue;
   final int paymentTypeId;
-  final double summa;
-  final double paymentAmount;
+  final int summa;
+  final int paymentAmount;
   final String description;
 
-  TulovQilishEvent({
+  TulovQilishSuccessEvent({
     required this.salesAgentId,
     required this.customerId,
     required this.branchId,

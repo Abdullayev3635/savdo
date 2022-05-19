@@ -8,9 +8,12 @@ import 'package:intl/intl.dart';
 import 'package:savdo_agnet_client/core/photo/image_picker_utils.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 import 'package:savdo_agnet_client/di/dependency_injection.dart';
+import 'package:savdo_agnet_client/features/foto_xisobot/data/datasources/foto_remote_datasource.dart';
 import 'package:savdo_agnet_client/features/foto_xisobot/presentation/bloc/foto_bloc.dart';
 import 'package:savdo_agnet_client/features/select_client/presentation/pages/select_client.dart';
 import 'package:savdo_agnet_client/core/widgets/dialog_frame.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sn_progress_dialog/progress_dialog.dart';
 import '../../../tulov_qilish/presentation/widgets/text_field_widget.dart';
 
 class PhotoReportDialog extends StatefulWidget {
@@ -34,8 +37,41 @@ class _PhotoReportDialogState extends State<PhotoReportDialog> {
   String sana0 = "", sana1 = "", sana2 = "";
 
   final customFormat = DateFormat('yyyy.MM.dd hh:mm');
-
+  TextEditingController izohController = TextEditingController();
   late FotoBloc bloc;
+  SharedPreferences sharedPreferences = di.get();
+
+  _valuableProgress(context) async {
+    ProgressDialog pd = ProgressDialog(context: context);
+
+    pd.show(
+      max: 100,
+      msg: 'Ma`lumotlar yuklanmoqda...',
+      backgroundColor: cBackgroundColor,
+      msgFontSize: 16.sp,
+      msgColor: primaryColor,
+      valueColor: primaryColor,
+      // valuePosition: ValuePosition.center,
+      progressBgColor: cGrayColor.withOpacity(0.5),
+      progressValueColor: primaryColor,
+      msqFontWeight: FontWeight.w300,
+
+      /// Assign the type of progress bar.
+      progressType: ProgressType.valuable,
+    );
+    for (int i = 0; i <= 101; i++) {
+      setState(() {
+        pd.update(value: progressIndicator.toInt());
+      });
+      if (progressIndicator == 99.0) {
+        pd.close();
+        Navigator.pop(context);
+      }
+      i++;
+      progressIndicator = i.toDouble();
+      await Future.delayed(const Duration(milliseconds: 100));
+    }
+  }
 
   @override
   void initState() {
@@ -51,7 +87,6 @@ class _PhotoReportDialogState extends State<PhotoReportDialog> {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController izohController = TextEditingController();
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 5),
@@ -73,7 +108,9 @@ class _PhotoReportDialogState extends State<PhotoReportDialog> {
                         {
                           setState(() {
                             clientId = value['id'];
+                            regionId = value['regionId'];
                             clientName = value['name'].toString();
+                            regionName = value['regionName'].toString();
                           })
                         },
                     });
@@ -119,13 +156,9 @@ class _PhotoReportDialogState extends State<PhotoReportDialog> {
               child: Row(
                 children: [
                   pickedImage(_imageFile0, "0"),
-                  SizedBox(
-                    width: 16.w,
-                  ),
+                  SizedBox(width: 16.w),
                   pickedImage(_imageFile1, "1"),
-                  SizedBox(
-                    width: 16.w,
-                  ),
+                  SizedBox(width: 16.w),
                   pickedImage(_imageFile2, "2"),
                 ],
               ),
@@ -139,13 +172,15 @@ class _PhotoReportDialogState extends State<PhotoReportDialog> {
               builder: (context, state) {
                 return ElevatedButton(
                   onPressed: () {
+                    _valuableProgress(context);
                     bloc.add(SendFotoEvent(
                       image1: _imageFile0!.path,
                       image2: _imageFile1!.path,
                       image3: _imageFile2!.path,
-                      customerId: 1,
-                      regionId: 1,
-                      salesAgentId: 1,
+                      customerId: clientId,
+                      regionId: regionId,
+                      salesAgentId: int.parse(
+                          sharedPreferences.getString(sharedSalesAgentId)!),
                     ));
                   },
                   style: buttonStyle,

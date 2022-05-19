@@ -78,6 +78,8 @@ class _SelectPartState extends State<SelectPart> {
                             Navigator.pop(context, {
                               "id": state.list[index].id,
                               "name": state.list[index].name,
+                              "regionId": state.list[index].regionId,
+                              "regionName": state.list[index].regionName,
                             });
                           },
                           child: Container(

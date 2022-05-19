@@ -1,10 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:savdo_agnet_client/features/foto_xisobot/data/model/foto_model.dart';
-
-// import '../../../../core/errors/failures.dart';
 import '../../../../core/utils/api_path.dart';
+
+double progressIndicator = 0;
 
 abstract class FotoRemoteDataSource {
   Future<dynamic> sendFoto(
@@ -31,12 +32,37 @@ class FotoRemoteDataSourceImpl implements FotoRemoteDataSource {
     int salesAgentId,
     int regionId,
   ) async {
+    double downloadProgress = 0;
+    File image = File(image1);
+    File imageTwo = File(image2);
+    File imageThree = File(image3);
+    var byte = image.readAsBytesSync().lengthInBytes +
+        imageTwo.readAsBytesSync().lengthInBytes +
+        imageThree.readAsBytesSync().lengthInBytes;
     var request = http.MultipartRequest("POST", Uri.parse(baseUrl + photoPHP));
+    var sendRequest = await request.send();
+    final bytes = <int>[];
+    sendRequest.stream.asBroadcastStream().listen(
+      (event) {
+        bytes.addAll(event);
+        downloadProgress = bytes.length / byte;
+        progressIndicator = downloadProgress;
+        print('dddddddddddd $progressIndicator');
+      },
+      onDone: () async {
+        downloadProgress = 1;
 
+        print('dddddddddddd $downloadProgress');
+      },
+      cancelOnError: true,
+    );
+    // sendRequest.stream.
     request.headers.addAll({
       'Content-Type': 'application/json; charset=UTF-8',
       'Accept': 'application/json'
     });
+    // request.contentLength = byte;
+
     request.fields.addAll({});
     request.files.add(await http.MultipartFile.fromPath("image1", image1));
     request.files.add(await http.MultipartFile.fromPath("image2", image2));
@@ -45,8 +71,8 @@ class FotoRemoteDataSourceImpl implements FotoRemoteDataSource {
     request.fields['customer_id'] = customerId.toString();
     request.fields['region_id'] = regionId.toString();
 
-    var sendRequest = await request.send();
     var response = await http.Response.fromStream(sendRequest);
+
     if (response.statusCode == 200) {
       final parsed = jsonDecode(response.body);
       var message = FotoModel.fromJson(parsed).message;
@@ -55,7 +81,7 @@ class FotoRemoteDataSourceImpl implements FotoRemoteDataSource {
       return "Bog'lanishda xatolik";
     }
   }
-  }
+}
 // ) async {
 //   String? message = "";
 //
@@ -87,4 +113,3 @@ class FotoRemoteDataSourceImpl implements FotoRemoteDataSource {
 //     return "Qandaydir xatolik";
 //   }
 // }
-

@@ -47,10 +47,18 @@ import 'package:savdo_agnet_client/features/select_client/data/repository/select
 import 'package:savdo_agnet_client/features/select_client/domain/repositories/client_repository.dart';
 import 'package:savdo_agnet_client/features/select_client/domain/usescase/client_usescase.dart';
 import 'package:savdo_agnet_client/features/select_client/domain/usescase/client_usescase_local.dart';
+import 'package:savdo_agnet_client/features/select_viloyat/data/datasources/viloyat_local_datasource.dart';
+import 'package:savdo_agnet_client/features/select_viloyat/data/datasources/viloyat_remote_datasource.dart';
+import 'package:savdo_agnet_client/features/select_viloyat/data/model/viloyat_model.dart';
+import 'package:savdo_agnet_client/features/select_viloyat/data/repository/viloyat_repository.dart';
+import 'package:savdo_agnet_client/features/select_viloyat/domain/repositories/viloyat_repository.dart';
+import 'package:savdo_agnet_client/features/select_viloyat/domain/usescase/viloyat_usescase.dart';
+import 'package:savdo_agnet_client/features/select_viloyat/presentation/bloc/client/viloyat_bloc.dart';
 import 'package:savdo_agnet_client/features/tulov_qilish/data/datasources/tulov_remote_datasource.dart';
 import 'package:savdo_agnet_client/features/tulov_qilish/data/repository/tulov_repository_impl.dart';
 import 'package:savdo_agnet_client/features/tulov_qilish/domain/repositories/tulov_repository.dart';
 import 'package:savdo_agnet_client/features/tulov_qilish/domain/usescase/select_client_tulov_usescase.dart';
+import 'package:savdo_agnet_client/features/tulov_qilish/domain/usescase/tulov_qilish_usescase.dart';
 import 'package:savdo_agnet_client/features/tulov_qilish/presentation/bloc/qarizdorlik_bloc/tulov_qarizdorlik_bloc.dart';
 import 'package:savdo_agnet_client/features/tulov_turi_dialog/data/datasources/tt_local_datasource.dart';
 import 'package:savdo_agnet_client/features/tulov_turi_dialog/data/datasources/tt_remote_datasource.dart';
@@ -89,10 +97,16 @@ Future<void> init() async {
         id: di(), title: di(), image: di(), maxsulotlarBulimiCubit: di()),
   );
   di.registerFactory(
+    () => ViloyatBloc(
+      usesSelectViloyatLocal: di(),
+      usesSelectViloyat: di(),
+    ),
+  );
+  di.registerFactory(
     () => CatalogBloc(product: di()),
   );
   di.registerFactory(
-    () => FotoBloc(fotoUsesCase:  di()),
+    () => FotoBloc(fotoUsesCase: di()),
   );
   di.registerFactory(
     () => BrandBloc(brandCategory: di()),
@@ -126,7 +140,8 @@ Future<void> init() async {
     () => BrandsProductsBloc(brandProducts: di()),
   );
   di.registerFactory(
-    () => TulovQarizdorlikBloc(onSelectClientTulov: di()),
+    () => TulovQarizdorlikBloc(
+        onSelectClientTulov: di(), tulovQilishUsescase: di()),
   );
 
   ///Repositories
@@ -140,7 +155,13 @@ Future<void> init() async {
       networkInfo: di(),
     ),
   );
-
+  di.registerLazySingleton<SelectViloyatRepository>(
+    () => ViloyatRepositoryImpl(
+      localDataSourceImpl: di(),
+      networkInfo: di(),
+      remoteDataSourceImpl: di(),
+    ),
+  );
   di.registerLazySingleton<CatalogRepository>(
     () => CategoryRepositoryImpl(
       categoryLocalDatasourceImpl: di(),
@@ -195,6 +216,7 @@ Future<void> init() async {
   di.registerLazySingleton(() => UKorzinaOrderList(korzinaRepository: di()));
   di.registerLazySingleton(() => Pass(repository: di()));
   di.registerLazySingleton(() => OnSelectClientTulov(tulovRepository: di()));
+  di.registerLazySingleton(() => OnTulovQilishUsescase(tulovRepository: di()));
   di.registerLazySingleton(() => ProductCatalog(catalogRepository: di()));
   di.registerLazySingleton(() => BrandCatalog(catalogRepository: di()));
   di.registerLazySingleton(() => BrandProductsCatalog(catalogRepository: di()));
@@ -202,17 +224,28 @@ Future<void> init() async {
   di.registerLazySingleton(() => UsesBuyurtma(repository: di()));
   di.registerLazySingleton(() => UsesBuyurtmaLocal(repository: di()));
   di.registerLazySingleton(() => OnSelectClient(clientRepository: di()));
-  di.registerLazySingleton(() => FotoUsesCase(fotoRepository:  di()));
+  di.registerLazySingleton(() => FotoUsesCase(fotoRepository: di()));
   di.registerLazySingleton(() => UsesClientLocal(repository: di()));
   di.registerLazySingleton(() => UsesTulovTuriLocal(repository: di()));
   di.registerLazySingleton(() => UsesTulovTuri(tulovTuriRepository: di()));
+  di.registerLazySingleton(() => UsesSelectViloyat(clientRepository: di()));
 
   /// Data sources
   di.registerLazySingleton(
     () => PassLocalDataSourceImpl(sharedPreferences: di()),
   );
   di.registerLazySingleton(
-    () => FotoRemoteDataSourceImpl(client:  di()),
+    () => ViloyatLocalDataSourceImpl(),
+  );
+  di.registerLazySingleton(
+    () => ViloyatRemoteDataSourceImpl(
+      sharedPreferences: di(),
+      client: di(),
+    ),
+  );
+
+  di.registerLazySingleton(
+    () => FotoRemoteDataSourceImpl(client: di()),
   );
   di.registerLazySingleton(
     () => SelectTulovTuriLocalDataSourceImpl(),
@@ -318,4 +351,8 @@ Future<void> init() async {
   // to'lov turi dialog
   Hive.registerAdapter(TulovTuriModelAdapter());
   await Hive.openBox(tulovTuriBox);
+
+  // viloyatlar ro'yxati dialog
+  Hive.registerAdapter(ViloyatModelAdapter());
+  await Hive.openBox(viloyatBox);
 }

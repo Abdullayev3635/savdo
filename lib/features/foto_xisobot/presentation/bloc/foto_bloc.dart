@@ -28,6 +28,8 @@ class FotoBloc extends Bloc<FotoEvent, FotoState> {
     ));
 
     result.fold(
-        (l) => FotoFail(message: l.message), (r) => FotoLoaded(message: r));
+      (l) => FotoFail(message: l.message),
+      (r) => FotoLoaded(message: r),
+    );
   }
 }
