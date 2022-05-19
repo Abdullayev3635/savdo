@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:savdo_agnet_client/core/network/multi_part_request.dart';
 import 'package:savdo_agnet_client/features/foto_xisobot/data/model/foto_model.dart';
 
 // import '../../../../core/errors/failures.dart';
@@ -18,12 +19,8 @@ abstract class FotoRemoteDataSource {
 }
 
 class FotoRemoteDataSourceImpl implements FotoRemoteDataSource {
-  final http.Client client;
-
-  FotoRemoteDataSourceImpl({required this.client});
-
   @override
-  Future<dynamic> sendFoto(
+  Future sendFoto(
     String image1,
     String image2,
     String image3,
@@ -31,12 +28,16 @@ class FotoRemoteDataSourceImpl implements FotoRemoteDataSource {
     int salesAgentId,
     int regionId,
   ) async {
-    var request = http.MultipartRequest("POST", Uri.parse(baseUrl + photoPHP));
+    const uri = (baseUrl + photoPHP);
+    final request = MultipartRequest(
+      'POST',
+      Uri.parse(uri),
+      onProgress: (int bytes, int total) {
+        final progress = bytes / total;
+        print('progress: $progress ($bytes/$total)');
+      },
+    );
 
-    request.headers.addAll({
-      'Content-Type': 'application/json; charset=UTF-8',
-      'Accept': 'application/json'
-    });
     request.fields.addAll({});
     request.files.add(await http.MultipartFile.fromPath("image1", image1));
     request.files.add(await http.MultipartFile.fromPath("image2", image2));
@@ -55,36 +56,4 @@ class FotoRemoteDataSourceImpl implements FotoRemoteDataSource {
       return "Bog'lanishda xatolik";
     }
   }
-  }
-// ) async {
-//   String? message = "";
-//
-//   try {
-//     dynamic json = {
-//       "customer_id": customerId,
-//       "sales_agent_id": salesAgentId,
-//       "region_id": regionId,
-//       "image1":image1,
-//       "image2":image2,
-//       "image3":image3,
-//     };
-//     final response = await client.post(
-//       Uri.parse(baseUrl + photoPHP),
-//       body: jsonEncode(json),
-//       headers: <String, String>{
-//         'Content-Type': 'application/json; charset=UTF-8',
-//         'Accept': 'application/json'
-//       },
-//     );
-//     if (response.statusCode == 200) {
-//       final parsed = jsonDecode(response.body);
-//       message = FotoModel.fromJson(parsed).message;
-//       return message;
-//     } else {
-//       return "Bog'lanishda xatolik";
-//     }
-//   } on InputFormatterFailure {
-//     return "Qandaydir xatolik";
-//   }
-// }
-
+}

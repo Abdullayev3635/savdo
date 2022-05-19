@@ -212,7 +212,7 @@ Future<void> init() async {
     () => PassLocalDataSourceImpl(sharedPreferences: di()),
   );
   di.registerLazySingleton(
-    () => FotoRemoteDataSourceImpl(client:  di()),
+    () => FotoRemoteDataSourceImpl(),
   );
   di.registerLazySingleton(
     () => SelectTulovTuriLocalDataSourceImpl(),
