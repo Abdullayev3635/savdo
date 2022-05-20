@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
+import 'package:savdo_agnet_client/features/select_viloyat/presentation/pages/select_viloyat_dialog.dart';
 
 import '../../../../core/widgets/appBarWidget.dart';
 
@@ -20,6 +21,8 @@ class _AddClientPageState extends State<AddClientPage> {
   final TextEditingController _tel = TextEditingController();
   final TextEditingController _password = TextEditingController();
   final TextEditingController _passwordVer = TextEditingController();
+  int viloyatId = 0;
+  String viloyatTitle = 'Viloyatni tanlang';
 
   @override
   Widget build(BuildContext context) {
@@ -139,26 +142,42 @@ class _AddClientPageState extends State<AddClientPage> {
                   ],
                 ),
               ),
-              Container(
-                height: 60.h,
-                margin: EdgeInsets.only(top: 16.h),
-                padding: EdgeInsets.only(left: 20.w, right: 24.w),
-                decoration: BoxDecoration(
-                    color: cWhiteColor,
-                    borderRadius: BorderRadius.circular(10.r)),
-                child: Row(
-                  children: [
-                    SvgPicture.asset('assets/icons/ic_hudud.svg',
-                        width: 24.w, height: 24.h),
-                    SizedBox(
-                      width: 18.w,
-                    ),
-                    Expanded(
-                      child: Text('Viloyatni tanlang',
-                          style: textStylePrimaryReg16),
-                    ),
-                    SvgPicture.asset('assets/icons/ic_dropdown.svg')
-                  ],
+              GestureDetector(
+                onTap: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return SelectViloyat.screen();
+                      }).then((value) => {
+                        if (value != null)
+                          {
+                            setState(() {
+                              viloyatId = value['id'];
+                              viloyatTitle = value['title'].toString();
+                            })
+                          },
+                      });
+                },
+                child: Container(
+                  height: 60.h,
+                  margin: EdgeInsets.only(top: 16.h),
+                  padding: EdgeInsets.only(left: 20.w, right: 24.w),
+                  decoration: BoxDecoration(
+                      color: cWhiteColor,
+                      borderRadius: BorderRadius.circular(10.r)),
+                  child: Row(
+                    children: [
+                      SvgPicture.asset('assets/icons/ic_hudud.svg',
+                          width: 24.w, height: 24.h),
+                      SizedBox(
+                        width: 18.w,
+                      ),
+                      Expanded(
+                        child: Text(viloyatTitle, style: textStylePrimaryReg16),
+                      ),
+                      SvgPicture.asset('assets/icons/ic_dropdown.svg')
+                    ],
+                  ),
                 ),
               ),
               Container(

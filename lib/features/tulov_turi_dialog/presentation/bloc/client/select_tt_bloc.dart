@@ -30,7 +30,7 @@ class SelectTulovTuriBloc
 
   FutureOr<void> getClient(
       GetSelectTulovTuriEvent event, Emitter<SelectTulovTuriState> emit) async {
-    final result = await usesTulovTuriLocal(TulovTuriParamsLocal());
+    final result = await usesTulovTuri(GetTulovTuriParams());
     result.fold(
         (failure) => {
               if (failure is NoConnectionFailure)
@@ -55,7 +55,7 @@ class SelectTulovTuriBloc
 
   FutureOr<void> getTulovTuriLocal(GetSelectTulovTuriLocalEvent event,
       Emitter<SelectTulovTuriState> emit) async {
-    final result = await usesTulovTuri(GetTulovTuriParams());
+    final result = await usesTulovTuriLocal(TulovTuriParamsLocal());
     result.fold(
         (failure) => {
               if (failure is NoConnectionFailure)

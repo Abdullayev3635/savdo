@@ -6,10 +6,22 @@ import 'package:savdo_agnet_client/features/tulov_qilish/data/model/tulov_client
 
 import '../../../../core/errors/failures.dart';
 import '../../../../core/utils/api_path.dart';
+import '../model/tulov_post_value_model.dart';
 
 abstract class TulovRemoteDataSource {
   Future<dynamic> getClientDebitCredit(
       {required int customerId, required int salesAgentId});
+
+  Future<dynamic> getPayment(
+      {required int customerId,
+      required int salesAgentId,
+      required int branchId,
+      required int currencyValue,
+      required int currencyId,
+      required int paymentTypeId,
+      required double summa,
+      required double paymentAmount,
+      required String description});
 }
 
 class TulovRemoteDataSourceImpl implements TulovRemoteDataSource {
@@ -47,6 +59,48 @@ class TulovRemoteDataSourceImpl implements TulovRemoteDataSource {
       }
     } on InputFormatterFailure {
       return [];
+    }
+  }
+
+  @override
+  Future<dynamic> getPayment(
+      {required int customerId,
+      required int salesAgentId,
+      required int branchId,
+      required int currencyValue,
+      required int currencyId,
+      required int paymentTypeId,
+      required double summa,
+      required double paymentAmount,
+      required String description}) async {
+    // List<TulovModel> list = [];
+    try {
+      dynamic json = {
+        "sales_agent_id": salesAgentId,
+        "customer_id": customerId,
+        "branch_id": 1,
+        "currency_value": currencyValue,
+        "payment_type_id": paymentTypeId,
+        "summa": summa,
+        "payment_amount": paymentAmount,
+        "description": description,
+        "currency_id": currencyId
+      };
+      final response = await client.post(
+        Uri.parse(baseUrl + tulovQilishPHP),
+        body: jsonEncode(json),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json'
+        },
+      );
+      if (response.statusCode == 200) {
+        final parsed = jsonDecode(response.body);
+        var message = TulovValueModel.fromJson(parsed).message;
+        return message;
+      }
+    } on InputFormatterFailure {
+      return 'hato';
     }
   }
 }

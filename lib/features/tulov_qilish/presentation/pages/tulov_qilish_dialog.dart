@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pattern_formatter/numeric_formatter.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
+import 'package:savdo_agnet_client/core/widgets/costum_toast.dart';
 import 'package:savdo_agnet_client/core/widgets/drop_down_widget.dart';
 import 'package:savdo_agnet_client/di/dependency_injection.dart';
 import 'package:savdo_agnet_client/features/select_client/presentation/pages/select_client.dart';
@@ -45,7 +46,7 @@ class _TulovQilishDialogState extends State<TulovQilishDialog> {
   @override
   void initState() {
     qarzdorlikBloc = BlocProvider.of<TulovQarizdorlikBloc>(context);
-    kurs = sharedPreferences.getString(sharedCurrencyValue)!;
+    kurs = sharedPreferences.getString(sharedCurrencyValue) ?? '';
     super.initState();
   }
 
@@ -58,7 +59,11 @@ class _TulovQilishDialogState extends State<TulovQilishDialog> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 6),
+      padding: EdgeInsets.only(
+        bottom: clientName == 'Mijozni tanlang'
+            ? MediaQuery.of(context).size.height / 6
+            : MediaQuery.of(context).size.height / 10,
+      ),
       reverse: true,
       physics: const BouncingScrollPhysics(),
       controller: ScrollController(keepScrollOffset: false),
@@ -119,31 +124,42 @@ class _TulovQilishDialogState extends State<TulovQilishDialog> {
                         SizedBox(height: 16.h),
                       ],
                     );
+                  } else if (state is TulovCreatedState) {
+                    CustomToast.showToast(state.message);
+                    Navigator.pop(context);
+                    return Container();
                   } else if (state is TulovQarizdorlikLoading) {
                     return SizedBox(
                         child:
                             const Center(child: CupertinoActivityIndicator()),
                         height: 200.h);
-                  } else if (state is TulovQarizdorlikLoaded) {
+                  } else if (state is TulovQarizdorlikLoadedState) {
                     return Column(
                       children: [
                         SizedBox(height: 23.h),
                         GestureDetector(
-                          onTap: () {
-                            showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return SelectPart.screen();
-                                }).then((value) => {
-                                  if (value != null)
-                                    {
-                                      setState(() {
-                                        clientId = value['id'];
-                                        clientName = value['name'].toString();
-                                      }),
-                                    },
-                                });
-                          },
+                          onTap: () => showDialog(
+                              context: context,
+                              builder: (context) {
+                                return SelectPart.screen();
+                              }).then((value) => {
+                            if (value != null)
+                              {
+                                setState(() {
+                                  clientId = value['id'];
+                                  clientName = value['name'].toString();
+                                  qarzdorlikBloc.add(
+                                    TulovClientSelectedEvent(
+                                      customerId: clientId,
+                                      salesAgentId: int.parse(
+                                          sharedPreferences.getString(
+                                              sharedSalesAgentId) ??
+                                              ''),
+                                    ),
+                                  );
+                                }),
+                              },
+                          }),
                           child: Container(
                             height: 60.h,
                             padding: EdgeInsets.only(left: 18.w, right: 10.w),
@@ -305,7 +321,25 @@ class _TulovQilishDialogState extends State<TulovQilishDialog> {
                   hintText: 'Izoh'),
               SizedBox(height: 24.h),
               ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    qarzdorlikBloc.add(TulovQilishEvent(
+                      salesAgentId: int.parse(
+                          sharedPreferences.getString(sharedSalesAgentId) ??
+                              ''),
+                      customerId: clientId,
+                      currencyId: int.parse(
+                          sharedPreferences.getString(sharedCurrencyId) ?? '1'),
+                      branchId: 1,
+                      currencyValue: int.parse(kurs),
+                      paymentTypeId: tulovTuriId,
+                      summa: (tulovSum.text.isNotEmpty
+                          ? notSpaceForNumber(tulovSum.text)
+                          : notSpaceForNumber(tulovVal.text)),
+                      paymentAmount: notSpace(addSumController.text),
+                      description: izohController.text,
+                    ));
+                    FocusManager.instance.primaryFocus?.unfocus();
+                  },
                   style: buttonStyle,
                   child: const Text(
                     'Davom etish',
@@ -334,6 +368,24 @@ class _TulovQilishDialogState extends State<TulovQilishDialog> {
     }
   }
 
+  double notSpaceForNumber(String number) {
+    if (number.isNotEmpty) {
+      var value = double.parse(number.replaceAll(',', ''));
+      return value;
+    } else {
+      return 0.0;
+    }
+  }
+
+  double notSpace(String number) {
+    if (number.isNotEmpty) {
+      var value = double.parse(number.replaceAll(' ', ''));
+      return value;
+    } else {
+      return 0.0;
+    }
+  }
+
   double valToSum(String val) {
     if (val.isNotEmpty) {
       double value = double.parse(val.replaceAll(',', ''));
@@ -343,7 +395,6 @@ class _TulovQilishDialogState extends State<TulovQilishDialog> {
     }
   }
 }
-
 
 TextStyle textStyleOrangeReg18 =
     TextStyle(color: cOrangeColor, fontSize: 18.sp, fontFamily: 'Regular');

@@ -7,10 +7,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:savdo_agnet_client/core/photo/image_picker_utils.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
+import 'package:savdo_agnet_client/core/widgets/costum_toast.dart';
 import 'package:savdo_agnet_client/di/dependency_injection.dart';
+import 'package:savdo_agnet_client/features/foto_xisobot/data/datasources/foto_remote_datasource.dart';
 import 'package:savdo_agnet_client/features/foto_xisobot/presentation/bloc/foto_bloc.dart';
 import 'package:savdo_agnet_client/features/select_client/presentation/pages/select_client.dart';
 import 'package:savdo_agnet_client/core/widgets/dialog_frame.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sn_progress_dialog/progress_dialog.dart';
 import '../../../tulov_qilish/presentation/widgets/text_field_widget.dart';
 
 class PhotoReportDialog extends StatefulWidget {
@@ -34,13 +38,46 @@ class _PhotoReportDialogState extends State<PhotoReportDialog> {
   String sana0 = "", sana1 = "", sana2 = "";
 
   final customFormat = DateFormat('yyyy.MM.dd hh:mm');
-
+  TextEditingController izohController = TextEditingController();
   late FotoBloc bloc;
+  SharedPreferences sharedPreferences = di.get();
+  late ProgressDialog pd;
+
+  _valuableProgress(context) async {
+    pd.show(
+      max: 100,
+      msg: 'Ma`lumotlar yuklanmoqda...',
+      backgroundColor: cBackgroundColor,
+      msgFontSize: 16.sp,
+      msgColor: primaryColor,
+      valueColor: primaryColor,
+      progressBgColor: cGrayColor.withOpacity(0.5),
+      progressValueColor: primaryColor,
+      msqFontWeight: FontWeight.w300,
+
+      /// Assign the type of progress bar.
+      progressType: ProgressType.valuable,
+    );
+    // if (progress >= 0.99) {
+    //   pd.close();
+    //   // Navigator.pop(context);
+    // }
+  }
+
+  // @override
+  // void setState(VoidCallback fn) {
+  //   pd.update(value: progress.toInt());
+  //   if (progress >= 0.99) {
+  //     pd.close();
+  //     Navigator.pop(context);
+  //   }
+  // }
 
   @override
   void initState() {
     super.initState();
     bloc = BlocProvider.of<FotoBloc>(context);
+    pd = ProgressDialog(context: context);
   }
 
   @override
@@ -51,7 +88,6 @@ class _PhotoReportDialogState extends State<PhotoReportDialog> {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController izohController = TextEditingController();
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 5),
@@ -71,10 +107,12 @@ class _PhotoReportDialogState extends State<PhotoReportDialog> {
                     }).then((value) => {
                       if (value != null)
                         {
-                          setState(() {
-                            clientId = value['id'];
-                            clientName = value['name'].toString();
-                          })
+                            setState(() {
+                              clientId = value['id'];
+                              regionId = value['regionId'];
+                              clientName = value['name'].toString();
+                              regionName = value['regionName'].toString();
+                            })
                         },
                     });
               },
@@ -119,13 +157,9 @@ class _PhotoReportDialogState extends State<PhotoReportDialog> {
               child: Row(
                 children: [
                   pickedImage(_imageFile0, "0"),
-                  SizedBox(
-                    width: 16.w,
-                  ),
+                  SizedBox(width: 16.w),
                   pickedImage(_imageFile1, "1"),
-                  SizedBox(
-                    width: 16.w,
-                  ),
+                  SizedBox(width: 16.w),
                   pickedImage(_imageFile2, "2"),
                 ],
               ),
@@ -137,15 +171,26 @@ class _PhotoReportDialogState extends State<PhotoReportDialog> {
             SizedBox(height: 24.h),
             BlocBuilder<FotoBloc, FotoState>(
               builder: (context, state) {
+                if (state is FotoLoading) {
+                    pd.update(value: progress.toInt());
+
+                } else if (state is FotoLoaded) {
+                  pd.close();
+                  // Navigator.pop(context);
+                  CustomToast.showToast(state.message);
+
+                }
                 return ElevatedButton(
                   onPressed: () {
+                    _valuableProgress(context);
                     bloc.add(SendFotoEvent(
                       image1: _imageFile0!.path,
                       image2: _imageFile1!.path,
                       image3: _imageFile2!.path,
-                      customerId: 1,
-                      regionId: 1,
-                      salesAgentId: 1,
+                      customerId: clientId,
+                      regionId: regionId,
+                      salesAgentId: int.parse(
+                          sharedPreferences.getString(sharedSalesAgentId)!),
                     ));
                   },
                   style: buttonStyle,

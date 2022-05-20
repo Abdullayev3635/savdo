@@ -24,4 +24,32 @@ class TulovRepositoryImpl extends TulovRepository {
       return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));
     }
   }
+
+  @override
+  Future<Either<Failure, dynamic>> getPayments(
+      int customerId,
+      int currencyId,
+      int salesAgentId,
+      int branchId,
+      int currencyValue,
+      int paymentTypeId,
+      double summa,
+      double paymentAmount,
+      String description) async {
+    try {
+      final result = remoteDataSourceImpl.getPayment(
+          customerId: customerId,
+          currencyId: currencyId,
+          salesAgentId: salesAgentId,
+          branchId: branchId,
+          currencyValue: currencyValue,
+          paymentTypeId: paymentTypeId,
+          summa: summa,
+          paymentAmount: paymentAmount,
+          description: description);
+      return Right(result);
+    } on ServerFailure {
+      return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));
+    }
+  }
 }
