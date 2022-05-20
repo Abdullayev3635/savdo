@@ -131,21 +131,25 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                       children: [
                         SizedBox(height: 23.h),
                         GestureDetector(
-                          onTap: () {
-                            showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return SelectPart.screen();
-                                }).then((value) => {
-                                  if (value != null)
-                                    {
-                                      setState(() {
-                                        clientId = value['id'];
-                                        clientName = value['name'].toString();
-                                      })
-                                    },
-                                });
-                          },
+                          onTap: () => showDialog(
+                              context: context,
+                              builder: (context) {
+                                return SelectPart.screen();
+                              }).then((value) => {
+                            if (value != null)
+                              {
+                                setState(() {
+                                  clientId = value['id'];
+                                  clientName = value['name'].toString();
+                                  qarizdorlikBloc.add(ClientSelectedEvent(
+                                      customerId: clientId,
+                                      salesAgentId: int.parse(
+                                          sharedPreferences.getString(
+                                              sharedSalesAgentId) ??
+                                              '')));
+                                }),
+                              },
+                          }),
                           child: Container(
                             height: 60.h,
                             padding: EdgeInsets.only(left: 18.w, right: 10.w),

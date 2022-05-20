@@ -13,6 +13,7 @@ class TulovClientSelectedEvent extends TulovQarizdorlikEvent {
 
 class TulovQilishEvent extends TulovQarizdorlikEvent {
   final int customerId;
+  final int currencyId;
   final int salesAgentId;
   final int branchId;
   final int currencyValue;
@@ -24,6 +25,7 @@ class TulovQilishEvent extends TulovQarizdorlikEvent {
   TulovQilishEvent({
     required this.salesAgentId,
     required this.customerId,
+    required this.currencyId,
     required this.branchId,
     required this.currencyValue,
     required this.paymentTypeId,

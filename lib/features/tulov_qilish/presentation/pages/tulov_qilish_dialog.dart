@@ -138,21 +138,28 @@ class _TulovQilishDialogState extends State<TulovQilishDialog> {
                       children: [
                         SizedBox(height: 23.h),
                         GestureDetector(
-                          onTap: () {
-                            showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return SelectPart.screen();
-                                }).then((value) => {
-                                  if (value != null)
-                                    {
-                                      setState(() {
-                                        clientId = value['id'];
-                                        clientName = value['name'].toString();
-                                      }),
-                                    },
-                                });
-                          },
+                          onTap: () => showDialog(
+                              context: context,
+                              builder: (context) {
+                                return SelectPart.screen();
+                              }).then((value) => {
+                            if (value != null)
+                              {
+                                setState(() {
+                                  clientId = value['id'];
+                                  clientName = value['name'].toString();
+                                  qarzdorlikBloc.add(
+                                    TulovClientSelectedEvent(
+                                      customerId: clientId,
+                                      salesAgentId: int.parse(
+                                          sharedPreferences.getString(
+                                              sharedSalesAgentId) ??
+                                              ''),
+                                    ),
+                                  );
+                                }),
+                              },
+                          }),
                           child: Container(
                             height: 60.h,
                             padding: EdgeInsets.only(left: 18.w, right: 10.w),
@@ -315,24 +322,23 @@ class _TulovQilishDialogState extends State<TulovQilishDialog> {
               SizedBox(height: 24.h),
               ElevatedButton(
                   onPressed: () {
-                    FocusManager.instance.primaryFocus?.unfocus();
-
-                    ///todo
                     qarzdorlikBloc.add(TulovQilishEvent(
                       salesAgentId: int.parse(
                           sharedPreferences.getString(sharedSalesAgentId) ??
                               ''),
-                      customerId: int.parse(
-                          sharedPreferences.getString(sharedCustomerId) ?? '1'),
+                      customerId: clientId,
+                      currencyId: int.parse(
+                          sharedPreferences.getString(sharedCurrencyId) ?? '1'),
                       branchId: 1,
                       currencyValue: int.parse(kurs),
                       paymentTypeId: tulovTuriId,
-                      summa:(tulovSum.text.isNotEmpty
+                      summa: (tulovSum.text.isNotEmpty
                           ? notSpaceForNumber(tulovSum.text)
                           : notSpaceForNumber(tulovVal.text)),
-                      paymentAmount: notSpaceForNumber(addSumController.text),
+                      paymentAmount: notSpace(addSumController.text),
                       description: izohController.text,
                     ));
+                    FocusManager.instance.primaryFocus?.unfocus();
                   },
                   style: buttonStyle,
                   child: const Text(
@@ -365,6 +371,15 @@ class _TulovQilishDialogState extends State<TulovQilishDialog> {
   double notSpaceForNumber(String number) {
     if (number.isNotEmpty) {
       var value = double.parse(number.replaceAll(',', ''));
+      return value;
+    } else {
+      return 0.0;
+    }
+  }
+
+  double notSpace(String number) {
+    if (number.isNotEmpty) {
+      var value = double.parse(number.replaceAll(' ', ''));
       return value;
     } else {
       return 0.0;

@@ -28,6 +28,7 @@ class TulovRepositoryImpl extends TulovRepository {
   @override
   Future<Either<Failure, dynamic>> getPayments(
       int customerId,
+      int currencyId,
       int salesAgentId,
       int branchId,
       int currencyValue,
@@ -38,6 +39,7 @@ class TulovRepositoryImpl extends TulovRepository {
     try {
       final result = remoteDataSourceImpl.getPayment(
           customerId: customerId,
+          currencyId: currencyId,
           salesAgentId: salesAgentId,
           branchId: branchId,
           currencyValue: currencyValue,

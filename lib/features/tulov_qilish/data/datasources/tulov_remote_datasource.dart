@@ -17,6 +17,7 @@ abstract class TulovRemoteDataSource {
       required int salesAgentId,
       required int branchId,
       required int currencyValue,
+      required int currencyId,
       required int paymentTypeId,
       required double summa,
       required double paymentAmount,
@@ -67,6 +68,7 @@ class TulovRemoteDataSourceImpl implements TulovRemoteDataSource {
       required int salesAgentId,
       required int branchId,
       required int currencyValue,
+      required int currencyId,
       required int paymentTypeId,
       required double summa,
       required double paymentAmount,
@@ -81,7 +83,8 @@ class TulovRemoteDataSourceImpl implements TulovRemoteDataSource {
         "payment_type_id": paymentTypeId,
         "summa": summa,
         "payment_amount": paymentAmount,
-        "description": description
+        "description": description,
+        "currency_id": currencyId
       };
       final response = await client.post(
         Uri.parse(baseUrl + tulovQilishPHP),

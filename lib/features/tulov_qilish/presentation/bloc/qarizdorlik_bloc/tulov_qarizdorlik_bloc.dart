@@ -36,6 +36,7 @@ class TulovQarizdorlikBloc
         summa: event.summa,
         paymentTypeId: event.paymentTypeId,
         currencyValue: event.currencyValue,
+        currencyId: event.currencyId,
         branchId: event.branchId));
     result.fold(
       (failure) => {

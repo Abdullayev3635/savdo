@@ -245,7 +245,7 @@ Future<void> init() async {
   );
 
   di.registerLazySingleton(
-    () => FotoRemoteDataSourceImpl(client: di()),
+    () => FotoRemoteDataSourceImpl(),
   );
   di.registerLazySingleton(
     () => SelectTulovTuriLocalDataSourceImpl(),

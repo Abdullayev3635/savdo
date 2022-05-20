@@ -16,6 +16,7 @@ class OnTulovQilishUsescase extends UseCase<dynamic, OnTulovQilishParams> {
       params.salesAgentId!,
       params.branchId!,
       params.currencyValue!,
+      params.currencyId!,
       params.paymentTypeId!,
       params.summa!,
       params.paymentAmount!,
@@ -29,6 +30,7 @@ class OnTulovQilishParams extends Equatable {
   final int? salesAgentId;
   final int? branchId;
   final int? currencyValue;
+  final int? currencyId;
   final int? paymentTypeId;
   final double? summa;
   final double? paymentAmount;
@@ -36,6 +38,7 @@ class OnTulovQilishParams extends Equatable {
 
   const OnTulovQilishParams({
     required this.customerId,
+    required this.currencyId,
     required this.salesAgentId,
     required this.description,
     required this.paymentAmount,

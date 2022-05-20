@@ -7,6 +7,7 @@ abstract class TulovRepository {
 
   Future<Either<Failure, dynamic>> getPayments(
       int customerId,
+      int currencyId,
       int salesAgentId,
       int branchId,
       int currencyValue,
