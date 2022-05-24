@@ -96,8 +96,8 @@ class TulovRemoteDataSourceImpl implements TulovRemoteDataSource {
       );
       if (response.statusCode == 200) {
         final parsed = jsonDecode(response.body);
-        var message = TulovValueModel.fromJson(parsed).message;
-        return message;
+        // var message = TulovValueModel.fromJson(parsed).message;
+        return parsed["message"];
       }
     } on InputFormatterFailure {
       return 'hato';

@@ -376,10 +376,9 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                             sharedPreferences.setString(sharedCurrencyId,
                                 currencyList[int.parse(narxTuriGroup)].id.toString());
                             sharedPreferences.setString(
-                                sharedPriceTypeId,
-                                priceTypeList![int.parse(savdoTuriGroup)]
-                                    .id
-                                    .toString());
+                                sharedPriceTypeId,savdoTuriGroup != null ?
+                                priceTypeList![int.parse(savdoTuriGroup)].id
+                                    .toString():'0');
 
                             Navigator.pop(context);
                             Navigator.push(

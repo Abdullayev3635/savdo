@@ -15,18 +15,18 @@ class FotoRepositoryImpl extends FotoRepository {
 
   @override
   Future<Either<Failure, dynamic>> sendFoto(
-    String image1,
-    String image2,
-    String image3,
+    String? image1,
+    String? image2,
+    String? image3,
     int customerId,
     int salesAgentId,
     int regionId,
   ) async {
     try {
       final result = await fotoRemoteDataSourceImpl.sendFoto(
-        image1,
-        image2,
-        image3,
+        image1 ?? "",
+        image2 ?? '',
+        image3 ?? '',
         customerId,
         salesAgentId,
         regionId,
