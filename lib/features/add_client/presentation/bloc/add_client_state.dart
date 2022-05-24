@@ -13,6 +13,12 @@ class AddClientLoadedState extends AddClientState {
   AddClientLoadedState({required this.list});
 }
 
+class ClientAvailableState extends AddClientState {
+  bool isAvailable = false;
+
+  ClientAvailableState({required this.isAvailable});
+}
+
 class AddClientErrorState extends AddClientState {
   final List<AddClientErrorModel> list;
 

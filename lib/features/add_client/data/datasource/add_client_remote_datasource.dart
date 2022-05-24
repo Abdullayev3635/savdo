@@ -11,8 +11,11 @@ import 'package:savdo_agnet_client/features/add_client/data/model/phone.dart';
 
 import '../../../../core/errors/failures.dart';
 
+List<NameModel> nameModel = [];
+
 abstract class AddClientRemoteDatasource {
-  Future<dynamic> addClient({required List<AddClientModel> clientDataList});
+  Future<dynamic> addClient({required AddClientModel clientDataList});
+
   Future<dynamic> getAllData();
 }
 
@@ -22,20 +25,19 @@ class AddClientRemoteDatasourceImpl extends AddClientRemoteDatasource {
   AddClientRemoteDatasourceImpl({required this.client});
 
   @override
-  Future<dynamic> addClient(
-      {required List<AddClientModel> clientDataList}) async {
+  Future<dynamic> addClient({required AddClientModel clientDataList}) async {
     try {
       List<AddClientErrorModel> listError = [];
       dynamic json = {
-        "address": clientDataList[0].address,
-        "state_id": clientDataList[0].stateId,
-        "region_id": clientDataList[0].regionId,
-        "login": clientDataList[0].login,
-        "name": clientDataList[0].name,
-        "password": clientDataList[0].password,
-        "legal_physical": clientDataList[0].legalPhysical,
-        "phone_1": clientDataList[0].phone1,
-        "cordinates": clientDataList[0].coordinates,
+        "address": clientDataList.address,
+        "state_id": clientDataList.stateId,
+        "region_id": clientDataList.regionId,
+        "login": clientDataList.login,
+        "name": clientDataList.name,
+        "password": clientDataList.password,
+        "legal_physical": clientDataList.legalPhysical,
+        "phone_1": clientDataList.phone1,
+        "cordinates": clientDataList.coordinates,
       };
       final response = await http.post(
         Uri.parse(baseUrl + clientPHP),
@@ -64,12 +66,11 @@ class AddClientRemoteDatasourceImpl extends AddClientRemoteDatasource {
   Future<dynamic> getAllData() async {
     List<NameModel> nameList = [];
     List<LoginModel> loginList = [];
-
     List<DataModel> testList = [];
 
     try {
       final response = await client.get(
-        Uri.parse("http://192.168.30.79:7777/api/filter"),
+        Uri.parse(apiFilter),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json',
@@ -80,6 +81,7 @@ class AddClientRemoteDatasourceImpl extends AddClientRemoteDatasource {
           final parsed = jsonDecode(response.body);
           for (int i = 0; i < (parsed["name"] as List).length; i++) {
             nameList.add(NameModel.fromJson(parsed["name"][i]));
+            nameModel = nameList;
           }
           for (int i = 0; i < (parsed["login"] as List).length; i++) {
             loginList.add(LoginModel.fromJson(parsed["login"][i]));

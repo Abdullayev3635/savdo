@@ -4,8 +4,13 @@ part of 'add_client_bloc.dart';
 abstract class AddClientEvent {}
 
 class GetAllDataEvent extends AddClientEvent {}
+class FilterEvent extends AddClientEvent {
+  final String filterName;
+
+  FilterEvent({required this.filterName});
+}
 
 class AddClientSendDataEvent extends AddClientEvent {
-  final List<AddClientModel> clientDataList;
+  final AddClientModel clientDataList;
   AddClientSendDataEvent({required this.clientDataList});
 }

@@ -18,7 +18,7 @@ class UsesAddClient extends UseCase<dynamic, AddClientParams> {
 }
 
 class AddClientParams extends Equatable {
-  final List<AddClientModel> clientDataList;
+  final AddClientModel clientDataList;
 
   const AddClientParams({required this.clientDataList});
 

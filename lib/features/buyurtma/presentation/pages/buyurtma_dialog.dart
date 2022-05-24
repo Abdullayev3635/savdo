@@ -64,6 +64,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
 
   NetworkInfo networkInfo = di.get();
   SharedPreferences sharedPreferences = di.get();
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -136,20 +137,20 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                               builder: (context) {
                                 return SelectPart.screen();
                               }).then((value) => {
-                            if (value != null)
-                              {
-                                setState(() {
-                                  clientId = value['id'];
-                                  clientName = value['name'].toString();
-                                  qarizdorlikBloc.add(ClientSelectedEvent(
-                                      customerId: clientId,
-                                      salesAgentId: int.parse(
-                                          sharedPreferences.getString(
-                                              sharedSalesAgentId) ??
-                                              '')));
-                                }),
-                              },
-                          }),
+                                if (value != null)
+                                  {
+                                    setState(() {
+                                      clientId = value['id'];
+                                      clientName = value['name'].toString();
+                                      qarizdorlikBloc.add(ClientSelectedEvent(
+                                          customerId: clientId,
+                                          salesAgentId: int.parse(
+                                              sharedPreferences.getString(
+                                                      sharedSalesAgentId) ??
+                                                  '')));
+                                    }),
+                                  },
+                              }),
                           child: Container(
                             height: 60.h,
                             padding: EdgeInsets.only(left: 18.w, right: 10.w),
@@ -294,7 +295,8 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                                                 activeColor: primaryColor,
                                                 onChanged: (value) {
                                                   setState(() {
-                                                    narxTuriGroup = value.toString();
+                                                    narxTuriGroup =
+                                                        value.toString();
                                                     kurs = currencyList[index]
                                                             .value ??
                                                         "0";
@@ -353,7 +355,8 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                                                 activeColor: primaryColor,
                                                 onChanged: (value) {
                                                   setState(() {
-                                                    savdoTuriGroup = value.toString();
+                                                    savdoTuriGroup =
+                                                        value.toString();
                                                   });
                                                 }),
                                             Text(
@@ -373,12 +376,18 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                           onPressed: () {
                             sharedPreferences.setString(sharedCurrencyValue,
                                 currencyList[int.parse(narxTuriGroup)].value!);
-                            sharedPreferences.setString(sharedCurrencyId,
-                                currencyList[int.parse(narxTuriGroup)].id.toString());
                             sharedPreferences.setString(
-                                sharedPriceTypeId,savdoTuriGroup != null ?
-                                priceTypeList![int.parse(savdoTuriGroup)].id
-                                    .toString():'0');
+                                sharedCurrencyId,
+                                currencyList[int.parse(narxTuriGroup)]
+                                    .id
+                                    .toString());
+                            sharedPreferences.setString(
+                                sharedPriceTypeId,
+                                savdoTuriGroup != null
+                                    ? priceTypeList![int.parse(savdoTuriGroup)]
+                                        .id
+                                        .toString()
+                                    : '0');
 
                             Navigator.pop(context);
                             Navigator.push(

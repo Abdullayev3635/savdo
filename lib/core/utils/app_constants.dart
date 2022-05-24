@@ -106,7 +106,7 @@ BoxConstraints boxConstraintsTextField = BoxConstraints(
 //shared keys
 
 const String sharedCustomerId = 'customer_id';
-  const String sharedCurrencyValue = 'currency_value';
+const String sharedCurrencyValue = 'currency_value';
 const String sharedCurrencyId = 'currency_id';
 const String sharedPriceTypeId = 'price_type_id';
 const String sharedSalesAgentId = 'sales_agent_id';

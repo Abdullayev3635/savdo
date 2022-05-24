@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
+import 'package:savdo_agnet_client/core/widgets/costum_toast.dart';
+import 'package:savdo_agnet_client/features/add_client/data/model/add_client_model.dart';
 import 'package:savdo_agnet_client/features/add_client/presentation/bloc/add_client_bloc.dart';
 import 'package:savdo_agnet_client/features/select_viloyat/presentation/pages/select_viloyat_dialog.dart';
 
@@ -26,9 +28,13 @@ class _AddClientPageState extends State<AddClientPage> {
   var maskFormatter = MaskTextInputFormatter(mask: '(##) ###-##-##');
   var maskDateFormatter =
       MaskTextInputFormatter(mask: '##   /   ##   /   ####');
-  final TextEditingController _tel = TextEditingController();
-  final TextEditingController _password = TextEditingController();
-  final TextEditingController _passwordVer = TextEditingController();
+  final TextEditingController nameCon = TextEditingController();
+  final TextEditingController birthdayCon = TextEditingController();
+  final TextEditingController addressCon = TextEditingController();
+  final TextEditingController locationCon = TextEditingController();
+  final TextEditingController _telCon = TextEditingController();
+  final TextEditingController _passwordCon = TextEditingController();
+  final TextEditingController _passwordVerCon = TextEditingController();
   int viloyatId = 0;
   String viloyatTitle = 'Viloyatni tanlang';
   late AddClientBloc bloc;
@@ -49,6 +55,15 @@ class _AddClientPageState extends State<AddClientPage> {
   Widget build(BuildContext context) {
     return BlocBuilder<AddClientBloc, AddClientState>(
       builder: (context, state) {
+        if (state is ClientAvailableState) {
+          state.isAvailable == true
+              ? {
+                  CustomToast.showToast(
+                      'Bunday ismli foydalanuvchi uje mavjud!'),
+                  nameCon.clear()
+                }
+              : print('ok');
+        }
         return Scaffold(
           appBar: appBarWidget(context, 'Mijoz qo’shish'),
           backgroundColor: cBackgroundColor,
@@ -72,6 +87,7 @@ class _AddClientPageState extends State<AddClientPage> {
                           SizedBox(width: 5.w),
                           Expanded(
                             child: TextFormField(
+                              controller: nameCon,
                               cursorColor: primaryColor,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
@@ -79,6 +95,12 @@ class _AddClientPageState extends State<AddClientPage> {
                                 hintStyle: hintStyle,
                               ),
                               style: textStylePrimaryReg16,
+                              onFieldSubmitted: (_){
+                                bloc.add(FilterEvent(filterName: nameCon.text));
+                              },
+                              onEditingComplete: () {
+                                bloc.add(FilterEvent(filterName: nameCon.text));
+                              },
                             ),
                           ),
                         ],
@@ -108,7 +130,7 @@ class _AddClientPageState extends State<AddClientPage> {
                               inputFormatters: [maskFormatter],
                               keyboardType: TextInputType.phone,
                               cursorColor: primaryColor,
-                              controller: _tel,
+                              controller: _telCon,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText: "(--)--- -- --",
@@ -147,6 +169,7 @@ class _AddClientPageState extends State<AddClientPage> {
                               SizedBox(
                                 width: MediaQuery.of(context).size.width / 3,
                                 child: TextFormField(
+                                  controller: birthdayCon,
                                   inputFormatters: [maskDateFormatter],
                                   keyboardType: TextInputType.number,
                                   textAlign: TextAlign.left,
@@ -218,6 +241,7 @@ class _AddClientPageState extends State<AddClientPage> {
                           SizedBox(width: 5.w),
                           Expanded(
                             child: TextFormField(
+                              controller: addressCon,
                               cursorColor: primaryColor,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
@@ -248,7 +272,7 @@ class _AddClientPageState extends State<AddClientPage> {
                           Expanded(
                             child: TextFormField(
                               cursorColor: primaryColor,
-                              controller: _password,
+                              controller: _passwordCon,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText: "Parol",
@@ -279,7 +303,7 @@ class _AddClientPageState extends State<AddClientPage> {
                           Expanded(
                             child: TextFormField(
                               cursorColor: primaryColor,
-                              controller: _passwordVer,
+                              controller: _passwordVerCon,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText: "Parolni tasdiqlang",
@@ -313,7 +337,7 @@ class _AddClientPageState extends State<AddClientPage> {
                             Expanded(
                               child: TextFormField(
                                 cursorColor: primaryColor,
-                                controller: _passwordVer,
+                                controller: locationCon,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText: "Joylashuv qo’shish",
@@ -331,7 +355,20 @@ class _AddClientPageState extends State<AddClientPage> {
                   ),
                   SizedBox(height: 32.h),
                   ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        final m = AddClientModel(
+                          name: nameCon.text,
+                          login: _telCon.text,
+                          address: addressCon.text,
+                          coordinates: locationCon.text,
+                          password: _passwordVerCon.text,
+                          regionId: viloyatId,
+                          phone1: _telCon.text,
+                        );
+                        List<AddClientModel> model = [];
+                        model[0].name = 'sasasaa';
+                        bloc.add(AddClientSendDataEvent(clientDataList: m));
+                      },
                       style: buttonStyle,
                       child: const Text(
                         'Ro’yxatdan o’tkazish',

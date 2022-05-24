@@ -91,6 +91,7 @@ import '../features/product/presentation/bloc/catalog/category_bloc.dart';
 import '../features/select_client/data/datasources/client_local_datasource.dart';
 import '../features/select_client/data/datasources/client_remote_datasource.dart';
 import '../features/select_client/presentation/bloc/client/select_client_bloc.dart';
+import '../features/select_viloyat/domain/usescase/viloyat_usescase_local.dart';
 
 final di = GetIt.instance;
 
@@ -246,6 +247,7 @@ Future<void> init() async {
   di.registerLazySingleton(() => UsesTulovTuriLocal(repository: di()));
   di.registerLazySingleton(() => UsesTulovTuri(tulovTuriRepository: di()));
   di.registerLazySingleton(() => UsesSelectViloyat(clientRepository: di()));
+  di.registerLazySingleton(() => UsesViloyatLocal(repository: di()));
   di.registerLazySingleton(() => UsesAddClient(clientRepository: di()));
   di.registerLazySingleton(() => UsesGetAllData(clientRepository: di()));
 

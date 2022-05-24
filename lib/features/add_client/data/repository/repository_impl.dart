@@ -17,7 +17,7 @@ class AddClientRepositoryImpl extends AddClientRepository {
 
   @override
   Future<Either<Failure, dynamic>> getClient(
-      List<AddClientModel> clientDataList) async {
+      AddClientModel clientDataList) async {
     if (await networkInfo.isConnected) {
       try {
         final result =
