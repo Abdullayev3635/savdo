@@ -54,6 +54,11 @@ import 'package:savdo_agnet_client/features/select_viloyat/data/repository/viloy
 import 'package:savdo_agnet_client/features/select_viloyat/domain/repositories/viloyat_repository.dart';
 import 'package:savdo_agnet_client/features/select_viloyat/domain/usescase/viloyat_usescase.dart';
 import 'package:savdo_agnet_client/features/select_viloyat/presentation/bloc/client/viloyat_bloc.dart';
+import 'package:savdo_agnet_client/features/test_add/data/data_sources/remote.dart';
+import 'package:savdo_agnet_client/features/test_add/data/repositories/repository.dart';
+import 'package:savdo_agnet_client/features/test_add/domain/repositories/repo.dart';
+import 'package:savdo_agnet_client/features/test_add/domain/use_cases/test_uses_case.dart';
+import 'package:savdo_agnet_client/features/test_add/presentation/manager/test_bloc.dart';
 import 'package:savdo_agnet_client/features/tulov_qilish/data/datasources/tulov_remote_datasource.dart';
 import 'package:savdo_agnet_client/features/tulov_qilish/data/repository/tulov_repository_impl.dart';
 import 'package:savdo_agnet_client/features/tulov_qilish/domain/repositories/tulov_repository.dart';
@@ -104,6 +109,9 @@ Future<void> init() async {
   );
   di.registerFactory(
     () => CatalogBloc(product: di()),
+  );
+  di.registerFactory(
+    () => TestBloc(testBuyurtma: di()),
   );
   di.registerFactory(
     () => FotoBloc(fotoUsesCase: di()),
@@ -169,6 +177,12 @@ Future<void> init() async {
       networkInfo: di(),
     ),
   );
+  di.registerLazySingleton<TestRepository>(
+    () => TestRepositoryImpl(
+      networkInfo: di(),
+      remoteDataSourceImpl: di(),
+    ),
+  );
   di.registerLazySingleton<SelectTulovTuriRepository>(
     () => SelectTulovTuriRepositoryImpl(
       localDataSourceImpl: di(),
@@ -229,6 +243,7 @@ Future<void> init() async {
   di.registerLazySingleton(() => UsesTulovTuriLocal(repository: di()));
   di.registerLazySingleton(() => UsesTulovTuri(tulovTuriRepository: di()));
   di.registerLazySingleton(() => UsesSelectViloyat(clientRepository: di()));
+  di.registerLazySingleton(() => TestBuyurtma(repository: di()));
 
   /// Data sources
   di.registerLazySingleton(
@@ -246,6 +261,9 @@ Future<void> init() async {
 
   di.registerLazySingleton(
     () => FotoRemoteDataSourceImpl(),
+  );
+  di.registerLazySingleton(
+    () => TestRemoteDataSourceImpl(client: di()),
   );
   di.registerLazySingleton(
     () => SelectTulovTuriLocalDataSourceImpl(),
