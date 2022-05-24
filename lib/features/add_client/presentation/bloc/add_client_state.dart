@@ -7,6 +7,12 @@ class AddClientInitial extends AddClientState {}
 
 class AddClientLoadingState extends AddClientState {}
 
+class AddClientLoadedState extends AddClientState {
+  final List<DataModel> list;
+
+  AddClientLoadedState({required this.list});
+}
+
 class AddClientErrorState extends AddClientState {
   final List<AddClientErrorModel> list;
 
@@ -18,6 +24,7 @@ class AddClientNoInternetState extends AddClientState {
 
   AddClientNoInternetState({required this.message});
 }
+
 class AddClientFailureState extends AddClientState {
   final String message;
 

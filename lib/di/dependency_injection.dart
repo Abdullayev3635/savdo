@@ -4,6 +4,12 @@ import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:savdo_agnet_client/core/photo/image_picker_utils.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
+import 'package:savdo_agnet_client/features/add_client/data/datasource/add_client_remote_datasource.dart';
+import 'package:savdo_agnet_client/features/add_client/data/repository/repository_impl.dart';
+import 'package:savdo_agnet_client/features/add_client/domain/repository/client_repository.dart';
+import 'package:savdo_agnet_client/features/add_client/domain/usescase/usescase.dart';
+import 'package:savdo_agnet_client/features/add_client/domain/usescase/usescase_get_all_data.dart';
+import 'package:savdo_agnet_client/features/add_client/presentation/bloc/add_client_bloc.dart';
 import 'package:savdo_agnet_client/features/buyurtma/data/datasources/buyurtma_locale_datasource.dart';
 import 'package:savdo_agnet_client/features/buyurtma/data/model/buyurtma_model.dart';
 import 'package:savdo_agnet_client/features/buyurtma/data/model/currency_model.dart';
@@ -54,11 +60,6 @@ import 'package:savdo_agnet_client/features/select_viloyat/data/repository/viloy
 import 'package:savdo_agnet_client/features/select_viloyat/domain/repositories/viloyat_repository.dart';
 import 'package:savdo_agnet_client/features/select_viloyat/domain/usescase/viloyat_usescase.dart';
 import 'package:savdo_agnet_client/features/select_viloyat/presentation/bloc/client/viloyat_bloc.dart';
-import 'package:savdo_agnet_client/features/test_add/data/data_sources/remote.dart';
-import 'package:savdo_agnet_client/features/test_add/data/repositories/repository.dart';
-import 'package:savdo_agnet_client/features/test_add/domain/repositories/repo.dart';
-import 'package:savdo_agnet_client/features/test_add/domain/use_cases/test_uses_case.dart';
-import 'package:savdo_agnet_client/features/test_add/presentation/manager/test_bloc.dart';
 import 'package:savdo_agnet_client/features/tulov_qilish/data/datasources/tulov_remote_datasource.dart';
 import 'package:savdo_agnet_client/features/tulov_qilish/data/repository/tulov_repository_impl.dart';
 import 'package:savdo_agnet_client/features/tulov_qilish/domain/repositories/tulov_repository.dart';
@@ -111,8 +112,7 @@ Future<void> init() async {
     () => CatalogBloc(product: di()),
   );
   di.registerFactory(
-    () => TestBloc(testBuyurtma: di()),
-  );
+      () => AddClientBloc(usesClient: di(), usesGetAllData: di()));
   di.registerFactory(
     () => FotoBloc(fotoUsesCase: di()),
   );
@@ -177,12 +177,7 @@ Future<void> init() async {
       networkInfo: di(),
     ),
   );
-  di.registerLazySingleton<TestRepository>(
-    () => TestRepositoryImpl(
-      networkInfo: di(),
-      remoteDataSourceImpl: di(),
-    ),
-  );
+
   di.registerLazySingleton<SelectTulovTuriRepository>(
     () => SelectTulovTuriRepositoryImpl(
       localDataSourceImpl: di(),
@@ -190,6 +185,14 @@ Future<void> init() async {
       networkInfo: di(),
     ),
   );
+
+  di.registerLazySingleton<AddClientRepository>(
+    () => AddClientRepositoryImpl(
+      networkInfo: di(),
+      remoteDatasource: di(),
+    ),
+  );
+
   di.registerLazySingleton<FotoRepository>(
     () => FotoRepositoryImpl(
       fotoRemoteDataSourceImpl: di(),
@@ -243,7 +246,8 @@ Future<void> init() async {
   di.registerLazySingleton(() => UsesTulovTuriLocal(repository: di()));
   di.registerLazySingleton(() => UsesTulovTuri(tulovTuriRepository: di()));
   di.registerLazySingleton(() => UsesSelectViloyat(clientRepository: di()));
-  di.registerLazySingleton(() => TestBuyurtma(repository: di()));
+  di.registerLazySingleton(() => UsesAddClient(clientRepository: di()));
+  di.registerLazySingleton(() => UsesGetAllData(clientRepository: di()));
 
   /// Data sources
   di.registerLazySingleton(
@@ -263,7 +267,7 @@ Future<void> init() async {
     () => FotoRemoteDataSourceImpl(),
   );
   di.registerLazySingleton(
-    () => TestRemoteDataSourceImpl(client: di()),
+    () => AddClientRemoteDatasourceImpl(client: di()),
   );
   di.registerLazySingleton(
     () => SelectTulovTuriLocalDataSourceImpl(),

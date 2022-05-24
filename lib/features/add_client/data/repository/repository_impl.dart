@@ -7,7 +7,7 @@ import 'package:savdo_agnet_client/features/add_client/domain/repository/client_
 import '../model/add_client_model.dart';
 
 class AddClientRepositoryImpl extends AddClientRepository {
-  final AddClientRemoteDatasource remoteDatasource;
+  final AddClientRemoteDatasourceImpl remoteDatasource;
   final NetworkInfo networkInfo;
 
   AddClientRepositoryImpl({
@@ -29,6 +29,20 @@ class AddClientRepositoryImpl extends AddClientRepository {
     } else {
       return const Left(
           NoConnectionFailure("Интернет билан алоқани қайта текширинг"));
+    }
+  }
+
+  @override
+  Future<Either<Failure, dynamic>> getAllData() async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await remoteDatasource.getAllData();
+        return Right(result);
+      } on ServerFailure {
+        return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));
+      }
+    } else {
+      return const Left(LocalFailure("Маълумот юкланишда хатолик бўлди"));
     }
   }
 }

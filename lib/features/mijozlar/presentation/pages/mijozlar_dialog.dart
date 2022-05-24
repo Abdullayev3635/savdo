@@ -25,7 +25,7 @@ class _MijozlarDialogState extends State<MijozlarDialog> {
           ElevatedButton(
               onPressed: () {
                 Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const AddClientPage(),));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AddClientPage.screen(),));
               },
               style: buttonStyle,
               child: const Text(

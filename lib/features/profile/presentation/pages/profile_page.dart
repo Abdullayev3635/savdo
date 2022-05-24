@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
+import 'package:savdo_agnet_client/features/lock/presentation/pages/lock_page.dart';
 import 'package:savdo_agnet_client/features/password/presentation/pages/password_dialog.dart';
 
 import '../../../../core/widgets/appBarWidget.dart';
@@ -70,6 +71,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     builder: (context) {
                       return  PasswordEditDialog.screen();
                     }).then((value) {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => PasswordScreen.screen(),));
                   setState(() {});
                 });
               },

@@ -5,4 +5,5 @@ import '../../data/model/add_client_model.dart';
 
 abstract class AddClientRepository {
   Future<Either<Failure, dynamic>> getClient(List<AddClientModel> clientDataList);
+  Future<Either<Failure,dynamic>> getAllData();
 }
