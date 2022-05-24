@@ -9,6 +9,7 @@ import 'package:savdo_agnet_client/core/photo/image_picker_utils.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 import 'package:savdo_agnet_client/core/widgets/costum_toast.dart';
 import 'package:savdo_agnet_client/di/dependency_injection.dart';
+import 'package:savdo_agnet_client/features/buyurtma/presentation/pages/buyurtma_dialog.dart';
 import 'package:savdo_agnet_client/features/foto_xisobot/data/datasources/foto_remote_datasource.dart';
 import 'package:savdo_agnet_client/features/foto_xisobot/presentation/bloc/foto_bloc.dart';
 import 'package:savdo_agnet_client/features/select_client/presentation/pages/select_client.dart';
@@ -41,30 +42,31 @@ class _PhotoReportDialogState extends State<PhotoReportDialog> {
   TextEditingController izohController = TextEditingController();
   late FotoBloc bloc;
   SharedPreferences sharedPreferences = di.get();
-  late ProgressDialog pd;
 
-  _valuableProgress(context) async {
-    pd.show(
-      max: 100,
-      msg: 'Ma`lumotlar yuklanmoqda...',
-      backgroundColor: cBackgroundColor,
-      msgFontSize: 16.sp,
-      msgColor: primaryColor,
-      valueColor: primaryColor,
-      progressBgColor: cGrayColor.withOpacity(0.5),
-      progressValueColor: primaryColor,
-      msqFontWeight: FontWeight.w300,
+  // late ProgressDialog pd;
 
-      /// Assign the type of progress bar.
-      progressType: ProgressType.valuable,
-    );
-    // if (progress >= 0.99) {
-    //   pd.close();
-    //   // Navigator.pop(context);
-    // }
-  }
-
-  // @override
+  // _valuableProgress(context) async {
+  //   pd.show(
+  //     max: 100,
+  //     msg: 'Ma`lumotlar yuklanmoqda...',
+  //     backgroundColor: cBackgroundColor,
+  //     msgFontSize: 16.sp,
+  //     msgColor: primaryColor,
+  //     valueColor: primaryColor,
+  //     progressBgColor: cGrayColor.withOpacity(0.5),
+  //     progressValueColor: primaryColor,
+  //     msqFontWeight: FontWeight.w300,
+  //
+  //     /// Assign the type of progress bar.
+  //     progressType: ProgressType.valuable,
+  //   );
+  //   // if (progress >= 0.99) {
+  //   //   pd.close();
+  //   //   // Navigator.pop(context);
+  //   // }
+  // }
+  //
+  // // @override
   // void setState(VoidCallback fn) {
   //   pd.update(value: progress.toInt());
   //   if (progress >= 0.99) {
@@ -77,7 +79,7 @@ class _PhotoReportDialogState extends State<PhotoReportDialog> {
   void initState() {
     super.initState();
     bloc = BlocProvider.of<FotoBloc>(context);
-    pd = ProgressDialog(context: context);
+    // pd = ProgressDialog(context: context);
   }
 
   @override
@@ -107,12 +109,12 @@ class _PhotoReportDialogState extends State<PhotoReportDialog> {
                     }).then((value) => {
                       if (value != null)
                         {
-                            setState(() {
-                              clientId = value['id'];
-                              regionId = value['regionId'];
-                              clientName = value['name'].toString();
-                              regionName = value['regionName'].toString();
-                            })
+                          setState(() {
+                            clientId = value['id'];
+                            regionId = value['regionId'];
+                            clientName = value['name'].toString();
+                            regionName = value['regionName'].toString();
+                          })
                         },
                     });
               },
@@ -172,34 +174,168 @@ class _PhotoReportDialogState extends State<PhotoReportDialog> {
             BlocBuilder<FotoBloc, FotoState>(
               builder: (context, state) {
                 if (state is FotoLoading) {
-                    pd.update(value: progress.toInt());
-
+                  Future.delayed(
+                    Duration.zero,
+                    () {
+                      return showDialog(
+                          context: context,
+                          builder: (context) {
+                            return ValueListenableBuilder(
+                              valueListenable: progress,
+                              builder: (context, value, widget) {
+                                return Dialog(
+                                  insetPadding: EdgeInsets.symmetric(vertical: 20.h,horizontal: 50.w),
+                                  child: Container(
+                                    height: 80.h,
+                                    padding:
+                                        EdgeInsets.symmetric(vertical: 20.h),
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 10.w),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10.r),
+                                      color: Colors.white,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        CircularProgressIndicator(
+                                          value: double.parse(value.toString()),
+                                          valueColor:
+                                              const AlwaysStoppedAnimation<
+                                                  Color>(primaryColor),
+                                        ),
+                                        SizedBox(width: 15.w),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            Text('Malumotlar yuklanmoqda...',
+                                                style: textStylePrimaryMed14),
+                                            Text('${value.toString()}/100%',
+                                                style: textStylePrimaryMed14)
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          });
+                    },
+                  );
+                  // showDialog(
+                  //     context: context,
+                  //     builder: (context) {
+                  //       return ValueListenableBuilder(
+                  //         valueListenable: progress,
+                  //         builder: (context, value, widget) {
+                  //           return Dialog(
+                  //             child: Container(
+                  //               height: 60.h,
+                  //               padding: EdgeInsets.symmetric(vertical: 10.h),
+                  //               margin: EdgeInsets.symmetric(horizontal: 10.w),
+                  //               decoration: BoxDecoration(
+                  //                 borderRadius: BorderRadius.circular(10.r),
+                  //                 color: Colors.white,
+                  //               ),
+                  //               child: Row(
+                  //                 children: [
+                  //                   CircularProgressIndicator(
+                  //                     value: double.parse(value.toString()),
+                  //                     valueColor: const AlwaysStoppedAnimation<Color>(primaryColor),
+                  //                   ),
+                  //                   SizedBox(width: 8.w),
+                  //                   Column(
+                  //                     crossAxisAlignment:
+                  //                         CrossAxisAlignment.end,
+                  //                     children: [
+                  //                       Text('Malumotlar yuklanmoqda...',
+                  //                           style: textStylePrimaryMed14),
+                  //                       Text('${value.toString()}/100%',
+                  //                           style: textStylePrimaryMed14)
+                  //                     ],
+                  //                   )
+                  //                 ],
+                  //               ),
+                  //             ),
+                  //           );
+                  //         },
+                  //       );
+                  //     });
+                  // showDialog(
+                  //         context: context,
+                  //         builder: (context) {
+                  //           return BuyurtmaDialog.screen();
+                  //         });
+                  // return Container();
+                  // return ValueListenableBuilder(
+                  //   valueListenable: progress,
+                  //   builder: (context, value, widget) {
+                  //     return Dialog(
+                  //       child: Container(
+                  //         height: 60.h,
+                  //         padding: EdgeInsets.symmetric(vertical: 10.h),
+                  //         margin: EdgeInsets.symmetric(horizontal: 10.w),
+                  //         decoration: BoxDecoration(
+                  //           borderRadius: BorderRadius.circular(10.r),
+                  //           color: Colors.white,
+                  //         ),
+                  //         child: Row(
+                  //           children: [
+                  //             CircularProgressIndicator(
+                  //               value: double.parse(value.toString()),
+                  //             ),
+                  //             SizedBox(width: 8.w),
+                  //             Column(
+                  //               crossAxisAlignment: CrossAxisAlignment.end,
+                  //               children: [
+                  //                 Text('Malumotlar yuklanmoqda...',
+                  //                     style: textStylePrimaryMed14),
+                  //                 Text('${value.toString()}/100%',
+                  //                     style: textStylePrimaryMed14)
+                  //               ],
+                  //             )
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     );
+                  //   },
+                  // );
                 } else if (state is FotoLoaded) {
-                  pd.close();
-                  // Navigator.pop(context);
+                  // pd.close();
+                  Navigator.pop(context);
+                  Future.delayed(Duration.zero, () {
+                    Navigator.pop(context);
+                  });
                   CustomToast.showToast(state.message);
-
                 }
-                return ElevatedButton(
-                  onPressed: () {
-                    _valuableProgress(context);
-                    bloc.add(SendFotoEvent(
-                      image1: _imageFile0!.path,
-                      image2: _imageFile1!.path,
-                      image3: _imageFile2!.path,
-                      customerId: clientId,
-                      regionId: regionId,
-                      salesAgentId: int.parse(
-                          sharedPreferences.getString(sharedSalesAgentId)!),
-                    ));
-                  },
-                  style: buttonStyle,
-                  child: const Text(
-                    'Davom etish',
-                    textAlign: TextAlign.center,
-                  ),
-                );
+                return Container();
               },
+            ),
+            ElevatedButton(
+              onPressed: () {
+                if (_imageFile0 != null ||
+                    _imageFile1 != null ||
+                    _imageFile2 != null && clientName != 'Mijozni tanlang') {
+                  bloc.add(SendFotoEvent(
+                    image1: _imageFile0 == null ? ' ' : _imageFile0?.path,
+                    image2: _imageFile1 == null ? ' ' : _imageFile1?.path,
+                    image3: _imageFile2 == null ? ' ' : _imageFile2?.path,
+                    customerId: clientId,
+                    regionId: regionId,
+                    salesAgentId: int.parse(
+                        sharedPreferences.getString(sharedSalesAgentId) ?? ''),
+                  ));
+                } else {
+                  CustomToast.showToast('Iltimos mijoz va suratlarni tanlang!');
+                }
+              },
+              style: buttonStyle,
+              child: const Text(
+                'Davom etish',
+                textAlign: TextAlign.center,
+              ),
             ),
           ],
         ),
@@ -225,7 +361,7 @@ class _PhotoReportDialogState extends State<PhotoReportDialog> {
           }
           setState(() {});
         },
-        child: _imageFile == null
+        child: (_imageFile == null || _imageFile.path == '')
             ? SvgPicture.asset('assets/icons/ic_add_image.svg')
             : Stack(
                 clipBehavior: Clip.none,

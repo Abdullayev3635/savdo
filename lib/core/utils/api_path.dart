@@ -2,7 +2,7 @@
 // const String baseUrlImg = "http://192.168.30.64:8000/api/";
 // const String baseUrl = "https://mobile.imsoftgroup.uz/api/v1/";
 // const String baseUrl = "http://192.168.30.108:9000/api/v1/";
-const String baseUrl = "http://192.168.30.108:8000/api/v1/";
+const String baseUrl = "http://192.168.30.108:9000/api/v1/";
 // const String baseUrlImg = "http://192.168.30.108:8000/api/v1/image/";
 
 const String savdoAndNarxPHP = "currencies-and-priceTypes";

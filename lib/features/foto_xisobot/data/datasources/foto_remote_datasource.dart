@@ -1,11 +1,13 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:savdo_agnet_client/core/network/multi_part_request.dart';
 import 'package:savdo_agnet_client/features/foto_xisobot/data/model/foto_model.dart';
 import '../../../../core/utils/api_path.dart';
 
-double progress = 0;
+// double progress = 0;
+final progress = ValueNotifier<int>(0);
 
 abstract class FotoRemoteDataSource {
   Future<dynamic> sendFoto(
@@ -21,9 +23,9 @@ abstract class FotoRemoteDataSource {
 class FotoRemoteDataSourceImpl implements FotoRemoteDataSource {
   @override
   Future sendFoto(
-    String image1,
-    String image2,
-    String image3,
+    String? image1,
+    String? image2,
+    String? image3,
     int customerId,
     int salesAgentId,
     int regionId,
@@ -33,14 +35,24 @@ class FotoRemoteDataSourceImpl implements FotoRemoteDataSource {
       'POST',
       Uri.parse(uri),
       onProgress: (int bytes, int total) {
-        progress = bytes / total;
+        progress.value = (bytes / total * 100) ~/ 1;
+        // print(progress);
       },
     );
 
     request.fields.addAll({});
-    request.files.add(await http.MultipartFile.fromPath("image1", image1));
-    request.files.add(await http.MultipartFile.fromPath("image2", image2));
-    request.files.add(await http.MultipartFile.fromPath("image3", image3));
+    if (image1 != ' ') {
+      request.files
+          .add(await http.MultipartFile.fromPath("image1", image1 ?? ''));
+    }
+    if (image2 != ' ') {
+      request.files
+          .add(await http.MultipartFile.fromPath("image2", image2 ?? ''));
+    }
+    if (image3 != ' ') {
+      request.files
+          .add(await http.MultipartFile.fromPath("image3", image3 ?? ''));
+    }
     request.fields['sales_agent_id'] = salesAgentId.toString();
     request.fields['customer_id'] = customerId.toString();
     request.fields['region_id'] = regionId.toString();
