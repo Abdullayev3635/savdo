@@ -34,11 +34,4 @@ class SelectClientLocalDataSourceImpl implements SelectClientLocalDataSource {
       return false;
     }
   }
-
-// @override
-// Future<dynamic> getCategory() async {
-//   try {
-//     final shared = sharedPreferences.get('select_client');
-//   }
-// }
 }

@@ -15,10 +15,7 @@ class PassBloc extends Bloc<PassEvent, PassState> {
   PassBloc({required Pass pass})
       : _pass = pass,
         super(const PassInitial("Махфий паролни киритинг")) {
-    on<PassCompileEvent>(
-      _nextPage,
-      transformer: sequential(),
-    );
+    on<PassCompileEvent>(_nextPage, transformer: sequential());
   }
 
   FutureOr<void> _nextPage(
@@ -32,8 +29,11 @@ class PassBloc extends Bloc<PassEvent, PassState> {
                       "Киритилган пароль нотўғри илтимос қайтадан ҳаракат қилинг",
                   errorMessage: "error"))
             },
-        (s) => {if (s == true) emit(const PassSuccess(""))});
-
-    event.passController.clear();
+        (s) => {if (s == true) emit(const PassSuccess("")) else {
+          emit(const PassError(
+              message:
+              "Киритилган пароль нотўғри илтимос қайтадан ҳаракат қилинг",
+              errorMessage: "error"))
+        }});
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,7 +28,8 @@ class MapCheckState extends State<MapCheck> {
   TextEditingController textEditingController = TextEditingController();
 
   String adress = "";
-
+  double lat = 0;
+  double lng = 0;
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(41.311155, 69.279700),
     zoom: 12,
@@ -54,7 +56,6 @@ class MapCheckState extends State<MapCheck> {
         leading: Padding(
           padding: const EdgeInsets.only(left: 15),
           child: IconButton(
-
             onPressed: () {
               Navigator.pop(context);
             },
@@ -97,9 +98,7 @@ class MapCheckState extends State<MapCheck> {
                         color: primaryColor,
                       ),
                     ),
-                    SizedBox(
-                      width: 10.w,
-                    ),
+                    SizedBox(width: 10.w),
                     Expanded(
                       child: TextFormField(
                         cursorColor: primaryColor,
@@ -115,7 +114,7 @@ class MapCheckState extends State<MapCheck> {
                             minWidth: 25.w,
                           ),
                         ),
-                        style:textStylePrimaryReg16,
+                        style: textStylePrimaryReg16,
                       ),
                     ),
                     IconButton(
@@ -149,32 +148,41 @@ class MapCheckState extends State<MapCheck> {
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Container(
-                height: 110.h,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: cWhiteColor,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20.r),
-                    topRight: Radius.circular(20.r),
-                  ),
-                ),
-                child: Center(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: primaryColor,
-                      borderRadius: BorderRadius.circular(15.r),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context, {
+                    "title": textEditingController.text,
+                    "lat": lat.toString(),
+                    "lng": lng.toString(),
+                  });
+                },
+                child: Container(
+                  height: 110.h,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: cWhiteColor,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20.r),
+                      topRight: Radius.circular(20.r),
                     ),
-                    height: 65.h,
-                    width: 368.w,
-                    child: Center(
-                      child: Text(
-                        'Saqlash',
-                        style: TextStyle(
-                            color: cWhiteColor,
-                            fontFamily: 'Medium',
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16.sp),
+                  ),
+                  child: Center(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: primaryColor,
+                        borderRadius: BorderRadius.circular(15.r),
+                      ),
+                      height: 65.h,
+                      width: 368.w,
+                      child: Center(
+                        child: Text(
+                          'Saqlash',
+                          style: TextStyle(
+                              color: cWhiteColor,
+                              fontFamily: 'Medium',
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16.sp),
+                        ),
                       ),
                     ),
                   ),
@@ -198,18 +206,24 @@ class MapCheckState extends State<MapCheck> {
         target: LatLng(locations[0].latitude, locations[0].longitude),
         zoom: 14)));
     _tapped(LatLng(locations[0].latitude, locations[0].longitude));
+
   }
 
   _tapped(LatLng tappedPoint) async {
     setState(() {
+      lat = tappedPoint.latitude;
+      lng = tappedPoint.longitude;
       myMarker =
           Marker(markerId: const MarkerId("salom"), position: tappedPoint);
     });
     List<Placemark> placemarks = await placemarkFromCoordinates(
         tappedPoint.latitude, tappedPoint.longitude);
-    textEditingController.text = placemarks[0].administrativeArea.toString() +
+    textEditingController.text = placemarks[0].locality.toString() +
+        ", " +
+        placemarks[0].subLocality.toString() +
         ", " +
         (placemarks[0].thoroughfare ?? placemarks[0].street).toString();
+    log(placemarks.toString());
   }
 
   _determinePosition(Completer<GoogleMapController> controller1, double zoom,

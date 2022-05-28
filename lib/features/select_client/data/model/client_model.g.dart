@@ -17,17 +17,18 @@ class ClientModelAdapter extends TypeAdapter<ClientModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return ClientModel(
-      id: fields[0] as int?,
-      name: fields[1] as String?,
-      regionId: fields[2] as int?,
-      regionName: fields[3] as String?,
-    );
+        id: fields[0] as int?,
+        name: fields[1] as String?,
+        regionId: fields[2] as int?,
+        regionName: fields[3] as String?,
+        phone1: fields[4] as String?,
+        coordinate: fields[5] as String?);
   }
 
   @override
   void write(BinaryWriter writer, ClientModel obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -35,7 +36,11 @@ class ClientModelAdapter extends TypeAdapter<ClientModel> {
       ..writeByte(2)
       ..write(obj.regionId)
       ..writeByte(3)
-      ..write(obj.regionName);
+      ..write(obj.regionName)
+      ..writeByte(4)
+      ..write(obj.phone1)
+      ..writeByte(5)
+      ..write(obj.coordinate);
   }
 
   @override

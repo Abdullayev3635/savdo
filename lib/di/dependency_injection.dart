@@ -8,7 +8,8 @@ import 'package:savdo_agnet_client/features/add_client/data/datasource/add_clien
 import 'package:savdo_agnet_client/features/add_client/data/repository/repository_impl.dart';
 import 'package:savdo_agnet_client/features/add_client/domain/repository/client_repository.dart';
 import 'package:savdo_agnet_client/features/add_client/domain/usescase/usescase.dart';
-import 'package:savdo_agnet_client/features/add_client/domain/usescase/usescase_get_all_data.dart';
+import 'package:savdo_agnet_client/features/add_client/domain/usescase/validate_name_usescase.dart';
+import 'package:savdo_agnet_client/features/add_client/domain/usescase/validate_phone_usescase.dart';
 import 'package:savdo_agnet_client/features/add_client/presentation/bloc/add_client_bloc.dart';
 import 'package:savdo_agnet_client/features/buyurtma/data/datasources/buyurtma_locale_datasource.dart';
 import 'package:savdo_agnet_client/features/buyurtma/data/model/buyurtma_model.dart';
@@ -53,6 +54,14 @@ import 'package:savdo_agnet_client/features/select_client/data/repository/select
 import 'package:savdo_agnet_client/features/select_client/domain/repositories/client_repository.dart';
 import 'package:savdo_agnet_client/features/select_client/domain/usescase/client_usescase.dart';
 import 'package:savdo_agnet_client/features/select_client/domain/usescase/client_usescase_local.dart';
+import 'package:savdo_agnet_client/features/select_region/data/datasources/region_local_datasource.dart';
+import 'package:savdo_agnet_client/features/select_region/data/datasources/region_remote_datasource.dart';
+import 'package:savdo_agnet_client/features/select_region/data/model/region_model.dart';
+import 'package:savdo_agnet_client/features/select_region/data/repository/region_repository.dart';
+import 'package:savdo_agnet_client/features/select_region/domain/repositories/region_repository.dart';
+import 'package:savdo_agnet_client/features/select_region/domain/usescase/region_usescase.dart';
+import 'package:savdo_agnet_client/features/select_region/domain/usescase/region_usescase_local.dart';
+import 'package:savdo_agnet_client/features/select_region/presentation/bloc/region_bloc.dart';
 import 'package:savdo_agnet_client/features/select_viloyat/data/datasources/viloyat_local_datasource.dart';
 import 'package:savdo_agnet_client/features/select_viloyat/data/datasources/viloyat_remote_datasource.dart';
 import 'package:savdo_agnet_client/features/select_viloyat/data/model/viloyat_model.dart';
@@ -112,8 +121,8 @@ Future<void> init() async {
   di.registerFactory(
     () => CatalogBloc(product: di()),
   );
-  di.registerFactory(
-      () => AddClientBloc(usesClient: di(), usesGetAllData: di()));
+  di.registerFactory(() => AddClientBloc(
+      usesValidatePhone: di(), usesClient: di(), usesValidateName: di()));
   di.registerFactory(
     () => FotoBloc(fotoUsesCase: di()),
   );
@@ -152,7 +161,12 @@ Future<void> init() async {
     () => TulovQarizdorlikBloc(
         onSelectClientTulov: di(), tulovQilishUsescase: di()),
   );
+  di.registerFactory(
+    () => RegionBloc(usesRegionLocal: di(), usesSelectRegion: di()),
+  );
 
+  ///********************************************************///
+  ///
   ///Repositories
 
   di.registerLazySingleton<PassRepository>(
@@ -164,6 +178,7 @@ Future<void> init() async {
       networkInfo: di(),
     ),
   );
+
   di.registerLazySingleton<SelectViloyatRepository>(
     () => ViloyatRepositoryImpl(
       localDataSourceImpl: di(),
@@ -171,6 +186,15 @@ Future<void> init() async {
       remoteDataSourceImpl: di(),
     ),
   );
+
+  di.registerLazySingleton<SelectRegionRepository>(
+    () => RegionRepositoryImpl(
+      localDataSourceImpl: di(),
+      networkInfo: di(),
+      regionRemoteDatasourceImpl: di(),
+    ),
+  );
+
   di.registerLazySingleton<CatalogRepository>(
     () => CategoryRepositoryImpl(
       categoryLocalDatasourceImpl: di(),
@@ -229,28 +253,55 @@ Future<void> init() async {
     ),
   );
 
+  ///********************************************************///
   /// UsesCases
-  //   di.registerLazySingleton(() => SendData(sendDataRepository: di()));
-  di.registerLazySingleton(() => UKorzinaOrderList(korzinaRepository: di()));
-  di.registerLazySingleton(() => Pass(repository: di()));
-  di.registerLazySingleton(() => OnSelectClientTulov(tulovRepository: di()));
-  di.registerLazySingleton(() => OnTulovQilishUsescase(tulovRepository: di()));
-  di.registerLazySingleton(() => ProductCatalog(catalogRepository: di()));
-  di.registerLazySingleton(() => BrandCatalog(catalogRepository: di()));
-  di.registerLazySingleton(() => BrandProductsCatalog(catalogRepository: di()));
-  di.registerLazySingleton(() => UsesSelectClient(clientRepository: di()));
-  di.registerLazySingleton(() => UsesBuyurtma(repository: di()));
-  di.registerLazySingleton(() => UsesBuyurtmaLocal(repository: di()));
-  di.registerLazySingleton(() => OnSelectClient(clientRepository: di()));
-  di.registerLazySingleton(() => FotoUsesCase(fotoRepository: di()));
-  di.registerLazySingleton(() => UsesClientLocal(repository: di()));
-  di.registerLazySingleton(() => UsesTulovTuriLocal(repository: di()));
-  di.registerLazySingleton(() => UsesTulovTuri(tulovTuriRepository: di()));
-  di.registerLazySingleton(() => UsesSelectViloyat(clientRepository: di()));
-  di.registerLazySingleton(() => UsesViloyatLocal(repository: di()));
-  di.registerLazySingleton(() => UsesAddClient(clientRepository: di()));
-  di.registerLazySingleton(() => UsesGetAllData(clientRepository: di()));
 
+  di.registerLazySingleton(() => UKorzinaOrderList(korzinaRepository: di()));
+
+  di.registerLazySingleton(() => Pass(repository: di()));
+
+  di.registerLazySingleton(() => OnSelectClientTulov(tulovRepository: di()));
+
+  di.registerLazySingleton(() => OnTulovQilishUsescase(tulovRepository: di()));
+
+  di.registerLazySingleton(() => ProductCatalog(catalogRepository: di()));
+
+  di.registerLazySingleton(() => BrandCatalog(catalogRepository: di()));
+
+  di.registerLazySingleton(() => BrandProductsCatalog(catalogRepository: di()));
+
+  di.registerLazySingleton(() => UsesSelectClient(clientRepository: di()));
+
+  di.registerLazySingleton(() => UsesBuyurtma(repository: di()));
+
+  di.registerLazySingleton(() => UsesBuyurtmaLocal(repository: di()));
+
+  di.registerLazySingleton(() => OnSelectClient(clientRepository: di()));
+
+  di.registerLazySingleton(() => FotoUsesCase(fotoRepository: di()));
+
+  di.registerLazySingleton(() => UsesClientLocal(repository: di()));
+
+  di.registerLazySingleton(() => UsesTulovTuriLocal(repository: di()));
+
+  di.registerLazySingleton(() => UsesTulovTuri(tulovTuriRepository: di()));
+
+  di.registerLazySingleton(() => UsesSelectViloyat(clientRepository: di()));
+
+  di.registerLazySingleton(() => UsesViloyatLocal(repository: di()));
+
+  di.registerLazySingleton(() => UsesRegionLocal(regionRepository: di()));
+
+  di.registerLazySingleton(() => UsesSelectRegion(regionRepository: di()));
+
+  di.registerLazySingleton(() => UsesAddClient(clientRepository: di()));
+
+  di.registerLazySingleton(() => UsesValidateName(clientRepository: di()));
+
+  di.registerLazySingleton(() => UsesValidatePhone(clientRepository: di()));
+
+  ///********************************************************///
+  ///
   /// Data sources
   di.registerLazySingleton(
     () => PassLocalDataSourceImpl(sharedPreferences: di()),
@@ -264,6 +315,9 @@ Future<void> init() async {
       client: di(),
     ),
   );
+  di.registerLazySingleton(() => RegionLocalDataSourceImpl());
+  di.registerLazySingleton(
+      () => RegionRemoteDatasourceImpl(sharedPreferences: di(), client: di()));
 
   di.registerLazySingleton(
     () => FotoRemoteDataSourceImpl(),
@@ -314,6 +368,7 @@ Future<void> init() async {
     () => KorzinaOrderRemoteDatasourceImpl(client: di()),
   );
 
+  ///********************************************************///
   /// Image picker
   di.registerLazySingleton<ImagePickerUtils>(() => ImagePickerUtilsImpl());
 
@@ -379,4 +434,8 @@ Future<void> init() async {
   // viloyatlar ro'yxati dialog
   Hive.registerAdapter(ViloyatModelAdapter());
   await Hive.openBox(viloyatBox);
+
+  // region ro'yxati dialog
+  Hive.registerAdapter(RegionModelAdapter());
+  await Hive.openBox(regionBox);
 }

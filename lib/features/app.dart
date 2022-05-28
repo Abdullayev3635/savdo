@@ -26,9 +26,8 @@ class App extends StatelessWidget {
       designSize: const Size(414, 896),
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: () => MaterialApp(
+      builder: (context,_) => MaterialApp(
         builder: (context, widget) {
-          ScreenUtil.setContext(context);
           return MediaQuery(
             data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
             child: widget!,

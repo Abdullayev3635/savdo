@@ -4,81 +4,179 @@ import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:meta/meta.dart';
 import 'package:savdo_agnet_client/core/errors/failures.dart';
-import 'package:savdo_agnet_client/features/add_client/data/datasource/add_client_remote_datasource.dart';
 import 'package:savdo_agnet_client/features/add_client/data/model/add_client_model.dart';
 import 'package:savdo_agnet_client/features/add_client/data/model/error_model.dart';
-import 'package:savdo_agnet_client/features/add_client/domain/usescase/usescase_get_all_data.dart';
+import 'package:savdo_agnet_client/features/add_client/domain/usescase/validate_name_usescase.dart';
+import 'package:savdo_agnet_client/features/add_client/domain/usescase/validate_phone_usescase.dart';
 
 import '../../data/model/data_model.dart';
 import '../../domain/usescase/usescase.dart';
 
 part 'add_client_event.dart';
+
 part 'add_client_state.dart';
 
 class AddClientBloc extends Bloc<AddClientEvent, AddClientState> {
   final UsesAddClient usesClient;
-  final UsesGetAllData usesGetAllData;
+  final UsesValidateName usesValidateName;
+  final UsesValidatePhone usesValidatePhone;
 
-  AddClientBloc({required this.usesClient, required this.usesGetAllData})
-      : super(AddClientInitial()) {
+  AddClientBloc(
+      {required this.usesClient,
+      required this.usesValidateName,
+      required this.usesValidatePhone})
+      : super(const AddClientInitial(
+            isAvailableName: true, isAvailablePhone: true)) {
     on<AddClientSendDataEvent>(getAddClientData, transformer: sequential());
-    on<GetAllDataEvent>(getAllData, transformer: sequential());
-    on<FilterEvent>(filterData, transformer: sequential());
+    on<ValidateNameClientEvent>(getNameData, transformer: sequential());
+    on<ValidatePhoneClientEvent>(getPhoneData, transformer: sequential());
   }
 
-  FutureOr<void> filterData(
-      FilterEvent event, Emitter<AddClientState> emit) async {
-    emit(ClientAvailableState(
-        isAvailable: searchMaxsulotName(event.filterName)));
-    // emit(AddClientInitial());
-  }
+  // FutureOr<void> filterData(
+  //     FilterEvent event, Emitter<AddClientState> emit) async {
+  //   emit(ClientAvailableState(
+  //       isAvailable: searchMaxsulotName(event.filterName)));
+  // }
 
   FutureOr<void> getAddClientData(
       AddClientSendDataEvent event, Emitter<AddClientState> emit) async {
-    emit(AddClientLoadingState());
+    emit(const AddClientLoadingState(
+        isAvailablePhone: true, isAvailableName: true));
     final result =
         await usesClient(AddClientParams(clientDataList: event.clientDataList));
     result.fold(
         (failure) => {
               if (failure is NoConnectionFailure)
-                {emit(AddClientNoInternetState(message: failure.message))}
+                {
+                  emit(AddClientNoInternetState(
+                      message: failure.message,
+                      isAvailablePhone: true,
+                      isAvailableName: true))
+                }
               else if (failure is ServerFailure)
-                {emit(AddClientNoInternetState(message: failure.message))}
+                {
+                  emit(AddClientNoInternetState(
+                      message: failure.message,
+                      isAvailableName: true,
+                      isAvailablePhone: true))
+                }
             },
         (r) => {
-              if (r.isNotEmpty) {emit(AddClientErrorState(list: r))} else {}
-              // {emit(const KorzinaErrorMessageState(korzinaErrorList: []))}
+              if (r == true)
+                {
+                  emit(AddClientErrorState(
+                      isSuccessAdded: true,
+                      isAvailablePhone: true,
+                      isAvailableName: true))
+                }
+              else
+                {
+                  emit(AddClientErrorState(
+                      isSuccessAdded: false,
+                      isAvailablePhone: true,
+                      isAvailableName: true))
+                }
             });
   }
 
-  FutureOr<void> getAllData(
-      GetAllDataEvent event, Emitter<AddClientState> emit) async {
-    emit(AddClientLoadingState());
-    final result = await usesGetAllData(GetAllDataParams());
-    print(result);
+  FutureOr<void> getNameData(
+      ValidateNameClientEvent event, Emitter<AddClientState> emit) async {
+    emit(const ValidateNameLoadingState(
+        isAvailableName: true, isAvailablePhone: true));
+    final result = await usesValidateName(
+        ValidateNameParams(validateName: event.validateNameModel));
     result.fold(
-        (failure) => {
-              if (failure is NoConnectionFailure)
-                {emit(AddClientNoInternetState(message: failure.message))}
-              else if (failure is ServerFailure)
-                {emit(AddClientNoInternetState(message: failure.message))}
-            },
-        (r) => {emit(AddClientLoadedState(list: r))});
+      (failure) => {
+        if (failure is NoConnectionFailure)
+          {
+            emit(AddClientNoInternetState(
+                message: failure.message,
+                isAvailableName: true,
+                isAvailablePhone: true))
+          }
+        else if (failure is ServerFailure)
+          {
+            emit(AddClientNoInternetState(
+                message: failure.message,
+                isAvailablePhone: true,
+                isAvailableName: true))
+          }
+      },
+      (r) => {
+        if (r == true)
+          emit(const ValidateNameState(
+              isAvailableName: true, isAvailablePhone: true))
+        else
+          emit(const ValidateNameState(
+              isAvailableName: false, isAvailablePhone: true))
+      },
+    );
   }
 
-  bool searchMaxsulotName(String query) {
-    bool isAvailable = false;
-    print(nameModel[0].name);
-    nameModel.firstWhere((element) {
-      final titleLower = element.name?.toLowerCase();
-      final searchLower = query.toLowerCase();
-      isAvailable = titleLower!.contains(searchLower);
-      if (isAvailable) {
-        return true;
-      } else {
-        return false;
-      }
-    });
-    return isAvailable;
+  FutureOr<void> getPhoneData(
+      ValidatePhoneClientEvent event, Emitter<AddClientState> emit) async {
+    emit(const ValidatePhoneLoadingState(
+        isAvailablePhone: true, isAvailableName: true));
+    final result = await usesValidatePhone(
+        ValidatePhoneParams(validatePhone: event.validatePhoneModel));
+    result.fold(
+      (failure) => {
+        if (failure is NoConnectionFailure)
+          {
+            emit(AddClientNoInternetState(
+                message: failure.message,
+                isAvailableName: true,
+                isAvailablePhone: true))
+          }
+        else if (failure is ServerFailure)
+          {
+            emit(AddClientNoInternetState(
+                message: failure.message,
+                isAvailableName: true,
+                isAvailablePhone: true))
+          }
+      },
+      (r) => {
+        if (r == true)
+          emit(const ValidatePhoneState(
+              isAvailablePhone: true, isAvailableName: true))
+        else
+          emit(const ValidatePhoneState(
+              isAvailablePhone: false, isAvailableName: true))
+      },
+    );
   }
 }
+
+//
+//
+//
+//
+//
+////
+//
+//
+//
+//
+////
+//
+//
+//
+//
+//
+
+// bool searchMaxsulotName(String query) {
+//   bool isAvailable = false;
+//   print(nameModel[0].name);
+//   nameModel.firstWhere((element) {
+//     final titleLower = element.name?.toLowerCase();
+//     final searchLower = query.toLowerCase();
+//     isAvailable = titleLower!.contains(searchLower);
+//     if (isAvailable) {
+//       return true;
+//     } else {
+//       return false;
+//     }
+//   });
+//   return isAvailable;
+// }

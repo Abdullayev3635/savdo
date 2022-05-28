@@ -39,6 +39,7 @@ const String priceTypeBox = 'price_type_box';
 
 const String clientBox = 'client_box';
 const String viloyatBox = 'viloyat_box';
+const String regionBox = 'region_box';
 const String tulovTuriBox = 'tulov_turi_box';
 
 // All sizes
@@ -70,20 +71,21 @@ TextStyle textStylePrimaryMed14 =
     TextStyle(fontSize: 14.sp, color: primaryColor, fontFamily: "Medium");
 TextStyle dateTextStyle = TextStyle(
     fontSize: 10.sp, color: const Color(0xff939EB4), fontFamily: 'Medium');
+TextStyle hintStyle =
+    TextStyle(fontSize: 16.sp, color: cHintTextColor, fontFamily: "Regular");
 // buttons Style
 
 ButtonStyle inActiveButtonStyle = ButtonStyle(
   elevation: MaterialStateProperty.all(0),
-  fixedSize: MaterialStateProperty.all(Size(90.w, 50.h)),
-  backgroundColor: MaterialStateProperty.all(primaryColor.withOpacity(0.1)),
-  // overlayColor: MaterialStateProperty.all(primaryColor.withOpacity(0.2)),
+  fixedSize: MaterialStateProperty.all(Size(175.w, 60.h)),
+  backgroundColor: MaterialStateProperty.all(cWhiteColor),
   shape: MaterialStateProperty.all(RoundedRectangleBorder(
     borderRadius: BorderRadius.circular(10),
   )),
 );
 ButtonStyle activeButtonStyle = ButtonStyle(
   elevation: MaterialStateProperty.all(0),
-  fixedSize: MaterialStateProperty.all(Size(90.w, 50.h)),
+  fixedSize: MaterialStateProperty.all(Size(175.w, 60.h)),
   backgroundColor: MaterialStateProperty.all(primaryColor),
   shape: MaterialStateProperty.all(RoundedRectangleBorder(
     borderRadius: BorderRadius.circular(10),

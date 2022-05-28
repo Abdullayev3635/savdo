@@ -54,6 +54,10 @@ class _PasswordScreenState extends State<PasswordScreen> {
                 ));
           }
         });
+        if (state is PassError) {
+          _pinPutController.clear();
+          onError = true;
+        }
         return Scaffold(
           body: Container(
             color: primaryColor,
@@ -65,13 +69,21 @@ class _PasswordScreenState extends State<PasswordScreen> {
                     SvgPicture.asset("assets/icons/imsoft_logo.svg",
                         color: cWhiteColor, width: 268.w, height: 55.h),
                     SizedBox(height: 103.h),
-                    Text(
-                      'Maxfiy parol kiriting',
-                      style: TextStyle(
-                          fontFamily: 'Medium',
-                          fontSize: 18.sp,
-                          color: cWhiteColor),
-                    ),
+                    onError
+                        ? Text(
+                            'Qayta urinib ko\'ring!',
+                            style: TextStyle(
+                                fontFamily: 'Medium',
+                                fontSize: 18.sp,
+                                color: Colors.red),
+                          )
+                        : Text(
+                            'Maxfiy parol kiriting',
+                            style: TextStyle(
+                                fontFamily: 'Medium',
+                                fontSize: 18.sp,
+                                color: cWhiteColor),
+                          ),
                     SizedBox(height: 12.sp),
                     SizedBox(
                       width: 114.w,

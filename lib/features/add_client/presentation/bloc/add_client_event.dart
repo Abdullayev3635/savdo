@@ -3,7 +3,18 @@ part of 'add_client_bloc.dart';
 @immutable
 abstract class AddClientEvent {}
 
-class GetAllDataEvent extends AddClientEvent {}
+class ValidateNameClientEvent extends AddClientEvent {
+  final String validateNameModel;
+
+  ValidateNameClientEvent({required this.validateNameModel});
+}
+
+class ValidatePhoneClientEvent extends AddClientEvent {
+  final String validatePhoneModel;
+
+  ValidatePhoneClientEvent({required this.validatePhoneModel});
+}
+
 class FilterEvent extends AddClientEvent {
   final String filterName;
 
@@ -12,5 +23,6 @@ class FilterEvent extends AddClientEvent {
 
 class AddClientSendDataEvent extends AddClientEvent {
   final AddClientModel clientDataList;
+
   AddClientSendDataEvent({required this.clientDataList});
 }

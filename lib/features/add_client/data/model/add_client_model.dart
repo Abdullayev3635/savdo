@@ -1,4 +1,3 @@
-
 class AddClientModel {
   String? name;
   String? address;
@@ -9,12 +8,14 @@ class AddClientModel {
   int? stateId;
   int? legalPhysical;
   int? regionId;
+  int? salesAgentId;
 
   AddClientModel(
       {this.regionId,
       this.address,
       this.coordinates,
       this.legalPhysical,
+      this.salesAgentId,
       this.login,
       this.name,
       this.password,
@@ -29,6 +30,7 @@ class AddClientModel {
     name = json['name'];
     password = json['password'];
     legalPhysical = json['legal_physical'];
+    salesAgentId = json['sales_agent_id'];
     phone1 = json['phone_1'];
     coordinates = json['cordinates'];
   }
@@ -42,6 +44,7 @@ class AddClientModel {
     json['name'] = name;
     json['password'] = password;
     json['legal_physical'] = legalPhysical;
+    json['sales_agent_id'] = salesAgentId;
     json['phone_1'] = phone1;
     json['cordinates'] = coordinates;
     return json;

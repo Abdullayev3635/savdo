@@ -27,9 +27,12 @@ class KorzinaOrderRemoteDatasourceImpl extends KorzinaOrderRemoteDatasource {
         'sales_agent_id':
             int.parse(sharedPreferences.getString(sharedSalesAgentId)!),
         'customer_id': 1,
-        'currency_id': int.parse(sharedPreferences.getString(sharedCurrencyId)!),
-        'currency_value': int.parse(sharedPreferences.getString(sharedCurrencyValue)!),
-        'price_type_id': int.parse(sharedPreferences.getString(sharedPriceTypeId)!),
+        'currency_id':
+            int.parse(sharedPreferences.getString(sharedCurrencyId)!),
+        'currency_value':
+            int.parse(sharedPreferences.getString(sharedCurrencyValue)!),
+        'price_type_id':
+            int.parse(sharedPreferences.getString(sharedPriceTypeId)!),
         'description': "hkljhjljhlkjhklj"
       };
       dynamic json = {

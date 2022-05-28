@@ -33,10 +33,27 @@ class AddClientRepositoryImpl extends AddClientRepository {
   }
 
   @override
-  Future<Either<Failure, dynamic>> getAllData() async {
+  Future<Either<Failure, dynamic>> getValidateName(String validateName) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await remoteDatasource.getAllData();
+        final result = await remoteDatasource.validateNameClient(
+            validateName: validateName);
+        return Right(result);
+      } on ServerFailure {
+        return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));
+      }
+    } else {
+      return const Left(LocalFailure("Маълумот юкланишда хатолик бўлди"));
+    }
+  }
+
+  @override
+  Future<Either<Failure, dynamic>> getValidatePhone(
+      String validatePhone) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await remoteDatasource.validatePhoneClient(
+            validatePhone: validatePhone);
         return Right(result);
       } on ServerFailure {
         return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));

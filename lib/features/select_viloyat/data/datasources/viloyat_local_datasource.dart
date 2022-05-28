@@ -32,10 +32,4 @@ class ViloyatLocalDataSourceImpl implements ViloyatLocalDataSource {
     }
   }
 
-// @override
-// Future<dynamic> getCategory() async {
-//   try {
-//     final shared = sharedPreferences.get('select_client');
-//   }
-// }
 }

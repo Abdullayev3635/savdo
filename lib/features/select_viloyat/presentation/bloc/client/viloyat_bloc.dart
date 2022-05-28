@@ -41,8 +41,7 @@ class ViloyatBloc extends Bloc<ViloyatEvent, ViloyatState> {
         (r) => {
               if (r.isEmpty)
                 {
-                  emit(SelectViloyatFailureState(
-                      message: "hech narsa yo'q ekan"))
+                  emit(SelectViloyatSuccess(list: const [])),
                 }
               else
                 {

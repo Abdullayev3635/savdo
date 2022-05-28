@@ -80,6 +80,8 @@ class _SelectPartState extends State<SelectPart> {
                               "name": state.list[index].name,
                               "regionId": state.list[index].regionId,
                               "regionName": state.list[index].regionName,
+                              "phone1": state.list[index].phone1,
+                              "coordinate": state.list[index].coordinate
                             });
                           },
                           child: Container(

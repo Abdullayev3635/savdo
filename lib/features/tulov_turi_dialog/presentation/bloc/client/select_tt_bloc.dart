@@ -10,6 +10,7 @@ import 'package:savdo_agnet_client/features/tulov_turi_dialog/domain/usescase/tu
 import 'package:savdo_agnet_client/features/tulov_turi_dialog/domain/usescase/tulov_turi_usescase_local.dart';
 
 part 'select_tt_event.dart';
+
 part 'select_tt_state.dart';
 
 class SelectTulovTuriBloc
@@ -31,6 +32,7 @@ class SelectTulovTuriBloc
   FutureOr<void> getClient(
       GetSelectTulovTuriEvent event, Emitter<SelectTulovTuriState> emit) async {
     final result = await usesTulovTuri(GetTulovTuriParams());
+    emit(SelectTulovTuriLoading());
     result.fold(
         (failure) => {
               if (failure is NoConnectionFailure)
@@ -41,8 +43,7 @@ class SelectTulovTuriBloc
         (r) => {
               if (r.isEmpty)
                 {
-                  emit(SelectTulovTuriFailureState(
-                      message: "hech narsa yo'q ekan"))
+                  emit(SelectTulovTuriSuccess(list: const [])),
                 }
               else
                 {
@@ -78,8 +79,8 @@ class SelectTulovTuriBloc
             });
   }
 
-  FutureOr<void> getFilterPart(
-      FilterSelectTulovTuriEvent event, Emitter<SelectTulovTuriState> emit) async {
+  FutureOr<void> getFilterPart(FilterSelectTulovTuriEvent event,
+      Emitter<SelectTulovTuriState> emit) async {
     if (event.text.isEmpty) {
       emit(SelectTulovTuriSuccess(list: listOld));
     } else {
