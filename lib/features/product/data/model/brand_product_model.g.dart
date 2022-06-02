@@ -1,5 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
+// ignore_for_file: unused_local_variable
+
 part of 'brand_product_model.dart';
 
 // **************************************************************************
@@ -21,6 +23,7 @@ class BrandProductModelAdapter extends TypeAdapter<BrandProductModel> {
 
   @override
   void write(BinaryWriter writer, BrandProductModel obj) {
+    // ignore: avoid_single_cascade_in_expression_statements
     writer..writeByte(0);
   }
 

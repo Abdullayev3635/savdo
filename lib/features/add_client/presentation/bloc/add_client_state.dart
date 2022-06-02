@@ -25,18 +25,6 @@ class AddClientLoadingState extends AddClientState {
             isAvailableName: isAvailableName);
 }
 
-// class AddClientLoadedState extends AddClientState {
-//   bool isSuccessAdded;
-//
-//   AddClientLoadedState(
-//       {required this.isSuccessAdded,
-//       required bool isAvailablePhone,
-//       required bool isAvailableName})
-//       : super(
-//             isAvailablePhone: isAvailablePhone,
-//             isAvailableName: isAvailableName);
-// }
-
 class ValidateNameState extends AddClientState {
   const ValidateNameState(
       {required bool isAvailablePhone, required bool isAvailableName})
@@ -70,9 +58,9 @@ class ValidatePhoneState extends AddClientState {
 }
 
 class AddClientErrorState extends AddClientState {
-  bool isSuccessAdded;
+  final bool isSuccessAdded;
 
-  AddClientErrorState(
+  const AddClientErrorState(
       {required this.isSuccessAdded,
       required bool isAvailablePhone,
       required bool isAvailableName})

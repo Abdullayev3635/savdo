@@ -38,7 +38,8 @@ class BuyurtmaDialog extends StatefulWidget {
 }
 
 class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
-  String narxTuriGroup = '0', savdoTuriGroup = '0';
+  String narxTuriGroup = '0';
+  String savdoTuriGroup = '0';
   int clientId = 0;
   int clientQarzi = 0;
   String kurs = "0";
@@ -94,12 +95,15 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                                     setState(() {
                                       clientId = value['id'];
                                       clientName = value['name'].toString();
-                                      qarizdorlikBloc.add(ClientSelectedEvent(
+                                      qarizdorlikBloc.add(
+                                        ClientSelectedEvent(
                                           customerId: clientId,
                                           salesAgentId: int.parse(
                                               sharedPreferences.getString(
                                                       sharedSalesAgentId) ??
-                                                  '')));
+                                                  ''),
+                                        ),
+                                      );
                                     }),
                                   },
                               }),
@@ -124,9 +128,11 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                     );
                   } else if (state is QarizdorlikLoading) {
                     return SizedBox(
-                        child:
-                            const Center(child: CupertinoActivityIndicator()),
-                        height: 200.h);
+                      child: const Center(
+                        child: CupertinoActivityIndicator(),
+                      ),
+                      height: 200.h,
+                    );
                   } else if (state is QarizdorlikLoaded) {
                     return Column(
                       children: [
@@ -202,7 +208,8 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                                               style: TextStyle(
                                                   color: primaryColor,
                                                   fontSize: 18.sp,
-                                                  fontFamily: 'Regular'));
+                                                  fontFamily: 'Regular'),
+                                            );
                                     },
                                   ),
                                 ),
@@ -239,17 +246,23 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Text.rich(TextSpan(children: [
+                              Text.rich(
                                 TextSpan(
-                                    text: 'Kurs: ',
-                                    style: textStylePrimaryMed16),
-                                TextSpan(
-                                    text: '$kurs so’m',
-                                    style: TextStyle(
+                                  children: [
+                                    TextSpan(
+                                        text: 'Kurs: ',
+                                        style: textStylePrimaryMed16),
+                                    TextSpan(
+                                      text: '$kurs so’m',
+                                      style: TextStyle(
                                         fontFamily: 'Regular',
                                         fontSize: 18.sp,
-                                        color: primaryColor)),
-                              ])),
+                                        color: primaryColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -303,9 +316,10 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                                                   });
                                                 }),
                                             Text(
-                                                currencyList[index].name ??
-                                                    "null",
-                                                style: textStylePrimaryMed14),
+                                              currencyList[index].name ??
+                                                  "null",
+                                              style: textStylePrimaryMed14,
+                                            ),
                                           ],
                                         ),
                                       );
@@ -360,9 +374,10 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                                                   });
                                                 }),
                                             Text(
-                                                priceTypeList![index].name ??
-                                                    "null",
-                                                style: textStylePrimaryMed14),
+                                              priceTypeList![index].name ??
+                                                  "null",
+                                              style: textStylePrimaryMed14,
+                                            ),
                                           ],
                                         ),
                                       );
@@ -383,7 +398,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                                     .toString());
                             sharedPreferences.setString(
                                 sharedPriceTypeId,
-                                savdoTuriGroup != null
+                                savdoTuriGroup.isNotEmpty
                                     ? priceTypeList![int.parse(savdoTuriGroup)]
                                         .id
                                         .toString()

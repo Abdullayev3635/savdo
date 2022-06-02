@@ -5,11 +5,8 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:meta/meta.dart';
 import 'package:savdo_agnet_client/core/errors/failures.dart';
 import 'package:savdo_agnet_client/features/add_client/data/model/add_client_model.dart';
-import 'package:savdo_agnet_client/features/add_client/data/model/error_model.dart';
 import 'package:savdo_agnet_client/features/add_client/domain/usescase/validate_name_usescase.dart';
 import 'package:savdo_agnet_client/features/add_client/domain/usescase/validate_phone_usescase.dart';
-
-import '../../data/model/data_model.dart';
 import '../../domain/usescase/usescase.dart';
 
 part 'add_client_event.dart';
@@ -31,12 +28,6 @@ class AddClientBloc extends Bloc<AddClientEvent, AddClientState> {
     on<ValidateNameClientEvent>(getNameData, transformer: sequential());
     on<ValidatePhoneClientEvent>(getPhoneData, transformer: sequential());
   }
-
-  // FutureOr<void> filterData(
-  //     FilterEvent event, Emitter<AddClientState> emit) async {
-  //   emit(ClientAvailableState(
-  //       isAvailable: searchMaxsulotName(event.filterName)));
-  // }
 
   FutureOr<void> getAddClientData(
       AddClientSendDataEvent event, Emitter<AddClientState> emit) async {
@@ -64,14 +55,14 @@ class AddClientBloc extends Bloc<AddClientEvent, AddClientState> {
         (r) => {
               if (r == true)
                 {
-                  emit(AddClientErrorState(
+                  emit(const AddClientErrorState(
                       isSuccessAdded: true,
                       isAvailablePhone: true,
                       isAvailableName: true))
                 }
               else
                 {
-                  emit(AddClientErrorState(
+                  emit(const AddClientErrorState(
                       isSuccessAdded: false,
                       isAvailablePhone: true,
                       isAvailableName: true))
@@ -147,36 +138,3 @@ class AddClientBloc extends Bloc<AddClientEvent, AddClientState> {
     );
   }
 }
-
-//
-//
-//
-//
-//
-////
-//
-//
-//
-//
-////
-//
-//
-//
-//
-//
-
-// bool searchMaxsulotName(String query) {
-//   bool isAvailable = false;
-//   print(nameModel[0].name);
-//   nameModel.firstWhere((element) {
-//     final titleLower = element.name?.toLowerCase();
-//     final searchLower = query.toLowerCase();
-//     isAvailable = titleLower!.contains(searchLower);
-//     if (isAvailable) {
-//       return true;
-//     } else {
-//       return false;
-//     }
-//   });
-//   return isAvailable;
-// }

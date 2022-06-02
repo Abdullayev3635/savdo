@@ -39,8 +39,6 @@ class KorzinaOrderRemoteDatasourceImpl extends KorzinaOrderRemoteDatasource {
         'order_info': json1,
         'product_list': jsonDecode(jsonList),
       };
-      print(json1);
-      print(jsonList);
       final response = await client.post(
         Uri.parse(baseUrl + orderPHP),
         body: jsonEncode(json),
@@ -54,7 +52,6 @@ class KorzinaOrderRemoteDatasourceImpl extends KorzinaOrderRemoteDatasource {
         final parsed = jsonDecode(response.body);
         for (int i = 0; i < (parsed["error_list"] as List).length; i++) {
           listError.add(ErrorModel.fromJson(parsed["error_list"][i]));
-          print(listError);
         }
         return listError;
       } else {

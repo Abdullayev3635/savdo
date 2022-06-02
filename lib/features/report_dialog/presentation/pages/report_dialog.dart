@@ -38,15 +38,11 @@ class _ReportDialogState extends State<ReportDialog> {
                 InkWell(
                   overlayColor: MaterialStateProperty.all(Colors.transparent),
                   onTap: () {
-                    pickDateRange(context)
-                        .then((value) => {setState(() {})});
+                    pickDateRange(context).then((value) => {setState(() {})});
                   },
                   child: Container(
                     height: 60.h,
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width / 2.5,
+                    width: MediaQuery.of(context).size.width / 2.5,
                     padding: EdgeInsets.only(left: 18.w, right: 10.w),
                     decoration: BoxDecoration(
                         color: cTextFieldColor,
@@ -56,8 +52,7 @@ class _ReportDialogState extends State<ReportDialog> {
                         Expanded(
                           child: Text(
                               '${start.day}/${start.month}/${start.year}',
-                              style: textStylePrimaryMed14
-                          ),
+                              style: textStylePrimaryMed14),
                         ),
                         SvgPicture.asset('assets/icons/ic_dropdown.svg')
                       ],
@@ -67,15 +62,11 @@ class _ReportDialogState extends State<ReportDialog> {
                 InkWell(
                   overlayColor: MaterialStateProperty.all(Colors.transparent),
                   onTap: () {
-                    pickDateRange(context)
-                        .then((value) => {setState(() {})});
+                    pickDateRange(context).then((value) => {setState(() {})});
                   },
                   child: Container(
                     height: 60.h,
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width / 2.5,
+                    width: MediaQuery.of(context).size.width / 2.5,
                     padding: EdgeInsets.only(left: 18.w, right: 10.w),
                     decoration: BoxDecoration(
                         color: cTextFieldColor,
@@ -102,13 +93,15 @@ class _ReportDialogState extends State<ReportDialog> {
                     context: context,
                     builder: (context) {
                       return SelectPart.screen();
-                    }).then((value) =>
-                {
-                  if (value != null) {setState(() {
-                    clientId = value['id'];
-                    clientName = value['name'].toString();
-                  })}
-                });
+                    }).then((value) => {
+                      if (value != null)
+                        {
+                          setState(() {
+                            clientId = value['id'];
+                            clientName = value['name'].toString();
+                          })
+                        }
+                    });
               },
               child: Container(
                 height: 60.h,
@@ -186,8 +179,7 @@ class _ReportDialogState extends State<ReportDialog> {
                   textAlign: TextAlign.center,
                 )),
           ],
-        )
-    );
+        ));
   }
 
   Future pickDateRange(BuildContext context) async {
@@ -197,16 +189,18 @@ class _ReportDialogState extends State<ReportDialog> {
         initialDateRange: dateTimeRange,
         lastDate: DateTime(2200),
         builder: (context, child) {
-          return Theme(data: ThemeData.light().copyWith(
-            colorScheme: ColorScheme.fromSwatch(
-              primarySwatch: Colors.indigo,
-              primaryColorDark: Colors.indigo,
-              accentColor: Colors.indigo,
+          return Theme(
+            data: ThemeData.light().copyWith(
+              colorScheme: ColorScheme.fromSwatch(
+                primarySwatch: Colors.indigo,
+                primaryColorDark: Colors.indigo,
+                accentColor: Colors.indigo,
+              ),
+              dialogBackgroundColor: Colors.white,
             ),
-            dialogBackgroundColor: Colors.white,
-          ), child: child!,)
-        }
-    );
+            child: child!,
+          );
+        });
     if (newDataRange == null) return;
 
     setState(() {
@@ -215,7 +209,5 @@ class _ReportDialogState extends State<ReportDialog> {
   }
 
   DateTimeRange dateTimeRange =
-  DateTimeRange(start: DateTime.now(), end: DateTime.now());
-
-
+      DateTimeRange(start: DateTime.now(), end: DateTime.now());
 }
