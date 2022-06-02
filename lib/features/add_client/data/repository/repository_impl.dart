@@ -20,7 +20,7 @@ class AddClientRepositoryImpl extends AddClientRepository {
       AddClientModel clientDataList) async {
     if (await networkInfo.isConnected) {
       try {
-        final result =
+        final result = await
             remoteDatasource.addClient(clientDataList: clientDataList);
         return Right(result);
       } on ServerFailure {

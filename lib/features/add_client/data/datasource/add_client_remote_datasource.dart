@@ -3,10 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:savdo_agnet_client/core/utils/api_path.dart';
 import 'package:savdo_agnet_client/features/add_client/data/model/add_client_model.dart';
-import 'package:savdo_agnet_client/features/add_client/data/model/error_model.dart';
 import 'package:savdo_agnet_client/features/add_client/data/model/name.dart';
-
-import '../../../../core/errors/failures.dart';
 
 List<NameModel> nameModel = [];
 
@@ -47,8 +44,8 @@ class AddClientRemoteDatasourceImpl extends AddClientRemoteDatasource {
         },
       );
       if (response.statusCode == 200) {
-        const trueData = "{\"success\":true,\"message\":\"Client created successfully\"}";
-        if (response.body.toString() == trueData) {
+        const trueData = "[\"TRUE\"]";
+        if (response.body.toString().contains(trueData)) {
           return true;
         } else {
           return false;

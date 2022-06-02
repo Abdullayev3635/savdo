@@ -5,7 +5,6 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:meta/meta.dart';
 import 'package:savdo_agnet_client/core/errors/failures.dart';
 import 'package:savdo_agnet_client/features/add_client/data/model/add_client_model.dart';
-import 'package:savdo_agnet_client/features/add_client/data/model/error_model.dart';
 import 'package:savdo_agnet_client/features/add_client/domain/usescase/validate_name_usescase.dart';
 import 'package:savdo_agnet_client/features/add_client/domain/usescase/validate_phone_usescase.dart';
 
@@ -62,7 +61,7 @@ class AddClientBloc extends Bloc<AddClientEvent, AddClientState> {
                 }
             },
         (r) => {
-              if (r == true)
+              if (r)
                 {
                   emit(AddClientErrorState(
                       isSuccessAdded: true,

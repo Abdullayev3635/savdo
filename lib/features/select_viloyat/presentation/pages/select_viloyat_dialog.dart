@@ -57,6 +57,7 @@ class _SelectViloyatState extends State<SelectViloyat> {
                 children: [
                   SizedBox(height: 20.h),
                   TextField(
+                      style: textStylePrimaryReg16,
                       textAlign: TextAlign.left,
                       decoration: InputDecoration(
                         hintText: 'Қидириш',

@@ -15,15 +15,15 @@ abstract class CategoryRemoteDatasource {
       {required int productTypeId, required int priceTypeId});
 
   Future<List<BrandProductModel>> getBrandProducts(
-      {required int salesAgentId,required int priceTypeId,required int brandId});
+      {required int salesAgentId,
+      required int priceTypeId,
+      required int brandId});
 }
 
 class CategoryRemoteDatasourceImpl implements CategoryRemoteDatasource {
   final http.Client client;
 
-  CategoryRemoteDatasourceImpl({
-    required this.client,
-  });
+  CategoryRemoteDatasourceImpl({required this.client});
 
   @override
   Future<List<CategoryModel>> getCategory() async {
@@ -55,38 +55,40 @@ class CategoryRemoteDatasourceImpl implements CategoryRemoteDatasource {
   Future<List<BrandModel>> getBrand(
       {required int productTypeId, required int priceTypeId}) async {
     List<BrandModel> list = [];
-      try {
-        dynamic json = {
-          "product_type_id": productTypeId,
-          "price_type_id": priceTypeId
-        };
-        final response = await client.post(
-          Uri.parse(baseUrl + brandPHP),
-          body: jsonEncode(json),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Accept': 'application/json'
-            // "Authorization": "Bearer ${sharedPreferences.getString("token")}"
-          },
-        );
-        if (response.statusCode == 200) {
-          // log(response.body.toString());
-          final parsed = jsonDecode(response.body);
-          for (int i = 0; i < (parsed["data"] as List).length; i++) {
-            list.add(BrandModel.fromJson(parsed["data"][i]));
-          }
-          return list;
-        } else {
-          return [];
+    try {
+      dynamic json = {
+        "product_type_id": productTypeId,
+        "price_type_id": priceTypeId
+      };
+      final response = await client.post(
+        Uri.parse(baseUrl + brandPHP),
+        body: jsonEncode(json),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json'
+          // "Authorization": "Bearer ${sharedPreferences.getString("token")}"
+        },
+      );
+      if (response.statusCode == 200) {
+        // log(response.body.toString());
+        final parsed = jsonDecode(response.body);
+        for (int i = 0; i < (parsed["data"] as List).length; i++) {
+          list.add(BrandModel.fromJson(parsed["data"][i]));
         }
-      } on InputFormatterFailure {
+        return list;
+      } else {
         return [];
       }
+    } on InputFormatterFailure {
+      return [];
+    }
   }
 
   @override
   Future<List<BrandProductModel>> getBrandProducts(
-      {required int salesAgentId, required int priceTypeId, required int brandId}) async {
+      {required int salesAgentId,
+      required int priceTypeId,
+      required int brandId}) async {
     List<BrandProductModel> list = [];
     try {
       dynamic json = {

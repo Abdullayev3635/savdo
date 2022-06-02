@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
-import 'package:savdo_agnet_client/features/select_client/presentation/bloc/client/select_client_bloc.dart';
 
 import '../../../../di/dependency_injection.dart';
-import '../bloc/client/select_tt_bloc.dart';
+import '../bloc/select_tt_bloc.dart';
 
 class SelectTulovTuri extends StatefulWidget {
   const SelectTulovTuri({Key? key}) : super(key: key);
@@ -58,8 +57,10 @@ class _SelectTulovTuriState extends State<SelectTulovTuri> {
                 children: [
                   SizedBox(height: 20.h),
                   TextField(
+                    style: textStylePrimaryReg16,
                       textAlign: TextAlign.left,
                       decoration: InputDecoration(
+                        focusColor: primaryColor,
                         hintText: 'Қидириш',
                         prefixIcon: const Icon(Icons.search),
                         contentPadding: EdgeInsets.all(20.0.sp),
@@ -78,7 +79,7 @@ class _SelectTulovTuriState extends State<SelectTulovTuri> {
                         return InkWell(
                           onTap: () {
                             Navigator.pop(context, {
-                              "name": state.list[index].name!,
+                              "name": state.list[index].name ?? '',
                               "id": state.list[index].id,
                             });
                           },
@@ -86,9 +87,7 @@ class _SelectTulovTuriState extends State<SelectTulovTuri> {
                             height: 50.h,
                             width: MediaQuery.of(context).size.width,
                             margin: EdgeInsets.symmetric(
-                              horizontal: 10.w,
-                              vertical: 6.h,
-                            ),
+                                horizontal: 10.w, vertical: 6.h),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 color: primaryColor),
@@ -113,15 +112,15 @@ class _SelectTulovTuriState extends State<SelectTulovTuri> {
                   SizedBox(height: 20.h),
                 ],
               );
-            } else if (state is SelectClientLoading) {
+            } else if (state is SelectTulovTuriLoading) {
               return SizedBox(
                   child: const CupertinoActivityIndicator(), height: 350.h);
             } else {
               return Column(
-                // mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(height: 20.h),
                   TextField(
+                    style: textStylePrimaryReg16,
                     textAlign: TextAlign.left,
                     decoration: InputDecoration(
                       hintText: 'Қидириш',

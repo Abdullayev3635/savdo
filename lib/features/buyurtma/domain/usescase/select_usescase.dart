@@ -5,10 +5,10 @@ import 'package:savdo_agnet_client/core/usescases/usecase.dart';
 import 'package:savdo_agnet_client/features/buyurtma/domain/repositories/buyurtma_repository.dart';
 
 
-class OnSelectClient extends UseCase<dynamic, OnSelectedClientParams> {
+class OnSelectClientUsescase extends UseCase<dynamic, OnSelectedClientParams> {
   final BuyurtmaRepository clientRepository;
 
-  OnSelectClient({required this.clientRepository});
+  OnSelectClientUsescase({required this.clientRepository});
 
   @override
   Future<Either<Failure, dynamic>> call(OnSelectedClientParams params) {

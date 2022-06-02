@@ -23,13 +23,13 @@ class SelectTulovTuriBloc
     required this.usesTulovTuriLocal,
     required this.usesTulovTuri,
   }) : super(SelectTulovTuriInitial()) {
-    on<GetSelectTulovTuriEvent>(getClient, transformer: sequential());
+    on<GetSelectTulovTuriEvent>(getTulovTuri, transformer: sequential());
     on<GetSelectTulovTuriLocalEvent>(getTulovTuriLocal,
         transformer: sequential());
     on<FilterSelectTulovTuriEvent>(getFilterPart, transformer: sequential());
   }
 
-  FutureOr<void> getClient(
+  FutureOr<void> getTulovTuri(
       GetSelectTulovTuriEvent event, Emitter<SelectTulovTuriState> emit) async {
     final result = await usesTulovTuri(GetTulovTuriParams());
     emit(SelectTulovTuriLoading());
@@ -42,9 +42,7 @@ class SelectTulovTuriBloc
             },
         (r) => {
               if (r.isEmpty)
-                {
-                  emit(SelectTulovTuriSuccess(list: const [])),
-                }
+                emit(SelectTulovTuriSuccess(list: const []))
               else
                 {
                   emit(SelectTulovTuriSuccess(list: r)),

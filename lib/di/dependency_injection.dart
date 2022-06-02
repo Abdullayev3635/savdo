@@ -11,6 +11,11 @@ import 'package:savdo_agnet_client/features/add_client/domain/usescase/usescase.
 import 'package:savdo_agnet_client/features/add_client/domain/usescase/validate_name_usescase.dart';
 import 'package:savdo_agnet_client/features/add_client/domain/usescase/validate_phone_usescase.dart';
 import 'package:savdo_agnet_client/features/add_client/presentation/bloc/add_client_bloc.dart';
+import 'package:savdo_agnet_client/features/archive/data/datasource/archive_remote_datasource.dart';
+import 'package:savdo_agnet_client/features/archive/data/repository/archive_repository_impl.dart';
+import 'package:savdo_agnet_client/features/archive/domain/repository/archive_repository.dart';
+import 'package:savdo_agnet_client/features/archive/domain/usescase/archive_usescase.dart';
+import 'package:savdo_agnet_client/features/archive/presentation/bloc/archive_bloc.dart';
 import 'package:savdo_agnet_client/features/buyurtma/data/datasources/buyurtma_locale_datasource.dart';
 import 'package:savdo_agnet_client/features/buyurtma/data/model/buyurtma_model.dart';
 import 'package:savdo_agnet_client/features/buyurtma/data/model/currency_model.dart';
@@ -22,6 +27,11 @@ import 'package:savdo_agnet_client/features/buyurtma/domain/usescase/buyurtma_us
 import 'package:savdo_agnet_client/features/buyurtma/domain/usescase/select_usescase.dart';
 import 'package:savdo_agnet_client/features/buyurtma/presentation/bloc/buyurtma_bloc/buyurtma_dialog_bloc.dart';
 import 'package:savdo_agnet_client/features/buyurtma/presentation/bloc/qarizdorlik_bloc/qarizdorlik_bloc.dart';
+import 'package:savdo_agnet_client/features/edit_client/data/datasource/edit_client_remotedatasource.dart';
+import 'package:savdo_agnet_client/features/edit_client/data/repository/repository.dart';
+import 'package:savdo_agnet_client/features/edit_client/domain/repository/repository.dart';
+import 'package:savdo_agnet_client/features/edit_client/domain/usescase/usescase.dart';
+import 'package:savdo_agnet_client/features/edit_client/presentation/bloc/edit_client_bloc.dart';
 import 'package:savdo_agnet_client/features/firmalar/presentation/bloc/firma_cubit.dart';
 import 'package:savdo_agnet_client/features/foto_xisobot/data/datasources/foto_remote_datasource.dart';
 import 'package:savdo_agnet_client/features/foto_xisobot/data/repository/foto_repository_impl.dart';
@@ -82,7 +92,7 @@ import 'package:savdo_agnet_client/features/tulov_turi_dialog/data/repository/tt
 import 'package:savdo_agnet_client/features/tulov_turi_dialog/domain/repositories/tulov_turi_repository.dart';
 import 'package:savdo_agnet_client/features/tulov_turi_dialog/domain/usescase/tulov_turi_usescase.dart';
 import 'package:savdo_agnet_client/features/tulov_turi_dialog/domain/usescase/tulov_turi_usescase_local.dart';
-import 'package:savdo_agnet_client/features/tulov_turi_dialog/presentation/bloc/client/select_tt_bloc.dart';
+import 'package:savdo_agnet_client/features/tulov_turi_dialog/presentation/bloc/select_tt_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../core/location/location_service.dart';
@@ -108,6 +118,9 @@ final di = GetIt.instance;
 
 Future<void> init() async {
   /// bloc
+  di.registerFactory(
+    () => EditClientBloc(editClientUsescase: di()),
+  );
   di.registerFactory(
     () => SearchFirmaItemsCubit(
         id: di(), title: di(), image: di(), maxsulotlarBulimiCubit: di()),
@@ -164,11 +177,20 @@ Future<void> init() async {
   di.registerFactory(
     () => RegionBloc(usesRegionLocal: di(), usesSelectRegion: di()),
   );
+  di.registerFactory(
+    () => ArchiveBloc(archiveUsescase: di()),
+  );
 
   ///********************************************************///
   ///
   ///Repositories
 
+  di.registerLazySingleton<EditClientRepository>(
+    () => EditClientRepositoryImpl(
+      networkInfo: di(),
+      remoteDatasourceImpl: di(),
+    ),
+  );
   di.registerLazySingleton<PassRepository>(
     () => PassRepositoryImpl(passLocalDataSource: di()),
   );
@@ -252,6 +274,12 @@ Future<void> init() async {
       remoteDatasource: di(),
     ),
   );
+  di.registerLazySingleton<ArchiveRepository>(
+    () => ArchiveRepositoryImpl(
+      networkInfo: di(),
+      remoteDatasourceImpl: di(),
+    ),
+  );
 
   ///********************************************************///
   /// UsesCases
@@ -276,7 +304,8 @@ Future<void> init() async {
 
   di.registerLazySingleton(() => UsesBuyurtmaLocal(repository: di()));
 
-  di.registerLazySingleton(() => OnSelectClient(clientRepository: di()));
+  di.registerLazySingleton(
+      () => OnSelectClientUsescase(clientRepository: di()));
 
   di.registerLazySingleton(() => FotoUsesCase(fotoRepository: di()));
 
@@ -300,6 +329,10 @@ Future<void> init() async {
 
   di.registerLazySingleton(() => UsesValidatePhone(clientRepository: di()));
 
+  di.registerLazySingleton(() => EditClientUsescase(repository: di()));
+
+  di.registerLazySingleton(() => ArchiveUsescase(archiveRepository: di()));
+
   ///********************************************************///
   ///
   /// Data sources
@@ -316,6 +349,7 @@ Future<void> init() async {
     ),
   );
   di.registerLazySingleton(() => RegionLocalDataSourceImpl());
+
   di.registerLazySingleton(
       () => RegionRemoteDatasourceImpl(sharedPreferences: di(), client: di()));
 
@@ -366,6 +400,12 @@ Future<void> init() async {
   );
   di.registerLazySingleton<KorzinaOrderRemoteDatasource>(
     () => KorzinaOrderRemoteDatasourceImpl(client: di()),
+  );
+  di.registerLazySingleton(
+    () => EditClientRemoteDatasourceImpl(client: di()),
+  );
+  di.registerLazySingleton(
+    () => ArchiveRemoteDatasourceImpl(client: di()),
   );
 
   ///********************************************************///

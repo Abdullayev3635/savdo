@@ -56,6 +56,7 @@ class _SelectRegionState extends State<SelectRegion> {
                 children: [
                   SizedBox(height: 20.h),
                   TextField(
+                      style: textStylePrimaryReg16,
                       textAlign: TextAlign.left,
                       decoration: InputDecoration(
                         hintText: 'Қидириш',

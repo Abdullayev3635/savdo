@@ -16,27 +16,21 @@ const cGrayColor = Color(0xFF333333);
 const cWhiteColor = Color(0xFFFFFFFF);
 const cInActiveColor = Color(0xFF6E71F4);
 const cImageB2Color = Color(0xFFF1F4F8);
-
 Color cShadowColor = const Color(0xff2F3081).withOpacity(0.04);
 Color primaryColor07 = primaryColor.withOpacity(0.7);
 
 //All Shadow
 BoxShadow textFieldShadow = BoxShadow(color: cShadowColor, blurRadius: 40);
 
-// All keys for local caches
-const String userData = 'user_data';
-
 // All table names for local databases
 const String categoryBox = 'category_box';
 const String brandBox = 'brand_box';
 const String brandProductsBox = 'brand_products_box';
 const String korzinaBox = 'korzina_box';
-
 const String buyurtmaBox = 'buyurtma_box';
 // const String clientDebitCreditBox = 'client_debit_credit_box';
 const String currencyBox = 'currency_box';
 const String priceTypeBox = 'price_type_box';
-
 const String clientBox = 'client_box';
 const String viloyatBox = 'viloyat_box';
 const String regionBox = 'region_box';
@@ -57,24 +51,33 @@ const String version = "1.0.2";
 
 // textStyles
 TextStyle textStylePrimaryMed16 =
-    TextStyle(fontSize: 16.sp, fontFamily: 'Medium', color: primaryColor);
+    TextStyle(fontSize: 16.sp, color: primaryColor, fontFamily: 'Medium');
 
 TextStyle textStylePrimaryReg16 =
     TextStyle(fontSize: 16.sp, color: primaryColor, fontFamily: "Regular");
+
 TextStyle textStylePrimaryReg14 =
     TextStyle(fontSize: 14.sp, color: primaryColor, fontFamily: "Regular");
+
 TextStyle inActiveTextStyle =
-    TextStyle(color: cWhiteColor, fontFamily: 'Regular', fontSize: 16.sp);
+    TextStyle(fontSize: 16.sp, color: cWhiteColor, fontFamily: 'Regular');
+
 TextStyle textStyleHintColorReg14 =
     TextStyle(fontSize: 14.sp, color: cHintTextColor, fontFamily: "Regular");
+
 TextStyle textStylePrimaryMed14 =
     TextStyle(fontSize: 14.sp, color: primaryColor, fontFamily: "Medium");
+
 TextStyle dateTextStyle = TextStyle(
     fontSize: 10.sp, color: const Color(0xff939EB4), fontFamily: 'Medium');
+
 TextStyle hintStyle =
     TextStyle(fontSize: 16.sp, color: cHintTextColor, fontFamily: "Regular");
-// buttons Style
 
+TextStyle textStyleOrangeReg18 =
+    TextStyle(fontSize: 18.sp, color: cOrangeColor, fontFamily: 'Regular');
+
+// buttons Style
 ButtonStyle inActiveButtonStyle = ButtonStyle(
   elevation: MaterialStateProperty.all(0),
   fixedSize: MaterialStateProperty.all(Size(175.w, 60.h)),
@@ -83,6 +86,7 @@ ButtonStyle inActiveButtonStyle = ButtonStyle(
     borderRadius: BorderRadius.circular(10),
   )),
 );
+
 ButtonStyle activeButtonStyle = ButtonStyle(
   elevation: MaterialStateProperty.all(0),
   fixedSize: MaterialStateProperty.all(Size(175.w, 60.h)),
@@ -106,7 +110,6 @@ BoxConstraints boxConstraintsTextField = BoxConstraints(
     maxWidth: 30.w, maxHeight: 30.h, minHeight: 25.h, minWidth: 25.w);
 
 //shared keys
-
 const String sharedCustomerId = 'customer_id';
 const String sharedCurrencyValue = 'currency_value';
 const String sharedCurrencyId = 'currency_id';

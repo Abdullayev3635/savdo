@@ -9,7 +9,6 @@ abstract class RegionLocalDataSource {
 }
 
 class RegionLocalDataSourceImpl implements RegionLocalDataSource {
-
   @override
   Future<List<RegionModel>> getSelectRegion() async {
     try {
@@ -31,5 +30,4 @@ class RegionLocalDataSourceImpl implements RegionLocalDataSource {
       return false;
     }
   }
-
 }

@@ -111,10 +111,8 @@ class _TulovQilishDialogState extends State<TulovQilishDialog> {
                             child: Row(
                               children: [
                                 Expanded(
-                                  child: Text(
-                                    clientName,
-                                    style: textStylePrimaryMed14,
-                                  ),
+                                  child: Text(clientName,
+                                      style: textStylePrimaryMed14),
                                 ),
                                 SvgPicture.asset('assets/icons/ic_dropdown.svg')
                               ],
@@ -143,23 +141,23 @@ class _TulovQilishDialogState extends State<TulovQilishDialog> {
                               builder: (context) {
                                 return SelectPart.screen();
                               }).then((value) => {
-                            if (value != null)
-                              {
-                                setState(() {
-                                  clientId = value['id'];
-                                  clientName = value['name'].toString();
-                                  qarzdorlikBloc.add(
-                                    TulovClientSelectedEvent(
-                                      customerId: clientId,
-                                      salesAgentId: int.parse(
-                                          sharedPreferences.getString(
-                                              sharedSalesAgentId) ??
-                                              ''),
-                                    ),
-                                  );
-                                }),
-                              },
-                          }),
+                                if (value != null)
+                                  {
+                                    setState(() {
+                                      clientId = value['id'];
+                                      clientName = value['name'].toString();
+                                      qarzdorlikBloc.add(
+                                        TulovClientSelectedEvent(
+                                          customerId: clientId,
+                                          salesAgentId: int.parse(
+                                              sharedPreferences.getString(
+                                                      sharedSalesAgentId) ??
+                                                  ''),
+                                        ),
+                                      );
+                                    }),
+                                  },
+                              }),
                           child: Container(
                             height: 60.h,
                             padding: EdgeInsets.only(left: 18.w, right: 10.w),
@@ -185,10 +183,8 @@ class _TulovQilishDialogState extends State<TulovQilishDialog> {
                             children: [
                               Expanded(
                                 flex: 3,
-                                child: Text(
-                                  'Qarzdorligi:',
-                                  style: textStylePrimaryMed16,
-                                ),
+                                child: Text('Qarzdorligi:',
+                                    style: textStylePrimaryMed16),
                               ),
                               Expanded(
                                 child: SizedBox(
@@ -321,30 +317,27 @@ class _TulovQilishDialogState extends State<TulovQilishDialog> {
                   hintText: 'Izoh'),
               SizedBox(height: 24.h),
               ElevatedButton(
-                  onPressed: () {
-                    qarzdorlikBloc.add(TulovQilishEvent(
-                      salesAgentId: int.parse(
-                          sharedPreferences.getString(sharedSalesAgentId) ??
-                              ''),
-                      customerId: clientId,
-                      currencyId: int.parse(
-                          sharedPreferences.getString(sharedCurrencyId) ?? '1'),
-                      branchId: 1,
-                      currencyValue: int.parse(kurs),
-                      paymentTypeId: tulovTuriId,
-                      summa: (tulovSum.text.isNotEmpty
-                          ? notSpaceForNumber(tulovSum.text)
-                          : notSpaceForNumber(tulovVal.text)),
-                      paymentAmount: notSpace(addSumController.text),
-                      description: izohController.text,
-                    ));
-                    FocusManager.instance.primaryFocus?.unfocus();
-                  },
-                  style: buttonStyle,
-                  child: const Text(
-                    'Davom etish',
-                    textAlign: TextAlign.center,
-                  )),
+                style: buttonStyle,
+                child: const Text('Davom etish', textAlign: TextAlign.center),
+                onPressed: () {
+                  qarzdorlikBloc.add(TulovQilishEvent(
+                    salesAgentId: int.parse(
+                        sharedPreferences.getString(sharedSalesAgentId) ?? ''),
+                    customerId: clientId,
+                    currencyId: int.parse(
+                        sharedPreferences.getString(sharedCurrencyId) ?? '1'),
+                    branchId: 1,
+                    currencyValue: int.parse(kurs),
+                    paymentTypeId: tulovTuriId,
+                    summa: (tulovSum.text.isNotEmpty
+                        ? notSpaceForNumber(tulovSum.text)
+                        : notSpaceForNumber(tulovVal.text)),
+                    paymentAmount: notSpace(addSumController.text),
+                    description: izohController.text,
+                  ));
+                  FocusManager.instance.primaryFocus?.unfocus();
+                },
+              ),
             ],
           )),
     );
@@ -386,15 +379,13 @@ class _TulovQilishDialogState extends State<TulovQilishDialog> {
     }
   }
 
-  double valToSum(String val) {
+  int valToSum(String val) {
     if (val.isNotEmpty) {
-      double value = double.parse(val.replaceAll(',', ''));
-      return double.parse(kurs) * value;
+      int value = int.parse(val.replaceAll(',', ''));
+      return int.parse(kurs) * value;
     } else {
       return 0;
     }
   }
 }
 
-TextStyle textStyleOrangeReg18 =
-    TextStyle(color: cOrangeColor, fontSize: 18.sp, fontFamily: 'Regular');

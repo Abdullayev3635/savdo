@@ -57,6 +57,7 @@ class _SelectPartState extends State<SelectPart> {
                 children: [
                   SizedBox(height: 20.h),
                   TextField(
+                      style: textStylePrimaryReg16,
                       textAlign: TextAlign.left,
                       decoration: InputDecoration(
                         hintText: 'Қидириш',
@@ -69,6 +70,7 @@ class _SelectPartState extends State<SelectPart> {
                       }),
                   Expanded(
                     child: ListView.builder(
+                      padding: EdgeInsets.only(top: 10.h),
                       physics: const BouncingScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: state.list.length,
@@ -88,9 +90,7 @@ class _SelectPartState extends State<SelectPart> {
                             height: 50.h,
                             width: MediaQuery.of(context).size.width,
                             margin: EdgeInsets.symmetric(
-                              horizontal: 10.w,
-                              vertical: 6.h,
-                            ),
+                                horizontal: 10.w, vertical: 6.h),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 color: primaryColor),
@@ -101,9 +101,9 @@ class _SelectPartState extends State<SelectPart> {
                                 alignment: Alignment.centerLeft,
                                 child: Text(
                                   state.list[index].name!,
+                                  maxLines: 2,
                                   style: TextStyle(
                                       fontSize: 16.sp, color: cWhiteColor),
-                                  maxLines: 2,
                                 ),
                               ),
                             ),
