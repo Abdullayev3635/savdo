@@ -17,3 +17,4 @@ const String tulovQilishPHP = "payments";
 const String onSelectClientPHP = "customer-debit-credit";
 const String orderPHP = "order/create";
 const String photoPHP = "photo-report/create";
+const String archivePHP = "order/list/";

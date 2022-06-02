@@ -8,14 +8,18 @@ import 'package:savdo_agnet_client/features/buyurtma/data/model/client_debit_cre
 import 'package:savdo_agnet_client/features/buyurtma/domain/usescase/select_usescase.dart';
 
 part 'qarizdorlik_event.dart';
+
 part 'qarizdorlik_state.dart';
 
 class QarizdorlikBloc extends Bloc<QarizdorlikEvent, QarizdorlikState> {
-  final OnSelectClient onSelectClient;
-  QarizdorlikBloc({required this.onSelectClient,}
-      ) : super(QarizdorlikInitial()) {
+  final OnSelectClientUsescase onSelectClient;
+
+  QarizdorlikBloc({
+    required this.onSelectClient,
+  }) : super(QarizdorlikInitial()) {
     on<ClientSelectedEvent>(getClientDebitCredit, transformer: sequential());
   }
+
   FutureOr<void> getClientDebitCredit(
       ClientSelectedEvent event, Emitter<QarizdorlikState> emit) async {
     emit(QarizdorlikLoading());
@@ -24,20 +28,17 @@ class QarizdorlikBloc extends Bloc<QarizdorlikEvent, QarizdorlikState> {
           salesAgentId: event.salesAgentId, customerId: event.customerId),
     );
     result.fold(
-            (failure) => {
-          if (failure is NoConnectionFailure)
-            {emit(QarizdorlikFail(message: ''))}
-          else if (failure is ServerFailure)
-            {emit(QarizdorlikFail(message: failure.message))}
-        },
-            (r) => {
-          if (r.isEmpty)
-            {
-              emit(
-                  QarizdorlikFail(message: "hech narsa yo'q ekan"))
-            }
-          else
-            {emit(QarizdorlikLoaded(debitList: r))}
-        });
+        (failure) => {
+              if (failure is NoConnectionFailure)
+                {emit(QarizdorlikFail(message: ''))}
+              else if (failure is ServerFailure)
+                {emit(QarizdorlikFail(message: failure.message))}
+            },
+        (r) => {
+              if (r.isEmpty)
+                {emit(QarizdorlikFail(message: "hech narsa yo'q ekan"))}
+              else
+                {emit(QarizdorlikLoaded(debitList: r))}
+            });
   }
 }

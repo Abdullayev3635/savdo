@@ -44,8 +44,8 @@ class AddClientRemoteDatasourceImpl extends AddClientRemoteDatasource {
         },
       );
       if (response.statusCode == 200) {
-        const trueData = "{\"success\":true,\"message\":\"Client created successfully\"}";
-        if (response.body.toString() == trueData) {
+        const trueData = "[\"TRUE\"]";
+        if (response.body.toString().contains(trueData)) {
           return true;
         } else {
           return false;

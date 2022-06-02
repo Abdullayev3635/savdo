@@ -6,7 +6,6 @@ import 'package:savdo_agnet_client/features/edit_client/presentation/pages/edit_
 
 import '../../../../core/widgets/dialog_frame.dart';
 
-
 class MijozlarDialog extends StatefulWidget {
   const MijozlarDialog({Key? key}) : super(key: key);
 
@@ -21,11 +20,18 @@ class _MijozlarDialogState extends State<MijozlarDialog> {
       title: 'Mijozlar',
       icon: 'assets/icons/ic_two_person.svg',
       child: Column(
-        children: [  SizedBox(height: 34.h,),
+        children: [
+          SizedBox(
+            height: 34.h,
+          ),
           ElevatedButton(
               onPressed: () {
                 Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => AddClientPage.screen(),));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddClientPage.screen(),
+                    ));
               },
               style: buttonStyle,
               child: const Text(
@@ -35,16 +41,17 @@ class _MijozlarDialogState extends State<MijozlarDialog> {
           SizedBox(height: 16.h),
           ElevatedButton(
               onPressed: () {
-                Navigator.pop(context);
-                showDialog(context: context, builder: (context) {
-                  return const EditClientDialog();
-                });
+                // Navigator.pop(context);
+                showDialog(
+                    context: context,
+                    builder: (context) => EditClientDialog.screen());
               },
               style: buttonStyle,
               child: const Text(
                 'Mijoz ma’lumotlarini o’zgartirish',
                 textAlign: TextAlign.center,
-              )),],
+              )),
+        ],
       ),
     );
   }

@@ -10,7 +10,7 @@ import 'package:savdo_agnet_client/core/widgets/costum_toast.dart';
 import 'package:savdo_agnet_client/features/add_client/data/model/add_client_model.dart';
 import 'package:savdo_agnet_client/features/add_client/presentation/bloc/add_client_bloc.dart';
 import 'package:savdo_agnet_client/features/map_check/presentation/pages/map_check.dart';
-import 'package:savdo_agnet_client/features/select_region/presentation/pages/select_viloyat_dialog.dart';
+import 'package:savdo_agnet_client/features/select_region/presentation/pages/select_region_dialog.dart';
 import 'package:savdo_agnet_client/features/select_viloyat/presentation/pages/select_viloyat_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -68,7 +68,10 @@ class _AddClientPageState extends State<AddClientPage> {
       builder: (context, state) {
         if (state is AddClientErrorState) {
           state.isSuccessAdded
-              ? CustomToast.showToast('Mijoz muvvafaqiyatli saqlandi!')
+              ? {
+                  CustomToast.showToast('Mijoz muvvafaqiyatli saqlandi!'),
+                  Navigator.pop(context),
+                }
               : CustomToast.showToast('Qandaydur hatolik!');
         }
         return Scaffold(
@@ -112,10 +115,6 @@ class _AddClientPageState extends State<AddClientPage> {
                                     hintStyle: hintStyle,
                                   ),
                                   style: textStylePrimaryReg16,
-                                  // onFieldSubmitted: (_) {
-                                  //   bloc.add(ValidateNameClientEvent(
-                                  //       validateNameModel: nameCon.text));
-                                  // },
                                   onEditingComplete: () {
                                     bloc.add(ValidateNameClientEvent(
                                         validateNameModel: nameCon.text));
@@ -125,6 +124,9 @@ class _AddClientPageState extends State<AddClientPage> {
                             ),
                             state is ValidateNameLoadingState
                                 ? const CupertinoActivityIndicator()
+                                : Container(),
+                            !state.isAvailableName
+                                ? const Icon(Icons.error, color: Colors.red)
                                 : Container()
                           ],
                         ),
@@ -156,10 +158,7 @@ class _AddClientPageState extends State<AddClientPage> {
                             SvgPicture.asset('assets/icons/ic_call.svg',
                                 width: 24.w, height: 24.h, color: primaryColor),
                             SizedBox(width: 18.w),
-                            Text(
-                              '+998',
-                              style: hintStyle,
-                            ),
+                            Text('+998', style: hintStyle),
                             Expanded(
                               child: FocusScope(
                                 onFocusChange: (value) {
@@ -216,10 +215,7 @@ class _AddClientPageState extends State<AddClientPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'Tug’ulgan sana',
-                            style: textStylePrimaryReg16,
-                          ),
+                          Text('Tug’ulgan sana', style: textStylePrimaryReg16),
                           Container(
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
@@ -228,7 +224,6 @@ class _AddClientPageState extends State<AddClientPage> {
                             ),
                             height: 60.h,
                             width: MediaQuery.of(context).size.width / 1.8,
-                            // margin: EdgeInsets.only(top: 16.h),
                             padding: EdgeInsets.fromLTRB(15.w, 2.h, 5.w, 0.h),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -296,6 +291,7 @@ class _AddClientPageState extends State<AddClientPage> {
                     ),
                     GestureDetector(
                       onTap: () {
+                        FocusManager.instance.primaryFocus?.unfocus();
                         showDialog(
                             context: context,
                             builder: (context) {
@@ -333,6 +329,7 @@ class _AddClientPageState extends State<AddClientPage> {
                     ),
                     GestureDetector(
                       onTap: () {
+                        FocusManager.instance.primaryFocus?.unfocus();
                         showDialog(
                             context: context,
                             builder: (context) {
@@ -412,6 +409,9 @@ class _AddClientPageState extends State<AddClientPage> {
                             SizedBox(width: 18.w),
                             Expanded(
                               child: TextFormField(
+                                keyboardType: TextInputType.number,
+                                obscuringCharacter: '•',
+                                obscureText: true,
                                 cursorColor: primaryColor,
                                 controller: _passwordCon,
                                 decoration: InputDecoration(
@@ -497,6 +497,7 @@ class _AddClientPageState extends State<AddClientPage> {
                               SizedBox(width: 18.w),
                               Expanded(
                                 child: TextFormField(
+                                  readOnly: true,
                                   cursorColor: primaryColor,
                                   controller: locationCon,
                                   decoration: InputDecoration(
@@ -507,6 +508,25 @@ class _AddClientPageState extends State<AddClientPage> {
                                         boxConstraintsTextField,
                                   ),
                                   style: textStylePrimaryReg16,
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const MapCheck(),
+                                        )).then((value) {
+                                      if (value != null) {
+                                        setState(() {
+                                          locationCon.text =
+                                              value['title'].toString();
+                                          lat = double.parse(value["lat"]);
+                                          lng = double.parse(value["lng"]);
+                                          FocusManager.instance.primaryFocus
+                                              ?.unfocus();
+                                        });
+                                      }
+                                    });
+                                  },
                                 ),
                               ),
                             ],
@@ -517,21 +537,33 @@ class _AddClientPageState extends State<AddClientPage> {
                     SizedBox(height: 32.h),
                     ElevatedButton(
                       onPressed: () {
-                        final m = AddClientModel(
-                          salesAgentId: int.parse(
-                              sharedPreferences.getString(sharedSalesAgentId) ??
-                                  ''),
-                          legalPhysical: isYuridik ? 2 : 1,
-                          name: nameCon.text,
-                          login: maskFormatter.getUnmaskedText(),
-                          address: addressCon.text,
-                          coordinates: '[$lat, $lng]',
-                          password: _passwordVerCon.text,
-                          regionId: regionId,
-                          phone1: maskFormatter.getUnmaskedText(),
-                          stateId: viloyatId,
-                        );
-                        bloc.add(AddClientSendDataEvent(clientDataList: m));
+                        if (_passwordCon.text == _passwordVerCon.text &&
+                            regionTitle != 'Regionni tanlang' &&
+                            viloyatTitle != 'Viloyatni tanlang' &&
+                            addressCon.text.isNotEmpty &&
+                            locationCon.text.isNotEmpty &&
+                            birthdayCon.text.isNotEmpty &&
+                            nameCon.text.isNotEmpty) {
+                          final m = AddClientModel(
+                            salesAgentId: int.parse(sharedPreferences
+                                    .getString(sharedSalesAgentId) ??
+                                ''),
+                            legalPhysical: isYuridik ? 2 : 1,
+                            name: nameCon.text,
+                            login: maskFormatter.getUnmaskedText(),
+                            address: addressCon.text,
+                            coordinates: '[$lat, $lng]',
+                            password: _passwordVerCon.text,
+                            regionId: regionId,
+                            phone1: maskFormatter.getUnmaskedText(),
+                            stateId: viloyatId,
+                          );
+                          bloc.add(AddClientSendDataEvent(clientDataList: m));
+                        } else {
+                          _passwordVerCon.clear();
+                          _passwordCon.clear();
+                          CustomToast.showToast('Parol noto`g`ri terilgan!');
+                        }
                       },
                       style: buttonStyle,
                       child: const Text('Ro’yxatdan o’tkazish',

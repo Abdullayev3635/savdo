@@ -37,7 +37,7 @@ class TulovRepositoryImpl extends TulovRepository {
       double paymentAmount,
       String description) async {
     try {
-      final result = remoteDataSourceImpl.getPayment(
+      final result = await remoteDataSourceImpl.getPayment(
           customerId: customerId,
           currencyId: currencyId,
           salesAgentId: salesAgentId,

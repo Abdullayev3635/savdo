@@ -53,7 +53,7 @@ class AddClientBloc extends Bloc<AddClientEvent, AddClientState> {
                 }
             },
         (r) => {
-              if (r == true)
+              if (r)
                 {
                   emit(const AddClientErrorState(
                       isSuccessAdded: true,

@@ -49,10 +49,7 @@ class _MainPageState extends State<MainPage> {
                     SizedBox(height: 8.h),
                     Row(
                       children: [
-                        Text(
-                          'Hayrli kun! ',
-                          style:textStylePrimaryMed16
-                        ),
+                        Text('Hayrli kun! ', style: textStylePrimaryMed16),
                         Image.asset(
                           'assets/icons/ic_hand.png',
                           width: 14.w,
@@ -63,7 +60,7 @@ class _MainPageState extends State<MainPage> {
                   ],
                 ),
                 IconButton(
-                  highlightColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
                     onPressed: () {
                       Navigator.push(
                           context,
@@ -92,7 +89,7 @@ class _MainPageState extends State<MainPage> {
                             showDialog(
                                 context: context,
                                 builder: (context) {
-                                  return  BuyurtmaDialog.screen();
+                                  return BuyurtmaDialog.screen();
                                 });
                           },
                           title: 'Yangi buyurtma',
@@ -102,7 +99,7 @@ class _MainPageState extends State<MainPage> {
                             showDialog(
                                 context: context,
                                 builder: (context) {
-                                  return  TulovQilishDialog.screen();
+                                  return TulovQilishDialog.screen();
                                 });
                           },
                           title: 'To’lov',
@@ -128,7 +125,7 @@ class _MainPageState extends State<MainPage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const ArchivePage(),
+                                builder: (context) => ArchivePage.screen(),
                               ),
                             );
                           },
