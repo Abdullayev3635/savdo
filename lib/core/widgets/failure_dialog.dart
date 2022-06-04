@@ -17,7 +17,7 @@ class _ShowFailureDialogState extends State<ShowFailureDialog> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
+    WidgetsBinding.instance?.addPostFrameCallback((_) async {
       showDialog(
           barrierDismissible: false,
           context: context,

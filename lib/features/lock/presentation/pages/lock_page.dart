@@ -45,7 +45,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
   Widget build(BuildContext context) {
     return BlocBuilder<PassBloc, PassState>(
       builder: (context, state) {
-        SchedulerBinding.instance.addPostFrameCallback((_) {
+        SchedulerBinding.instance?.addPostFrameCallback((_) {
           if (state is PassSuccess) {
             Navigator.pushReplacement(
                 context,
