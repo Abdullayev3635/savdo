@@ -28,6 +28,7 @@ class KorzinaScreen extends StatefulWidget {
 class _KorzinaScreenState extends State<KorzinaScreen> {
   num jamiSumma = 0;
   late KorzinaBloc bloc;
+  var korzinaProductList = <KorzinaCard>[];
 
   @override
   void initState() {
@@ -54,11 +55,11 @@ class _KorzinaScreenState extends State<KorzinaScreen> {
           } else if (state is KorzinaErrorMessageState) {
             var box = Hive.box<KorzinaCard>(korzinaBox);
             state.korzinaErrorList.isEmpty
-                ? {
-                    box.clear(),
-                    Navigator.pop(context),
-                    CustomToast.showToast('Malumot muvvafaqiyatli uzatildi!'),
-                  }
+                ? Future.delayed(Duration.zero, () async {
+                    await box.clear();
+                    Navigator.pop(context);
+                    CustomToast.showToast('Malumot muvvafaqiyatli uzatildi!');
+                  })
                 : Future.delayed(Duration.zero, () async {
                     showDialog(
                         context: context,
@@ -69,96 +70,67 @@ class _KorzinaScreenState extends State<KorzinaScreen> {
                         });
                   });
           } else if (state is KorzinaSuccessState) {
-            return ValueListenableBuilder<Box<KorzinaCard>>(
-                valueListenable: Hive.box<KorzinaCard>(korzinaBox).listenable(),
-                builder: (context, box, _) {
-                  jamiSumma = 0;
-                  var transaction = box.values.toList().cast<KorzinaCard>();
-                  for (int i = 0; i < transaction.length; i++) {
-                    jamiSumma +=
-                        ((transaction[i].bloklarSoni! * transaction[i].blok!) +
-                                transaction[i].dona!) *
-                            transaction[i].price!;
-                  }
-                  return Scaffold(
-                    backgroundColor: cBackgroundColor,
-                    appBar: appBarWidget(context, 'Savatcha'),
-                    body: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: 21.w, bottom: 10.h, right: 21.w),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('Jami summa:', style: textStylePrimaryMed16),
-                              Text('${jamiSumma.toStringAsFixed(2)} so’m',
-                                  style: textStylePrimaryMed16),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          child: transaction.isEmpty
-                              ? Container()
-                              : SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height / 1.3,
-                                  child: KorzinaItemsWidget(
-                                      box: box, transaction: transaction)),
-                        ),
-                      ],
-                    ),
-                    floatingActionButton: Visibility(
-                      visible: transaction.isNotEmpty,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          bloc.add(KorzinaSendDataEvent(
-                              card: state.korzinaSaveList));
-                        },
-                        child: Text('Buyurtma berish',
-                            style: TextStyle(
-                                fontFamily: 'Medium',
-                                fontSize: 16.sp,
-                                color: cWhiteColor)),
-                        style: ButtonStyle(
-                          fixedSize:
-                              MaterialStateProperty.all(Size(414.w, 82.h)),
-                          padding: MaterialStateProperty.all(
-                              const EdgeInsets.all(25)),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.vertical(
-                                          top: Radius.circular(15.r)))),
-                          backgroundColor:
-                              MaterialStateProperty.all(primaryColor),
-                          elevation: MaterialStateProperty.all(0),
+            korzinaProductList = state.korzinaSaveList;
+          }
+          return ValueListenableBuilder<Box<KorzinaCard>>(
+              valueListenable: Hive.box<KorzinaCard>(korzinaBox).listenable(),
+              builder: (context, box, _) {
+                jamiSumma = 0;
+                var transaction = box.values.toList().cast<KorzinaCard>();
+                for (int i = 0; i < transaction.length; i++) {
+                  jamiSumma +=
+                      ((transaction[i].bloklarSoni! * transaction[i].blok!) +
+                              transaction[i].dona!) *
+                          transaction[i].price!;
+                }
+                return Scaffold(
+                  backgroundColor: cBackgroundColor,
+                  appBar: appBarWidget(context, 'Savatcha'),
+                  body: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: 21.w, bottom: 10.h, right: 21.w),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Jami summa:', style: textStylePrimaryMed16),
+                            Text('${jamiSumma.toStringAsFixed(2)} so’m',
+                                style: textStylePrimaryMed16),
+                          ],
                         ),
                       ),
+                      Container(
+                        child: transaction.isEmpty
+                            ? Container()
+                            : SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height / 1.3,
+                                child: KorzinaItemsWidget(
+                                    box: box, transaction: transaction)),
+                      ),
+                    ],
+                  ),
+                  floatingActionButtonLocation:
+                      FloatingActionButtonLocation.centerDocked,
+                  floatingActionButton: Visibility(
+                    visible: transaction.isNotEmpty,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        bloc.add(
+                            KorzinaSendDataEvent(card: transaction));
+                      },
+                      child: Text('Buyurtma berish',
+                          style: TextStyle(
+                              fontFamily: 'Medium',
+                              fontSize: 16.sp,
+                              color: cWhiteColor)),
+                      style: korzinaButtonStyle,
                     ),
-                    floatingActionButtonLocation:
-                        FloatingActionButtonLocation.centerDocked,
-                  );
-                });
-          }
-          return const Scaffold(
-            backgroundColor: cBackgroundColor,
-          );
-          // return ValueListenableBuilder<Box<KorzinaCard>>(
-          //   valueListenable: Hive.box<KorzinaCard>('korzina_box').listenable(),
-          //   builder: (context, box, _) {
-          //     jamiSumma = 0;
-          //     var transaction = box.values.toList().cast<KorzinaCard>();
-          //     for (int i = 0; i < transaction.length; i++) {
-          //       jamiSumma += ((int.parse(transaction[i].bloklarSoni!) *
-          //                   int.parse(transaction[i].blok!)) +
-          //               int.parse(transaction[i].dona!)) *
-          //           int.parse(transaction[i].price!);
-          //     }
-          //     return Scaffold();
-          //   },
-          // );
+                  ),
+                );
+              });
         },
       ),
     );

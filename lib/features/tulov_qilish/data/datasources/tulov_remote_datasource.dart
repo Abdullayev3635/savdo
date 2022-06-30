@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 import 'package:savdo_agnet_client/features/tulov_qilish/data/model/tulov_client_debit_credit.dart';
@@ -51,9 +50,11 @@ class TulovRemoteDataSourceImpl implements TulovRemoteDataSource {
       if (response.statusCode == 200) {
         final parsed = jsonDecode(response.body);
         for (int i = 0; i < (parsed as List).length; i++) {
-          list.add(TulovClientDebitCreditModel.fromJson(parsed[i]));
+          if (parsed[i]["value"] != 0) {
+            list.add(TulovClientDebitCreditModel.fromJson(parsed[i]));
+          }
         }
-        log(list.toList().toString());
+        // log(list.toList().toString());
         return list;
       } else {
         return [];

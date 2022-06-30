@@ -154,16 +154,15 @@ class _LoginWidgetState extends State<LoginWidget> {
           ),
           SizedBox(height: 24.h),
           ElevatedButton(
-            onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    sharedPreferences.setString(sharedSalesAgentId, '1');
-                    return (sharedPreferences.getString('pin_code') ?? '') != ''
-                          ? PasswordScreen.screen()
-                          : const MainPage();
-                  },
-                )),
+            onPressed: () =>
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+              builder: (context) {
+                sharedPreferences.setString(sharedSalesAgentId, '8');
+                return (sharedPreferences.getString('pin_code') ?? '') != ''
+                    ? PasswordScreen.screen()
+                    : const MainPage();
+              },
+            ), (route) => false),
             style: buttonStyle,
             child: Text('Kirish',
                 textAlign: TextAlign.center,

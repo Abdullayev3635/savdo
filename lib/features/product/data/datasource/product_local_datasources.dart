@@ -38,7 +38,7 @@ class CategoryLocalDataSourceImpl extends CatalogLocalDataSource {
     try {
       final box = Hive.box(categoryBox);
       box.put(categoryBox, list);
-      log(box.get(categoryBox));
+    //  log(box.get(categoryBox));
       return true;
     } catch (e) {
       return false;

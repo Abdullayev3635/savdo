@@ -39,7 +39,7 @@ class KorzinaCard extends HiveObject {
   KorzinaCard({
     required this.bloklarSoni,
     required this.blok,
-    required this.residue, //
+    required this.residue,
     required this.price,
     required this.name,
     required this.dona,

@@ -15,6 +15,7 @@ import 'package:savdo_agnet_client/features/korzina_screen/data/korzina_hive/kor
 import '../../domain/usescase/u_order_list.dart';
 
 part 'korzina_event.dart';
+
 part 'korzina_state.dart';
 
 class KorzinaBloc extends Bloc<KorzinaEvent, KorzinaState> {
@@ -23,7 +24,8 @@ class KorzinaBloc extends Bloc<KorzinaEvent, KorzinaState> {
   final UsesBuyurtmaLocal usesBuyurtmaLocal;
   final UKorzinaOrderList karzina;
 
-  KorzinaBloc({required this.usesBuyurtmaLocal, required this.karzina}) : super(KorzinaInitial()) {
+  KorzinaBloc({required this.usesBuyurtmaLocal, required this.karzina})
+      : super(KorzinaInitial()) {
     on<KorzinaInitialEvent>(initialState, transformer: sequential());
     on<KorzinaSendDataEvent>(getBuyurtma, transformer: sequential());
   }
@@ -67,11 +69,11 @@ class KorzinaBloc extends Bloc<KorzinaEvent, KorzinaState> {
                 {emit(KorzinaFailureState(message: failure.message))}
             },
         (r) => {
-          if (r.isNotEmpty)
-            {emit(KorzinaErrorMessageState(korzinaErrorList: r))}
-          else
-            {emit(const KorzinaErrorMessageState(korzinaErrorList: []))}
-    });
+              if (r.isNotEmpty)
+                {emit(KorzinaErrorMessageState(korzinaErrorList: r))}
+              else
+                {emit(const KorzinaErrorMessageState(korzinaErrorList: []))}
+            });
   }
 }
 // on<KorzinaInitialEvent>((event, emit) async {

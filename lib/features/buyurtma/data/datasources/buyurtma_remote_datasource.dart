@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
-import 'package:savdo_agnet_client/features/buyurtma/data/model/buyurtma_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:savdo_agnet_client/features/buyurtma/data/model/buyurtma_model.dart';
 import 'package:savdo_agnet_client/features/buyurtma/data/model/currency_model.dart';
 import 'package:savdo_agnet_client/features/buyurtma/data/model/price_type_model.dart';
 
@@ -24,7 +25,6 @@ class BuyurtmaRemoteDataSourceImpl implements BuyurtmaRemoteDataSource {
 
   @override
   Future<dynamic> getBuyurtma() async {
-
     List<CurrencyModel> currencyList = [];
     List<PriceTypeModel> priceTypeList = [];
 
@@ -42,15 +42,16 @@ class BuyurtmaRemoteDataSourceImpl implements BuyurtmaRemoteDataSource {
       if (response.statusCode == 200) {
         try {
           final parsed = jsonDecode(response.body);
-          log(response.body);
+          // log(response.body);
           for (int i = 0; i < (parsed["currency"] as List).length; i++) {
             currencyList.add(CurrencyModel.fromJson(parsed["currency"][i]));
           }
           for (int i = 0; i < (parsed["priceType"] as List).length; i++) {
             priceTypeList.add(PriceTypeModel.fromJson(parsed["priceType"][i]));
           }
-          buyurtmaList.add(BuyurtmaModel(currency: currencyList, priceType: priceTypeList));
-
+          buyurtmaList.add(
+              BuyurtmaModel(currency: currencyList, priceType: priceTypeList));
+          log(response.body);
           return buyurtmaList;
         } catch (e) {
           debugPrint(e.toString());
@@ -86,9 +87,11 @@ class BuyurtmaRemoteDataSourceImpl implements BuyurtmaRemoteDataSource {
       if (response.statusCode == 200) {
         final parsed = jsonDecode(response.body);
         for (int i = 0; i < (parsed as List).length; i++) {
-          list.add(ClientDebitCreditModel.fromJson(parsed[i]));
+          if (parsed[i]["value"] != 0) {
+            list.add(ClientDebitCreditModel.fromJson(parsed[i]));
+          }
         }
-        log(list.toList().toString());
+        //  log(list.toList().toString());
         return list;
       } else {
         return [];

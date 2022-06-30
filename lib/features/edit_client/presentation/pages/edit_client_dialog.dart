@@ -39,8 +39,10 @@ class _EditClientDialogState extends State<EditClientDialog> {
   final TextEditingController tel = TextEditingController();
   final TextEditingController locationCon = TextEditingController();
 
-  List<Placemark> placemarks = [];
-  List<dynamic> json = [];
+  // List<Placemark> placemarks = [];
+  // List<dynamic> json = [];
+  double lat = 0;
+  double lng = 0;
   late EditClientBloc bloc;
 
   @override
@@ -74,29 +76,13 @@ class _EditClientDialogState extends State<EditClientDialog> {
                           }).then((value) => {
                             if (value != null)
                               {
-                                setState(() {
-                                  clientId = value['id'];
-                                  clientName = value['name'].toString();
-                                  coordinate = '[120.99,192.99]';///todo: commitni ochamiz
-                                  // value['coordinate'];
-                                  phone1 = value['phone1'];
-                                }),
-                                json = jsonDecode(coordinate),
-                                // locationCon.text = json[0].toString(),
+                                clientId = value['id'],
+                                clientName = value['name'].toString(),
+                                coordinate = value['coordinate'],
+                                phone1 = value['phone1'],
                                 tel.text =
                                     maskFormatter.maskText(phone1).toString(),
-                                Future.delayed(Duration.zero, () async {
-                                  placemarks = await placemarkFromCoordinates(
-                                      json[0], json[1]);
-                                  locationCon.text =
-                                      placemarks[0].locality.toString() +
-                                          ", " +
-                                          placemarks[0].subLocality.toString() +
-                                          ", " +
-                                          (placemarks[0].thoroughfare ??
-                                                  placemarks[0].street)
-                                              .toString();
-                                })
+                                _latLng(coordinate),
                               }
                           });
                     },
@@ -112,8 +98,8 @@ class _EditClientDialogState extends State<EditClientDialog> {
                       if (value != null) {
                         setState(() {
                           locationCon.text = value['title'].toString();
-                          json[0] = double.parse(value["lat"]);
-                          json[1] = double.parse(value["lng"]);
+                          lat = double.parse(value["lat"]);
+                          lng = double.parse(value["lng"]);
                           FocusManager.instance.primaryFocus?.unfocus();
                         });
                       }
@@ -151,10 +137,13 @@ class _EditClientDialogState extends State<EditClientDialog> {
                                     )).then((value) {
                                   if (value != null) {
                                     setState(() {
-                                      locationCon.text = value['title'].toString();
-                                      json[0] = double.parse(value["lat"]);
-                                      json[1] = double.parse(value["lng"]);
-                                      FocusManager.instance.primaryFocus?.unfocus();
+                                      locationCon.text =
+                                          value['title'].toString();
+                                      lat = double.parse(value["lat"]);
+                                      lng = double.parse(value["lng"]);
+                                      FocusManager.instance.primaryFocus
+                                          ?.unfocus();
+                                      // print(json);
                                     });
                                   }
                                 });
@@ -220,7 +209,7 @@ class _EditClientDialogState extends State<EditClientDialog> {
                   onPressed: () {
                     bloc.add(GetEditClientEvent(
                         phone1: '998' + maskFormatter.getUnmaskedText(),
-                        coordinate: '[${json[0]},${json[1]}]',
+                        coordinate: '[$lat,$lng]',
                         id: clientId));
                   },
                   style: buttonStyle,
@@ -232,5 +221,21 @@ class _EditClientDialogState extends State<EditClientDialog> {
         );
       },
     );
+  }
+
+  _latLng(String cor) async {
+    print(cor);
+    // print(cor.runtimeType);
+    lat = double.parse(cor.split(',').removeAt(0).replaceAll('[', ''));
+    lng = double.parse(cor.split(',').removeAt(1).replaceAll(']', ''));
+    print(lat);
+    print(lng);
+    List<Placemark> placemarks = await placemarkFromCoordinates(71.654654132,15.5642132);
+
+    locationCon.text = placemarks[0].locality.toString() +
+        ", " +
+        (placemarks[0].thoroughfare ?? placemarks[0].street).toString();
+
+    // setState(() {});
   }
 }

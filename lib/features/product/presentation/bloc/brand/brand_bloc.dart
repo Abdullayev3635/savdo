@@ -36,19 +36,20 @@ class BrandBloc extends Bloc<BrandEvent, BrandState> {
           priceTypeId: event.priceTypeId, productTypeId: event.productTypeId),
     );
     result.fold(
-        (failure) => {
-              if (failure is NoConnectionFailure)
-                {emit(BrandNoInternetState())}
-              else if (failure is ServerFailure)
-                {emit(BrandFailureState(message: ""))}
-              else if (failure is InputFormatterFailure)
-                {emit(BrandFailureState(message: ""))}
-            },
-        (r) => {
-              if (r.isEmpty)
-                {emit(BrandFailureState(message: ""))}
-              else
-                {emit(BrandSuccessState(list: r))}
-            });
+      (failure) => {
+        if (failure is NoConnectionFailure)
+          {emit(BrandNoInternetState())}
+        else if (failure is ServerFailure)
+          {emit(BrandFailureState(message: ""))}
+        else if (failure is InputFormatterFailure)
+          {emit(BrandFailureState(message: ""))}
+      },
+      (r) => {
+        if (r.isEmpty)
+          {emit(BrandFailureState(message: ""))}
+        else
+          {emit(BrandSuccessState(list: r))}
+      },
+    );
   }
 }

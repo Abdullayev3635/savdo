@@ -320,21 +320,35 @@ class _TulovQilishDialogState extends State<TulovQilishDialog> {
                 style: buttonStyle,
                 child: const Text('Davom etish', textAlign: TextAlign.center),
                 onPressed: () {
-                  qarzdorlikBloc.add(TulovQilishEvent(
-                    salesAgentId: int.parse(
-                        sharedPreferences.getString(sharedSalesAgentId) ?? ''),
-                    customerId: clientId,
-                    currencyId: int.parse(
-                        sharedPreferences.getString(sharedCurrencyId) ?? '1'),
-                    branchId: 1,
-                    currencyValue: int.parse(kurs),
-                    paymentTypeId: tulovTuriId,
-                    summa: (tulovSum.text.isNotEmpty
-                        ? notSpaceForNumber(tulovSum.text)
-                        : notSpaceForNumber(tulovVal.text)),
-                    paymentAmount: notSpace(addSumController.text),
-                    description: izohController.text,
-                  ));
+                  if (clientName != 'Mijozni tanlang') {
+                    if (tulovTuri != 'To’lov turi') {
+                      if(addSumController.text.isNotEmpty) {
+                        qarzdorlikBloc.add(TulovQilishEvent(
+                        salesAgentId: int.parse(
+                            sharedPreferences.getString(sharedSalesAgentId) ??
+                                ''),
+                        customerId: clientId,
+                        currencyId: int.parse(
+                            sharedPreferences.getString(sharedCurrencyId) ??
+                                '1'),
+                        branchId: 1,
+                        currencyValue: int.parse(kurs),
+                        paymentTypeId: tulovTuriId,
+                        summa: (tulovSum.text.isNotEmpty
+                            ? notSpaceForNumber(tulovSum.text)
+                            : notSpaceForNumber(tulovVal.text)),
+                        paymentAmount: notSpace(addSumController.text),
+                        description: izohController.text,
+                      ));
+                      } else {
+                        CustomToast.showToast('Summani kiriting');
+                      }
+                    } else {
+                      CustomToast.showToast('To’lov turini tanlang');
+                    }
+                  } else {
+                    CustomToast.showToast('Mijozni tanlang');
+                  }
                   FocusManager.instance.primaryFocus?.unfocus();
                 },
               ),
@@ -388,4 +402,3 @@ class _TulovQilishDialogState extends State<TulovQilishDialog> {
     }
   }
 }
-

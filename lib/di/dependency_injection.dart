@@ -16,6 +16,9 @@ import 'package:savdo_agnet_client/features/archive/data/repository/archive_repo
 import 'package:savdo_agnet_client/features/archive/domain/repository/archive_repository.dart';
 import 'package:savdo_agnet_client/features/archive/domain/usescase/archive_usescase.dart';
 import 'package:savdo_agnet_client/features/archive/presentation/bloc/archive_bloc.dart';
+import 'package:savdo_agnet_client/features/archive_details/data/datasources/details_remote_datasources.dart';
+import 'package:savdo_agnet_client/features/archive_details/data/repositories/archive_details_repository_impl.dart';
+import 'package:savdo_agnet_client/features/archive_details/prezentation/bloc/archive_details_bloc.dart';
 import 'package:savdo_agnet_client/features/buyurtma/data/datasources/buyurtma_locale_datasource.dart';
 import 'package:savdo_agnet_client/features/buyurtma/data/model/buyurtma_model.dart';
 import 'package:savdo_agnet_client/features/buyurtma/data/model/currency_model.dart';
@@ -51,12 +54,11 @@ import 'package:savdo_agnet_client/features/product/data/model/brand_product_mod
 import 'package:savdo_agnet_client/features/product/data/model/category_model.dart';
 import 'package:savdo_agnet_client/features/product/data/repositories/repository_impl.dart';
 import 'package:savdo_agnet_client/features/product/domain/repositories/catalog_repository.dart';
-import 'package:savdo_agnet_client/features/product/domain/usescase/brand_products.dart';
 import 'package:savdo_agnet_client/features/product/domain/usescase/catalog.dart';
-import 'package:savdo_agnet_client/features/product_items/data/datasource/product_local_datasources.dart';
 import 'package:savdo_agnet_client/features/product_items/data/datasource/product_remote_datasources.dart';
 import 'package:savdo_agnet_client/features/product_items/data/repositories/repository_impl.dart';
 import 'package:savdo_agnet_client/features/product_items/domain/repositories/brand_products_repository.dart';
+import 'package:savdo_agnet_client/features/product_items/domain/usescase/brand_products.dart';
 import 'package:savdo_agnet_client/features/product_items/presentation/bloc/brand_products/brands_products_bloc.dart';
 import 'package:savdo_agnet_client/features/product_items/presentation/bloc/product_items_cubit.dart';
 import 'package:savdo_agnet_client/features/select_client/data/model/client_model.dart';
@@ -78,7 +80,6 @@ import 'package:savdo_agnet_client/features/select_viloyat/data/model/viloyat_mo
 import 'package:savdo_agnet_client/features/select_viloyat/data/repository/viloyat_repository.dart';
 import 'package:savdo_agnet_client/features/select_viloyat/domain/repositories/viloyat_repository.dart';
 import 'package:savdo_agnet_client/features/select_viloyat/domain/usescase/viloyat_usescase.dart';
-import 'package:savdo_agnet_client/features/select_viloyat/presentation/bloc/client/viloyat_bloc.dart';
 import 'package:savdo_agnet_client/features/tulov_qilish/data/datasources/tulov_remote_datasource.dart';
 import 'package:savdo_agnet_client/features/tulov_qilish/data/repository/tulov_repository_impl.dart';
 import 'package:savdo_agnet_client/features/tulov_qilish/domain/repositories/tulov_repository.dart';
@@ -97,6 +98,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../core/location/location_service.dart';
 import '../core/network/network_info.dart';
+import '../features/archive_details/domain/repositories/details_repository.dart';
+import '../features/archive_details/domain/usescase/archive_details.dart';
 import '../features/buyurtma/data/datasources/buyurtma_remote_datasource.dart';
 import '../features/foto_xisobot/presentation/bloc/foto_bloc.dart';
 import '../features/korzina_screen/data/korzina_hive/korzina_hive.dart';
@@ -110,6 +113,7 @@ import '../features/product/presentation/bloc/catalog/category_bloc.dart';
 import '../features/select_client/data/datasources/client_local_datasource.dart';
 import '../features/select_client/data/datasources/client_remote_datasource.dart';
 import '../features/select_client/presentation/bloc/client/select_client_bloc.dart';
+import '../features/select_region/presentation/bloc/region/viloyat_bloc.dart';
 import '../features/select_viloyat/domain/usescase/viloyat_usescase_local.dart';
 
 final di = GetIt.instance;
@@ -121,48 +125,66 @@ Future<void> init() async {
   di.registerFactory(
     () => EditClientBloc(editClientUsescase: di()),
   );
+
   di.registerFactory(
     () => SearchFirmaItemsCubit(
         id: di(), title: di(), image: di(), maxsulotlarBulimiCubit: di()),
   );
+
   di.registerFactory(
     () => ViloyatBloc(
       usesSelectViloyatLocal: di(),
       usesSelectViloyat: di(),
     ),
   );
+
   di.registerFactory(
     () => CatalogBloc(product: di()),
   );
+
   di.registerFactory(() => AddClientBloc(
       usesValidatePhone: di(), usesClient: di(), usesValidateName: di()));
+
   di.registerFactory(
     () => FotoBloc(fotoUsesCase: di()),
   );
+
+  di.registerFactory(
+    () => ArchiveDetailsBloc(detailsUsescase: di()),
+  );
+
   di.registerFactory(
     () => BrandBloc(brandCategory: di()),
   );
+
   di.registerFactory(
     () => PassBloc(pass: di()),
   );
+
   di.registerFactory(
     () => ProductItemsCubit(maxsulotlarBulimiCubit: di()),
   );
+
   di.registerFactory(
     () => PinBloc(sharedPreferences: di()),
   );
+
   di.registerFactory(
     () => SelectClientBloc(usesSelectClient: di(), usesSelectClientLocal: di()),
   );
+
   di.registerFactory(
     () => SelectTulovTuriBloc(usesTulovTuri: di(), usesTulovTuriLocal: di()),
   );
+
   di.registerFactory(
     () => BuyurtmaDialogBloc(usesBuyurtma: di(), usesBuyurtmaLocal: di()),
   );
+
   di.registerFactory(
     () => QarizdorlikBloc(onSelectClient: di()),
   );
+
   di.registerFactory(
     () => KorzinaBloc(usesBuyurtmaLocal: di(), karzina: di()),
   );
@@ -170,13 +192,16 @@ Future<void> init() async {
   di.registerFactory(
     () => BrandsProductsBloc(brandProducts: di()),
   );
+
   di.registerFactory(
     () => TulovQarizdorlikBloc(
         onSelectClientTulov: di(), tulovQilishUsescase: di()),
   );
+
   di.registerFactory(
     () => RegionBloc(usesRegionLocal: di(), usesSelectRegion: di()),
   );
+
   di.registerFactory(
     () => ArchiveBloc(archiveUsescase: di()),
   );
@@ -189,6 +214,13 @@ Future<void> init() async {
     () => EditClientRepositoryImpl(
       networkInfo: di(),
       remoteDatasourceImpl: di(),
+    ),
+  );
+  ////DetailsRepository
+  di.registerLazySingleton<DetailsRepository>(
+    () => DetailsRepositoryImpl(
+      networkInfo: di(),
+      remoteDatasource: di(),
     ),
   );
   di.registerLazySingleton<PassRepository>(
@@ -260,6 +292,7 @@ Future<void> init() async {
       remoteDataSourceImpl: di(),
     ),
   );
+
   di.registerLazySingleton<BuyurtmaRepository>(
     () => BuyurtmaRepositoryImpl(
       networkInfo: di(),
@@ -267,13 +300,14 @@ Future<void> init() async {
       remoteDataSourceImpl: di(),
     ),
   );
+
   di.registerLazySingleton<BrandProductsRepository>(
     () => BrandProductsRepositoryImpl(
-      localDataSource: di(),
       networkInfo: di(),
       remoteDatasource: di(),
     ),
   );
+
   di.registerLazySingleton<ArchiveRepository>(
     () => ArchiveRepositoryImpl(
       networkInfo: di(),
@@ -284,6 +318,13 @@ Future<void> init() async {
   ///********************************************************///
   /// UsesCases
 
+  ///**********
+  di.registerLazySingleton(() => ArchiveDetailsUsescase(repository: di()));
+
+  ///**********
+
+  di.registerLazySingleton(
+      () => BrandProductsUsescase(brandProducRepository: di()));
   di.registerLazySingleton(() => UKorzinaOrderList(korzinaRepository: di()));
 
   di.registerLazySingleton(() => Pass(repository: di()));
@@ -295,8 +336,6 @@ Future<void> init() async {
   di.registerLazySingleton(() => ProductCatalog(catalogRepository: di()));
 
   di.registerLazySingleton(() => BrandCatalog(catalogRepository: di()));
-
-  di.registerLazySingleton(() => BrandProductsCatalog(catalogRepository: di()));
 
   di.registerLazySingleton(() => UsesSelectClient(clientRepository: di()));
 
@@ -336,6 +375,9 @@ Future<void> init() async {
   ///********************************************************///
   ///
   /// Data sources
+  di.registerLazySingleton<ArchiveDetailsRemoteDatasource>(
+    () => ArchiveDetailsRemoteDatasourceImpl(client: di()),
+  );
   di.registerLazySingleton(
     () => PassLocalDataSourceImpl(sharedPreferences: di()),
   );
@@ -374,12 +416,11 @@ Future<void> init() async {
   di.registerLazySingleton(
     () => CategoryLocalDataSourceImpl(),
   );
-  di.registerLazySingleton(
-    () => BrandProductsLocalDataSourceImpl(),
-  );
-  di.registerLazySingleton(
-    () => BrandProductsRemoteDatasourceImpl(
-        sharedPreferences: di(), client: di()),
+  // di.registerLazySingleton(
+  //   () => BrandProductsLocalDataSourceImpl(),
+  // );
+  di.registerLazySingleton<BrandProductsRemoteDatasource>(
+    () => BrandProductsRemoteDatasourceImpl(client: di()),
   );
   di.registerLazySingleton(
     () => TulovRemoteDataSourceImpl(client: di()),

@@ -13,7 +13,6 @@ import '../widgets/profile_items.dart';
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
-
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -69,9 +68,15 @@ class _ProfilePageState extends State<ProfilePage> {
                 showDialog(
                     context: context,
                     builder: (context) {
-                      return  PasswordEditDialog.screen();
+                      return PasswordEditDialog.screen();
                     }).then((value) {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => PasswordScreen.screen(),));
+                  if (value != null) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PasswordScreen.screen(),
+                        ));
+                  }
                   setState(() {});
                 });
               },
@@ -85,7 +90,7 @@ class _ProfilePageState extends State<ProfilePage> {
               title: '+998 (33) 510-95-95',
             ),
             ProfileItemsWidgets(
-              onTap: (){},
+              onTap: () {},
               color: cHintTextColor,
               icon: 'assets/icons/ic_hudud.svg',
               title: 'Farg’ona viloyati',

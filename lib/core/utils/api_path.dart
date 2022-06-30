@@ -1,12 +1,13 @@
 // const String baseUrlImg = "http://192.168.30.64:8000/api/";
 // const String baseUrl = "https://mobile.imsoftgroup.uz/api/v1/";
 
-const String baseUrl = "http://192.168.30.79:5000/api/v1/";
-const String apiFilter = 'http://192.168.30.79:7777/api/filter';
+const String baseUrl = "https://mobile.imsoftgroup.uz/api/v1/";
+// const String apiFilter = 'http://192.168.30.79:7777/api/filter';
 const String savdoAndNarxPHP = "currencies-and-priceTypes";
 const String catalogPHP = "categories";
 const String brandPHP = "categories/brands";
-const String brandProductsPHP = "brands/products";
+// const String brandProductsPHP = "brands/products";
+const String allBrandProductsPHP = "search";
 const String clientPHP = "clients";
 const String clientValidateNamePHP = "clients/validate/name";
 const String clientValidatePhonePHP = "clients/validate/phone";
@@ -18,3 +19,4 @@ const String onSelectClientPHP = "customer-debit-credit";
 const String orderPHP = "order/create";
 const String photoPHP = "photo-report/create";
 const String archivePHP = "order/list/";
+const String archiveDetailsPHP = "order/detail";

@@ -23,6 +23,18 @@ class ArchivePage extends StatefulWidget {
 }
 
 class _ArchivePageState extends State<ArchivePage> {
+  late ArchiveBloc _archiveBloc;
+
+  @override
+  void initState() {
+    _archiveBloc = BlocProvider.of<ArchiveBloc>(context);
+    super.initState();
+  }
+
+  Future _handleRefresh() async {
+    return _archiveBloc.add(GetArchiveEvent());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +43,8 @@ class _ArchivePageState extends State<ArchivePage> {
       body: BlocBuilder<ArchiveBloc, ArchiveState>(
         builder: (context, state) {
           if (state is ArchiveLoadedState) {
-            return ArxivItems(list: state.list);
+            return RefreshIndicator(
+                child: ArxivItems(list: state.list), onRefresh: _handleRefresh);
           } else if (state is ArchiveLoadingState) {
             return const Padding(
               padding: EdgeInsets.symmetric(horizontal: 15.0),

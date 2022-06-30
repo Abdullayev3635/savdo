@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,7 +18,7 @@ class MapCheck extends StatefulWidget {
 class MapCheckState extends State<MapCheck> {
   @override
   void initState() {
-    _determinePosition(_controller, 10, textEditingController);
+    _determinePosition(_controller, 17, textEditingController);
     super.initState();
   }
 
@@ -32,7 +31,7 @@ class MapCheckState extends State<MapCheck> {
   double lng = 0;
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(41.311155, 69.279700),
-    zoom: 12,
+    zoom: 17,
   );
   var myMarker = const Marker(
     markerId: MarkerId("Salom"),
@@ -204,7 +203,7 @@ class MapCheckState extends State<MapCheck> {
     final GoogleMapController controller = await controller1.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
         target: LatLng(locations[0].latitude, locations[0].longitude),
-        zoom: 14)));
+        zoom: 17)));
     _tapped(LatLng(locations[0].latitude, locations[0].longitude));
 
   }
@@ -223,7 +222,7 @@ class MapCheckState extends State<MapCheck> {
         placemarks[0].subLocality.toString() +
         ", " +
         (placemarks[0].thoroughfare ?? placemarks[0].street).toString();
-    log(placemarks.toString());
+  //  log(placemarks.toString());
   }
 
   _determinePosition(Completer<GoogleMapController> controller1, double zoom,

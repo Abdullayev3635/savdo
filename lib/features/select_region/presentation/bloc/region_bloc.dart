@@ -31,8 +31,8 @@ class RegionBloc extends Bloc<RegionEvent, RegionState> {
   FutureOr<void> getRegion(
       GetSelectRegionEvent event, Emitter<RegionState> emit) async {
     emit(SelectRegionLoading());
-    final result = await usesRegionLocal(RegionLocalParams());
-    // final box = Hive.box(clientBox);
+    // final result = await usesRegionLocal(RegionLocalParams());
+    final result = await usesSelectRegion(GetRegionParams());
     result.fold(
         (failure) => {
               if (failure is NoConnectionFailure)
@@ -43,20 +43,22 @@ class RegionBloc extends Bloc<RegionEvent, RegionState> {
         (r) => {
               if (r.isEmpty)
                 {
-                  emit(SelectRegionSuccess(list: const [])),
+                  emit(SelectRegionLoading())
+                  // emit(SelectRegionSuccess(list: const [])),
                 }
               else
                 {
                   emit(SelectRegionSuccess(list: r)),
                   listOld = r,
-                  log(listOld.length.toString()),
+                  // log(listOld.length.toString()),
                 }
             });
   }
 
   FutureOr<void> getRegionLocal(
       GetSelectRegionLocalEvent event, Emitter<RegionState> emit) async {
-    final result = await usesSelectRegion(GetRegionParams());
+    final result = await usesRegionLocal(RegionLocalParams());
+    // final result = await usesSelectRegion(GetRegionParams());
     result.fold(
         (failure) => {
               if (failure is NoConnectionFailure)
@@ -74,7 +76,7 @@ class RegionBloc extends Bloc<RegionEvent, RegionState> {
                 {
                   emit(SelectRegionSuccess(list: r)),
                   listOld = r,
-                  log(listOld.length.toString()),
+                  // log(listOld.length.toString()),
                 }
             });
   }

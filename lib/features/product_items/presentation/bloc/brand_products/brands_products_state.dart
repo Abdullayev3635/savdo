@@ -5,12 +5,19 @@ abstract class BrandsProductsState {}
 
 class BrandsProductsInitial extends BrandsProductsState {}
 
-class BrandsProductsLoadingState extends BrandsProductsState {}
+class BrandsProductsLoadingState extends BrandsProductsState {
+  final List<BrandProductModel> oldProductsList;
+  final bool isFirstFetch;
+
+  BrandsProductsLoadingState(
+      {required this.oldProductsList, required this.isFirstFetch});
+}
 
 class BrandsProductsSuccessState extends BrandsProductsState {
   final List<BrandProductModel> list;
+  final List<BrandProductModel> rList;
 
-  BrandsProductsSuccessState({required this.list});
+  BrandsProductsSuccessState({required this.list, required this.rList});
 }
 
 class BrandsProductsNoInternetState extends BrandsProductsState {}

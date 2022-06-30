@@ -1,6 +1,6 @@
 class ClientDebitCreditModel {
   String? name;
-  int? value;
+  num? value;
 
   ClientDebitCreditModel({this.name, this.value});
 

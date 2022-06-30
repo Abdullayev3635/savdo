@@ -7,6 +7,8 @@ import 'package:savdo_agnet_client/core/network/network_info.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 import 'package:savdo_agnet_client/core/widgets/costum_toast.dart';
 import 'package:savdo_agnet_client/core/widgets/failure_dialog.dart';
+import 'package:savdo_agnet_client/features/product_items/presentation/pages/brand_products.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../di/dependency_injection.dart';
 import '../bloc/brand/brand_bloc.dart';
@@ -67,6 +69,8 @@ class _ProductPageState extends State<ProductPage> {
     return _catalogBloc.add(GetCategory());
   }
 
+  SharedPreferences sharedPreferences = di.get();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -90,7 +94,23 @@ class _ProductPageState extends State<ProductPage> {
                     Padding(
                       padding: EdgeInsets.only(
                           top: 50.h, left: 10.w, bottom: 50.h, right: 10.w),
-                      child: const ProductTextFieldWidget(),
+                      child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Products.screen(
+                                      brandName: "Brend nomi",
+                                      salesAgentId: int.parse(
+                                        sharedPreferences.getString(
+                                                sharedSalesAgentId) ??
+                                            '',
+                                      ),
+                                      brandId: null,
+                                      priceTypeId: -1),
+                                ));
+                          },
+                          child: const ProductTextFieldWidget()),
                     ),
                   ],
                 ),

@@ -1,8 +1,6 @@
-
-
 class TulovClientDebitCreditModel {
   String? name;
-  int? value;
+  num? value;
 
   TulovClientDebitCreditModel({this.name, this.value});
 

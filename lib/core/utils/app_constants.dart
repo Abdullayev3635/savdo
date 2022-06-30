@@ -76,6 +76,8 @@ TextStyle hintStyle =
 
 TextStyle textStyleOrangeReg18 =
     TextStyle(fontSize: 18.sp, color: cOrangeColor, fontFamily: 'Regular');
+TextStyle textStylePrimaryReg18 =
+    TextStyle(fontSize: 18.sp, color: cOrangeColor, fontFamily: 'Regular');
 
 // buttons Style
 ButtonStyle inActiveButtonStyle = ButtonStyle(
@@ -105,6 +107,16 @@ ButtonStyle buttonStyle = ButtonStyle(
     shape: MaterialStateProperty.all(
         RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))));
 
+
+ButtonStyle korzinaButtonStyle = ButtonStyle(
+  fixedSize: MaterialStateProperty.all(Size(414.w, 82.h)),
+  padding: MaterialStateProperty.all(const EdgeInsets.all(25)),
+  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+      RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(15.r)))),
+  backgroundColor: MaterialStateProperty.all(primaryColor),
+  elevation: MaterialStateProperty.all(0),
+);
 // BoxConstraints
 BoxConstraints boxConstraintsTextField = BoxConstraints(
     maxWidth: 30.w, maxHeight: 30.h, minHeight: 25.h, minWidth: 25.w);

@@ -45,6 +45,7 @@ class _KorzinaItemsWidgetState extends State<KorzinaItemsWidget> {
       itemBuilder: (context, index) {
         KorzinaCard? card = widget.box.getAt(index);
         return Container(
+          margin:  EdgeInsets.only(bottom: 16.h),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15.r), color: cWhiteColor),
           child: SlidableAutoCloseBehavior(

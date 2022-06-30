@@ -35,7 +35,8 @@ class ProductWidget extends StatelessWidget {
                     builder: (context) => Products.screen(
                       brandName: state.list[index].name ?? "",
                       brandId: state.list[index].id,
-                      priceTypeId: 1,
+                      priceTypeId: int.parse(
+                          sharedPreferences.getString(sharedPriceTypeId)??''),
                       salesAgentId: int.parse(
                         sharedPreferences.getString(sharedSalesAgentId) ?? '',
                       ),

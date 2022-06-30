@@ -62,46 +62,46 @@ class _CatalogItemsState extends State<CatalogItems> {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(15.r),
                         child: ShaderMask(
-                            shaderCallback: (Rect bounds) {
-                              return LinearGradient(stops: const [
-                                0.0,
-                                0.0
-                              ], colors: [
-                                Colors.transparent,
-                                widget.state.selected == index
-                                    ? primaryColor07
-                                    : Colors.transparent
-                              ]).createShader(bounds);
-                            },
-                            blendMode: BlendMode.srcATop,
-                            child: Container(
-                              color: const Color(0xffEDEDFD),
-                              height: 66.h,
-                              width: 66.w,
-                              child: widget.state.list[index].image == null
-                                  ? Container(
-                                      margin: const EdgeInsets.all(20),
-                                      child: SvgPicture.asset(
-                                        'assets/icons/ic_fon_gallery.svg',
-                                        fit: BoxFit.cover,
-                                      ),
-                                    )
-                                  : CachedNetworkImage(
+                          shaderCallback: (Rect bounds) {
+                            return LinearGradient(stops: const [
+                              0.0,
+                              0.0
+                            ], colors: [
+                              Colors.transparent,
+                              widget.state.selected == index
+                                  ? primaryColor07
+                                  : Colors.transparent
+                            ]).createShader(bounds);
+                          },
+                          blendMode: BlendMode.srcATop,
+                          child: Container(
+                            color: const Color(0xffEDEDFD),
+                            height: 66.h,
+                            width: 66.w,
+                            child: widget.state.list[index].image == null
+                                ? Container(
+                                    margin: const EdgeInsets.all(20),
+                                    child: SvgPicture.asset(
+                                      'assets/icons/ic_fon_gallery.svg',
                                       fit: BoxFit.cover,
-                                      imageUrl:
-                                          widget.state.list[index].image ??
-                                              'assets/icons/ic_fon_gallery.svg',
-                                      placeholder: (context, url) {
-                                        return Container(
-                                          margin: const EdgeInsets.all(20),
-                                          child: SvgPicture.asset(
-                                            'assets/icons/ic_fon_gallery.svg',
-                                            fit: BoxFit.cover,
-                                          ),
-                                        );
-                                      },
                                     ),
-                            )),
+                                  )
+                                : CachedNetworkImage(
+                                    fit: BoxFit.cover,
+                                    imageUrl: widget.state.list[index].image ??
+                                        'assets/icons/ic_fon_gallery.svg',
+                                    placeholder: (context, url) {
+                                      return Container(
+                                        margin: const EdgeInsets.all(20),
+                                        child: SvgPicture.asset(
+                                          'assets/icons/ic_fon_gallery.svg',
+                                          fit: BoxFit.cover,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                          ),
+                        ),
                       ),
                       SizedBox(
                           height: widget.state.selected != index ? 12.h : 18.h),
