@@ -33,7 +33,7 @@ class _PhotoReportDialogState extends State<PhotoReportDialog> {
   int regionId = 0;
   String clientName = 'Mijozni tanlang';
   String regionName = 'Region tanlang';
-  File? _imageFile0, _imageFile1, _imageFile2;
+    File? _imageFile0, _imageFile1, _imageFile2;
   String sana0 = "", sana1 = "", sana2 = "";
 
   final customFormat = DateFormat('yyyy.MM.dd hh:mm');

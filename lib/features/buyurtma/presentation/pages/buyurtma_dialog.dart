@@ -202,7 +202,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                                         ? Text(
                                             "${state.debitList[index].value} ${state.debitList[index].name}",
                                             maxLines: 1,
-                                            style:textStyleOrangeReg18,
+                                            style: textStyleOrangeReg18,
                                           )
                                         : Text(
                                             "${state.debitList[index].value} ${state.debitList[index].name}",

@@ -85,7 +85,7 @@ class _FirmalarPageState extends State<FirmalarPage> {
                               MaterialPageRoute(
                                 builder: (context) => const LoginPage(),
                               )),
-                          index: index,
+                           index: index,
                           state: state,
                         );
                       }),
