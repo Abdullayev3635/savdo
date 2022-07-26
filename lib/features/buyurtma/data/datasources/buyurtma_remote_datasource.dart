@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
@@ -51,7 +50,7 @@ class BuyurtmaRemoteDataSourceImpl implements BuyurtmaRemoteDataSource {
           }
           buyurtmaList.add(
               BuyurtmaModel(currency: currencyList, priceType: priceTypeList));
-          log(response.body);
+          // log(response.body);
           return buyurtmaList;
         } catch (e) {
           debugPrint(e.toString());

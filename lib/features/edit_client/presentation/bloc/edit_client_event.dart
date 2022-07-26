@@ -1,12 +1,15 @@
 part of 'edit_client_bloc.dart';
 
 @immutable
-abstract class EditClientEvent {}
+abstract class EditClientEvent extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
 
 class GetEditClientEvent extends EditClientEvent {
-  int id;
-  String coordinate;
-  String phone1;
+  final int id;
+  final String coordinate;
+  final String phone1;
 
   GetEditClientEvent({
     required this.phone1,

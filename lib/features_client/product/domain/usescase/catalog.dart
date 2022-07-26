@@ -1,7 +1,6 @@
 
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:savdo_agnet_client/features/product/domain/repositories/catalog_repository.dart';
 import 'package:savdo_agnet_client/features_client/product/domain/repositories/catalog_repository.dart';
 
 import '../../../../core/errors/failures.dart';

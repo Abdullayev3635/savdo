@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:savdo_agnet_client/core/errors/failures.dart';
 import 'package:savdo_agnet_client/features/edit_client/domain/usescase/usescase.dart';

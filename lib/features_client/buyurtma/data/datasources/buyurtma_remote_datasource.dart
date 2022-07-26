@@ -9,6 +9,7 @@ import 'package:savdo_agnet_client/features/buyurtma/data/model/price_type_model
 
 import '../../../../core/errors/failures.dart';
 import '../../../../core/utils/api_path.dart';
+import '../../../../features/buyurtma/data/model/client_debit_credit.dart';
 import '../model/client_debit_credit.dart';
 
 abstract class BuyurtmaRemoteDataSource {

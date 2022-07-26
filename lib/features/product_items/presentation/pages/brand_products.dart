@@ -58,28 +58,28 @@ class _ProductsState extends State<Products> {
   late BrandsProductsBloc _brandBloc;
   final controller = ScrollController();
   List<BrandProductModel> currentList = [];
-  var succesState;
+  dynamic successState;
 
   @override
   void initState() {
     super.initState();
     _brandBloc = BlocProvider.of<BrandsProductsBloc>(context);
-    succesState = BlocProvider.of<BrandsProductsBloc>(context).state;
+    successState = BlocProvider.of<BrandsProductsBloc>(context).state;
     controller.addListener(() {
       if (controller.position.maxScrollExtent == controller.offset) {
-        if(succesState is BrandsProductsInitial) {
-          print('y1');
-          if (succesState is BrandsProductsSuccessState) {
-            print('y2');
+        if(successState is BrandsProductsInitial) {
+          debugPrint('y1');
+          if (successState is BrandsProductsSuccessState) {
+            debugPrint('y2');
             if ((BlocProvider
                 .of<BrandsProductsBloc>(context)
                 .state
             as BrandsProductsSuccessState)
                 .rList
                 .isNotEmpty) {
-              print('y3');
+              debugPrint('y3');
               if (textEditingController.text != "") {
-                print('n1');
+                debugPrint('n1');
                 (BlocProvider
                     .of<BrandsProductsBloc>(context)
                     .state
@@ -97,7 +97,7 @@ class _ProductsState extends State<Products> {
                           '-1')));
             }
           }else {
-            print('n2');
+            debugPrint('n2');
           }
         }
       }

@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -224,12 +221,10 @@ class _EditClientDialogState extends State<EditClientDialog> {
   }
 
   _latLng(String cor) async {
-    print(cor);
+    debugPrint(cor);
     // print(cor.runtimeType);
     lat = double.parse(cor.split(',').removeAt(0).replaceAll('[', ''));
     lng = double.parse(cor.split(',').removeAt(1).replaceAll(']', ''));
-    print(lat);
-    print(lng);
     List<Placemark> placemarks = await placemarkFromCoordinates(71.654654132,15.5642132);
 
     locationCon.text = placemarks[0].locality.toString() +

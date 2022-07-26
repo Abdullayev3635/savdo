@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_typing_uninitialized_variables
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -17,10 +15,10 @@ class ReportDialog extends StatefulWidget {
 
 class _ReportDialogState extends State<ReportDialog> {
   String group1 = 'Qarz qoldiq';
-  var start;
-  var end;
+  dynamic start;
+  dynamic end;
   int clientId = 0;
-  String clientName = 'Mijozni tanlang';
+  String clientName = 'Mijozni tanlang!';
 
   @override
   Widget build(BuildContext context) {

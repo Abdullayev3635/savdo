@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 import 'package:savdo_agnet_client/features/tulov_qilish/data/model/tulov_client_debit_credit.dart';

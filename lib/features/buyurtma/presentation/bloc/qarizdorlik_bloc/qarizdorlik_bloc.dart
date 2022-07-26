@@ -35,10 +35,9 @@ class QarizdorlikBloc extends Bloc<QarizdorlikEvent, QarizdorlikState> {
                 {emit(QarizdorlikFail(message: failure.message))}
             },
         (r) => {
-              if (r.isEmpty)
-                {emit(QarizdorlikFail(message: "hech narsa yo'q ekan"))}
-              else
-                {emit(QarizdorlikLoaded(debitList: r))}
+                {
+                  emit(QarizdorlikLoaded(debitList: r))
+                }
             });
   }
 }

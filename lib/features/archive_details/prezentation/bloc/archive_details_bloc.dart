@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:savdo_agnet_client/features/archive_details/data/model/archive_details_model.dart';
 import 'package:savdo_agnet_client/features/archive_details/domain/usescase/archive_details.dart';
@@ -22,8 +22,9 @@ class ArchiveDetailsBloc
   }
 
   FutureOr<void> getArchiveDetailsData(
-      GetArchiveDetailsData event, Emitter<ArchiveDetailsState> state) async {
+      GetArchiveDetailsData event, Emitter<ArchiveDetailsState> emit) async {
     emit(ArchiveDetailsLoadingState());
+
     final result =
         await detailsUsescase(GetDetailsParams(details: event.orderId));
 

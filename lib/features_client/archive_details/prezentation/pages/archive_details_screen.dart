@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:savdo_agnet_client/core/widgets/appBarWidget.dart';
 import 'package:savdo_agnet_client/core/widgets/costum_toast.dart';
 import 'package:savdo_agnet_client/features/archive_details/data/model/archive_details_model.dart';

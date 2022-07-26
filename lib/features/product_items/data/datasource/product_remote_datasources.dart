@@ -5,6 +5,8 @@ import 'package:savdo_agnet_client/features/product/data/model/brand_product_mod
 
 import '../../../../core/errors/failures.dart';
 import '../../../../core/utils/api_path.dart';
+import '../../../../core/utils/app_constants.dart';
+import '../../../../features_client/korzina_screen/data/korzina_hive/client_korzina_hive.dart';
 
 abstract class BrandProductsRemoteDatasource {
   Future<List<BrandProductModel>> getBrandProducts(
@@ -32,7 +34,7 @@ class BrandProductsRemoteDatasourceImpl
       required int? brandId}) async {
     try {
       dynamic json = {
-        "worker_id": 8,
+        "worker_id": int.parse(sharedPreferences.getString(sharedSalesAgentId)!),
         "page": page,
         // salesAgentId,
         "price_type_id": 1,

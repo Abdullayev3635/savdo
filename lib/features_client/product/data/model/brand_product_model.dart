@@ -1,6 +1,3 @@
-import 'package:hive/hive.dart';
-
-
 
 class ClientBrandProductModel {
   int? id;

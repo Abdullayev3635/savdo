@@ -1,10 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:savdo_agnet_client/core/errors/failures.dart';
 import 'package:savdo_agnet_client/core/network/network_info.dart';
-import 'package:savdo_agnet_client/features/buyurtma/data/datasources/buyurtma_locale_datasource.dart';
-import 'package:savdo_agnet_client/features/buyurtma/domain/repositories/buyurtma_repository.dart';
 
-import '../datasources/buyurtma_remote_datasource.dart';
+import '../../../../features/buyurtma/data/datasources/buyurtma_locale_datasource.dart';
+import '../../../../features/buyurtma/data/datasources/buyurtma_remote_datasource.dart';
+import '../../../../features/buyurtma/domain/repositories/buyurtma_repository.dart';
 
 class BuyurtmaRepositoryImpl extends BuyurtmaRepository {
   final BuyurtmaRemoteDataSourceImpl remoteDataSourceImpl;

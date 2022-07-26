@@ -22,7 +22,7 @@ class ArchiveDetailsBloc
   }
 
   FutureOr<void> getArchiveDetailsData(
-      GetArchiveDetailsData event, Emitter<ArchiveDetailsState> state) async {
+      GetArchiveDetailsData event, Emitter<ArchiveDetailsState> emit) async {
     emit(ArchiveDetailsLoadingState());
     final result =
         await detailsUsescase(GetDetailsParams(details: event.orderId));
