@@ -7,6 +7,7 @@ const String savdoAndNarxPHP = "currencies-and-priceTypes";
 const String catalogPHP = "categories";
 const String brandPHP = "categories/brands";
 // const String brandProductsPHP = "brands/products";
+const String loginPHP = "login";
 const String allBrandProductsPHP = "search";
 const String clientPHP = "clients";
 const String clientValidateNamePHP = "clients/validate/name";
