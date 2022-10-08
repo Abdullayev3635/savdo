@@ -73,6 +73,15 @@ class ProductWidget extends StatelessWidget {
                             ),
                           );
                         },
+                        errorWidget: (contex, url, e){
+                          return Container(
+                            margin: const EdgeInsets.all(20),
+                            child: SvgPicture.asset(
+                              'assets/icons/ic_fon_gallery.svg',
+                              fit: BoxFit.cover,
+                            ),
+                          );
+                        },
                       ),
                     ),
                     decoration: BoxDecoration(

@@ -219,6 +219,54 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                           fit: BoxFit.cover),
                     ],
                   );
+                }  else if (state is QarizdorlikFail) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 23.h),
+                      GestureDetector(
+                        onTap: () => showDialog(
+                            context: context,
+                            builder: (context) {
+                              return SelectPart.screen();
+                            }).then((value) => {
+                              if (value != null)
+                                {
+                                  setState(() {
+                                    clientId = value['id'];
+                                    clientName = value['name'].toString();
+                                  }),
+                                },
+                            }),
+                        child: Container(
+                          height: 60.h,
+                          padding: EdgeInsets.only(left: 18.w, right: 10.w),
+                          decoration: BoxDecoration(
+                              color: cTextFieldColor,
+                              borderRadius: BorderRadius.circular(10.r)),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text(clientName,
+                                    style: textStylePrimaryMed14),
+                              ),
+                              SvgPicture.asset('assets/icons/ic_dropdown.svg')
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            right: 7.w, top: 22.h, left: 7.w, bottom: 24.h),
+                        child: Text(
+                          'Qarzdorligi: 0',
+                          style: textStylePrimaryMed16,
+                        ),
+                      ),
+                      SvgPicture.asset('assets/icons/ic_divider.svg',
+                          fit: BoxFit.cover),
+                    ],
+                  );
                 } else {
                   return Container();
                 }

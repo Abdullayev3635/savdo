@@ -114,7 +114,7 @@ class _CatalogItemsState extends State<CatalogItems> {
                               style: TextStyle(
                                   color: primaryColor,
                                   fontFamily: 'Medium',
-                                  fontSize: 10.sp),
+                                  fontSize: 8.sp),
                             )
                           : Container(
                               width: 13.w,

@@ -52,7 +52,7 @@ dependencies:
   # 18.For get current location
   geolocator: ^8.2.0
   # 19.For Image cached
-  cached_network_image: ^3.2.0
+  cached_network_image: ^3.2.2
   # 20.For Progress
   sn_progress_dialog: ^1.0.3
   # 21. For Fingerprint

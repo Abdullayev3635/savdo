@@ -83,7 +83,7 @@ class _FirmalarPageState extends State<FirmalarPage> {
                           onTap: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const LoginPage(),
+                                builder: (context) => LoginPage.screen(),
                               )),
                            index: index,
                           state: state,

@@ -86,6 +86,7 @@ class BuyurtmaRemoteDataSourceImpl implements BuyurtmaRemoteDataSource {
       );
       if (response.statusCode == 200) {
         final parsed = jsonDecode(response.body);
+        print(parsed);
         for (int i = 0; i < (parsed as List).length; i++) {
           if (parsed[i]["value"] != 0) {
             list.add(ClientDebitCreditModel.fromJson(parsed[i]));
@@ -96,7 +97,8 @@ class BuyurtmaRemoteDataSourceImpl implements BuyurtmaRemoteDataSource {
       } else {
         return [];
       }
-    } on InputFormatterFailure {
+    }catch(e) {
+      debugPrint(e.toString());
       return [];
     }
   }

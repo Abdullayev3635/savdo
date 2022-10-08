@@ -46,7 +46,7 @@ class _TulovQilishDialogState extends State<TulovQilishDialog> {
   @override
   void initState() {
     qarzdorlikBloc = BlocProvider.of<TulovQarizdorlikBloc>(context);
-    kurs = sharedPreferences.getString(sharedCurrencyValue) ?? '';
+    kurs = sharedPreferences.getString(sharedCurrencyValue) ?? '0';
     super.initState();
   }
 
@@ -58,7 +58,7 @@ class _TulovQilishDialogState extends State<TulovQilishDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+     return SingleChildScrollView(
       padding: EdgeInsets.only(
         bottom: clientName == 'Mijozni tanlang'
             ? MediaQuery.of(context).size.height / 6
@@ -183,7 +183,7 @@ class _TulovQilishDialogState extends State<TulovQilishDialog> {
                             children: [
                               Expanded(
                                 flex: 3,
-                                child: Text('Qarzdorligi:',
+                                child: Text('Qarzdorligi: ',
                                     style: textStylePrimaryMed16),
                               ),
                               Expanded(
@@ -218,7 +218,49 @@ class _TulovQilishDialogState extends State<TulovQilishDialog> {
                       ],
                     );
                   } else {
-                    return Container();
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 23.h),
+                        GestureDetector(
+                          onTap: () => showDialog(
+                              context: context,
+                              builder: (context) {
+                                return SelectPart.screen();
+                              }).then((value) => {
+                            if (value != null)
+                              {
+                                setState(() {
+                                  clientId = value['id'];
+                                  clientName = value['name'].toString();
+                                }),
+                              },
+                          }),
+                          child: Container(
+                            height: 60.h,
+                            padding: EdgeInsets.only(left: 18.w, right: 10.w),
+                            decoration: BoxDecoration(
+                                color: cTextFieldColor,
+                                borderRadius: BorderRadius.circular(10.r)),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Text(clientName,
+                                      style: textStylePrimaryMed14),
+                                ),
+                                SvgPicture.asset('assets/icons/ic_dropdown.svg')
+                              ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              right: 7.w, top: 22.h, left: 7.w, bottom: 24.h),
+                          child: Text('Qarzdorligi: 0',
+                              style: textStylePrimaryMed16),
+                        ),
+                      ],
+                    );
                   }
                 },
               ),
@@ -332,7 +374,7 @@ class _TulovQilishDialogState extends State<TulovQilishDialog> {
                             sharedPreferences.getString(sharedCurrencyId) ??
                                 '1'),
                         branchId: 1,
-                        currencyValue: int.parse(kurs),
+                        currencyValue: int.parse(kurs==""?"0":kurs),
                         paymentTypeId: tulovTuriId,
                         summa: (tulovSum.text.isNotEmpty
                             ? notSpaceForNumber(tulovSum.text)

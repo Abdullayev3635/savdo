@@ -12,7 +12,7 @@ void main() async {
   runZonedGuarded(() {
     runApp(const AppProvider());
   }, (error, stacktrace) {
-    // log('runZonedGuarded Errors: $error');
-    debugPrint("add new branch");
+    debugPrint(error.toString());
+    debugPrint(stacktrace.toString());
   });
 }

@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 
 import '../../../product_items_dialog/presentation/pages/product_dialog.dart';
@@ -48,22 +50,36 @@ class _ProductItemsWidgetState extends State<ProductItemsWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: 125.h,
-            width: 120.w,
-            margin: EdgeInsets.only(bottom: 9.h),
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              image: const DecorationImage(
-                opacity: 0.5,
-                image: AssetImage('assets/images/gallery.png'),
-              ),
+            width: 110.w,
+            height: 115.h,
+            child: ClipRRect(
               borderRadius: BorderRadius.circular(10.r),
-              color: cBackgroundColor,
+              child: CachedNetworkImage(
+                imageUrl: widget.image!,
+                fit: BoxFit.cover,
+                placeholder: (context, url) {
+                  return Container(
+                    margin: const EdgeInsets.all(20),
+                    child: SvgPicture.asset(
+                      'assets/icons/ic_fon_gallery.svg',
+                      fit: BoxFit.cover,
+                    ),
+                  );
+                },
+                errorWidget: (contex, url, e) {
+                  return Container(
+                    margin: const EdgeInsets.all(20),
+                    child: SvgPicture.asset(
+                      'assets/icons/ic_fon_gallery.svg',
+                      fit: BoxFit.cover,
+                    ),
+                  );
+                },
+              ),
             ),
-            child: SizedBox(
-                child: widget.image != null
-                    ? Image.network(widget.image ?? '')
-                    : null),
+            decoration: BoxDecoration(
+                color: cImageB2Color,
+                borderRadius: BorderRadius.circular(10.r)),
           ),
           Padding(
             padding: EdgeInsets.only(left: 23.w),

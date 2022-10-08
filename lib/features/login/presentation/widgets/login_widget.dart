@@ -1,12 +1,14 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:savdo_agnet_client/features/lock/presentation/pages/lock_page.dart';
+import 'package:savdo_agnet_client/features/login/presentation/bloc/login_bloc.dart';
 import 'package:savdo_agnet_client/features/main/presentation/pages/main_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/utils/app_constants.dart';
+import '../../../../core/widgets/costum_toast.dart';
 import '../../../../di/dependency_injection.dart';
 
 class LoginWidget extends StatefulWidget {
@@ -15,11 +17,15 @@ class LoginWidget extends StatefulWidget {
     required this.maskFormatter,
     required this.tel,
     required this.password,
+    required this.bloc,
+    required this.state,
   }) : super(key: key);
 
   final MaskTextInputFormatter maskFormatter;
   final TextEditingController tel;
   final TextEditingController password;
+  final LoginBloc bloc;
+  final LoginState state;
 
   @override
   State<LoginWidget> createState() => _LoginWidgetState();
@@ -31,6 +37,16 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.state is LoginFailure) {
+      CustomToast.showToast('Kiritilgan malumotlar noto\'g\'ri');
+    }
+    if (widget.state is LoginSuccess) {
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+        builder: (context) {
+          return const MainPage();
+        },
+      ), (route) => false);
+    }
     return Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20.r), color: cWhiteColor),
@@ -86,7 +102,12 @@ class _LoginWidgetState extends State<LoginWidget> {
                           minWidth: 25.w,
                         ),
                       ),
-                      style: textStylePrimaryReg16,
+                      style: TextStyle(
+                          fontSize: 16.sp,
+                          color: widget.state is LoginFailure
+                              ? cPriceColor
+                              : primaryColor,
+                          fontFamily: "Regular"),
                     ),
                   ),
                 ],
@@ -127,7 +148,12 @@ class _LoginWidgetState extends State<LoginWidget> {
                           minWidth: 25.w,
                         ),
                       ),
-                      style: textStylePrimaryReg16,
+                      style: TextStyle(
+                          fontSize: 16.sp,
+                          color: widget.state is LoginFailure
+                              ? cPriceColor
+                              : primaryColor,
+                          fontFamily: "Regular"),
                     ),
                   ),
                   IconButton(
@@ -154,22 +180,21 @@ class _LoginWidgetState extends State<LoginWidget> {
           ),
           SizedBox(height: 24.h),
           ElevatedButton(
-            onPressed: () =>
-                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-              builder: (context) {
-                sharedPreferences.setString(sharedSalesAgentId, '8');
-                return (sharedPreferences.getString('pin_code') ?? '') != ''
-                    ? PasswordScreen.screen()
-                    : const MainPage();
-              },
-            ), (route) => false),
+            onPressed: () {
+              widget.bloc
+                  .add(SendLoginEvent(widget.tel.text, widget.password.text));
+            },
             style: buttonStyle,
-            child: Text('Kirish',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: cWhiteColor,
-                    fontSize: 16.sp,
-                    fontFamily: 'Regular')),
+            child: widget.state is LoginLoading
+                ? const CupertinoActivityIndicator(
+                    color: Colors.white,
+                  )
+                : Text('Kirish',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: cWhiteColor,
+                        fontSize: 16.sp,
+                        fontFamily: 'Regular')),
           ),
         ],
       ),

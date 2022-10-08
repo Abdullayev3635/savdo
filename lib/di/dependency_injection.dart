@@ -106,6 +106,12 @@ import '../features/korzina_screen/data/korzina_hive/korzina_hive.dart';
 import '../features/lock/data/datasources/lock_local_datasources.dart';
 import '../features/lock/data/repositories/lock_repositories.dart';
 import '../features/lock/domain/usescases/u_lock.dart';
+import '../features/login/data/datasources/login_locat_datasources.dart';
+import '../features/login/data/datasources/login_remote_datasources.dart';
+import '../features/login/data/repositories/login_repository_impl.dart';
+import '../features/login/domain/repositories/login_repository.dart';
+import '../features/login/domain/usescases/u_login.dart';
+import '../features/login/presentation/bloc/login_bloc.dart';
 import '../features/product/data/datasource/product_remote_datasources.dart';
 import '../features/product/domain/usescase/brand.dart';
 import '../features/product/presentation/bloc/brand/brand_bloc.dart';
@@ -204,6 +210,10 @@ Future<void> init() async {
 
   di.registerFactory(
     () => ArchiveBloc(archiveUsescase: di()),
+  );
+
+  di.registerFactory(
+    () => LoginBloc(loginData: di()),
   );
 
   ///********************************************************///
@@ -315,6 +325,14 @@ Future<void> init() async {
     ),
   );
 
+  di.registerLazySingleton<LoginRepository>(
+    () => LoginRepositoryImpl(
+      networkInfo: di(),
+      loginRemoteDatasource: di(),
+      loginLocalDatasource: di(),
+    ),
+  );
+
   ///********************************************************///
   /// UsesCases
 
@@ -371,6 +389,8 @@ Future<void> init() async {
   di.registerLazySingleton(() => EditClientUsescase(repository: di()));
 
   di.registerLazySingleton(() => ArchiveUsescase(archiveRepository: di()));
+
+  di.registerLazySingleton(() => LoginData(loginRepository: di()));
 
   ///********************************************************///
   ///
@@ -447,6 +467,12 @@ Future<void> init() async {
   );
   di.registerLazySingleton(
     () => ArchiveRemoteDatasourceImpl(client: di()),
+  );
+  di.registerLazySingleton(
+        () => LoginRemoteDatasourceImpl(client: di()),
+  );
+  di.registerLazySingleton(
+        () => LoginLocalDataSourceImpl(sharedPreferences: di()),
   );
 
   ///********************************************************///

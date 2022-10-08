@@ -32,7 +32,7 @@ class GridViewItemsWidget extends StatelessWidget {
                   height: 26.h,
                   alignment: Alignment.center,
                   fit: BoxFit.none),
-              height: 115.h,
+              height: 100.h,
               width: 145.w,
               decoration: BoxDecoration(
                   color: cImageBackgroundColor,
@@ -43,8 +43,8 @@ class GridViewItemsWidget extends StatelessWidget {
             ),
             Text(
               '${state.firma[index].title}',
-              style: const TextStyle(
-                  color: cWhiteColor, fontFamily: 'Regular', fontSize: 16),
+              style: TextStyle(
+                  color: cWhiteColor, fontFamily: 'Regular', fontSize: 16.sp),
             ),
           ],
         ),

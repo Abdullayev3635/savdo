@@ -51,12 +51,13 @@ class _KorzinaItemsWidgetState extends State<KorzinaItemsWidget> {
           child: SlidableAutoCloseBehavior(
             closeWhenTapped: false,
             child: Slidable(
+
               key: Key('${card?.id}'),
               direction: Axis.horizontal,
               endActionPane: ActionPane(
                 extentRatio: 0.48,
                 motion: const BehindMotion(),
-                dragDismissible: false,
+                dragDismissible: true,
                 children: [
                   InkWell(
                     onTap: () async {
@@ -71,7 +72,7 @@ class _KorzinaItemsWidgetState extends State<KorzinaItemsWidget> {
                               category: widget.transaction?[index].category,
                               name: widget.transaction?[index].name,
                               price: widget.transaction?[index].price,
-                              image: null,
+                              image: widget.transaction?[index].image,
                               residue: widget.transaction?[index].residue,
                               id: widget.transaction![index].id!,
                               size: widget.transaction![index].size,
@@ -80,6 +81,7 @@ class _KorzinaItemsWidgetState extends State<KorzinaItemsWidget> {
                               currencyId: widget.transaction![index].currencyId,
                             );
                           });
+
                     },
                     borderRadius: const BorderRadius.horizontal(
                         right: Radius.circular(15)),

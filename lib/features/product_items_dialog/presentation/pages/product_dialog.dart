@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -82,69 +83,54 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => di<KorzinaBloc>()..add(KorzinaInitialEvent()),
-      child: SingleChildScrollView(
-        reverse: true,
-        clipBehavior: Clip.none,
-        child: AllDialogSkeleton(
-          title: '',
-          icon: '',
-          child: BlocBuilder<KorzinaBloc, KorzinaState>(
-            builder: (context, state) {
-              if (state is KorzinaSuccessState) {
-                List<CurrencyModel>? currencyList =
-                    state.buyurtmaList[0].currency;
-                List<PriceTypeModel>? priceTypeList =
-                    state.buyurtmaList[0].priceType;
-                return Container(
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(22.r)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(top: 9.h),
-                        decoration: BoxDecoration(
-                          color: cWhiteColor,
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(22.r)),
-                        ),
-                        child: ClipRRect(
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(22.r)),
-                          child: widget.image == null
-                              ? Container(
-                                  decoration: BoxDecoration(
-                                      color: cTextFieldColor,
-                                      borderRadius:
-                                          BorderRadius.circular(20.r)),
-                                  height: 200.h,
-                                  width: 340.w,
-                                  child: SvgPicture.asset(
-                                      'assets/icons/ic_gallery.svg',
-                                      fit: BoxFit.none,
-                                      height: 200),
-                                )
-                              : Image.network(
-                                  widget.image ?? '',
-                                  height: 214.h,
-                                  width: 340.w,
-                                  fit: BoxFit.fitHeight,
-                                ),
-                        ),
+    return AllDialogSkeleton(
+      title: '',
+      icon: '',
+      child: Container(
+        decoration:
+        BoxDecoration(borderRadius: BorderRadius.circular(22.r)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              margin: EdgeInsets.only(top: 9.h),
+              height: 200.h,
+              width: 340.w,
+              decoration: BoxDecoration(
+                color: cWhiteColor,
+                borderRadius:
+                BorderRadius.vertical(top: Radius.circular(22.r)),
+              ),
+              child: ClipRRect(
+                borderRadius:
+                BorderRadius.all(Radius.circular(22.r)),
+                child: CachedNetworkImage(
+                  imageUrl: widget.image!,
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) {
+                    return Container(
+                      margin: const EdgeInsets.all(20),
+                      child: SvgPicture.asset(
+                        'assets/icons/ic_fon_gallery.svg',
+                        fit: BoxFit.cover,
                       ),
-                      dialogContent(context, currencyList, priceTypeList)
-                    ],
-                  ),
-                );
-              }
-              return SizedBox(
-                  // child: const Center(child: CupertinoActivityIndicator()),
-                  height: MediaQuery.of(context).size.height / 1.2);
-            },
-          ),
+                    );
+                  },
+                  errorWidget: (contex, url, e) {
+                    return Container(
+                      margin: const EdgeInsets.all(20),
+                      child: SvgPicture.asset(
+                        'assets/icons/ic_fon_gallery.svg',
+                        fit: BoxFit.cover,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+            dialogContent(context, [], [])
+          ],
         ),
       ),
     );
@@ -176,94 +162,6 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
             ),
           ),
           SizedBox(height: 24.h),
-          Text('Narx turi:', style: titleTSM13),
-          // SizedBox(height: 12.h),
-          Row(
-            children: [
-              Expanded(
-                child: SizedBox(
-                  height: 50.h,
-                  child: ListView.builder(
-                      physics: const BouncingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      itemCount: currencyList?.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              group1 = '$index';
-                            });
-                          },
-                          child: Row(
-                            children: [
-                              Radio(
-                                  value: '$index',
-                                  groupValue: group1,
-                                  fillColor:
-                                      MaterialStateProperty.all(primaryColor),
-                                  activeColor: primaryColor,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      group1 = value.toString();
-                                      // print(group1);
-                                    });
-                                  }),
-                              Text(currencyList![index].name ?? "null",
-                                  style: textStylePrimaryMed14),
-                            ],
-                          ),
-                        );
-                      }),
-                ),
-              ),
-            ],
-          ),
-          // SizedBox(height: 12.h),
-          Text('Savdo turi:', style: titleTSM13),
-          // SizedBox(height: 12.h),
-          Row(
-            children: [
-              Expanded(
-                child: SizedBox(
-                  height: 50.h,
-                  child: ListView.builder(
-                      physics: const BouncingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      itemCount: priceTypeList?.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              group2 = '$index';
-                            });
-                          },
-                          child: Row(
-                            children: [
-                              Radio(
-                                  value: '$index',
-                                  groupValue: group2,
-                                  fillColor:
-                                      MaterialStateProperty.all(primaryColor),
-                                  activeColor: primaryColor,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      group2 = value.toString();
-                                      // print(group2);
-                                    });
-                                  }),
-                              Text(priceTypeList![index].name ?? "null",
-                                  style: textStylePrimaryMed14),
-                            ],
-                          ),
-                        );
-                      }),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 10.h),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -475,12 +373,6 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                   style: buttonStyle,
                   onPressed: () async {
                     if (int.parse(piecesController.text) != 0) {
-                      sharedPreferences.setString(sharedCurrencyValue,
-                          currencyList![int.parse(group1)].value!);
-                      sharedPreferences.setString(sharedCurrencyId,
-                          currencyList[int.parse(group1)].id.toString());
-                      sharedPreferences.setString(sharedPriceTypeId,
-                          priceTypeList![int.parse(group2)].id.toString());
                       FocusManager.instance.primaryFocus?.unfocus();
                       final productAddKorzina = KorzinaCard(
                         blok: widget.blok,

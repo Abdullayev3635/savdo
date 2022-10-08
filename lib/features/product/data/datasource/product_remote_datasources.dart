@@ -39,8 +39,8 @@ abstract class CategoryRemoteDatasource {
       );
       if (response.statusCode == 200) {
         final parsed = jsonDecode(response.body);
-        for (int i = 0; i < (parsed["data"] as List).length; i++) {
-          list.add(CategoryModel.fromJson(parsed["data"][i]));
+        for (int i = 0; i < (parsed as List).length; i++) {
+          list.add(CategoryModel.fromJson(parsed[i]));
         }
         return list;
       } else {
@@ -108,8 +108,8 @@ abstract class CategoryRemoteDatasource {
       if (response.statusCode == 200) {
         // log(response.body.toString());
         final parsed = jsonDecode(response.body);
-        for (int i = 0; i < (parsed["data"] as List).length; i++) {
-          list.add(BrandProductModel.fromJson(parsed["data"][i]));
+        for (int i = 0; i < (parsed as List).length; i++) {
+          list.add(BrandProductModel.fromJson(parsed[i]));
         }
         return list;
       } else {
