@@ -19,17 +19,20 @@ class BuyurtmaModelAdapter extends TypeAdapter<BuyurtmaModel> {
     return BuyurtmaModel(
       currency: (fields[0] as List?)?.cast<CurrencyModel>(),
       priceType: (fields[1] as List?)?.cast<PriceTypeModel>(),
+      stores: (fields[2] as List?)?.cast<StoreModel>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, BuyurtmaModel obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(3)
       ..writeByte(0)
       ..write(obj.currency)
       ..writeByte(1)
-      ..write(obj.priceType);
+      ..write(obj.priceType)
+      ..writeByte(2)
+      ..write(obj.stores);
   }
 
   @override

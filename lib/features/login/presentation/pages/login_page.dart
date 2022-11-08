@@ -5,6 +5,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../../../../core/utils/app_constants.dart';
 import '../../../../di/dependency_injection.dart';
+import '../../../main/presentation/pages/main_page.dart';
 import '../bloc/login_bloc.dart';
 import '../widgets/call_button.dart';
 import '../widgets/login_widget.dart';
@@ -13,9 +14,9 @@ class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   static Widget screen() => BlocProvider(
-    create: (context) => di<LoginBloc>(),
-    child: const LoginPage(),
-  );
+        create: (context) => di<LoginBloc>(),
+        child: const LoginPage(),
+      );
 
   @override
   State<LoginPage> createState() => _LoginPageState();

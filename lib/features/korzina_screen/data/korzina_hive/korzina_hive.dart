@@ -28,13 +28,13 @@ class KorzinaCard extends HiveObject {
   @HiveField(8)
   String? image;
   @HiveField(9)
-  int? dona;
+  double? dona;
   @HiveField(10)
-  int? bloklarSoni;
+  double? bloklarSoni;
   @HiveField(11)
   int? blok;
   @HiveField(12)
-  int? quantity;
+  double? quantity;
 
   KorzinaCard({
     required this.bloklarSoni,
@@ -60,10 +60,6 @@ class KorzinaCard extends HiveObject {
     price = json['price'];
     bloklarSoni = json['blok'];
     dona = json['piece'];
-    sharedPreferences.setString(sharedSalesAgentId, json['sales_agent_id']);
-    sharedPreferences.setString(sharedCustomerId, json['customer_id']);
-    sharedPreferences.setString(sharedCurrencyValue, json['currency_value']);
-    sharedPreferences.setString(sharedPriceTypeId, json['price_type_id']);
   }
 
   Map<String, dynamic> toJson() {
@@ -71,9 +67,11 @@ class KorzinaCard extends HiveObject {
     data['product_id'] = id;
     data['quantity'] = quantity;
     data['price'] = price;
-    data['piece'] = dona;
+    data['quantity'] = dona;
+    data['residue'] = 100;
+    data['price_type_id'] = 1;
+    data['income_price'] = "30000";
     data['blok'] = bloklarSoni;
-    data['currency_id'] = currencyId;
     return data;
   }
 }

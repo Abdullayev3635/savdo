@@ -18,18 +18,16 @@ class CatalogLoadingState extends CatalogState {
 class CatalogSuccessState extends CatalogState {
   final List<CategoryModel> list;
   final int selected;
-  final int count;
 
   const CatalogSuccessState({
     required this.list,
-    required this.count,
     required this.selected,
     required bool isLarge,
   }) : super(isLarge: isLarge);
 }
-// class CatalogNoInternetState extends CatalogState{
-//   const CatalogNoInternetState({required bool isLarge}) : super(isLarge: isLarge);
-// }
+class CatalogNoInternetState extends CatalogState{
+  const CatalogNoInternetState({required bool isLarge}) : super(isLarge: isLarge);
+}
 class CatalogFailureState extends CatalogState {
   final String message;
 

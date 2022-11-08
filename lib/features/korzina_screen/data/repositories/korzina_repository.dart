@@ -16,10 +16,10 @@ class KorzinaRepositoryImpl extends KorzinaRepository {
 
   @override
   Future<Either<Failure, dynamic>> sendKorzinaData(
-      List<KorzinaCard> card) async {
+      List<KorzinaCard> card, dynamic paymentJson) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await remoteDatasource.sendKorzinaData(card: card);
+        final result = await remoteDatasource.sendKorzinaData(card: card, paymentJson: paymentJson);
         return Right(result);
       } on ServerFailure {
         return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));

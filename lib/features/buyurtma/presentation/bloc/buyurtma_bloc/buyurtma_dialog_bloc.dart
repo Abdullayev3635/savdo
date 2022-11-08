@@ -7,6 +7,9 @@ import 'package:savdo_agnet_client/core/errors/failures.dart';
 import 'package:savdo_agnet_client/features/buyurtma/data/model/buyurtma_model.dart';
 import 'package:savdo_agnet_client/features/buyurtma/domain/usescase/buyurtma_usescase.dart';
 import 'package:savdo_agnet_client/features/buyurtma/domain/usescase/buyurtma_usescase_local.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../../../core/utils/app_constants.dart';
 
 part 'buyurtma_dialog_event.dart';
 
@@ -16,10 +19,12 @@ class BuyurtmaDialogBloc
     extends Bloc<BuyurtmaDialogEvent, BuyurtmaDialogState> {
   final UsesBuyurtma usesBuyurtma;
   final UsesBuyurtmaLocal usesBuyurtmaLocal;
+  final SharedPreferences sharedPreferences;
 
   BuyurtmaDialogBloc({
     required this.usesBuyurtma,
     required this.usesBuyurtmaLocal,
+    required this.sharedPreferences,
   }) : super(BuyurtmaDialogInitialState()) {
     on<BuyurtmaInitialLocalEvent>(getBuyurtmaLocal, transformer: sequential());
     on<BuyurtmaInitialEvent>(getBuyurtma, transformer: sequential());
@@ -50,7 +55,9 @@ class BuyurtmaDialogBloc
 
   FutureOr<void> getBuyurtma(
       BuyurtmaInitialEvent event, Emitter<BuyurtmaDialogState> emit) async {
-    final result = await usesBuyurtma(BuyurtmaParams());
+    final result = await usesBuyurtma(BuyurtmaParams(
+        workerId:
+            int.parse(sharedPreferences.getString(sharedStoreId) ?? "0")));
     result.fold(
         (failure) => {
               if (failure is NoConnectionFailure)

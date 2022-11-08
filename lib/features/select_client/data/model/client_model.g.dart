@@ -17,12 +17,13 @@ class ClientModelAdapter extends TypeAdapter<ClientModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return ClientModel(
-        id: fields[0] as int?,
-        name: fields[1] as String?,
-        regionId: fields[2] as int?,
-        regionName: fields[3] as String?,
-        phone1: fields[4] as String?,
-        coordinate: fields[5] as String?);
+      id: fields[0] as int?,
+      name: fields[1] as String?,
+      phone1: fields[4] as String?,
+      regionId: fields[2] as int?,
+      regionName: fields[3] as String?,
+      coordinate: fields[5] as String?,
+    );
   }
 
   @override

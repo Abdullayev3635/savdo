@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:savdo_agnet_client/features/product/data/model/brand_product_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/errors/failures.dart';
 import '../../../../core/utils/api_path.dart';
+import '../../../../core/utils/app_constants.dart';
 
 abstract class BrandProductsRemoteDatasource {
   Future<List<BrandProductModel>> getBrandProducts(
@@ -18,9 +20,11 @@ abstract class BrandProductsRemoteDatasource {
 class BrandProductsRemoteDatasourceImpl
     implements BrandProductsRemoteDatasource {
   final http.Client client;
+  final SharedPreferences sharedPreferences;
 
   BrandProductsRemoteDatasourceImpl({
     required this.client,
+    required this.sharedPreferences,
   });
 
   @override
@@ -30,14 +34,17 @@ class BrandProductsRemoteDatasourceImpl
       required int page,
       required String name,
       required int? brandId}) async {
+    int storeIdId = int.parse(sharedPreferences.getString(sharedStoreId)??"0");
+    int currencyId = int.parse(sharedPreferences.getString(sharedCurrencyId)??"0");
     try {
       dynamic json = {
-        "worker_id": 8,
+        "worker_id": 1,
         "page": page,
-        // salesAgentId,
-        "price_type_id": 1,
+        "price_type_id": priceTypeId,
         "brand_id": brandId,
-        "name": name
+        "name": name,
+        "currency_id":currencyId,
+        "store_id":storeIdId
       };
       final response = await client.post(
         Uri.parse(baseUrl + allBrandProductsPHP),

@@ -42,9 +42,9 @@ class SelectClientBloc extends Bloc<SelectPartEvent, SelectClientState> {
         (r) => {
               if (r.isEmpty)
                 {
-                  emit(SelectClientLoading())
-                  // emit(
-                  //     SelectClientFailureState(message: "hech narsa yo'q ekan"))
+                  // emit(SelectClientLoading())
+                  emit(
+                      SelectClientFailureState(message: "hech narsa yo'q ekan"))
                 }
               else
                 {
@@ -71,7 +71,7 @@ class SelectClientBloc extends Bloc<SelectPartEvent, SelectClientState> {
         (r) => {
               if (r.isEmpty)
                 {
-                  emit(SelectClientLoading())
+                  emit(SelectClientFailureState(message: ''))
                 }
               else
                 {

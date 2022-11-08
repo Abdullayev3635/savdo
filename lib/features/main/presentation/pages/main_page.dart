@@ -13,6 +13,7 @@ import 'package:savdo_agnet_client/features/profile/presentation/pages/profile_p
 import 'package:savdo_agnet_client/features/report_dialog/presentation/pages/report_dialog.dart';
 import 'package:savdo_agnet_client/features/tulov_qilish/presentation/pages/tulov_qilish_dialog.dart';
 
+import '../../../../core/widgets/costum_toast.dart';
 import '../widgets/menu_items.dart';
 
 class MainPage extends StatefulWidget {
@@ -24,24 +25,23 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   DateTime? currentBackPressTime;
+
   @override
   Widget build(BuildContext context) {
-    return
-      // WillPopScope(
-      // onWillPop: (){
-      //   DateTime now = DateTime.now();
-      //   if (currentBackPressTime == null ||
-      //       now.difference(currentBackPressTime!) >
-      //           const Duration(seconds: 2)) {
-      //     currentBackPressTime = now;
-      //     CustomToast.showToast("Dasturdan chiqish uchun ikki marta bosing!");
-      //     return Future.value(false);
-      //   }
-      //   // exit(0);
-      //   return Future.value(true);
-      // },
-      // child:
-      Scaffold(
+    return WillPopScope(
+      onWillPop: () {
+        DateTime now = DateTime.now();
+        if (currentBackPressTime == null ||
+            now.difference(currentBackPressTime!) >
+                const Duration(seconds: 2)) {
+          currentBackPressTime = now;
+          CustomToast.showToast("Dasturdan chiqish uchun ikki marta bosing!");
+          return Future.value(false);
+        }
+        // exit(0);
+        return Future.value(true);
+      },
+      child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: cBackgroundColor,
         body: Container(
@@ -183,7 +183,8 @@ class _MainPageState extends State<MainPage> {
             ],
           ),
         ),
-      // ),
+        // ),
+      ),
     );
   }
 }

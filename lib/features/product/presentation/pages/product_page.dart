@@ -148,7 +148,7 @@ class _ProductPageState extends State<ProductPage> {
                               onTap: () async {
                                 _catalogBloc.add(
                                   ChangeColor(state.list, state.selected,
-                                      state.count, state.isLarge),
+                                       state.isLarge),
                                 );
                               },
                               child: Container(
@@ -188,7 +188,7 @@ class _ProductPageState extends State<ProductPage> {
                         ),
                       ),
                     );
-                  } else if (state is BrandNoInternetState) {
+                  } else if (state is CatalogNoInternetState) {
                     return SliverToBoxAdapter(
                       child: ShowFailureDialog(onTap: () async {
                         if (await networkInfo.isConnected) {
@@ -200,6 +200,15 @@ class _ProductPageState extends State<ProductPage> {
                         }
                       }),
                     );
+                  }
+                  else if (state is CatalogFailureState) {
+                    _brandBloc.add(
+                      GetBrandEvent(
+                        productTypeId: 0,
+                        priceTypeId: 0,
+                      ),
+                    );
+                    return const SliverToBoxAdapter();
                   }
                   return const SliverToBoxAdapter();
                 },

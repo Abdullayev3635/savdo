@@ -18,11 +18,12 @@ class BuyurtmaRepositoryImpl extends BuyurtmaRepository {
   });
 
   @override
-  Future<Either<Failure, dynamic>> getBuyurtma() async {
+  Future<Either<Failure, dynamic>> getBuyurtma(int workerId) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await remoteDataSourceImpl.getBuyurtma();
+        final result = await remoteDataSourceImpl.getBuyurtma(workerId);
         await localeDatasourceImpl.setBuyurtma(result);
+        await localeDatasourceImpl.setCurrency(result[0].currency);
         return Right(result);
       } on ServerFailure {
         return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));

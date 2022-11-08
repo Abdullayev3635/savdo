@@ -23,14 +23,16 @@ Color primaryColor07 = primaryColor.withOpacity(0.7);
 BoxShadow textFieldShadow = BoxShadow(color: cShadowColor, blurRadius: 40);
 
 // All table names for local databases
-const String categoryBox = 'category_box';
-const String brandBox = 'brand_box';
-const String brandProductsBox = 'brand_products_box';
+// const String categoryBox = 'category_box';
+// const String brandBox = 'brand_box';
+// const String brandProductsBox = 'brand_products_box';
 const String korzinaBox = 'korzina_box';
 const String buyurtmaBox = 'buyurtma_box';
+
 // const String clientDebitCreditBox = 'client_debit_credit_box';
 const String currencyBox = 'currency_box';
 const String priceTypeBox = 'price_type_box';
+const String storeBox = 'store_box';
 const String clientBox = 'client_box';
 const String viloyatBox = 'viloyat_box';
 const String regionBox = 'region_box';
@@ -77,7 +79,9 @@ TextStyle hintStyle =
 TextStyle textStyleOrangeReg18 =
     TextStyle(fontSize: 18.sp, color: cOrangeColor, fontFamily: 'Regular');
 TextStyle textStylePrimaryReg18 =
-    TextStyle(fontSize: 18.sp, color: cOrangeColor, fontFamily: 'Regular');
+    TextStyle(fontSize: 18.sp, color: primaryColor, fontFamily: 'Regular');
+TextStyle textStylePrimaryReg24 =
+    TextStyle(fontSize: 24.sp, color: primaryColor, fontFamily: 'SemiBold');
 
 // buttons Style
 ButtonStyle inActiveButtonStyle = ButtonStyle(
@@ -117,7 +121,9 @@ ButtonStyle korzinaButtonStyle = ButtonStyle(
   backgroundColor: MaterialStateProperty.all(primaryColor),
   elevation: MaterialStateProperty.all(0),
 );
+
 // BoxConstraints
+
 BoxConstraints boxConstraintsTextField = BoxConstraints(
     maxWidth: 30.w, maxHeight: 30.h, minHeight: 25.h, minWidth: 25.w);
 
@@ -126,4 +132,7 @@ const String sharedCustomerId = 'customer_id';
 const String sharedCurrencyValue = 'currency_value';
 const String sharedCurrencyId = 'currency_id';
 const String sharedPriceTypeId = 'price_type_id';
-const String sharedSalesAgentId = 'sales_agent_id';
+const String sharedStoreId = 'store_id';
+const String sharedSalesAgentId = 'worker_id';
+const String sharedBranchId = 'branch_id';
+const String sharedToken = 'token';

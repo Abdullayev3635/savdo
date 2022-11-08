@@ -23,5 +23,5 @@ class OnSelectedClientParams extends Equatable {
   const OnSelectedClientParams({required this.customerId, required this.salesAgentId});
 
   @override
-  List<Object?> get props => [customerId, salesAgentId];
+  List<Object?> get props => [];
 }

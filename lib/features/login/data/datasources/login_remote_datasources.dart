@@ -17,13 +17,11 @@ class LoginRemoteDatasourceImpl implements LoginRemoteDatasource {
 
   @override
   Future<dynamic> setData(String tel, String password) async {
-    List<UserModel> _list = [];
     try {
       var body = {
-        "phone_number": tel,
+        "phoneNumber": "998" + tel,
         "password": password,
       };
-
       final response = await client.post(
         Uri.parse(baseUrl + loginPHP),
         body: jsonEncode(body),
@@ -33,17 +31,8 @@ class LoginRemoteDatasourceImpl implements LoginRemoteDatasource {
         },
       );
       if (response.statusCode == 200) {
-        if (response.body.toString() == "1") {
-          return response.body.toString();
-        } else if (response.body.toString() == "0") {
-          return response.body.toString();
-        } else {
-          final parsed = json.decode(response.body);
-          for (int i = 0; i < (parsed["data"] as List).length; i++) {
-            _list.add(UserModel.fromJson(parsed["data"][i]));
-          }
-          return _list;
-        }
+        final parsed = json.decode(response.body);
+        return UserModel.fromJson(parsed);
       } else {
         return "0";
       }

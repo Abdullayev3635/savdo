@@ -17,6 +17,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/network/network_info.dart';
 import '../../../../core/widgets/dialog_frame.dart';
 import '../../../../di/dependency_injection.dart';
+import '../../data/model/store_model.dart';
 
 class BuyurtmaDialog extends StatefulWidget {
   const BuyurtmaDialog({Key? key}) : super(key: key);
@@ -38,6 +39,7 @@ class BuyurtmaDialog extends StatefulWidget {
 }
 
 class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
+  String storeGroup = '0';
   String narxTuriGroup = '0';
   String savdoTuriGroup = '0';
   int clientId = 0;
@@ -103,7 +105,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                                         salesAgentId: int.parse(
                                             sharedPreferences.getString(
                                                     sharedSalesAgentId) ??
-                                                ''),
+                                                '0'),
                                       ),
                                     );
                                   }),
@@ -219,7 +221,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                           fit: BoxFit.cover),
                     ],
                   );
-                }  else if (state is QarizdorlikFail) {
+                } else if (state is QarizdorlikFail) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -279,6 +281,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                       state.buyurtmaList[0].currency;
                   List<PriceTypeModel>? priceTypeList =
                       state.buyurtmaList[0].priceType;
+                  List<StoreModel>? storeList = state.buyurtmaList[0].stores;
                   if (isFirstTap) {
                     kurs = currencyList![0].value!;
                   }
@@ -312,6 +315,64 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                           ],
                         ),
                       ),
+                      SvgPicture.asset('assets/icons/ic_divider.svg',
+                          fit: BoxFit.cover),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            right: 7.w, top: 24.h, left: 7.w, bottom: 14.h),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text('Ombor:', style: textStylePrimaryMed16),
+                          ],
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: SizedBox(
+                              height: 50.h,
+                              child: ListView.builder(
+                                  physics: const BouncingScrollPhysics(),
+                                  scrollDirection: Axis.horizontal,
+                                  shrinkWrap: true,
+                                  itemCount: storeList!.length,
+                                  itemBuilder: (context, index) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          storeGroup = index.toString();
+                                        });
+                                      },
+                                      child: Row(
+                                        children: [
+                                          Radio(
+                                              value: '$index',
+                                              groupValue: storeGroup,
+                                              fillColor:
+                                                  MaterialStateProperty.all(
+                                                      primaryColor),
+                                              activeColor: primaryColor,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  storeGroup = value.toString();
+                                                  "0";
+                                                });
+                                              }),
+                                          Text(
+                                            storeList[index].name ?? "",
+                                            maxLines: 1,
+                                            style: textStylePrimaryMed14,
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 5.h),
                       SvgPicture.asset('assets/icons/ic_divider.svg',
                           fit: BoxFit.cover),
                       Padding(
@@ -444,20 +505,26 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                                     .id
                                     .toString());
                             sharedPreferences.setString(
+                                sharedStoreId,
+                                storeList[int.parse(storeGroup)]
+                                    .id
+                                    .toString());
+                            sharedPreferences.setString(
                                 sharedPriceTypeId,
-                                // savdoTuriGroup.isNotEmpty
-                                //     ? priceTypeList![int.parse(savdoTuriGroup)]
-                                //         .id
-                                //         .toString()
-                                '1');
-
+                                savdoTuriGroup.isNotEmpty
+                                    ? priceTypeList![int.parse(savdoTuriGroup)]
+                                        .id
+                                        .toString()
+                                    : "1");
+                            sharedPreferences.setString(sharedCustomerId, clientId.toString());
                             Navigator.pop(context);
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      ProductPage.screen(customerId: clientId),
-                                ));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ProductPage.screen(customerId: clientId),
+                              ),
+                            );
                           } else {
                             CustomToast.showToast('Mijozni tanlang!');
                           }

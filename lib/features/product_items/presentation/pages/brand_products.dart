@@ -58,48 +58,47 @@ class _ProductsState extends State<Products> {
   late BrandsProductsBloc _brandBloc;
   final controller = ScrollController();
   List<BrandProductModel> currentList = [];
-  var succesState;
+  // var succesState;
 
   @override
   void initState() {
     super.initState();
     _brandBloc = BlocProvider.of<BrandsProductsBloc>(context);
-    succesState = BlocProvider.of<BrandsProductsBloc>(context).state;
+    // succesState = BlocProvider.of<BrandsProductsBloc>(context).state;
     controller.addListener(() {
       if (controller.position.maxScrollExtent == controller.offset) {
-        if(succesState is BrandsProductsInitial) {
-          print('y1');
-          if (succesState is BrandsProductsSuccessState) {
-            print('y2');
-            if ((BlocProvider
-                .of<BrandsProductsBloc>(context)
-                .state
-            as BrandsProductsSuccessState)
-                .rList
-                .isNotEmpty) {
-              print('y3');
-              if (textEditingController.text != "") {
-                print('n1');
-                (BlocProvider
-                    .of<BrandsProductsBloc>(context)
-                    .state
-                as BrandsProductsSuccessState)
-                    .list
-                    .clear();
-              }
-              _brandBloc.add(GetBrandsProductsEvent(
-                  page: ++page,
-                  name: textEditingController.text,
-                  priceTypeId: gpriceId,
-                  brandId: gbrandId,
-                  salesAgentId: int.parse(
-                      sharedPreferences.getString(sharedSalesAgentId) ??
-                          '-1')));
-            }
-          }else {
-            print('n2');
-          }
+        if (textEditingController.text != "") {
+          print('n1');
+          (BlocProvider.of<BrandsProductsBloc>(context).state
+          as BrandsProductsSuccessState)
+              .list
+              .clear();
         }
+        _brandBloc.add(
+          GetBrandsProductsEvent(
+            page: ++page,
+            name: textEditingController.text,
+            priceTypeId: gpriceId,
+            brandId: gbrandId,
+            salesAgentId: int.parse(
+                sharedPreferences.getString(sharedSalesAgentId) ?? '-1'),
+          ),
+        );
+        // if (succesState is BrandsProductsInitial) {
+        //   print('y1');
+        //   if (succesState is BrandsProductsSuccessState) {
+        //     print('y2');
+        //     if ((BlocProvider.of<BrandsProductsBloc>(context).state
+        //             as BrandsProductsSuccessState)
+        //         .rList
+        //         .isNotEmpty) {
+        //       print('y3');
+        //
+        //     }
+        //   } else {
+        //     print('n2');
+        //   }
+        // }
       }
     });
   }

@@ -51,7 +51,6 @@ class _KorzinaItemsWidgetState extends State<KorzinaItemsWidget> {
           child: SlidableAutoCloseBehavior(
             closeWhenTapped: false,
             child: Slidable(
-
               key: Key('${card?.id}'),
               direction: Axis.horizontal,
               endActionPane: ActionPane(

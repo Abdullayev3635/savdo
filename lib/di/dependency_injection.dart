@@ -101,6 +101,7 @@ import '../core/network/network_info.dart';
 import '../features/archive_details/domain/repositories/details_repository.dart';
 import '../features/archive_details/domain/usescase/archive_details.dart';
 import '../features/buyurtma/data/datasources/buyurtma_remote_datasource.dart';
+import '../features/buyurtma/data/model/store_model.dart';
 import '../features/foto_xisobot/presentation/bloc/foto_bloc.dart';
 import '../features/korzina_screen/data/korzina_hive/korzina_hive.dart';
 import '../features/lock/data/datasources/lock_local_datasources.dart';
@@ -160,7 +161,7 @@ Future<void> init() async {
   );
 
   di.registerFactory(
-    () => BrandBloc(brandCategory: di()),
+    () => BrandBloc(brandCategory: di(), sharedPreferences: di()),
   );
 
   di.registerFactory(
@@ -184,7 +185,7 @@ Future<void> init() async {
   );
 
   di.registerFactory(
-    () => BuyurtmaDialogBloc(usesBuyurtma: di(), usesBuyurtmaLocal: di()),
+    () => BuyurtmaDialogBloc(usesBuyurtma: di(), usesBuyurtmaLocal: di(), sharedPreferences: di()),
   );
 
   di.registerFactory(
@@ -261,7 +262,6 @@ Future<void> init() async {
 
   di.registerLazySingleton<CatalogRepository>(
     () => CategoryRepositoryImpl(
-      categoryLocalDatasourceImpl: di(),
       categoryRemoteDatasourceImpl: di(),
       networkInfo: di(),
     ),
@@ -431,16 +431,16 @@ Future<void> init() async {
   );
 
   di.registerLazySingleton(
-    () => CategoryRemoteDatasourceImpl(client: di()),
+    () => CategoryRemoteDatasourceImpl(client: di(), sharedPreferences: di()),
   );
-  di.registerLazySingleton(
-    () => CategoryLocalDataSourceImpl(),
-  );
+  // di.registerLazySingleton(
+  //   () => CategoryLocalDataSourceImpl(),
+  // );
   // di.registerLazySingleton(
   //   () => BrandProductsLocalDataSourceImpl(),
   // );
   di.registerLazySingleton<BrandProductsRemoteDatasource>(
-    () => BrandProductsRemoteDatasourceImpl(client: di()),
+    () => BrandProductsRemoteDatasourceImpl(client: di(), sharedPreferences: di()),
   );
   di.registerLazySingleton(
     () => TulovRemoteDataSourceImpl(client: di()),
@@ -454,7 +454,7 @@ Future<void> init() async {
     () => SelectClientLocalDataSourceImpl(),
   );
   di.registerLazySingleton(
-    () => BuyurtmaRemoteDataSourceImpl(client: di()),
+    () => BuyurtmaRemoteDataSourceImpl(client: di(), sharedPreferences: di()),
   );
   di.registerLazySingleton(
     () => BuyurtmaLocaleDatasourceImpl(),
@@ -501,18 +501,18 @@ Future<void> init() async {
   // korzina
   Hive.registerAdapter(KorzinaCardAdapter());
   await Hive.openBox<KorzinaCard>(korzinaBox);
-
-  // category
-  Hive.registerAdapter(CategoryModelAdapter());
-  await Hive.openBox(categoryBox);
+  //
+  // // category
+  // Hive.registerAdapter(CategoryModelAdapter());
+  // await Hive.openBox(categoryBox);
 
   // brand
-  Hive.registerAdapter(BrandModelAdapter());
-  await Hive.openBox(brandBox);
+  // Hive.registerAdapter(BrandModelAdapter());
+  // await Hive.openBox(brandBox);
 
   // brandProducts
-  Hive.registerAdapter(BrandProductModelAdapter());
-  await Hive.openBox(brandProductsBox);
+  // Hive.registerAdapter(BrandProductModelAdapter());
+  // await Hive.openBox(brandProductsBox);
 
   // clientModel
   Hive.registerAdapter(ClientModelAdapter());
@@ -524,11 +524,14 @@ Future<void> init() async {
 
   // currency model
   Hive.registerAdapter(CurrencyModelAdapter());
-  await Hive.openBox(currencyBox);
+  await Hive.openBox<List<CurrencyModel>>(currencyBox);
 
   // price type model
   Hive.registerAdapter(PriceTypeModelAdapter());
   await Hive.openBox(priceTypeBox);
+  // price type model
+  Hive.registerAdapter(StoreModelAdapter());
+  await Hive.openBox(storeBox);
 
   // buyurtma dialog
   Hive.registerAdapter(BuyurtmaModelAdapter());

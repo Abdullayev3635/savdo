@@ -36,7 +36,7 @@ class AddClientRemoteDatasourceImpl extends AddClientRemoteDatasource {
         "sales_agent_id": clientDataList.salesAgentId
       };
       final response = await http.post(
-        Uri.parse(baseUrl + clientPHP),
+        Uri.parse(baseUrl + clientCreatePHP),
         body: jsonEncode(json),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',

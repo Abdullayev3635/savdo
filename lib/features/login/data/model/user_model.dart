@@ -1,39 +1,39 @@
 class UserModel {
-  int? id;
-  String? name;
-  String? login;
-  String? phoneNumber;
-  int? sectorId;
-  int? regionId;
+  int? workerId;
+  String? workerName;
+  String? image;
+  int? branchId;
+  String? branchName;
+  List<int>? roles;
   String? token;
 
   UserModel(
-      {this.id,
-      this.name,
-      this.login,
-      this.phoneNumber,
-      this.sectorId,
-      this.regionId,
-      this.token});
+      {this.workerId,
+        this.workerName,
+        this.image,
+        this.branchId,
+        this.branchName,
+        this.roles,
+        this.token});
 
   UserModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    login = json['login'];
-    phoneNumber = json['phone_number'];
-    sectorId = json['sector_id'];
-    regionId = json['region_id'];
+    workerId = json['worker_id'];
+    workerName = json['worker_name'];
+    image = json['image'];
+    branchId = json['branch_id'];
+    branchName = json['branch_name'];
+    roles = json['roles'].cast<int>();
     token = json['token'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['name'] = name;
-    data['login'] = login;
-    data['phone_number'] = phoneNumber;
-    data['sector_id'] = sectorId;
-    data['region_id'] = regionId;
+    data['worker_id'] = workerId;
+    data['worker_name'] = workerName;
+    data['image'] = image;
+    data['branch_id'] = branchId;
+    data['branch_name'] = branchName;
+    data['roles'] = roles;
     data['token'] = token;
     return data;
   }

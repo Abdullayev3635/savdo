@@ -19,7 +19,7 @@ class ErrorListItems extends StatelessWidget {
   final int? quantity;
   final int? currencyId;
   final String? currencyName;
-  final int? price;
+  final double? price;
   final int? residue;
 
   @override

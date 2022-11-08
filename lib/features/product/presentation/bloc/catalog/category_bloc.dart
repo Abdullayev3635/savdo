@@ -29,11 +29,11 @@ class CatalogBloc extends Bloc<CategoryEvent, CatalogState> {
     final result = await product(
       GetCatalogParams(),
     );
-    final box = Hive.box(categoryBox);
+    // final box = Hive.box(categoryBox);
     result.fold(
         (failure) => {
               if (failure is NoConnectionFailure)
-                {emit(const CatalogFailureState(isLarge: false, message: ''))}
+                {emit(const CatalogNoInternetState(isLarge: false))}
               else if (failure is ServerFailure)
                 {emit(const CatalogFailureState(isLarge: false, message: ""))}
               else if (failure is InputFormatterFailure)
@@ -45,7 +45,7 @@ class CatalogBloc extends Bloc<CategoryEvent, CatalogState> {
               else
                 {
                   emit(CatalogSuccessState(
-                      list: r, selected: 0, isLarge: false, count: box.length))
+                      list: r, selected: 0, isLarge: false))
                 }
             });
   }
@@ -53,7 +53,6 @@ class CatalogBloc extends Bloc<CategoryEvent, CatalogState> {
   FutureOr<void> changeColor(
       ChangeColor event, Emitter<CatalogState> emit) async {
     emit(CatalogSuccessState(
-        count: event.count,
         list: event.list,
         selected: event.index,
         isLarge: !event.isLarge));

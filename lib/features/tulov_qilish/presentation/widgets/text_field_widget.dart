@@ -38,11 +38,7 @@ class TextFieldHintWidget extends StatelessWidget {
             Expanded(
               child: TextFormField(
                 readOnly: readOnly ?? false,
-                inputFormatters: [
-                  keyboardType == TextInputType.number
-                      ? ThousandsFormatter(allowFraction: true)
-                      : MaskTextInputFormatter()
-                ],
+
                 controller: controller,
                 keyboardType: keyboardType,
                 cursorColor: primaryColor,

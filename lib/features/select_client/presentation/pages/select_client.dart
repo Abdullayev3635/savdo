@@ -65,8 +65,10 @@ class _SelectPartState extends State<SelectPart> {
                         contentPadding: EdgeInsets.all(20.0.sp),
                       ),
                       onChanged: (text) {
-                        _bloc.add(FilterSelectPartEvent(
-                            text: text, list: state.list));
+                        if(text.isNotEmpty){
+                          _bloc.add(FilterSelectPartEvent(
+                              text: text, list: state.list));
+                        }
                       }),
                   Expanded(
                     child: ListView.builder(
@@ -144,7 +146,7 @@ class _SelectPartState extends State<SelectPart> {
                       contentPadding: EdgeInsets.all(20.0.sp),
                     ),
                   ),
-                  const Expanded(child: CupertinoActivityIndicator()),
+                  SizedBox(height: 20.h),
                 ],
               );
             }

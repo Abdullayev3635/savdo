@@ -17,13 +17,13 @@ class KorzinaCardAdapter extends TypeAdapter<KorzinaCard> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return KorzinaCard(
-      bloklarSoni: fields[10] as int?,
+      bloklarSoni: fields[10] as double?,
       blok: fields[11] as int?,
       residue: fields[6] as int?,
       price: fields[5] as num?,
       name: fields[1] as String?,
-      dona: fields[9] as int?,
-      quantity: fields[12] as int?,
+      dona: fields[9] as double?,
+      quantity: fields[12] as double?,
       id: fields[0] as int?,
       category: fields[2] as String?,
       size: fields[7] as String?,

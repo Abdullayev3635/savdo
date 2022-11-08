@@ -41,11 +41,15 @@ class _LoginWidgetState extends State<LoginWidget> {
       CustomToast.showToast('Kiritilgan malumotlar noto\'g\'ri');
     }
     if (widget.state is LoginSuccess) {
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-        builder: (context) {
-          return const MainPage();
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) => {
+          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+            builder: (context) {
+              return const MainPage();
+            },
+          ), (route) => false),
         },
-      ), (route) => false);
+      );
     }
     return Container(
       decoration: BoxDecoration(
@@ -181,8 +185,14 @@ class _LoginWidgetState extends State<LoginWidget> {
           SizedBox(height: 24.h),
           ElevatedButton(
             onPressed: () {
-              widget.bloc
-                  .add(SendLoginEvent(widget.tel.text, widget.password.text));
+              // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+              //   builder: (context) {
+              //     return const MainPage();
+              //   },
+              // ), (route) => false);
+              widget.bloc.add(SendLoginEvent(
+                  widget.maskFormatter.getUnmaskedText(),
+                  widget.password.text));
             },
             style: buttonStyle,
             child: widget.state is LoginLoading

@@ -21,7 +21,7 @@ class EditClientRemoteDatasourceImpl extends EditClientRemoteDatasource {
         "phone_1": phone1,
       };
       final response = await client.put(
-        Uri.parse(baseUrl + clientPHP + '/$id'),
+        Uri.parse(baseUrl + clientCreatePHP + '/$id'),
         body: jsonEncode(json),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',

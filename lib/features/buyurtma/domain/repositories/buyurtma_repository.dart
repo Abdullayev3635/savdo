@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:savdo_agnet_client/core/errors/failures.dart';
 
 abstract class BuyurtmaRepository {
-  Future<Either<Failure, dynamic>> getBuyurtma();
+  Future<Either<Failure, dynamic>> getBuyurtma(int workerId);
 
   Future<Either<Failure, dynamic>> getBuyurtmaLocal();
 

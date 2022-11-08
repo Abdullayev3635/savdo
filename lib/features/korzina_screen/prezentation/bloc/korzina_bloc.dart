@@ -60,7 +60,7 @@ class KorzinaBloc extends Bloc<KorzinaEvent, KorzinaState> {
   FutureOr<void> getBuyurtma(
       KorzinaSendDataEvent event, Emitter<KorzinaState> emit) async {
     emit(KorzinaLoadingState());
-    final result = await karzina(GetOrderListParams(listSendData: event.card));
+    final result = await karzina(GetOrderListParams(listSendData: event.card, paymentJson: event.json));
     result.fold(
         (failure) => {
               if (failure is NoConnectionFailure)

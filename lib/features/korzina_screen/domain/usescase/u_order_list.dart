@@ -13,14 +13,15 @@ class UKorzinaOrderList extends UseCase<dynamic, GetOrderListParams> {
 
   @override
   Future<Either<Failure, dynamic>> call(GetOrderListParams params) {
-    return korzinaRepository.sendKorzinaData(params.listSendData);
+    return korzinaRepository.sendKorzinaData(params.listSendData, params.paymentJson);
   }
 }
 
 class GetOrderListParams extends Equatable {
   final List<KorzinaCard> listSendData;
+  final dynamic paymentJson;
 
-  const GetOrderListParams({required this.listSendData});
+  const GetOrderListParams({required this.listSendData,required this.paymentJson,});
 
   @override
   List<Object?> get props => [listSendData];

@@ -45,11 +45,8 @@ class _CatalogItemsState extends State<CatalogItems> {
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 10.w),
           child: GestureDetector(
-            onTap: () => setState(() => widget.bloc.add(ChangeColor(
-                widget.state.list,
-                index,
-                widget.state.count,
-                !widget.state.isLarge))),
+            onTap: () => setState(() => widget.bloc.add(
+                ChangeColor(widget.state.list, index, !widget.state.isLarge))),
             child: SizedBox(
               width: 89.w,
               height: widget.state.isLarge ? 380.h : 91.h,
@@ -126,27 +123,24 @@ class _CatalogItemsState extends State<CatalogItems> {
                             )
                     ],
                   ),
-                  Visibility(
-                    visible: widget.state.count > 0,
-                    child: Positioned(
-                      top: -4,
-                      right: -5,
-                      child: Container(
-                        width: 18.w,
-                        height: 18.h,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: const Color(0xffEB5757),
-                            border: Border.all(width: 3, color: cWhiteColor)),
-                        child: Text(
-                          '${widget.state.list[index].id}',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: cWhiteColor,
-                              fontFamily: 'Medium',
-                              fontSize: 9.sp),
-                        ),
+                  Positioned(
+                    top: -4,
+                    right: -5,
+                    child: Container(
+                      width: 18.w,
+                      height: 18.h,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: const Color(0xffEB5757),
+                          border: Border.all(width: 3, color: cWhiteColor)),
+                      child: Text(
+                        '${widget.state.list[index].count??"0"}',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: cWhiteColor,
+                            fontFamily: 'Medium',
+                            fontSize: 9.sp),
                       ),
                     ),
                   ),

@@ -5,6 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:savdo_agnet_client/core/widgets/appBarWidget.dart';
 import 'package:savdo_agnet_client/core/widgets/costum_toast.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/data/korzina_hive/korzina_hive.dart';
+import 'package:savdo_agnet_client/features/korzina_screen/prezentation/widgets/dialog_send.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/prezentation/widgets/korzina_shimmer_widget.dart';
 import 'package:savdo_agnet_client/features/savatcha_failure/presentation/pages/savatcha_failure_dialog.dart';
 
@@ -96,7 +97,7 @@ class _KorzinaScreenState extends State<KorzinaScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('Jami summa:', style: textStylePrimaryMed16),
-                            Text('${jamiSumma.toStringAsFixed(2)} so’m',
+                            Text('${jamiSumma.toStringAsFixed(2)} so\'m / \$',
                                 style: textStylePrimaryMed16),
                           ],
                         ),
@@ -118,14 +119,20 @@ class _KorzinaScreenState extends State<KorzinaScreen> {
                     visible: transaction.isNotEmpty,
                     child: ElevatedButton(
                       onPressed: () {
-                        bloc.add(
-                            KorzinaSendDataEvent(card: transaction));
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return SendDialog(jamiSumma: jamiSumma, bloc: bloc, transaction: transaction,);
+                          },
+                        );
                       },
                       child: Text('Buyurtma berish',
                           style: TextStyle(
                               fontFamily: 'Medium',
                               fontSize: 16.sp,
-                              color: cWhiteColor)),
+                              color: cWhiteColor,
+                          ),
+                      ),
                       style: korzinaButtonStyle,
                     ),
                   ),

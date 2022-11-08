@@ -6,8 +6,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:savdo_agnet_client/core/widgets/dialog_frame.dart';
 import 'package:savdo_agnet_client/di/dependency_injection.dart';
+import 'package:savdo_agnet_client/features/buyurtma/data/model/buyurtma_model.dart';
 import 'package:savdo_agnet_client/features/buyurtma/data/model/currency_model.dart';
 import 'package:savdo_agnet_client/features/buyurtma/data/model/price_type_model.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/data/korzina_hive/korzina_hive.dart';
@@ -47,8 +49,8 @@ class ProductItemDialog extends StatefulWidget {
   // final String? image;
   final num? price;
   final String? category;
-  final int? bloklarSoni;
-  final int? dona;
+  final double? bloklarSoni;
+  final double? dona;
 
   final int blok;
   final String? currencyName;
@@ -60,8 +62,8 @@ class ProductItemDialog extends StatefulWidget {
 class _ProductItemDialogState extends State<ProductItemDialog> {
   String group1 = '0';
   String group2 = '0';
-  int bloklarSoni = 1;
-  int dona = 1;
+  double bloklarSoni = 1;
+  double dona = 1;
   late String initialBlok;
   late String initialPieces;
   TextEditingController blokController = TextEditingController();
@@ -69,6 +71,8 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
 
   bool isValyuta = true;
   bool isHajmi = true;
+  String narxTuriGroup = "0";
+  String kurs = "0";
   late Timer timer;
   SharedPreferences sharedPreferences = di.get();
 
@@ -83,54 +87,57 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return AllDialogSkeleton(
-      title: '',
-      icon: '',
-      child: Container(
-        decoration:
-        BoxDecoration(borderRadius: BorderRadius.circular(22.r)),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              margin: EdgeInsets.only(top: 9.h),
-              height: 200.h,
-              width: 340.w,
-              decoration: BoxDecoration(
-                color: cWhiteColor,
-                borderRadius:
-                BorderRadius.vertical(top: Radius.circular(22.r)),
-              ),
-              child: ClipRRect(
-                borderRadius:
-                BorderRadius.all(Radius.circular(22.r)),
-                child: CachedNetworkImage(
-                  imageUrl: widget.image!,
-                  fit: BoxFit.cover,
-                  placeholder: (context, url) {
-                    return Container(
-                      margin: const EdgeInsets.all(20),
-                      child: SvgPicture.asset(
-                        'assets/icons/ic_fon_gallery.svg',
-                        fit: BoxFit.cover,
-                      ),
-                    );
-                  },
-                  errorWidget: (contex, url, e) {
-                    return Container(
-                      margin: const EdgeInsets.all(20),
-                      child: SvgPicture.asset(
-                        'assets/icons/ic_fon_gallery.svg',
-                        fit: BoxFit.cover,
-                      ),
-                    );
-                  },
+    return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      reverse: true,
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 30),
+      child: AllDialogSkeleton(
+        title: '',
+        icon: '',
+        child: Container(
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(22.r)),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                margin: EdgeInsets.only(top: 9.h),
+                height: 200.h,
+                width: 340.w,
+                decoration: BoxDecoration(
+                  color: cWhiteColor,
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(22.r)),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(22.r)),
+                  child: CachedNetworkImage(
+                    imageUrl: widget.image!,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) {
+                      return Container(
+                        margin: const EdgeInsets.all(20),
+                        child: SvgPicture.asset(
+                          'assets/icons/ic_fon_gallery.svg',
+                          fit: BoxFit.cover,
+                        ),
+                      );
+                    },
+                    errorWidget: (contex, url, e) {
+                      return Container(
+                        margin: const EdgeInsets.all(20),
+                        child: SvgPicture.asset(
+                          'assets/icons/ic_fon_gallery.svg',
+                          fit: BoxFit.cover,
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
-            ),
-            dialogContent(context, [], [])
-          ],
+              dialogContent(context, [], [])
+            ],
+          ),
         ),
       ),
     );
@@ -186,7 +193,7 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                             if (blokController.text.isEmpty) {
                               bloklarSoni = 0;
                             } else {
-                              bloklarSoni = int.parse(blokController.text);
+                              bloklarSoni = double.parse(blokController.text);
                             }
                             if (dona > 1) {
                               bloklarSoni--;
@@ -225,7 +232,7 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                               if (blokController.text.isEmpty) {
                                 bloklarSoni = 0;
                               } else {
-                                bloklarSoni = int.parse(blokController.text);
+                                bloklarSoni = double.parse(blokController.text);
                               }
                               bloklarSoni++;
                               blokController.text = bloklarSoni.toString();
@@ -275,7 +282,7 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                           if (piecesController.text.isEmpty) {
                             dona = 0;
                           } else {
-                            dona = int.parse(piecesController.text);
+                            dona = double.parse(piecesController.text);
                           }
                           if (dona > 1) {
                             dona--;
@@ -297,6 +304,7 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                     ),
                     TextFieldWidgetInProductDialog(
                         controller: piecesController),
+
                     GestureDetector(
                       onTap: () {
                         FocusManager.instance.primaryFocus?.unfocus();
@@ -312,7 +320,8 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                                     if (piecesController.text.isEmpty) {
                                       dona = 0;
                                     } else {
-                                      dona = int.parse(piecesController.text);
+                                      dona =
+                                          double.parse(piecesController.text);
                                     }
                                     dona++;
                                     piecesController.text = dona.toString();
@@ -338,6 +347,78 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
             ],
           ),
           const Divider(),
+          Padding(
+        padding: EdgeInsets.only(
+            right: 7.w, top: 24.h, left: 7.w, bottom: 14.h),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text('Narx turi:', style: textStylePrimaryMed16),
+          ],
+        ),
+      ),
+          ValueListenableBuilder<Box<BuyurtmaModel>>(
+            valueListenable: Hive.box<BuyurtmaModel>(buyurtmaBox).listenable(),
+            builder:(contex, box, _) {
+              List<BuyurtmaModel> buyurtmaList = box.values.toList().cast<BuyurtmaModel>();
+              print(buyurtmaList.toString());
+              List<CurrencyModel> currencyL = buyurtmaList[0].currency!;
+              return Row(
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      height: 50.h,
+                      child: ListView.builder(
+                          physics: const BouncingScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          itemCount: currencyL.length,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  narxTuriGroup = index.toString();
+                                  kurs =
+                                      currencyL[index].value ?? "0";
+                                });
+                              },
+                              child: Row(
+                                children: [
+                                  Radio(
+                                      value: '$index',
+                                      groupValue: narxTuriGroup,
+                                      fillColor:
+                                      MaterialStateProperty.all(
+                                          primaryColor),
+                                      activeColor: primaryColor,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          narxTuriGroup =
+                                              value.toString();
+                                          kurs = currencyL[index]
+                                              .value ??
+                                              "0";
+                                        });
+                                      }),
+                                  Text(
+                                    currencyL[index].name ?? "null",
+                                    maxLines: 1,
+                                    style: textStylePrimaryMed14,
+                                  ),
+                                ],
+                              ),
+                            );
+                          }),
+                    ),
+                  ),
+                ],
+              );
+            },
+      ),
+
+      SizedBox(height: 5.h),
+      SvgPicture.asset('assets/icons/ic_divider.svg',),
+
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Text('Maxsulot qoldig’i:', style: titleTSM13),
             Padding(
@@ -372,17 +453,18 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                 ElevatedButton(
                   style: buttonStyle,
                   onPressed: () async {
-                    if (int.parse(piecesController.text) != 0) {
+                    if (double.parse(piecesController.text) != 0) {
                       FocusManager.instance.primaryFocus?.unfocus();
                       final productAddKorzina = KorzinaCard(
                         blok: widget.blok,
-                        quantity: int.parse(blokController.text) * widget.blok +
-                            int.parse(piecesController.text),
-                        bloklarSoni: int.parse(blokController.text),
+                        quantity: double.parse(blokController.text) *
+                                widget.blok.toDouble() +
+                            double.parse(piecesController.text),
+                        bloklarSoni: double.parse(blokController.text),
                         residue: widget.residue!,
                         price: widget.price!,
                         name: widget.name!,
-                        dona: int.parse(piecesController.text),
+                        dona: double.parse(piecesController.text),
                         id: widget.id,
                         category: widget.category!,
                         size: widget.size!,
@@ -396,16 +478,17 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                       box.put(widget.id, productAddKorzina);
                       Navigator.pop(context);
                       CustomToast.showToast('Муваффакиятли сакланди');
-                    }
-                    else{
-                      CustomToast.showToast('Aka hichyo` bitta oling!');
+                    } else {
+                      CustomToast.showToast('Maxsulot sonini kiriting!');
                     }
                   },
-                  child: Text('Qo’shish',
-                      style: TextStyle(
-                          color: cWhiteColor,
-                          fontSize: 16.sp,
-                          fontFamily: 'Medium')),
+                  child: Text(
+                    'Qo’shish',
+                    style: TextStyle(
+                        color: cWhiteColor,
+                        fontSize: 16.sp,
+                        fontFamily: 'Medium'),
+                  ),
                 ),
               ],
             ),
@@ -416,14 +499,16 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
   }
 
   void onTapInOrDecrement(
-      {required int count, required bool isInc, required bool blokOrPieces}) {
+      {required double count,
+      required bool isInc,
+      required bool blokOrPieces}) {
     if (isInc) {
       setState(() => blokOrPieces
           ? {
               if (blokController.text.isEmpty)
                 {bloklarSoni = 0}
               else
-                {bloklarSoni = int.parse(blokController.text)},
+                {bloklarSoni = double.parse(blokController.text)},
               bloklarSoni++,
               blokController.text = bloklarSoni.toString(),
               initialBlok = bloklarSoni.toString(),
@@ -432,7 +517,7 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
               if (piecesController.text.isEmpty)
                 {dona = 0}
               else
-                {dona = int.parse(piecesController.text)},
+                {dona = double.parse(piecesController.text)},
               dona++,
               piecesController.text = dona.toString(),
               initialPieces = dona.toString()
@@ -444,7 +529,7 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                 if (blokController.text.isEmpty)
                   {bloklarSoni = 0}
                 else
-                  {bloklarSoni = int.parse(blokController.text)},
+                  {bloklarSoni = double.parse(blokController.text)},
                 if (bloklarSoni > 0) bloklarSoni--,
                 blokController.text = bloklarSoni.toString(),
                 initialBlok = bloklarSoni.toString(),
@@ -453,7 +538,7 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                 if (piecesController.text.isEmpty)
                   {dona = 0}
                 else
-                  {dona = int.parse(piecesController.text)},
+                  {dona = double.parse(piecesController.text)},
                 if (dona > 1) dona--,
                 piecesController.text = dona.toString(),
                 initialPieces = dona.toString()

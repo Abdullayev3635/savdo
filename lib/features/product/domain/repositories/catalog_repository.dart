@@ -7,5 +7,5 @@ abstract class CatalogRepository {
   Future<Either<Failure, dynamic>> getBrand(int productTypeId, int priceTypeId);
 
   Future<Either<Failure, dynamic>> getBrandProducts(
-      int salesAgentId, int priceTypeId, int brandId);
+      int salesAgentId, int priceTypeId, int brandId, int currency_id);
 }

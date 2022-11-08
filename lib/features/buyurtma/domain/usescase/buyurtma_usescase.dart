@@ -12,12 +12,14 @@ class UsesBuyurtma extends UseCase<dynamic, BuyurtmaParams> {
 
   @override
   Future<Either<Failure, dynamic>> call(BuyurtmaParams params) {
-    return repository.getBuyurtma();
+    return repository.getBuyurtma(params.workerId!);
   }
 }
 
 class BuyurtmaParams extends Equatable {
 
+  final int? workerId;
+  const BuyurtmaParams({required this.workerId});
   @override
   List<Object?> get props => [];
 }
