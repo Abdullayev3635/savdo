@@ -23,7 +23,6 @@ class BuyurtmaRepositoryImpl extends BuyurtmaRepository {
       try {
         final result = await remoteDataSourceImpl.getBuyurtma(workerId);
         await localeDatasourceImpl.setBuyurtma(result);
-        await localeDatasourceImpl.setCurrency(result[0].currency);
         return Right(result);
       } on ServerFailure {
         return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));

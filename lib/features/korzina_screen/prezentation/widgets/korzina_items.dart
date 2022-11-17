@@ -6,7 +6,6 @@ import 'package:hive/hive.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 import 'package:savdo_agnet_client/di/dependency_injection.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/data/korzina_hive/korzina_hive.dart';
-// import 'package:savdo_agnet_client/features/product_items/presentation/widgets/product_dialog.dart';
 
 import '../../../product_items_dialog/presentation/pages/product_dialog.dart';
 import '../bloc/korzina_bloc.dart';
@@ -60,6 +59,7 @@ class _KorzinaItemsWidgetState extends State<KorzinaItemsWidget> {
                 children: [
                   InkWell(
                     onTap: () async {
+
                       showDialog(
                           context: context,
                           builder: (context) {
@@ -78,9 +78,9 @@ class _KorzinaItemsWidgetState extends State<KorzinaItemsWidget> {
                               currencyName:
                                   widget.transaction![index].currencyName,
                               currencyId: widget.transaction![index].currencyId,
+                              incomePrice: widget.transaction![index].incomePrice,
                             );
                           });
-
                     },
                     borderRadius: const BorderRadius.horizontal(
                         right: Radius.circular(15)),
@@ -96,6 +96,7 @@ class _KorzinaItemsWidgetState extends State<KorzinaItemsWidget> {
                       setState(() {});
                       card?.delete();
                       bloc.add(KorzinaInitialEvent());
+
                     },
                     borderRadius:
                         BorderRadius.horizontal(right: Radius.circular(15.r)),
@@ -117,7 +118,8 @@ class _KorzinaItemsWidgetState extends State<KorzinaItemsWidget> {
                     borderRadius: BorderRadius.circular(15.r),
                     color: cWhiteColor),
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
                       height: 70.h,
@@ -171,7 +173,18 @@ class _KorzinaItemsWidgetState extends State<KorzinaItemsWidget> {
                           ),
                         ],
                       ),
-                    )
+                    ),
+                    const Spacer(),
+                    Padding(
+                      padding: EdgeInsets.only(right: 12.w),
+                      child: Text(
+                        '${widget.transaction![index].quantity}',
+                        style: TextStyle(
+                            color: primaryColor,
+                            fontSize: 16.sp,
+                            fontFamily: 'GilroyMedium'),
+                      ),
+                    ),
                   ],
                 ),
               ),

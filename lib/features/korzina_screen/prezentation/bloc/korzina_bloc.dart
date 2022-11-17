@@ -12,6 +12,7 @@ import 'package:savdo_agnet_client/features/buyurtma/domain/usescase/buyurtma_us
 import 'package:savdo_agnet_client/features/korzina_screen/data/korzina_hive/error_model.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/data/korzina_hive/korzina_hive.dart';
 
+import '../../data/korzina_hive/tolov_hive.dart';
 import '../../domain/usescase/u_order_list.dart';
 
 part 'korzina_event.dart';
@@ -60,7 +61,7 @@ class KorzinaBloc extends Bloc<KorzinaEvent, KorzinaState> {
   FutureOr<void> getBuyurtma(
       KorzinaSendDataEvent event, Emitter<KorzinaState> emit) async {
     emit(KorzinaLoadingState());
-    final result = await karzina(GetOrderListParams(listSendData: event.card, paymentJson: event.json));
+    final result = await karzina(GetOrderListParams(listSendData: event.card, paymentJson: event.payment!));
     result.fold(
         (failure) => {
               if (failure is NoConnectionFailure)

@@ -43,7 +43,6 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
   String narxTuriGroup = '0';
   String savdoTuriGroup = '0';
   int clientId = 0;
-  int clientQarzi = 0;
   String kurs = "0";
   bool isFirstTap = true;
   String clientName = 'Mijozni tanlang';
@@ -73,125 +72,71 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       reverse: true,
-      padding: EdgeInsets.only(
-          bottom: clientName == 'Mijozni tanlang'
-              ? MediaQuery.of(context).size.height / 6
-              : MediaQuery.of(context).size.height / 10),
+      padding: EdgeInsets.only(bottom: 60.h),
       child: AllDialogSkeleton(
         title: 'Buyurtma',
         icon: 'assets/icons/ic_shopping_cart.svg',
         child: Column(
           children: [
-            BlocBuilder<QarizdorlikBloc, QarizdorlikState>(
-              builder: (context, state) {
-                if (state is QarizdorlikInitial) {
-                  return Column(
-                    children: [
-                      SizedBox(height: 23.h),
-                      GestureDetector(
-                        onTap: () => showDialog(
-                            context: context,
-                            builder: (context) {
-                              return SelectPart.screen();
-                            }).then((value) => {
-                              if (value != null)
-                                {
-                                  setState(() {
-                                    clientId = value['id'];
-                                    clientName = value['name'].toString();
-                                    qarizdorlikBloc.add(
-                                      ClientSelectedEvent(
-                                        customerId: clientId,
-                                        salesAgentId: int.parse(
-                                            sharedPreferences.getString(
-                                                    sharedSalesAgentId) ??
-                                                '0'),
-                                      ),
-                                    );
-                                  }),
-                                },
+            Column(
+              children: [
+                SizedBox(height: 23.h),
+                GestureDetector(
+                  onTap: () => showDialog(
+                      context: context,
+                      builder: (context) {
+                        return SelectPart.screen();
+                      }).then((value) => {
+                        if (value != null)
+                          {
+                            setState(() {
+                              clientId = value['id'];
+                              clientName = value['name'].toString();
+                              qarizdorlikBloc.add(ClientSelectedEvent(
+                                  customerId: clientId,
+                                  salesAgentId: int.parse(sharedPreferences
+                                          .getString(sharedSalesAgentId) ??
+                                      '')));
                             }),
-                        child: Container(
-                          height: 60.h,
-                          padding: EdgeInsets.only(left: 18.w, right: 10.w),
-                          decoration: BoxDecoration(
-                              color: cTextFieldColor,
-                              borderRadius: BorderRadius.circular(10.r)),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text(clientName,
-                                    style: textStylePrimaryMed14),
-                              ),
-                              SvgPicture.asset('assets/icons/ic_dropdown.svg')
-                            ],
-                          ),
+                          },
+                      }),
+                  child: Container(
+                    height: 60.h,
+                    padding: EdgeInsets.only(left: 18.w, right: 10.w),
+                    decoration: BoxDecoration(
+                        color: cTextFieldColor,
+                        borderRadius: BorderRadius.circular(10.r)),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(clientName, style: textStylePrimaryMed14),
                         ),
-                      ),
-                    ],
-                  );
-                } else if (state is QarizdorlikLoading) {
-                  return SizedBox(
-                    child: const Center(
-                      child: CupertinoActivityIndicator(),
+                        SvgPicture.asset('assets/icons/ic_dropdown.svg')
+                      ],
                     ),
-                    height: 200.h,
-                  );
-                } else if (state is QarizdorlikLoaded) {
-                  return Column(
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                      right: 7.w, top: 22.h, left: 7.w, bottom: 24.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(height: 23.h),
-                      GestureDetector(
-                        onTap: () => showDialog(
-                            context: context,
-                            builder: (context) {
-                              return SelectPart.screen();
-                            }).then((value) => {
-                              if (value != null)
-                                {
-                                  setState(() {
-                                    clientId = value['id'];
-                                    clientName = value['name'].toString();
-                                    qarizdorlikBloc.add(ClientSelectedEvent(
-                                        customerId: clientId,
-                                        salesAgentId: int.parse(
-                                            sharedPreferences.getString(
-                                                    sharedSalesAgentId) ??
-                                                '')));
-                                  }),
-                                },
-                            }),
-                        child: Container(
-                          height: 60.h,
-                          padding: EdgeInsets.only(left: 18.w, right: 10.w),
-                          decoration: BoxDecoration(
-                              color: cTextFieldColor,
-                              borderRadius: BorderRadius.circular(10.r)),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text(clientName,
-                                    style: textStylePrimaryMed14),
-                              ),
-                              SvgPicture.asset('assets/icons/ic_dropdown.svg')
-                            ],
-                          ),
+                      Expanded(
+                        child: Text(
+                          'Qarzdorligi:',
+                          style: textStylePrimaryMed16,
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            right: 7.w, top: 22.h, left: 7.w, bottom: 24.h),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                'Qarzdorligi:',
-                                style: textStylePrimaryMed16,
-                              ),
-                            ),
-                            Expanded(
+                      BlocBuilder<QarizdorlikBloc, QarizdorlikState>(
+                        builder: (context, state) {
+                          if (state is QarizdorlikLoading) {
+                            return const Center(
+                              child: CupertinoActivityIndicator(),
+                            );
+                          } else if (state is QarizdorlikLoaded) {
+                            return Expanded(
                               flex: 2,
                               child: SizedBox(
                                 height: state.debitList.length >= 3 ? 60 : 40,
@@ -204,75 +149,39 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                                         ? Text(
                                             "${state.debitList[index].value} ${state.debitList[index].name}",
                                             maxLines: 1,
+                                            textAlign: TextAlign.end,
                                             style: textStyleOrangeReg18,
                                           )
                                         : Text(
                                             "${state.debitList[index].value} ${state.debitList[index].name}",
+                                            textAlign: TextAlign.end,
                                             style: textStylePrimaryReg18,
                                           );
                                   },
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
+                            );
+                          } else if (state is QarizdorlikFail) {
+                            return Text(
+                              "0",
+                              maxLines: 1,
+                              style: textStyleOrangeReg18,
+                            );
+                          } else {
+                            return Text(
+                              "0",
+                              maxLines: 1,
+                              style: textStylePrimaryReg18,
+                            );
+                          }
+                        },
                       ),
-                      SvgPicture.asset('assets/icons/ic_divider.svg',
-                          fit: BoxFit.cover),
                     ],
-                  );
-                } else if (state is QarizdorlikFail) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 23.h),
-                      GestureDetector(
-                        onTap: () => showDialog(
-                            context: context,
-                            builder: (context) {
-                              return SelectPart.screen();
-                            }).then((value) => {
-                              if (value != null)
-                                {
-                                  setState(() {
-                                    clientId = value['id'];
-                                    clientName = value['name'].toString();
-                                  }),
-                                },
-                            }),
-                        child: Container(
-                          height: 60.h,
-                          padding: EdgeInsets.only(left: 18.w, right: 10.w),
-                          decoration: BoxDecoration(
-                              color: cTextFieldColor,
-                              borderRadius: BorderRadius.circular(10.r)),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text(clientName,
-                                    style: textStylePrimaryMed14),
-                              ),
-                              SvgPicture.asset('assets/icons/ic_dropdown.svg')
-                            ],
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            right: 7.w, top: 22.h, left: 7.w, bottom: 24.h),
-                        child: Text(
-                          'Qarzdorligi: 0',
-                          style: textStylePrimaryMed16,
-                        ),
-                      ),
-                      SvgPicture.asset('assets/icons/ic_divider.svg',
-                          fit: BoxFit.cover),
-                    ],
-                  );
-                } else {
-                  return Container();
-                }
-              },
+                  ),
+                ),
+                SvgPicture.asset('assets/icons/ic_divider.svg',
+                    fit: BoxFit.cover),
+              ],
             ),
             BlocBuilder<BuyurtmaDialogBloc, BuyurtmaDialogState>(
               builder: (context, state) {
@@ -496,19 +405,28 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                       SizedBox(height: 32.h),
                       ElevatedButton(
                         onPressed: () {
+                          for (var element in currencyList) {
+                            if (element.id == 2) {
+                              kurs = element.value.toString();
+                            }
+                          }
                           if (clientName != 'Mijozni tanlang') {
-                            sharedPreferences.setString(sharedCurrencyValue,
-                                currencyList[int.parse(narxTuriGroup)].value!);
+                            sharedPreferences.setString(
+                                sharedCurrencyValue, kurs);
+                            sharedPreferences.setString(
+                                sharedNarxGroupId, narxTuriGroup);
                             sharedPreferences.setString(
                                 sharedCurrencyId,
                                 currencyList[int.parse(narxTuriGroup)]
                                     .id
                                     .toString());
                             sharedPreferences.setString(
-                                sharedStoreId,
-                                storeList[int.parse(storeGroup)]
-                                    .id
+                                sharedCurrencyName,
+                                currencyList[int.parse(narxTuriGroup)]
+                                    .name
                                     .toString());
+                            sharedPreferences.setString(sharedStoreId,
+                                storeList[int.parse(storeGroup)].id.toString());
                             sharedPreferences.setString(
                                 sharedPriceTypeId,
                                 savdoTuriGroup.isNotEmpty
@@ -516,13 +434,14 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                                         .id
                                         .toString()
                                     : "1");
-                            sharedPreferences.setString(sharedCustomerId, clientId.toString());
+                            sharedPreferences.setString(
+                                sharedCustomerId, clientId.toString());
                             Navigator.pop(context);
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    ProductPage.screen(customerId: clientId),
+                                    ProductPage.screen(),
                               ),
                             );
                           } else {

@@ -35,6 +35,12 @@ class KorzinaCard extends HiveObject {
   int? blok;
   @HiveField(12)
   double? quantity;
+  @HiveField(13)
+  int? priceTypeId;
+  @HiveField(14)
+  num? incomePrice;
+  @HiveField(15)
+  int? incomePriceCurrencyId;
 
   KorzinaCard({
     required this.bloklarSoni,
@@ -50,6 +56,9 @@ class KorzinaCard extends HiveObject {
     required this.currencyId,
     required this.currencyName, //
     required this.image, //
+    required this.priceTypeId, //
+    required this.incomePrice, //
+    required this.incomePriceCurrencyId, //
   });
 
   KorzinaCard.fromJson(Map<String, dynamic> json) {
@@ -64,13 +73,17 @@ class KorzinaCard extends HiveObject {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = 0;
     data['product_id'] = id;
+    data['currency_id'] = currencyId;
     data['quantity'] = quantity;
     data['price'] = price;
     data['quantity'] = dona;
-    data['residue'] = 100;
-    data['price_type_id'] = 1;
-    data['income_price'] = "30000";
+    data['residue'] = residue;
+    data['price_type_id'] = priceTypeId;
+    data['income_price'] = incomePrice;
+    data['income_price_currency_id'] = incomePriceCurrencyId;
+    data['summa'] = quantity! * price!;
     data['blok'] = bloklarSoni;
     return data;
   }

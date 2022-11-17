@@ -15,14 +15,14 @@ class TextFieldWidgetInProductDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50.h,
-      width: 90.w,
+      height: 40.h,
+      width: 70.w,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: cTextFieldColor,
-        borderRadius: BorderRadius.circular(25.r),
+        borderRadius: BorderRadius.circular(20.r),
       ),
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.all(3),
       margin: EdgeInsets.symmetric(horizontal: 21.w),
       child: TextFormField(
         cursorColor: primaryColor,

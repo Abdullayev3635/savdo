@@ -10,7 +10,7 @@ class KorzinaInitialEvent extends KorzinaEvent {}
 
 class KorzinaSendDataEvent extends KorzinaEvent {
   final List<KorzinaCard> card;
-  final dynamic json;
+  final List<TolovHive> payment;
 
-  KorzinaSendDataEvent({required this.card, required this.json});
+  KorzinaSendDataEvent({required this.card, required this.payment});
 }

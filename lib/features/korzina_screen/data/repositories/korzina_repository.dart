@@ -5,6 +5,8 @@ import 'package:savdo_agnet_client/features/korzina_screen/data/datasources/korz
 import 'package:savdo_agnet_client/features/korzina_screen/data/korzina_hive/korzina_hive.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/domain/repositories/i_korzina_repository.dart';
 
+import '../korzina_hive/tolov_hive.dart';
+
 class KorzinaRepositoryImpl extends KorzinaRepository {
   final KorzinaOrderRemoteDatasource remoteDatasource;
   final NetworkInfo networkInfo;
@@ -16,7 +18,7 @@ class KorzinaRepositoryImpl extends KorzinaRepository {
 
   @override
   Future<Either<Failure, dynamic>> sendKorzinaData(
-      List<KorzinaCard> card, dynamic paymentJson) async {
+      List<KorzinaCard> card, List<TolovHive> paymentJson) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await remoteDatasource.sendKorzinaData(card: card, paymentJson: paymentJson);

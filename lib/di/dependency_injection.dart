@@ -104,6 +104,7 @@ import '../features/buyurtma/data/datasources/buyurtma_remote_datasource.dart';
 import '../features/buyurtma/data/model/store_model.dart';
 import '../features/foto_xisobot/presentation/bloc/foto_bloc.dart';
 import '../features/korzina_screen/data/korzina_hive/korzina_hive.dart';
+import '../features/korzina_screen/data/korzina_hive/tolov_hive.dart';
 import '../features/lock/data/datasources/lock_local_datasources.dart';
 import '../features/lock/data/repositories/lock_repositories.dart';
 import '../features/lock/domain/usescases/u_lock.dart';
@@ -501,6 +502,9 @@ Future<void> init() async {
   // korzina
   Hive.registerAdapter(KorzinaCardAdapter());
   await Hive.openBox<KorzinaCard>(korzinaBox);
+  // tolov
+  Hive.registerAdapter(TolovHiveAdapter());
+  await Hive.openBox<TolovHive>(tolovBox);
   //
   // // category
   // Hive.registerAdapter(CategoryModelAdapter());

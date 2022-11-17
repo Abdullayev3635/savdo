@@ -5,8 +5,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 import 'package:savdo_agnet_client/features/lock/presentation/pages/lock_page.dart';
 import 'package:savdo_agnet_client/features/password/presentation/pages/password_dialog.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/widgets/appBarWidget.dart';
+import '../../../../di/dependency_injection.dart';
 import '../../../accounts/presentation/pages/account_page.dart';
 import '../widgets/profile_items.dart';
 
@@ -18,6 +20,17 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  SharedPreferences sharedPreferences = di.get();
+  String name = "";
+  String branchName = "";
+
+  @override
+  void initState() {
+    name = sharedPreferences.getString("worker_name") ?? "";
+    branchName = sharedPreferences.getString("branch_name") ?? "";
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,25 +57,25 @@ class _ProfilePageState extends State<ProfilePage> {
             ProfileItemsWidgets(
               onTap: () {},
               icon: 'assets/icons/ic_person.svg',
-              title: 'Jakhongir Ruzaliev',
+              title: name,
             ),
             ProfileItemsWidgets(
               onTap: () {},
               icon: 'assets/icons/ic_firma.svg',
-              title: 'Firma nomi',
+              title: branchName,
             ),
-            ProfileItemsWidgets(
-              leading: 'assets/icons/ic_arrow_right.svg',
-              icon: 'assets/icons/ic_two_person.svg',
-              title: 'Akkauntlar',
-              onTap: () {
-                Navigator.push(
-                    context,
-                    CupertinoPageRoute(
-                      builder: (context) => const AccountPage(),
-                    ));
-              },
-            ),
+            // ProfileItemsWidgets(
+            //   leading: 'assets/icons/ic_arrow_right.svg',
+            //   icon: 'assets/icons/ic_two_person.svg',
+            //   title: 'Akkauntlar',
+            //   onTap: () {
+            //     Navigator.push(
+            //         context,
+            //         CupertinoPageRoute(
+            //           builder: (context) => const AccountPage(),
+            //         ));
+            //   },
+            // ),
             ProfileItemsWidgets(
               onTap: () {
                 showDialog(
@@ -87,20 +100,20 @@ class _ProfilePageState extends State<ProfilePage> {
               onTap: () {},
               color: cHintTextColor,
               icon: 'assets/icons/ic_call.svg',
-              title: '+998 (33) 510-95-95',
+              title: '+998 (93) 213 36 35',
             ),
-            ProfileItemsWidgets(
-              onTap: () {},
-              color: cHintTextColor,
-              icon: 'assets/icons/ic_hudud.svg',
-              title: 'Farg’ona viloyati',
-            ),
-            ProfileItemsWidgets(
-              onTap: () {},
-              color: cHintTextColor,
-              icon: 'assets/icons/ic_gps.svg',
-              title: 'Oltiariq tumani, Turon, 39-uy',
-            ),
+            // ProfileItemsWidgets(
+            //   onTap: () {},
+            //   color: cHintTextColor,
+            //   icon: 'assets/icons/ic_hudud.svg',
+            //   title: 'Farg’ona viloyati',
+            // ),
+            // ProfileItemsWidgets(
+            //   onTap: () {},
+            //   color: cHintTextColor,
+            //   icon: 'assets/icons/ic_gps.svg',
+            //   title: 'Oltiariq tumani, Turon, 39-uy',
+            // ),
           ],
         ),
       ),

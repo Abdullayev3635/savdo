@@ -1,8 +1,8 @@
 // const String baseUrlImg = "http://192.168.30.64:8000/api/";
-const String baseUrl = "http://192.168.30.13:8000/mobile-api/v1/mobile/";
+// const String baseUrl = "http://192.168.30.14:8000/mobile-api/v1/mobile/";
 
 // const String baseUrl = "https://mobile.imsoftgroup.uz/api/v1/";
-// const String baseUrl = 'http://backend.fayz-savdo.com/mobile-api/v1/mobile/';
+const String baseUrl = 'http://backend.fayz-savdo.com/mobile-api/v1/mobile/';
 const String savdoAndNarxPHP = "currencies-and-priceTypes";
 const String catalogPHP = "categories";
 const String brandPHP = "categories/brands";
@@ -19,6 +19,7 @@ const String tulovQilishPHP = "payments";
 const String onSelectClientPHP = "customer-debit-credit";
 const String orderPHP = "order/create";
 const String chakanaOrderPHP = "retail-trade";
+const String wholeOrderPHP = "wholesale-shop";
 const String photoPHP = "photo-report/create";
 const String archivePHP = "order/list/";
 const String archiveDetailsPHP = "order/detail";

@@ -36,14 +36,14 @@ class BrandProductsRemoteDatasourceImpl
       required int? brandId}) async {
     int storeIdId = int.parse(sharedPreferences.getString(sharedStoreId)??"0");
     int currencyId = int.parse(sharedPreferences.getString(sharedCurrencyId)??"0");
+    int workerId = int.parse(sharedPreferences.getString(sharedSalesAgentId)??"0");
     try {
       dynamic json = {
-        "worker_id": 1,
+        "worker_id": workerId,
         "page": page,
         "price_type_id": priceTypeId,
         "brand_id": brandId,
         "name": name,
-        "currency_id":currencyId,
         "store_id":storeIdId
       };
       final response = await client.post(
@@ -56,13 +56,13 @@ class BrandProductsRemoteDatasourceImpl
         },
       );
       if (response.statusCode == 200) {
-        // log(response.body.toString());
         final parsed =   jsonDecode(response.body);
         List<BrandProductModel> list = [];
         if ((parsed["data"] as List).isNotEmpty) {
           for (int i = 0; i <= (parsed["data"] as List).length - 1; i++) {
             list.add(BrandProductModel.fromJson(parsed["data"][i]));
           }
+          sharedPreferences.setString(lastPage, parsed["meta"]["last_page"].toString()??"0");
           return list;
         } else {
           return [];

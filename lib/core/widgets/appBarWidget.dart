@@ -11,7 +11,7 @@ AppBar appBarWidget(BuildContext context, String title,
   return AppBar(
     backgroundColor: cBackgroundColor,
     elevation: 0,
-    toolbarHeight: 100.h,
+    toolbarHeight: 80.h,
     automaticallyImplyLeading: false,
     centerTitle: true,
     leading: IconButton(

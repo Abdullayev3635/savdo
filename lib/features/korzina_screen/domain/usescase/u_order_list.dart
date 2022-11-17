@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:savdo_agnet_client/core/errors/failures.dart';
 import 'package:savdo_agnet_client/core/usescases/usecase.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/data/korzina_hive/korzina_hive.dart';
+import 'package:savdo_agnet_client/features/korzina_screen/data/korzina_hive/tolov_hive.dart';
 
 import '../repositories/i_korzina_repository.dart';
 
@@ -19,7 +20,7 @@ class UKorzinaOrderList extends UseCase<dynamic, GetOrderListParams> {
 
 class GetOrderListParams extends Equatable {
   final List<KorzinaCard> listSendData;
-  final dynamic paymentJson;
+  final List<TolovHive> paymentJson;
 
   const GetOrderListParams({required this.listSendData,required this.paymentJson,});
 

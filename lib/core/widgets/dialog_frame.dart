@@ -58,8 +58,11 @@ class _AllDialogSkeletonState extends State<AllDialogSkeleton> {
                           MaterialStateProperty.all(Colors.transparent),
                       borderRadius: BorderRadius.circular(22.r),
                       onTap: () => Navigator.pop(context),
-                      child: SvgPicture.asset('assets/icons/ic_close_red.svg',
-                          width: 22.w, height: 22.h),
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 20.w, bottom: 20.h, top: 8.h, right: 8.w),
+                        child: SvgPicture.asset('assets/icons/ic_close_red.svg',
+                            width: 22.w, height: 22.h),
+                      ),
                     ),
                   ],
                 ),

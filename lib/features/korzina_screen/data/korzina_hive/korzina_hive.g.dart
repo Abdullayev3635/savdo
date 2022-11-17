@@ -30,13 +30,16 @@ class KorzinaCardAdapter extends TypeAdapter<KorzinaCard> {
       currencyId: fields[3] as int?,
       currencyName: fields[4] as String?,
       image: fields[8] as String?,
+      priceTypeId: fields[13] as int?,
+      incomePrice: fields[14] as num?,
+      incomePriceCurrencyId: fields[15] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, KorzinaCard obj) {
     writer
-      ..writeByte(13)
+      ..writeByte(16)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -62,7 +65,13 @@ class KorzinaCardAdapter extends TypeAdapter<KorzinaCard> {
       ..writeByte(11)
       ..write(obj.blok)
       ..writeByte(12)
-      ..write(obj.quantity);
+      ..write(obj.quantity)
+      ..writeByte(13)
+      ..write(obj.priceTypeId)
+      ..writeByte(14)
+      ..write(obj.incomePrice)
+      ..writeByte(15)
+      ..write(obj.incomePriceCurrencyId);
   }
 
   @override

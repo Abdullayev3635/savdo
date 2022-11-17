@@ -4,7 +4,9 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hive/hive.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
+import 'package:savdo_agnet_client/di/dependency_injection.dart';
 import 'package:savdo_agnet_client/features/archive/presentation/pages/archive_page.dart';
 import 'package:savdo_agnet_client/features/buyurtma/presentation/pages/buyurtma_dialog.dart';
 import 'package:savdo_agnet_client/features/foto_xisobot/presentation/pages/photo_report_dialog.dart';
@@ -12,8 +14,11 @@ import 'package:savdo_agnet_client/features/mijozlar/presentation/pages/mijozlar
 import 'package:savdo_agnet_client/features/profile/presentation/pages/profile_page.dart';
 import 'package:savdo_agnet_client/features/report_dialog/presentation/pages/report_dialog.dart';
 import 'package:savdo_agnet_client/features/tulov_qilish/presentation/pages/tulov_qilish_dialog.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/widgets/costum_toast.dart';
+import '../../../korzina_screen/data/korzina_hive/korzina_hive.dart';
+import '../../../product/presentation/pages/product_page.dart';
 import '../widgets/menu_items.dart';
 
 class MainPage extends StatefulWidget {
@@ -25,6 +30,14 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   DateTime? currentBackPressTime;
+  SharedPreferences sharedPreferences = di.get();
+  String name = "";
+
+  @override
+  void initState() {
+    name = sharedPreferences.getString("worker_name") ?? "";
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +58,10 @@ class _MainPageState extends State<MainPage> {
         resizeToAvoidBottomInset: false,
         backgroundColor: cBackgroundColor,
         body: Container(
-          padding: EdgeInsets.only(top: 88.h),
+          padding: EdgeInsets.only(top: 10.h, bottom: 30.h),
           child: Column(
             children: [
+              const Spacer(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -57,7 +71,7 @@ class _MainPageState extends State<MainPage> {
                     children: [
                       SizedBox(
                         width: MediaQuery.of(context).size.width / 2,
-                        child: AutoSizeText('Olloyor \nAbdullayev',
+                        child: AutoSizeText(name,
                             maxLines: 2,
                             style: TextStyle(
                                 fontFamily: 'ExtraBold',
@@ -89,7 +103,7 @@ class _MainPageState extends State<MainPage> {
                       icon: SvgPicture.asset('assets/icons/ic_person.svg'))
                 ],
               ),
-              SizedBox(height: 40.h),
+              const Spacer(),
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.r),
@@ -104,11 +118,21 @@ class _MainPageState extends State<MainPage> {
                       children: [
                         MenuItems(
                             onTap: () {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return BuyurtmaDialog.screen();
-                                  });
+                              var box = Hive.box<KorzinaCard>(korzinaBox);
+                              if (box.isNotEmpty) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ProductPage.screen(),
+                                  ),
+                                );
+                              } else {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return BuyurtmaDialog.screen();
+                                    });
+                              }
                             },
                             title: 'Yangi buyurtma',
                             image: 'assets/icons/ic_shopping_cart.svg'),
@@ -179,7 +203,8 @@ class _MainPageState extends State<MainPage> {
                     ),
                   ],
                 ),
-              )
+              ),
+              const Spacer(),
             ],
           ),
         ),

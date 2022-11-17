@@ -3,8 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/prezentation/pages/korzina_screen.dart';
 import 'package:savdo_agnet_client/features/product_items/presentation/pages/brand_products.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/utils/app_constants.dart';
+import '../../../../di/dependency_injection.dart';
 
 class ProductTextFieldWidget extends StatefulWidget {
   const ProductTextFieldWidget({
@@ -16,6 +18,8 @@ class ProductTextFieldWidget extends StatefulWidget {
 }
 
 class _ProductTextFieldWidgetState extends State<ProductTextFieldWidget> {
+  SharedPreferences sharedPreferences = di.get();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -39,14 +43,23 @@ class _ProductTextFieldWidgetState extends State<ProductTextFieldWidget> {
             SizedBox(width: 12.w),
             Expanded(
               child: TextFormField(
-                // onTap: () {
-                //   Navigator.push(
-                //       context,
-                //       MaterialPageRoute(
-                //         builder: (context) =>
-                //             Products.screen(brandName: 'Brend nomi'),
-                //       ));
-                // },
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Products.screen(
+                          brandName: 'Barcha tovarlar',
+                          salesAgentId: int.parse(
+                            sharedPreferences.getString(sharedSalesAgentId) ??
+                                '0',
+                          ),
+                          brandId: null,
+                          priceTypeId: int.parse(
+                              sharedPreferences.getString(sharedPriceTypeId) ??
+                                  '0'),
+                        ),
+                      ));
+                },
                 readOnly: true,
                 textAlignVertical: TextAlignVertical.top,
                 decoration: InputDecoration(

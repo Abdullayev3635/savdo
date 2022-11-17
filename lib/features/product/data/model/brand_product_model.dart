@@ -10,6 +10,7 @@ class BrandProductModel {
   int? residue;
   String? size;
   String? blok;
+  num? incomePrice;
 
   BrandProductModel(
       {this.id,
@@ -21,7 +22,8 @@ class BrandProductModel {
       this.currencyName,
       this.price,
       this.residue,
-      this.size});
+      this.size,
+      this.incomePrice});
 
   BrandProductModel.fromJson(Map<String, dynamic> json) {
     id = json['product_id'];
@@ -34,6 +36,7 @@ class BrandProductModel {
     residue = json['residue']??"1";
     size = json['size'];
     blok = json['blok'];
+    incomePrice = num.tryParse(json['income_price'])??0;
   }
 
   Map<String, dynamic> toJson() {

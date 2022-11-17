@@ -10,7 +10,7 @@ import '../../../product_items_dialog/presentation/pages/product_dialog.dart';
 class ProductItemsWidget extends StatefulWidget {
   final String? title, size, image, count, category, currencyName, brandNomi;
   final int? id, currencyId, residue, blok;
-  final num? price;
+  final num? price, incomePrice;
 
   const ProductItemsWidget({
     required this.id,
@@ -25,6 +25,7 @@ class ProductItemsWidget extends StatefulWidget {
     required this.brandNomi,
     required this.currencyId,
     required this.currencyName,
+    required this.incomePrice,
     Key? key,
   }) : super(key: key);
 
@@ -138,6 +139,8 @@ class _ProductItemsWidgetState extends State<ProductItemsWidget> {
                                   currencyName: widget.currencyName,
                                   currencyId: widget.currencyId,
                                   blok: widget.blok ?? 0,
+                                  incomePrice:
+                                      widget.incomePrice,
                                 );
                               });
                         },

@@ -301,7 +301,7 @@ class _TulovQilishDialogState extends State<TulovQilishDialog> {
                       SizedBox(width: 5.w),
                       Expanded(
                         child: TextFormField(
-                          onChanged: (context) {
+                          onChanged: (text) {
                             if (tulovTuriId >= 1 && tulovTuriId <= 3) {
                               tulovSum.text = addSumController.text;
                             } else if (tulovTuriId == 4) {

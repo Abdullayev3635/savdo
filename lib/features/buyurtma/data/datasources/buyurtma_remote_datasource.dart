@@ -25,19 +25,19 @@ class BuyurtmaRemoteDataSourceImpl implements BuyurtmaRemoteDataSource {
   final http.Client client;
   final SharedPreferences sharedPreferences;
 
-  BuyurtmaRemoteDataSourceImpl({required this.client,required this.sharedPreferences});
+  BuyurtmaRemoteDataSourceImpl(
+      {required this.client, required this.sharedPreferences});
 
   @override
   Future<dynamic> getBuyurtma(int workerId) async {
     List<CurrencyModel> currencyList = [];
     List<PriceTypeModel> priceTypeList = [];
     List<StoreModel> stores = [];
-    int branchId = int.parse(sharedPreferences.getString(sharedBranchId)??"0");
+    int workerId =
+        int.parse(sharedPreferences.getString(sharedSalesAgentId) ?? "0");
 
     List<BuyurtmaModel> buyurtmaList = [];
-    dynamic json = {
-      "worker_id": branchId
-    };
+    dynamic json = {"worker_id": workerId};
     try {
       final response = await client.post(
         Uri.parse(baseUrl + savdoAndNarxPHP),
@@ -61,8 +61,10 @@ class BuyurtmaRemoteDataSourceImpl implements BuyurtmaRemoteDataSource {
           for (int i = 0; i < (parsed["stores"] as List).length; i++) {
             stores.add(StoreModel.fromJson(parsed["stores"][i]));
           }
-          buyurtmaList.add(
-              BuyurtmaModel(currency: currencyList, priceType: priceTypeList, stores: stores));
+          buyurtmaList.add(BuyurtmaModel(
+              currency: currencyList,
+              priceType: priceTypeList,
+              stores: stores));
           log(response.body);
           return buyurtmaList;
         } catch (e) {
@@ -109,7 +111,7 @@ class BuyurtmaRemoteDataSourceImpl implements BuyurtmaRemoteDataSource {
       } else {
         return [];
       }
-    }catch(e) {
+    } catch (e) {
       debugPrint(e.toString());
       return [];
     }

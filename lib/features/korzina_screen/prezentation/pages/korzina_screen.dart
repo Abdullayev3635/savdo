@@ -5,6 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:savdo_agnet_client/core/widgets/appBarWidget.dart';
 import 'package:savdo_agnet_client/core/widgets/costum_toast.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/data/korzina_hive/korzina_hive.dart';
+import 'package:savdo_agnet_client/features/korzina_screen/data/korzina_hive/tolov_hive.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/prezentation/widgets/dialog_send.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/prezentation/widgets/korzina_shimmer_widget.dart';
 import 'package:savdo_agnet_client/features/savatcha_failure/presentation/pages/savatcha_failure_dialog.dart';
@@ -13,6 +14,7 @@ import '../../../../../../../core/utils/app_constants.dart';
 import '../../../../di/dependency_injection.dart';
 import '../bloc/korzina_bloc.dart';
 import '../widgets/korzina_items.dart';
+import '../widgets/tolov_items.dart';
 
 class KorzinaScreen extends StatefulWidget {
   const KorzinaScreen({Key? key}) : super(key: key);
@@ -27,7 +29,9 @@ class KorzinaScreen extends StatefulWidget {
 }
 
 class _KorzinaScreenState extends State<KorzinaScreen> {
-  num jamiSumma = 0;
+  num jamiSummaSum = 0;
+  num jamiSummaVal = 0;
+  num jamiSummaOther = 0;
   late KorzinaBloc bloc;
   var korzinaProductList = <KorzinaCard>[];
 
@@ -55,9 +59,11 @@ class _KorzinaScreenState extends State<KorzinaScreen> {
             );
           } else if (state is KorzinaErrorMessageState) {
             var box = Hive.box<KorzinaCard>(korzinaBox);
+            var payBox = Hive.box<TolovHive>(tolovBox);
             state.korzinaErrorList.isEmpty
                 ? Future.delayed(Duration.zero, () async {
                     await box.clear();
+                    await payBox.clear();
                     Navigator.pop(context);
                     CustomToast.showToast('Malumot muvvafaqiyatli uzatildi!');
                   })
@@ -76,13 +82,26 @@ class _KorzinaScreenState extends State<KorzinaScreen> {
           return ValueListenableBuilder<Box<KorzinaCard>>(
               valueListenable: Hive.box<KorzinaCard>(korzinaBox).listenable(),
               builder: (context, box, _) {
-                jamiSumma = 0;
+                jamiSummaSum = 0;
+                jamiSummaVal = 0;
                 var transaction = box.values.toList().cast<KorzinaCard>();
                 for (int i = 0; i < transaction.length; i++) {
-                  jamiSumma +=
-                      ((transaction[i].bloklarSoni! * transaction[i].blok!) +
-                              transaction[i].dona!) *
-                          transaction[i].price!;
+                  if (transaction[i].currencyId == 1) {
+                    jamiSummaSum +=
+                        ((transaction[i].bloklarSoni! * transaction[i].blok!) +
+                                transaction[i].dona!) *
+                            transaction[i].price!;
+                  } else if (transaction[i].currencyId == 2) {
+                    jamiSummaVal +=
+                        ((transaction[i].bloklarSoni! * transaction[i].blok!) +
+                                transaction[i].dona!) *
+                            transaction[i].price!;
+                  } else {
+                    jamiSummaOther +=
+                        ((transaction[i].bloklarSoni! * transaction[i].blok!) +
+                                transaction[i].dona!) *
+                            transaction[i].price!;
+                  }
                 }
                 return Scaffold(
                   backgroundColor: cBackgroundColor,
@@ -90,26 +109,88 @@ class _KorzinaScreenState extends State<KorzinaScreen> {
                   body: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                            left: 21.w, bottom: 10.h, right: 21.w),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Jami summa:', style: textStylePrimaryMed16),
-                            Text('${jamiSumma.toStringAsFixed(2)} so\'m / \$',
-                                style: textStylePrimaryMed16),
-                          ],
+                      SizedBox(
+                        height: 50.h,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              left: 21.w, bottom: 10.h, right: 21.w),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Jami summa:', style: textStylePrimaryMed16),
+                              Column(
+                                children: [
+                                  Text(
+                                      '${jamiSummaSum.toStringAsFixed(0)} so\'m',
+                                      style: textStylePrimaryMed16),
+                                  Text('${jamiSummaVal.toStringAsFixed(2)} \$',
+                                      style: textStylePrimaryMed16),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                      Container(
-                        child: transaction.isEmpty
-                            ? Container()
-                            : SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height / 1.3,
-                                child: KorzinaItemsWidget(
-                                    box: box, transaction: transaction)),
+                      Expanded(
+                        child: DefaultTabController(
+                          length: 2,
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                constraints:
+                                    const BoxConstraints(maxHeight: 100.0),
+                                child: Material(
+                                  color: cTextFieldColor,
+                                  child: TabBar(
+                                    indicatorColor: primaryColor,
+                                    indicatorSize: TabBarIndicatorSize.label,
+                                    tabs: [
+                                      Container(
+                                        padding: EdgeInsets.all(5.h),
+                                        height: 32.h,
+                                        child: Text(
+                                          "Maxsulotlar",
+                                          style: textStylePrimaryReg20,
+                                        ),
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.all(5.h),
+                                        height: 32.h,
+                                        child: Text("To'lovlar",
+                                            style: textStylePrimaryReg20),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: TabBarView(
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.only(
+                                          top: 15.h, bottom: 50),
+                                      child: transaction.isEmpty
+                                          ? Container()
+                                          : SizedBox(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height /
+                                                  1.3,
+                                              child: KorzinaItemsWidget(
+                                                  box: box,
+                                                  transaction: transaction),
+                                            ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(top: 15.h),
+                                      child: const TolovItemsWidget(),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -118,20 +199,20 @@ class _KorzinaScreenState extends State<KorzinaScreen> {
                   floatingActionButton: Visibility(
                     visible: transaction.isNotEmpty,
                     child: ElevatedButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return SendDialog(jamiSumma: jamiSumma, bloc: bloc, transaction: transaction,);
-                          },
-                        );
+                      onPressed: () async {
+                        final box = Hive.box<TolovHive>(tolovBox);
+                        final paymentList =
+                            box.values.toList().cast<TolovHive>();
+                        bloc.add(KorzinaSendDataEvent(
+                            card: transaction, payment: paymentList));
                       },
-                      child: Text('Buyurtma berish',
-                          style: TextStyle(
-                              fontFamily: 'Medium',
-                              fontSize: 16.sp,
-                              color: cWhiteColor,
-                          ),
+                      child: Text(
+                        'Buyurtma berish',
+                        style: TextStyle(
+                          fontFamily: 'Medium',
+                          fontSize: 16.sp,
+                          color: cWhiteColor,
+                        ),
                       ),
                       style: korzinaButtonStyle,
                     ),

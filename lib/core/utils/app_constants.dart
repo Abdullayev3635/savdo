@@ -27,6 +27,7 @@ BoxShadow textFieldShadow = BoxShadow(color: cShadowColor, blurRadius: 40);
 // const String brandBox = 'brand_box';
 // const String brandProductsBox = 'brand_products_box';
 const String korzinaBox = 'korzina_box';
+const String tolovBox = 'tolov_box';
 const String buyurtmaBox = 'buyurtma_box';
 
 // const String clientDebitCreditBox = 'client_debit_credit_box';
@@ -80,6 +81,8 @@ TextStyle textStyleOrangeReg18 =
     TextStyle(fontSize: 18.sp, color: cOrangeColor, fontFamily: 'Regular');
 TextStyle textStylePrimaryReg18 =
     TextStyle(fontSize: 18.sp, color: primaryColor, fontFamily: 'Regular');
+TextStyle textStylePrimaryReg20 =
+    TextStyle(fontSize: 20.sp, color: primaryColor, fontFamily: 'Regular');
 TextStyle textStylePrimaryReg24 =
     TextStyle(fontSize: 24.sp, color: primaryColor, fontFamily: 'SemiBold');
 
@@ -129,10 +132,13 @@ BoxConstraints boxConstraintsTextField = BoxConstraints(
 
 //shared keys
 const String sharedCustomerId = 'customer_id';
+const String sharedNarxGroupId = 'narx_turi_group_id';
 const String sharedCurrencyValue = 'currency_value';
 const String sharedCurrencyId = 'currency_id';
+const String sharedCurrencyName = 'currency_name';
 const String sharedPriceTypeId = 'price_type_id';
 const String sharedStoreId = 'store_id';
 const String sharedSalesAgentId = 'worker_id';
 const String sharedBranchId = 'branch_id';
+const String lastPage = 'last_page';
 const String sharedToken = 'token';

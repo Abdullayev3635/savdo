@@ -37,12 +37,15 @@ class Products extends StatefulWidget {
     // gsalesAgentId = salesAgentId;
     return BlocProvider(
       create: (context) => di<BrandsProductsBloc>()
-        ..add(GetBrandsProductsEvent(
+        ..add(
+          GetBrandsProductsEvent(
             page: 1,
             name: '',
             priceTypeId: priceTypeId,
             brandId: brandId,
-            salesAgentId: salesAgentId)),
+            salesAgentId: salesAgentId,
+          ),
+        ),
       child: const Products(),
     );
   }
@@ -55,9 +58,11 @@ class _ProductsState extends State<Products> {
   TextEditingController textEditingController = TextEditingController();
   NetworkInfo networkInfo = di.get();
   int page = 1;
+  int allPages = 0;
   late BrandsProductsBloc _brandBloc;
   final controller = ScrollController();
   List<BrandProductModel> currentList = [];
+
   // var succesState;
 
   @override
@@ -70,20 +75,23 @@ class _ProductsState extends State<Products> {
         if (textEditingController.text != "") {
           print('n1');
           (BlocProvider.of<BrandsProductsBloc>(context).state
-          as BrandsProductsSuccessState)
+                  as BrandsProductsSuccessState)
               .list
               .clear();
         }
-        _brandBloc.add(
-          GetBrandsProductsEvent(
-            page: ++page,
-            name: textEditingController.text,
-            priceTypeId: gpriceId,
-            brandId: gbrandId,
-            salesAgentId: int.parse(
-                sharedPreferences.getString(sharedSalesAgentId) ?? '-1'),
-          ),
-        );
+        allPages = int.parse(sharedPreferences.getString(lastPage) ?? "0");
+        if (allPages > page) {
+          _brandBloc.add(
+            GetBrandsProductsEvent(
+              page: ++page,
+              name: textEditingController.text,
+              priceTypeId: gpriceId,
+              brandId: gbrandId,
+              salesAgentId: int.parse(
+                  sharedPreferences.getString(sharedSalesAgentId) ?? '-1'),
+            ),
+          );
+        }
         // if (succesState is BrandsProductsInitial) {
         //   print('y1');
         //   if (succesState is BrandsProductsSuccessState) {
@@ -303,14 +311,19 @@ class _ProductsState extends State<Products> {
                                         .state as BrandsProductsSuccessState)
                                     .list
                                     .clear();
-                                _brandBloc.add(GetBrandsProductsEvent(
+                                _brandBloc.add(
+                                  GetBrandsProductsEvent(
                                     page: 1,
                                     name: textEditingController.text,
                                     priceTypeId: gpriceId,
                                     brandId: gbrandId,
-                                    salesAgentId: int.parse(sharedPreferences
-                                            .getString(sharedSalesAgentId) ??
-                                        '')));
+                                    salesAgentId: int.parse(
+                                      sharedPreferences
+                                              .getString(sharedSalesAgentId) ??
+                                          '',
+                                    ),
+                                  ),
+                                );
                               },
                               textAlignVertical: TextAlignVertical.top,
                               cursorColor: primaryColor,
@@ -358,7 +371,7 @@ class _ProductsState extends State<Products> {
                             return ProductItemsWidget(
                               blok: int.parse(currentList[index].blok ?? '0'),
                               id: currentList[index].id ?? 0,
-                              brandNomi: currentList[index].currencyName ?? ' ',
+                              brandNomi: '',
                               image: currentList[index].image ??
                                   'https://via.placeholder.com/640x480.png/004455?text=minus',
                               title: currentList[index].name ?? 'hhhh',
@@ -372,6 +385,7 @@ class _ProductsState extends State<Products> {
                               currencyName: currentList[index].currencyName,
                               residue: currentList[index].residue ?? 0,
                               size: currentList[index].size ?? "0",
+                              incomePrice: currentList[index].incomePrice ?? 0,
                             );
                           } else {
                             return const Padding(

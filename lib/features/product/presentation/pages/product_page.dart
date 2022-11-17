@@ -21,14 +21,11 @@ import '../widgets/text_field_widget.dart';
 
 class ProductPage extends StatefulWidget {
   const ProductPage({Key? key}) : super(key: key);
-  final int customerId = 0;
+
 
   // final int salesAgentId = 0;
 
-  static Widget screen({
-    required int customerId,
-    // required int salesAgentId,
-  }) =>
+  static Widget screen() =>
       MultiBlocProvider(
         providers: [
           BlocProvider(
@@ -97,18 +94,24 @@ class _ProductPageState extends State<ProductPage> {
                       child: GestureDetector(
                           onTap: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Products.screen(
-                                      brandName: "Brend nomi",
-                                      salesAgentId: int.parse(
-                                        sharedPreferences.getString(
-                                                sharedSalesAgentId) ??
-                                            '',
-                                      ),
-                                      brandId: null,
-                                      priceTypeId: -1),
-                                ));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Products.screen(
+                                  brandName: "Barcha tovarlar",
+                                  salesAgentId: int.parse(
+                                    sharedPreferences
+                                            .getString(sharedSalesAgentId) ??
+                                        '0',
+                                  ),
+                                  brandId: null,
+                                  priceTypeId: int.parse(
+                                    sharedPreferences
+                                            .getString(sharedSalesAgentId) ??
+                                        '0',
+                                  ),
+                                ),
+                              ),
+                            );
                           },
                           child: const ProductTextFieldWidget()),
                     ),
@@ -148,7 +151,7 @@ class _ProductPageState extends State<ProductPage> {
                               onTap: () async {
                                 _catalogBloc.add(
                                   ChangeColor(state.list, state.selected,
-                                       state.isLarge),
+                                      state.isLarge),
                                 );
                               },
                               child: Container(
@@ -200,8 +203,7 @@ class _ProductPageState extends State<ProductPage> {
                         }
                       }),
                     );
-                  }
-                  else if (state is CatalogFailureState) {
+                  } else if (state is CatalogFailureState) {
                     _brandBloc.add(
                       GetBrandEvent(
                         productTypeId: 0,
