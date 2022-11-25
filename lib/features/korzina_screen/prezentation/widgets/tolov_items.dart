@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:intl/intl.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/data/korzina_hive/tolov_hive.dart';
 
@@ -22,7 +23,7 @@ class _TolovItemsWidgetState extends State<TolovItemsWidget> {
   void initState() {
     super.initState();
   }
-
+  var formatter = NumberFormat('#,##0.' + "#" * 2);
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<Box<TolovHive>>(
@@ -32,23 +33,6 @@ class _TolovItemsWidgetState extends State<TolovItemsWidget> {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            GestureDetector(
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return SendDialog();
-                  },
-                );
-              },
-              child: Padding(
-                padding: EdgeInsets.only(left: 20.w, top: 20.0.h, right: 25.w, bottom: 10.h),
-                child: const Icon(
-                  Icons.add_circle,
-                  color: primaryColor,
-                ),
-              ),
-            ),
             Expanded(
               child: ListView.builder(
                 shrinkWrap: true,
@@ -126,8 +110,7 @@ class _TolovItemsWidgetState extends State<TolovItemsWidget> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                        transaction[index].cash ??
-                                            ''.toUpperCase(),
+                                        formatter.format(double.parse(transaction[index].cash??''.toString().replaceAll(",", ""))),
                                         style: TextStyle(
                                             color: primaryColor,
                                             fontSize: 18.sp,
@@ -167,7 +150,27 @@ class _TolovItemsWidgetState extends State<TolovItemsWidget> {
                   );
                 },
               ),
-            )
+              flex: 6,
+            ),
+            InkResponse(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return SendDialog();
+                  },
+                );
+              },
+              child: Padding(
+                padding: EdgeInsets.only(right: 15.w,bottom: 15.h, top: 15.h, left: 15.w),
+                child: const Icon(
+                  Icons.add_circle,
+                  color: primaryColor,
+                  size: 50,
+                ),
+              ),
+            ),
+            SizedBox(height: 82.h,),
           ],
         );
       },

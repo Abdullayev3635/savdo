@@ -5,6 +5,9 @@ import 'package:savdo_agnet_client/core/utils/api_path.dart';
 import 'package:savdo_agnet_client/features/add_client/data/model/add_client_model.dart';
 import 'package:savdo_agnet_client/features/add_client/data/model/name.dart';
 
+import '../../../../core/utils/app_constants.dart';
+import '../../../korzina_screen/data/korzina_hive/korzina_hive.dart';
+
 List<NameModel> nameModel = [];
 
 abstract class AddClientRemoteDatasource {
@@ -40,7 +43,8 @@ class AddClientRemoteDatasourceImpl extends AddClientRemoteDatasource {
         body: jsonEncode(json),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Accept': 'application/json'
+          'Accept': 'application/json',
+          "Authorization": "Bearer ${sharedPreferences.getString(sharedToken)}"
         },
       );
       if (response.statusCode == 200) {
@@ -76,7 +80,8 @@ class AddClientRemoteDatasourceImpl extends AddClientRemoteDatasource {
       body: jsonEncode(json),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        "Authorization": "Bearer ${sharedPreferences.getString(sharedToken)}"
       },
     );
     if (response.statusCode == 200) {
@@ -99,7 +104,8 @@ class AddClientRemoteDatasourceImpl extends AddClientRemoteDatasource {
       body: jsonEncode(json),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        "Authorization": "Bearer ${sharedPreferences.getString(sharedToken)}"
       },
     );
     if (response.statusCode == 200) {

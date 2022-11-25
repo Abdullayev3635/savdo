@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 import 'package:savdo_agnet_client/di/dependency_injection.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/data/korzina_hive/korzina_hive.dart';
@@ -32,7 +33,7 @@ class _KorzinaItemsWidgetState extends State<KorzinaItemsWidget> {
     super.initState();
     bloc = di<KorzinaBloc>()..add(KorzinaInitialEvent());
   }
-
+  var formatter = NumberFormat('#,##0.' + "#" * 2);
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -165,7 +166,7 @@ class _KorzinaItemsWidgetState extends State<KorzinaItemsWidget> {
                           ),
                           SizedBox(height: 7.h),
                           Text(
-                            '${widget.transaction![index].price} ${widget.transaction![index].currencyName}',
+                            '${formatter.format(double.parse(widget.transaction![index].price.toString().replaceAll(",", "")))} ${widget.transaction![index].currencyName}',
                             style: TextStyle(
                                 color: const Color(0xffDC200E),
                                 fontSize: 16.sp,

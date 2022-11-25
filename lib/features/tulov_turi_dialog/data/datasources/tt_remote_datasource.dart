@@ -28,8 +28,8 @@ class SelectTulovTuriRemoteDataSourceImpl implements SelectTulovTuriRemoteDataSo
         Uri.parse(baseUrl + tulovTuriPHP),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Accept': 'application/json'
-          // "Authorization": "Bearer ${sharedPreferences.getString("token")}"
+          'Accept': 'application/json',
+          "Authorization": "Bearer ${sharedPreferences.getString("token")}"
         },
       );
       if (response.statusCode == 200) {

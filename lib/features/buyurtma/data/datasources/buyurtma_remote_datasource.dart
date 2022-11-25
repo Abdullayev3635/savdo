@@ -45,7 +45,7 @@ class BuyurtmaRemoteDataSourceImpl implements BuyurtmaRemoteDataSource {
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json',
-          // "Authorization": "Bearer ${sharedPreferences.getString("token")}"
+          "Authorization": "Bearer ${sharedPreferences.getString("token")}"
         },
       );
       if (response.statusCode == 200) {
@@ -95,7 +95,8 @@ class BuyurtmaRemoteDataSourceImpl implements BuyurtmaRemoteDataSource {
         body: jsonEncode(json),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Accept': 'application/json'
+          'Accept': 'application/json',
+          "Authorization": "Bearer ${sharedPreferences.getString(sharedToken)}"
         },
       );
       if (response.statusCode == 200) {

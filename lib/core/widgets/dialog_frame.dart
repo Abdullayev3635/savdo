@@ -53,7 +53,7 @@ class _AllDialogSkeletonState extends State<AllDialogSkeleton> {
                     Expanded(
                       child: Text(widget.title, style: textStylePrimaryMed16),
                     ),
-                    InkWell(
+                    InkResponse(
                       overlayColor:
                           MaterialStateProperty.all(Colors.transparent),
                       borderRadius: BorderRadius.circular(22.r),

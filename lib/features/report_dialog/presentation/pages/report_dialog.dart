@@ -7,6 +7,7 @@ import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 import 'package:savdo_agnet_client/features/select_client/presentation/pages/select_client.dart';
 
 import '../../../../core/widgets/dialog_frame.dart';
+import '../widgets/web_view.dart';
 
 class ReportDialog extends StatefulWidget {
   const ReportDialog({Key? key}) : super(key: key);
@@ -172,12 +173,20 @@ class _ReportDialogState extends State<ReportDialog> {
             ),
             SizedBox(height: 24.h),
             ElevatedButton(
-                onPressed: () {},
-                style: buttonStyle,
-                child: const Text(
-                  'Davom etish',
-                  textAlign: TextAlign.center,
-                )),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const WebViewExample(),
+                  ),
+                );
+              },
+              style: buttonStyle,
+              child: const Text(
+                'Davom etish',
+                textAlign: TextAlign.center,
+              ),
+            ),
           ],
         ));
   }

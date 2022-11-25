@@ -23,18 +23,20 @@ abstract class CategoryRemoteDatasource {
       required int currency_id});
 }
 
-  class CategoryRemoteDatasourceImpl implements CategoryRemoteDatasource {
+class CategoryRemoteDatasourceImpl implements CategoryRemoteDatasource {
   final http.Client client;
   final SharedPreferences sharedPreferences;
 
-  CategoryRemoteDatasourceImpl({required this.client,required this.sharedPreferences});
+  CategoryRemoteDatasourceImpl(
+      {required this.client, required this.sharedPreferences});
 
   @override
   Future<List<CategoryModel>> getCategory() async {
     List<CategoryModel> list = [];
-    int storeIdId = int.parse(sharedPreferences.getString(sharedStoreId)??"0");
+    int storeIdId =
+        int.parse(sharedPreferences.getString(sharedStoreId) ?? "0");
     dynamic json = {
-      "store_id":storeIdId,
+      "store_id": storeIdId,
     };
     try {
       final response = await client.post(
@@ -42,8 +44,8 @@ abstract class CategoryRemoteDatasource {
         body: jsonEncode(json),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Accept': 'application/json'
-          // "Authorization": "Bearer ${sharedPreferences.getString("token")}"
+          'Accept': 'application/json',
+          "Authorization": "Bearer ${sharedPreferences.getString(sharedToken)}"
         },
       );
       if (response.statusCode == 200) {
@@ -64,23 +66,25 @@ abstract class CategoryRemoteDatasource {
   Future<List<BrandModel>> getBrand(
       {required int productTypeId, required int priceTypeId}) async {
     List<BrandModel> list = [];
-    int storeIdId = int.parse(sharedPreferences.getString(sharedStoreId)??"0");
-    int currencyId = int.parse(sharedPreferences.getString(sharedCurrencyId)??"0");
+    int storeIdId =
+        int.parse(sharedPreferences.getString(sharedStoreId) ?? "0");
+    int currencyId =
+        int.parse(sharedPreferences.getString(sharedCurrencyId) ?? "0");
 
     try {
       dynamic json = {
         "product_type_id": productTypeId,
         "price_type_id": priceTypeId,
         "currency_id": currencyId,
-        "store_id":storeIdId
+        "store_id": storeIdId
       };
       final response = await client.post(
         Uri.parse(baseUrl + brandPHP),
         body: jsonEncode(json),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Accept': 'application/json'
-          // "Authorization": "Bearer ${sharedPreferences.getString("token")}"
+          'Accept': 'application/json',
+          "Authorization": "Bearer ${sharedPreferences.getString("token")}"
         },
       );
       if (response.statusCode == 200) {
@@ -105,7 +109,8 @@ abstract class CategoryRemoteDatasource {
       required int brandId,
       required int currency_id}) async {
     List<BrandProductModel> list = [];
-    int storeIdId = int.parse(sharedPreferences.getString(sharedStoreId)??"0");
+    int storeIdId =
+        int.parse(sharedPreferences.getString(sharedStoreId) ?? "0");
     try {
       dynamic json = {
         "sales_agent_id": salesAgentId,
@@ -113,15 +118,14 @@ abstract class CategoryRemoteDatasource {
         "brand_id": brandId,
         "currency_id": brandId,
         "store_id": storeIdId,
-
       };
       final response = await client.post(
         Uri.parse(baseUrl + brandProductsPHP),
         body: jsonEncode(json),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Accept': 'application/json'
-          // "Authorization": "Bearer ${sharedPreferences.getString("token")}"
+          'Accept': 'application/json',
+          "Authorization": "Bearer ${sharedPreferences.getString("token")}"
         },
       );
       if (response.statusCode == 200) {

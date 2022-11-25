@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:hive/hive.dart';
 import 'package:savdo_agnet_client/core/errors/failures.dart';
+import 'package:savdo_agnet_client/di/dependency_injection.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/data/korzina_hive/error_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/utils/api_path.dart';
 import '../../../../core/utils/app_constants.dart';
@@ -18,6 +20,7 @@ abstract class KorzinaOrderRemoteDatasource {
 
 class KorzinaOrderRemoteDatasourceImpl extends KorzinaOrderRemoteDatasource {
   final http.Client client;
+
 
   KorzinaOrderRemoteDatasourceImpl({required this.client});
 
@@ -68,8 +71,8 @@ class KorzinaOrderRemoteDatasourceImpl extends KorzinaOrderRemoteDatasource {
         body: jsonEncode(json),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Accept': 'application/json'
-          // "Authorization": "Bearer ${sharedPreferences.getString("token")}"
+          'Accept': 'application/json',
+          "Authorization": "Bearer ${sharedPreferences.getString("token")}"
         },
       );
       if (response.statusCode == 200) {

@@ -4,6 +4,8 @@ import 'package:http/http.dart' as http;
 import 'package:savdo_agnet_client/core/errors/failures.dart';
 import 'package:savdo_agnet_client/core/utils/api_path.dart';
 
+import '../../../korzina_screen/data/korzina_hive/korzina_hive.dart';
+
 abstract class EditClientRemoteDatasource {
   Future<dynamic> getEditClient(String phone1, String coordinate, int id);
 }
@@ -26,7 +28,7 @@ class EditClientRemoteDatasourceImpl extends EditClientRemoteDatasource {
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json',
-          // "Authorization": "Bearer ${sharedPreferences.getString("token")}"
+          "Authorization": "Bearer ${sharedPreferences.getString("token")}"
         },
       );
       if (response.statusCode == 200) {
@@ -36,6 +38,8 @@ class EditClientRemoteDatasourceImpl extends EditClientRemoteDatasource {
         } else {
           return false;
         }
+      } else {
+        return false;
       }
     } on InputFormatterFailure {
       return [];

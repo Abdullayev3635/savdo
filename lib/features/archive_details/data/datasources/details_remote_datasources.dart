@@ -6,6 +6,8 @@ import 'package:savdo_agnet_client/features/archive_details/data/model/archive_d
 import '../../../../core/utils/api_path.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../korzina_screen/data/korzina_hive/korzina_hive.dart';
+
 abstract class ArchiveDetailsRemoteDatasource {
   Future<dynamic> getDetails({required int? orderId});
 }
@@ -29,8 +31,8 @@ class ArchiveDetailsRemoteDatasourceImpl
         body: jsonEncode(json),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Accept': 'application/json'
-          // "Authorization": "Bearer ${sharedPreferences.getString("token")}"
+          'Accept': 'application/json',
+          "Authorization": "Bearer ${sharedPreferences.getString("token")}"
         },
       );
       if (response.statusCode == 200) {

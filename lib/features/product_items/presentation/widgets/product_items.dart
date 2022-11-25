@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 
 import '../../../product_items_dialog/presentation/pages/product_dialog.dart';
@@ -34,6 +35,8 @@ class ProductItemsWidget extends StatefulWidget {
 }
 
 class _ProductItemsWidgetState extends State<ProductItemsWidget> {
+  var formatter = NumberFormat('#,##0.' + "#" * 2);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -107,7 +110,7 @@ class _ProductItemsWidgetState extends State<ProductItemsWidget> {
                 ),
                 SizedBox(height: 7.h),
                 Text(
-                  '${widget.price} ${widget.currencyName}',
+                  '${formatter.format(double.parse(widget.price.toString().replaceAll(",", "")))} ${widget.currencyName}',
                   style: TextStyle(
                       color: const Color(0xffDC200E),
                       fontSize: 16.sp,
@@ -139,8 +142,7 @@ class _ProductItemsWidgetState extends State<ProductItemsWidget> {
                                   currencyName: widget.currencyName,
                                   currencyId: widget.currencyId,
                                   blok: widget.blok ?? 0,
-                                  incomePrice:
-                                      widget.incomePrice,
+                                  incomePrice: widget.incomePrice,
                                 );
                               });
                         },

@@ -19,7 +19,11 @@ class EditClientRepositoryImpl extends EditClientRepository {
       try {
         final result =
             await remoteDatasourceImpl.getEditClient(phone1, coordinate, id);
-        return Right(result);
+        if(result){
+          return Right(result);
+        } else {
+          return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));
+        }
       } on ServerFailure {
         return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));
       }

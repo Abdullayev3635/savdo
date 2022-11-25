@@ -1,5 +1,5 @@
-// const String baseUrlImg = "http://192.168.30.64:8000/api/";
-// const String baseUrl = "http://192.168.30.14:8000/mobile-api/v1/mobile/";
+const String baseUrlImg = "http://192.168.30.12:8000/api/";
+// const String baseUrl = "http://192.168.30.12:8000/mobile-api/v1/mobile/";
 
 // const String baseUrl = "https://mobile.imsoftgroup.uz/api/v1/";
 const String baseUrl = 'http://backend.fayz-savdo.com/mobile-api/v1/mobile/';

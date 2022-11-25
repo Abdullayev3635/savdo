@@ -5,6 +5,8 @@ import 'package:savdo_agnet_client/features/tulov_qilish/data/model/tulov_client
 
 import '../../../../core/errors/failures.dart';
 import '../../../../core/utils/api_path.dart';
+import '../../../../core/utils/app_constants.dart';
+import '../../../korzina_screen/data/korzina_hive/korzina_hive.dart';
 
 abstract class TulovRemoteDataSource {
   Future<dynamic> getClientDebitCredit({
@@ -44,7 +46,8 @@ class TulovRemoteDataSourceImpl implements TulovRemoteDataSource {
         body: jsonEncode(json),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Accept': 'application/json'
+          'Accept': 'application/json',
+          "Authorization": "Bearer ${sharedPreferences.getString(sharedToken)}"
         },
       );
       if (response.statusCode == 200) {
@@ -94,6 +97,7 @@ class TulovRemoteDataSourceImpl implements TulovRemoteDataSource {
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json',
+          "Authorization": "Bearer ${sharedPreferences.getString(sharedToken)}"
         },
       );
       if (response.statusCode == 200) {

@@ -196,9 +196,7 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
             child: TextFormField(
               textAlignVertical: TextAlignVertical.top,
               controller: priceController,
-              inputFormatters: [
-                ThousandsFormatter(allowFraction: true)
-              ],
+              inputFormatters: [ThousandsFormatter(allowFraction: true)],
               decoration: InputDecoration(
                 border: InputBorder.none,
                 contentPadding: EdgeInsets.only(bottom: 12.h),
@@ -452,8 +450,10 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                                     });
                                   }),
                               Text(
-                                (currencyList[index].name ?? "null") + " " +
-                                    (currencyList[index].value.toString()),
+                                (currencyList[index].name ?? "null") +
+                                    " (" +
+                                    (currencyList[index].value.toString()) +
+                                    ")",
                                 maxLines: 1,
                                 style: textStylePrimaryMed14,
                               ),

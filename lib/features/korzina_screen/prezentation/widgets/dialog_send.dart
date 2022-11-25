@@ -16,12 +16,9 @@ import '../../../buyurtma/data/model/currency_model.dart';
 import '../../../tulov_qilish/presentation/widgets/text_field_widget.dart';
 import '../../../tulov_turi_dialog/presentation/pages/select_tulov_turi.dart';
 
-
 // ignore: must_be_immutable
 class SendDialog extends StatefulWidget {
-
-
-  SendDialog({Key? key}) : super(key: key);
+  const SendDialog({Key? key}) : super(key: key);
 
   @override
   State<SendDialog> createState() => _SendDialogState();
@@ -40,6 +37,7 @@ class _SendDialogState extends State<SendDialog> {
   TextEditingController summa = TextEditingController();
   List<BuyurtmaModel> buyurtmaList = [];
   List<CurrencyModel> currencyList = [];
+
   @override
   void initState() {
     super.initState();
@@ -108,19 +106,26 @@ class _SendDialogState extends State<SendDialog> {
               ),
             ),
             SvgPicture.asset('assets/icons/ic_divider.svg', fit: BoxFit.cover),
-            TextFormField(
-              controller: summa,
-              keyboardType: TextInputType.number,
-              cursorColor: primaryColor,
-              inputFormatters: [
-                ThousandsFormatter(allowFraction: true)
-              ],
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: 'Tolov Summa',
-                hintStyle: textStyleHintColorReg14,
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.r),
+                color: cTextFieldColor,
               ),
-              style: textStylePrimaryReg16,
+              height: 60.h,
+              margin: EdgeInsets.only(top: 16.h),
+              padding: EdgeInsets.fromLTRB(15.w, 2.h, 5.w, 0.h),
+              child: TextFormField(
+                controller: summa,
+                keyboardType: TextInputType.number,
+                cursorColor: primaryColor,
+                inputFormatters: [ThousandsFormatter(allowFraction: true)],
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Tolov Summa',
+                  hintStyle: textStyleHintColorReg14,
+                ),
+                style: textStylePrimaryReg16,
+              ),
             ),
             TextFieldHintWidget(
                 keyboardType: TextInputType.text,
@@ -129,7 +134,7 @@ class _SendDialogState extends State<SendDialog> {
             SizedBox(height: 13.h),
             Padding(
               padding:
-              EdgeInsets.only(right: 7.w, top: 4.h, left: 7.w, bottom: 7.h),
+                  EdgeInsets.only(right: 7.w, top: 4.h, left: 7.w, bottom: 7.h),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -162,14 +167,15 @@ class _SendDialogState extends State<SendDialog> {
                                     value: '$index',
                                     groupValue: narxTuriGroup,
                                     fillColor:
-                                    MaterialStateProperty.all(primaryColor),
+                                        MaterialStateProperty.all(primaryColor),
                                     activeColor: primaryColor,
                                     onChanged: (value) {
                                       setState(() {
                                         narxTuriGroup = value.toString();
                                         kurs = currencyList[index].value!;
                                         currencyId = currencyList[index].id!;
-                                        currencyName = currencyList[index].name!;
+                                        currencyName =
+                                            currencyList[index].name!;
                                       });
                                     }),
                                 Text(
@@ -238,7 +244,7 @@ class _SendDialogState extends State<SendDialog> {
                       style: buttonStyle,
                       onPressed: () {
                         if (summa.text != "") {
-                          if(tulovTuriId!=0){
+                          if (tulovTuriId != 0) {
                             FocusManager.instance.primaryFocus?.unfocus();
                             final productAddKorzina = TolovHive(
                                 id: 1,
@@ -248,14 +254,14 @@ class _SendDialogState extends State<SendDialog> {
                                 currencyValue: kurs,
                                 paymentTypeId: tulovTuriId,
                                 paymentTypeName: tulovTuri,
-                                description: commentController.text
-                            );
+                                description: commentController.text);
                             final box = Hive.box<TolovHive>(tolovBox);
+
                             ///korzinaga qo'shyapti
                             box.add(productAddKorzina);
                             Navigator.pop(context);
                             CustomToast.showToast('Муваффакиятли сакланди');
-                          }else {
+                          } else {
                             CustomToast.showToast('To\'lo\'v turini tanlang!');
                           }
                         } else {
@@ -279,7 +285,6 @@ class _SendDialogState extends State<SendDialog> {
     );
   }
 }
-
 
 ///Chegirma
 // Container(

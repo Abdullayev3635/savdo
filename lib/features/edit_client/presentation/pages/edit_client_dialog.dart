@@ -11,7 +11,7 @@ import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 import 'package:savdo_agnet_client/core/widgets/costum_toast.dart';
 import 'package:savdo_agnet_client/core/widgets/drop_down_widget.dart';
 import 'package:savdo_agnet_client/features/map_check/presentation/pages/map_check.dart';
-
+import 'package:geocoder2/geocoder2.dart';
 import '../../../../core/widgets/dialog_frame.dart';
 import '../../../../di/dependency_injection.dart';
 import '../../../select_client/presentation/pages/select_client.dart';
@@ -56,7 +56,11 @@ class _EditClientDialogState extends State<EditClientDialog> {
     return BlocBuilder<EditClientBloc, EditClientState>(
       builder: (context, state) {
         if (state is EditClientSuccess) {
-          CustomToast.showToast('Yorvordik!');
+          CustomToast.showToast('O\'zgartirildi!');
+          Navigator.of(context).pop();
+        }
+        if (state is EditClientConnectionFailureState) {
+          CustomToast.showToast(state.message);
         }
         return SingleChildScrollView(
           // controller: ScrollController(),
@@ -224,18 +228,23 @@ class _EditClientDialogState extends State<EditClientDialog> {
   }
 
   _latLng(String cor) async {
-    print(cor);
-    lat = double.parse(cor.split(',').removeAt(0).replaceAll('[', ''));
-    lng = double.parse(cor.split(',').removeAt(1).replaceAll(']', ''));
-    print(lat);
-    print(lng);
-    List<Placemark> placemarks =
-        await placemarkFromCoordinates(71.654654132, 15.5642132);
+    if (cor != "") {
+      lat = double.parse(cor.split(',').removeAt(0).replaceAll('[', ''));
+      lng = double.parse(cor.split(',').removeAt(1).replaceAll(']', ''));
+    }
 
-    locationCon.text = placemarks[0].locality.toString() +
-        ", " +
-        (placemarks[0].thoroughfare ?? placemarks[0].street).toString();
+    // GeoData data = await Geocoder2.getDataFromCoordinates(
+    //     latitude: 40.714224,
+    //     longitude: -73.961452,
+    //     googleMapApiKey: "AIzaSyCrYX99M0oE9ozf_eG_0gut6fi3_so2j8M");
+    //
+    // print(data.address);
+    // locationCon.text = data.address.toString();
 
-    // setState(() {});
+    // List<Placemark> placemarks =
+    //     await placemarkFromCoordinates(71.654654132, 15.5642132);
+    //
+    //
+    setState(() {});
   }
 }

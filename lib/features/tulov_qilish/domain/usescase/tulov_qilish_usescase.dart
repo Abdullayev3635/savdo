@@ -13,10 +13,10 @@ class OnTulovQilishUsescase extends UseCase<dynamic, OnTulovQilishParams> {
   Future<Either<Failure, dynamic>> call(OnTulovQilishParams params) {
     return tulovRepository.getPayments(
       params.customerId!,
+      params.currencyId!,
       params.salesAgentId!,
       params.branchId!,
       params.currencyValue!,
-      params.currencyId!,
       params.paymentTypeId!,
       params.summa!,
       params.paymentAmount!,

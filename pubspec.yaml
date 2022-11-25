@@ -69,6 +69,9 @@ dependencies:
   shimmer: ^2.0.0
   #number formatter
   pattern_formatter: ^2.0.0
+  #webview
+  webview_flutter: ^3.0.4
+  geocoder2: ^1.4.0
 
 
 

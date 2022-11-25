@@ -10,6 +10,7 @@ import 'package:savdo_agnet_client/di/dependency_injection.dart';
 import 'package:savdo_agnet_client/features/archive/presentation/pages/archive_page.dart';
 import 'package:savdo_agnet_client/features/buyurtma/presentation/pages/buyurtma_dialog.dart';
 import 'package:savdo_agnet_client/features/foto_xisobot/presentation/pages/photo_report_dialog.dart';
+import 'package:savdo_agnet_client/features/korzina_screen/data/korzina_hive/tolov_hive.dart';
 import 'package:savdo_agnet_client/features/mijozlar/presentation/pages/mijozlar_dialog.dart';
 import 'package:savdo_agnet_client/features/profile/presentation/pages/profile_page.dart';
 import 'package:savdo_agnet_client/features/report_dialog/presentation/pages/report_dialog.dart';
@@ -119,7 +120,8 @@ class _MainPageState extends State<MainPage> {
                         MenuItems(
                             onTap: () {
                               var box = Hive.box<KorzinaCard>(korzinaBox);
-                              if (box.isNotEmpty) {
+                              var box2 = Hive.box<TolovHive>(tolovBox);
+                              if (box.isNotEmpty && box2.isNotEmpty) {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(

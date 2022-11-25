@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hive/hive.dart';
 import 'package:pattern_formatter/numeric_formatter.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 import 'package:savdo_agnet_client/core/widgets/costum_toast.dart';
@@ -16,6 +17,8 @@ import 'package:savdo_agnet_client/features/tulov_turi_dialog/presentation/pages
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/widgets/dialog_frame.dart';
+import '../../../buyurtma/data/model/buyurtma_model.dart';
+import '../../../buyurtma/data/model/currency_model.dart';
 
 class TulovQilishDialog extends StatefulWidget {
   const TulovQilishDialog({Key? key}) : super(key: key);
@@ -42,11 +45,21 @@ class _TulovQilishDialogState extends State<TulovQilishDialog> {
   late TulovQarizdorlikBloc qarzdorlikBloc;
   SharedPreferences sharedPreferences = di.get();
   late String kurs;
+  List<CurrencyModel>? currencyList = [];
+
+  List<BuyurtmaModel> buyurtmaList = [];
+
+  String narxTuriGroup = "0";
+  int currencyId = 0;
+  String currencyName = "";
 
   @override
   void initState() {
+    final box = Hive.box(buyurtmaBox);
+    buyurtmaList = box.get(buyurtmaBox)?.cast<BuyurtmaModel>() ?? [];
+    currencyList = buyurtmaList[0].currency;
     qarzdorlikBloc = BlocProvider.of<TulovQarizdorlikBloc>(context);
-    kurs = sharedPreferences.getString(sharedCurrencyValue) ?? '0';
+    kurs = currencyList![0].value!;
     super.initState();
   }
 
@@ -58,7 +71,7 @@ class _TulovQilishDialogState extends State<TulovQilishDialog> {
 
   @override
   Widget build(BuildContext context) {
-     return SingleChildScrollView(
+    return SingleChildScrollView(
       padding: EdgeInsets.only(
         bottom: clientName == 'Mijozni tanlang'
             ? MediaQuery.of(context).size.height / 6
@@ -228,14 +241,14 @@ class _TulovQilishDialogState extends State<TulovQilishDialog> {
                               builder: (context) {
                                 return SelectPart.screen();
                               }).then((value) => {
-                            if (value != null)
-                              {
-                                setState(() {
-                                  clientId = value['id'];
-                                  clientName = value['name'].toString();
-                                }),
-                              },
-                          }),
+                                if (value != null)
+                                  {
+                                    setState(() {
+                                      clientId = value['id'];
+                                      clientName = value['name'].toString();
+                                    }),
+                                  },
+                              }),
                           child: Container(
                             height: 60.h,
                             padding: EdgeInsets.only(left: 18.w, right: 10.w),
@@ -358,30 +371,94 @@ class _TulovQilishDialogState extends State<TulovQilishDialog> {
                   controller: izohController,
                   hintText: 'Izoh'),
               SizedBox(height: 24.h),
+              const Divider(),
+              Padding(
+                padding: EdgeInsets.only(
+                    right: 7.w, top: 4.h, left: 7.w, bottom: 7.h),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text('Narx turi:', style: textStylePrimaryMed16),
+                  ],
+                ),
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      height: 50.h,
+                      child: ListView.builder(
+                          physics: const BouncingScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          itemCount: currencyList!.length,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  narxTuriGroup = index.toString();
+                                  currencyId = currencyList![index].id!;
+                                  currencyName = currencyList![index].name!;
+                                });
+                              },
+                              child: Row(
+                                children: [
+                                  Radio(
+                                      value: '$index',
+                                      groupValue: narxTuriGroup,
+                                      fillColor: MaterialStateProperty.all(
+                                          primaryColor),
+                                      activeColor: primaryColor,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          narxTuriGroup = value.toString();
+                                          kurs =
+                                              currencyList![index].value ?? "0";
+                                        });
+                                      }),
+                                  Text(
+                                    (currencyList![index].name ?? "null") +
+                                        " (" +
+                                        (currencyList![index]
+                                            .value
+                                            .toString()) +
+                                        ")",
+                                    maxLines: 1,
+                                    style: textStylePrimaryMed14,
+                                  ),
+                                ],
+                              ),
+                            );
+                          }),
+                    ),
+                  ),
+                ],
+              ),
               ElevatedButton(
                 style: buttonStyle,
                 child: const Text('Davom etish', textAlign: TextAlign.center),
                 onPressed: () {
                   if (clientName != 'Mijozni tanlang') {
                     if (tulovTuri != 'To’lov turi') {
-                      if(addSumController.text.isNotEmpty) {
+                      if (addSumController.text.isNotEmpty) {
                         qarzdorlikBloc.add(TulovQilishEvent(
-                        salesAgentId: int.parse(
-                            sharedPreferences.getString(sharedSalesAgentId) ??
-                                ''),
-                        customerId: clientId,
-                        currencyId: int.parse(
-                            sharedPreferences.getString(sharedCurrencyId) ??
-                                '1'),
-                        branchId: 1,
-                        currencyValue: int.parse(kurs==""?"0":kurs),
-                        paymentTypeId: tulovTuriId,
-                        summa: (tulovSum.text.isNotEmpty
-                            ? notSpaceForNumber(tulovSum.text)
-                            : notSpaceForNumber(tulovVal.text)),
-                        paymentAmount: notSpace(addSumController.text),
-                        description: izohController.text,
-                      ));
+                          salesAgentId: int.parse(
+                              sharedPreferences.getString(sharedSalesAgentId) ??
+                                  ''),
+                          customerId: clientId,
+                          currencyId:
+                              currencyList![int.parse(narxTuriGroup)].id ?? 1,
+                          branchId: int.parse(
+                              sharedPreferences.getString(sharedBranchId) ??
+                                  ''),
+                          currencyValue: int.parse(kurs == "" ? "0" : kurs),
+                          paymentTypeId: tulovTuriId,
+                          summa: (tulovSum.text.isNotEmpty
+                              ? notSpaceForNumber(tulovSum.text)
+                              : notSpaceForNumber(tulovVal.text)),
+                          paymentAmount: notSpace(addSumController.text),
+                          description: izohController.text,
+                        ));
                       } else {
                         CustomToast.showToast('Summani kiriting');
                       }
