@@ -20,6 +20,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/widgets/costum_toast.dart';
 import '../../../korzina_screen/data/korzina_hive/korzina_hive.dart';
 import '../../../product/presentation/pages/product_page.dart';
+import '../../../report_dialog/presentation/pages/report_select.dart';
 import '../widgets/menu_items.dart';
 
 class MainPage extends StatefulWidget {
@@ -159,7 +160,7 @@ class _MainPageState extends State<MainPage> {
                               showDialog(
                                   context: context,
                                   builder: (context) {
-                                    return const ReportDialog();
+                                    return const ReportSelect();
                                   });
                             },
                             title: 'Hisobot',

@@ -4,12 +4,17 @@ import 'package:savdo_agnet_client/di/dependency_injection.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../../../../core/utils/api_path.dart';
 import '../../../../core/utils/app_constants.dart';
 
 class WebViewExample extends StatefulWidget {
-  const WebViewExample({Key? key, this.cookieManager}) : super(key: key);
+  const WebViewExample(
+      {Key? key, this.cookieManager, required this.url, required this.params})
+      : super(key: key);
 
   final CookieManager? cookieManager;
+  final String url;
+  final params;
 
   @override
   State<WebViewExample> createState() => _WebViewExampleState();
@@ -17,14 +22,14 @@ class WebViewExample extends StatefulWidget {
 
 class _WebViewExampleState extends State<WebViewExample> {
   final Completer<WebViewController> _controller =
-  Completer<WebViewController>();
+      Completer<WebViewController>();
 
   SharedPreferences sharedPreferences = di.get();
+
   @override
   void initState() {
     super.initState();
-      WebView.platform = SurfaceAndroidWebView();
-
+    WebView.platform = SurfaceAndroidWebView();
   }
 
   @override
@@ -32,12 +37,16 @@ class _WebViewExampleState extends State<WebViewExample> {
     return Scaffold(
       backgroundColor: Colors.green,
       body: WebView(
-        initialUrl: 'http://192.168.30.14:3000/reports/product-residue-reports',
+        initialUrl: baseUrlReport + widget.url,
         javascriptMode: JavascriptMode.unrestricted,
         onWebViewCreated: (WebViewController webViewController) {
           _controller.complete(webViewController);
-          webViewController.loadUrl(
-            'http://192.168.30.12:3000/mobile-product-residue',
+          webViewController.loadRequest(
+            WebViewRequest(
+              uri: Uri.parse(baseUrlReport + widget.url),
+              method: WebViewRequestMethod.post,
+              body: widget.params,
+            ),
           );
         },
         onProgress: (int progress) {

@@ -2,9 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 
 const values = [
-  'Qarz qoldiq',
-  'Solishtirma dal',
-  'Mijoz kartasi orqali',
+  "Ulguirji Savdo reestri",
+  "Mahsulot kirimi",
+  "Mahsulot qoldigi",
+  "Mahsulot aylanmasi",
+  "Kassa qoldigi",
+  "Mijoz DT-KT qoldiqlari",
+  "Mijoz bilan akt sverka",
+  "Mijoz to'lovlari",
+  "Hodim aylanmasi",
 ];
 String selectedValue = values.first;
 
@@ -22,14 +28,19 @@ class _ReportRadioGroupWidgetState extends State<ReportRadioGroupWidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: values
-          .map((value) => RadioListTile<String>(
+          .map(
+            (value) => RadioListTile<String>(
               activeColor: primaryColor,
               value: value,
               title: Text(value, style: textStylePrimaryMed16),
               groupValue: selectedValue,
-              onChanged: (value) => setState(() {
-                    selectedValue = value.toString();
-                  })))
+              onChanged: (value) => setState(
+                () {
+                  selectedValue = value.toString();
+                },
+              ),
+            ),
+          )
           .toList(),
     );
   }

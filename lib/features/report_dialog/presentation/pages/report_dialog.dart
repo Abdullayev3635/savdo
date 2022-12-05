@@ -3,25 +3,54 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
+import 'package:savdo_agnet_client/di/dependency_injection.dart';
 import 'package:savdo_agnet_client/features/select_client/presentation/pages/select_client.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../../core/widgets/costum_toast.dart';
 import '../../../../core/widgets/dialog_frame.dart';
 import '../widgets/web_view.dart';
 
 class ReportDialog extends StatefulWidget {
-  const ReportDialog({Key? key}) : super(key: key);
+  const ReportDialog(
+      {Key? key,
+      required this.yukYeruvchi,
+      required this.maxsulot,
+      required this.ombor,
+      required this.mijoz,
+      required this.sana,
+      required this.url})
+      : super(key: key);
+
+  final int yukYeruvchi;
+  final int maxsulot;
+  final int ombor;
+  final int mijoz;
+  final int sana;
+  final String url;
 
   @override
   _ReportDialogState createState() => _ReportDialogState();
 }
 
 class _ReportDialogState extends State<ReportDialog> {
-  String group1 = 'Qarz qoldiq';
   var start;
   var end;
   int clientId = 0;
   String clientName = 'Mijozni tanlang';
+  int yukBeruvchiId = 0;
+  String yukBeruvchiName = 'Yuk beruvchini tanlang';
+  int omborId = 0;
+  String omborName = 'Omborni tanlang';
+  int maxsulotId = 0;
+  String maxsulotName = 'Maxsulotni tanlang';
+
+  DateTime? selected1;
+  DateTime? selected2;
+  var customFormat = DateFormat('dd.MM.yyyy');
+  SharedPreferences sharedPreferences = di.get();
 
   @override
   Widget build(BuildContext context) {
@@ -34,152 +63,280 @@ class _ReportDialogState extends State<ReportDialog> {
           children: [
             SizedBox(height: 23.h),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                InkWell(
-                  overlayColor: MaterialStateProperty.all(Colors.transparent),
-                  onTap: () {
-                    pickDateRange(context).then((value) => {setState(() {})});
-                  },
-                  child: Container(
-                    height: 60.h,
-                    width: MediaQuery.of(context).size.width / 2.5,
-                    padding: EdgeInsets.only(left: 18.w, right: 10.w),
-                    decoration: BoxDecoration(
-                        color: cTextFieldColor,
-                        borderRadius: BorderRadius.circular(10.r)),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                              '${start.day}/${start.month}/${start.year}',
-                              style: textStylePrimaryMed14),
-                        ),
-                        SvgPicture.asset('assets/icons/ic_dropdown.svg')
-                      ],
-                    ),
-                  ),
-                ),
-                InkWell(
-                  overlayColor: MaterialStateProperty.all(Colors.transparent),
-                  onTap: () {
-                    pickDateRange(context).then((value) => {setState(() {})});
-                  },
-                  child: Container(
-                    height: 60.h,
-                    width: MediaQuery.of(context).size.width / 2.5,
-                    padding: EdgeInsets.only(left: 18.w, right: 10.w),
-                    decoration: BoxDecoration(
-                        color: cTextFieldColor,
-                        borderRadius: BorderRadius.circular(10.r)),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            '${end.day}/${end.month}/${end.year}',
-                            style: textStylePrimaryReg14,
+                Expanded(
+                  child: InkWell(
+                    onTap: () => showPicker(context, '1'),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 15.w),
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: cTextFieldColor),
+                      height: 55,
+                      alignment: Alignment.centerLeft,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            selected1 == null
+                                ? "Сана 1"
+                                : customFormat.format(selected1!),
+                            style:
+                                TextStyle(color: primaryColor, fontSize: 14.sp),
                           ),
-                        ),
-                        SvgPicture.asset('assets/icons/ic_dropdown.svg')
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 16.h),
-            GestureDetector(
-              onTap: () {
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                      return SelectPart.screen();
-                    }).then((value) => {
-                      if (value != null)
-                        {
-                          setState(() {
-                            clientId = value['id'];
-                            clientName = value['name'].toString();
-                          })
-                        }
-                    });
-              },
-              child: Container(
-                height: 60.h,
-                padding: EdgeInsets.only(left: 18.w, right: 10.w),
-                decoration: BoxDecoration(
-                    color: cTextFieldColor,
-                    borderRadius: BorderRadius.circular(10.r)),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        clientName,
-                        style: textStylePrimaryMed14,
+                          const Icon(
+                            Icons.arrow_drop_down_sharp,
+                            color: primaryColor,
+                          )
+                        ],
                       ),
                     ),
-                    SvgPicture.asset('assets/icons/ic_dropdown.svg')
-                  ],
+                  ),
+                  flex: 1,
+                ),
+                SizedBox(
+                  width: 10.w,
+                ),
+                Visibility(
+                  child: Expanded(
+                    child: InkWell(
+                      onTap: () => showPicker(context, '2'),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 15.w),
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: cTextFieldColor),
+                        height: 55,
+                        alignment: Alignment.centerLeft,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              selected2 == null
+                                  ? "Сана 2"
+                                  : customFormat.format(selected2!),
+                              style: TextStyle(
+                                  color: primaryColor, fontSize: 14.sp),
+                            ),
+                            const Icon(
+                              Icons.arrow_drop_down_sharp,
+                              color: primaryColor,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    flex: 1,
+                  ),
+                  visible: widget.sana != 1,
+                ),
+              ],
+            ),
+
+            ///mijoz
+            Visibility(
+              child: GestureDetector(
+                onTap: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return SelectPart.screen();
+                      }).then((value) => {
+                        if (value != null)
+                          {
+                            setState(() {
+                              clientId = value['id'];
+                              clientName = value['name'].toString();
+                            })
+                          }
+                      });
+                },
+                child: Container(
+                  height: 60.h,
+                  margin: EdgeInsets.only(top: 14.h),
+                  padding: EdgeInsets.only(left: 18.w, right: 10.w),
+                  decoration: BoxDecoration(
+                      color: cTextFieldColor,
+                      borderRadius: BorderRadius.circular(10.r)),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          clientName,
+                          style: textStylePrimaryMed14,
+                        ),
+                      ),
+                      SvgPicture.asset('assets/icons/ic_dropdown.svg')
+                    ],
+                  ),
                 ),
               ),
+              visible: widget.mijoz != 1,
             ),
-            SizedBox(
-              height: 22.h,
-            ),
-            Row(
-              children: [
-                Radio(
-                    value: 'Qarz qoldiq',
-                    groupValue: group1,
-                    fillColor: MaterialStateProperty.all(primaryColor),
-                    activeColor: primaryColor,
-                    onChanged: (value) {
-                      setState(() {
-                        group1 = value.toString();
+
+            ///yuk beruvchi
+            Visibility(
+              child: GestureDetector(
+                onTap: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return SelectPart.screen();
+                      }).then((value) => {
+                        if (value != null)
+                          {
+                            setState(() {
+                              yukBeruvchiId = value['id'];
+                              yukBeruvchiName = value['name'].toString();
+                            })
+                          }
                       });
-                    }),
-                Text('Qarz qoldiq', style: textStylePrimaryMed14),
-              ],
+                },
+                child: Container(
+                  height: 60.h,
+                  margin: EdgeInsets.only(top: 14.h),
+                  padding: EdgeInsets.only(left: 18.w, right: 10.w),
+                  decoration: BoxDecoration(
+                      color: cTextFieldColor,
+                      borderRadius: BorderRadius.circular(10.r)),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          yukBeruvchiName,
+                          style: textStylePrimaryMed14,
+                        ),
+                      ),
+                      SvgPicture.asset('assets/icons/ic_dropdown.svg')
+                    ],
+                  ),
+                ),
+              ),
+              visible: widget.yukYeruvchi != 1,
             ),
-            Row(
-              children: [
-                Radio(
-                    value: 'Solishtirma dal',
-                    groupValue: group1,
-                    fillColor: MaterialStateProperty.all(primaryColor),
-                    activeColor: primaryColor,
-                    onChanged: (value) {
-                      setState(() {
-                        group1 = value.toString();
+
+            ///ombor
+            Visibility(
+              child: GestureDetector(
+                onTap: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return SelectPart.screen();
+                      }).then((value) => {
+                        if (value != null)
+                          {
+                            setState(() {
+                              omborId = value['id'];
+                              omborName = value['name'].toString();
+                            })
+                          }
                       });
-                    }),
-                Text('Solishtirma dal', style: textStylePrimaryMed16),
-              ],
+                },
+                child: Container(
+                  height: 60.h,
+                  margin: EdgeInsets.only(top: 14.h),
+                  padding: EdgeInsets.only(left: 18.w, right: 10.w),
+                  decoration: BoxDecoration(
+                      color: cTextFieldColor,
+                      borderRadius: BorderRadius.circular(10.r)),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          omborName,
+                          style: textStylePrimaryMed14,
+                        ),
+                      ),
+                      SvgPicture.asset('assets/icons/ic_dropdown.svg')
+                    ],
+                  ),
+                ),
+              ),
+              visible: widget.ombor != 1,
             ),
-            Row(
-              children: [
-                Radio(
-                    value: 'Mijoz kartasi orqali',
-                    groupValue: group1,
-                    fillColor: MaterialStateProperty.all(primaryColor),
-                    activeColor: primaryColor,
-                    onChanged: (value) {
-                      setState(() {
-                        group1 = value.toString();
+
+            /// maxsulot
+            Visibility(
+              child: GestureDetector(
+                onTap: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return SelectPart.screen();
+                      }).then((value) => {
+                        if (value != null)
+                          {
+                            setState(() {
+                              maxsulotId = value['id'];
+                              maxsulotName = value['name'].toString();
+                            })
+                          }
                       });
-                    }),
-                Text('Mijoz kartasi orqali', style: textStylePrimaryMed16),
-              ],
+                },
+                child: Container(
+                  margin: EdgeInsets.only(top: 14.h),
+                  height: 60.h,
+                  padding: EdgeInsets.only(left: 18.w, right: 10.w),
+                  decoration: BoxDecoration(
+                      color: cTextFieldColor,
+                      borderRadius: BorderRadius.circular(10.r)),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          maxsulotName,
+                          style: textStylePrimaryMed14,
+                        ),
+                      ),
+                      SvgPicture.asset('assets/icons/ic_dropdown.svg')
+                    ],
+                  ),
+                ),
+              ),
+              visible: widget.maxsulot != 1,
             ),
+
             SizedBox(height: 24.h),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const WebViewExample(),
-                  ),
-                );
+                if (widget.mijoz == 3) {
+                  CustomToast.showToast('Mijozni tanlang!');
+                } else if (widget.ombor == 3) {
+                  CustomToast.showToast('Omborni tanlang!');
+                } else if (widget.maxsulot == 3) {
+                  CustomToast.showToast('Maxsulotni tanlang!');
+                } else if (widget.yukYeruvchi == 3) {
+                  CustomToast.showToast('Yuk beruvchini tanlang!');
+                } else {
+                  var params = {
+                    'branch_id': int.parse(
+                        sharedPreferences.getString(sharedBranchId) ?? "0"),
+                    "worker_id": int.parse(
+                        sharedPreferences.getString(sharedSalesAgentId) ?? "0"),
+                    "sana1": customFormat
+                        .format(selected1 ?? DateTime.now())
+                        .toString(),
+                    "sana2": customFormat
+                        .format(selected2 ?? DateTime.now())
+                        .toString(),
+                    "customer_id": clientId,
+                    "store_id": omborId,
+                    "product_id": maxsulotId,
+                    "yuk_beruvchi": yukBeruvchiId,
+                  };
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => WebViewExample(
+                        url: widget.url,
+                        params: params,
+                      ),
+                    ),
+                  );
+                }
               },
               style: buttonStyle,
               child: const Text(
@@ -219,4 +376,36 @@ class _ReportDialogState extends State<ReportDialog> {
 
   DateTimeRange dateTimeRange =
       DateTimeRange(start: DateTime.now(), end: DateTime.now());
+
+  Future<void> showPicker(BuildContext context, String a) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime(
+          DateTime.now().year, DateTime.now().month, DateTime.now().day),
+      firstDate: DateTime(
+          DateTime.now().year - 1, DateTime.now().month, DateTime.now().day),
+      lastDate: DateTime(
+          DateTime.now().year + 1, DateTime.now().month, DateTime.now().day),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: primaryColor,
+            colorScheme: const ColorScheme.light(primary: primaryColor),
+            buttonTheme:
+                const ButtonThemeData(textTheme: ButtonTextTheme.primary),
+          ),
+          child: child!,
+        );
+      },
+    );
+    if (picked != null && a == '1') {
+      setState(() {
+        selected1 = picked;
+      });
+    } else if (picked != null && a == '2') {
+      setState(() {
+        selected2 = picked;
+      });
+    }
+  }
 }
