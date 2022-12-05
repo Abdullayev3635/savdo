@@ -1,4 +1,4 @@
-package com.example.savdo_agent_and_client
+package com.example.savdo
 
 import io.flutter.embedding.android.FlutterActivity
 

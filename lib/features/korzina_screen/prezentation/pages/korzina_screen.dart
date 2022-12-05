@@ -6,7 +6,6 @@ import 'package:savdo_agnet_client/core/widgets/appBarWidget.dart';
 import 'package:savdo_agnet_client/core/widgets/costum_toast.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/data/korzina_hive/korzina_hive.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/data/korzina_hive/tolov_hive.dart';
-import 'package:savdo_agnet_client/features/korzina_screen/prezentation/widgets/dialog_send.dart';
 import 'package:savdo_agnet_client/features/korzina_screen/prezentation/widgets/korzina_shimmer_widget.dart';
 import 'package:savdo_agnet_client/features/savatcha_failure/presentation/pages/savatcha_failure_dialog.dart';
 
@@ -103,6 +102,7 @@ class _KorzinaScreenState extends State<KorzinaScreen> {
                             transaction[i].price!;
                   }
                 }
+                
                 return Scaffold(
                   backgroundColor: cBackgroundColor,
                   appBar: appBarWidget(context, 'Savatcha'),

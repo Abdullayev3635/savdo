@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:isolate';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
@@ -29,7 +30,7 @@ class FotoRemoteDataSourceImpl implements FotoRemoteDataSource {
     int salesAgentId,
     int regionId,
   ) async {
-    const uri = (baseUrl + photoPHP);
+    final uri = (baseUrl + photoPHP);
     final request = MultipartRequest(
       'POST',
       Uri.parse(uri),

@@ -1,4 +1,4 @@
-import 'dart:io';
+  import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,7 +33,7 @@ class _PhotoReportDialogState extends State<PhotoReportDialog> {
   int regionId = 0;
   String clientName = 'Mijozni tanlang';
   String regionName = 'Region tanlang';
-    File? _imageFile0, _imageFile1, _imageFile2;
+  File? _imageFile0, _imageFile1, _imageFile2;
   String sana0 = "", sana1 = "", sana2 = "";
 
   final customFormat = DateFormat('yyyy.MM.dd hh:mm');
@@ -205,32 +205,30 @@ class _PhotoReportDialogState extends State<PhotoReportDialog> {
             ),
             ElevatedButton(
               onPressed: () {
-                if(clientName != 'Mijozni tanlang'){
-                  if (_imageFile0 != null ||
-                      _imageFile1 != null ||
-                      _imageFile2 != null) {
-                    bloc.add(SendFotoEvent(
-                      image1: _imageFile0 == null ? ' ' : _imageFile0?.path,
-                      image2: _imageFile1 == null ? ' ' : _imageFile1?.path,
-                      image3: _imageFile2 == null ? ' ' : _imageFile2?.path,
-                      customerId: clientId,
-                      regionId: regionId,
-                      salesAgentId: int.parse(
-                          sharedPreferences.getString(sharedSalesAgentId) ?? ''),
-                    ));
-                  }   else {
-                    CustomToast.showToast('Suratlarni tanlang!');
-                  }
-                }else {
-                  CustomToast.showToast('Mijozni tanlang!');
-                }
+                // if (clientName != 'Mijozni tanlang') {
+                //   if (_imageFile0 != null ||
+                //       _imageFile1 != null ||
+                //       _imageFile2 != null) {
+                //     bloc.add(SendFotoEvent(
+                //       image1: _imageFile0 == null ? ' ' : _imageFile0?.path,
+                //       image2: _imageFile1 == null ? ' ' : _imageFile1?.path,
+                //       image3: _imageFile2 == null ? ' ' : _imageFile2?.path,
+                //       customerId: clientId,
+                //       regionId: regionId,
+                //       salesAgentId: int.parse(
+                //           sharedPreferences.getString(sharedSalesAgentId) ??
+                //               ''),
+                //     ));
+                //   } else {
+                //     CustomToast.showToast('Suratlarni tanlang!');
+                //   }
+                // } else {
+                //   CustomToast.showToast('Mijozni tanlang!');
+                // }
 
               },
               style: buttonStyle,
-              child: const Text(
-                'Davom etish',
-                textAlign: TextAlign.center,
-              ),
+              child: const TextFullWidget(),
             ),
           ],
         ),
@@ -289,10 +287,39 @@ class _PhotoReportDialogState extends State<PhotoReportDialog> {
                       ),
                     ),
                   ),
+                  textWidget(),
+                  const TextWidget(),
+                  const TextFullWidget(),
                 ],
               ),
       ),
       flex: 1,
     );
+  }
+  Widget textWidget() {
+    return const Text("Text");
+  }
+}
+
+class TextWidget extends StatelessWidget {
+  const TextWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Text("Text");
+  }
+}
+
+class TextFullWidget extends StatefulWidget {
+  const TextFullWidget({Key? key}) : super(key: key);
+
+  @override
+  State<TextFullWidget> createState() => _TextFullWidgetState();
+}
+
+class _TextFullWidgetState extends State<TextFullWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return const Text("Text");
   }
 }

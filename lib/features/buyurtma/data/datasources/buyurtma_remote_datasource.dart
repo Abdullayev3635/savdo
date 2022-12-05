@@ -30,6 +30,7 @@ class BuyurtmaRemoteDataSourceImpl implements BuyurtmaRemoteDataSource {
 
   @override
   Future<dynamic> getBuyurtma(int workerId) async {
+    sharedPreferences.reload();
     List<CurrencyModel> currencyList = [];
     List<PriceTypeModel> priceTypeList = [];
     List<StoreModel> stores = [];

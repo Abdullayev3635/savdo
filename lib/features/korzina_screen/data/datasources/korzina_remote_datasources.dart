@@ -21,7 +21,6 @@ abstract class KorzinaOrderRemoteDatasource {
 class KorzinaOrderRemoteDatasourceImpl extends KorzinaOrderRemoteDatasource {
   final http.Client client;
 
-
   KorzinaOrderRemoteDatasourceImpl({required this.client});
 
   @override
@@ -37,15 +36,15 @@ class KorzinaOrderRemoteDatasourceImpl extends KorzinaOrderRemoteDatasource {
         "doc_time": DateTime.now().toString(),
         'branch_id':
             int.parse(sharedPreferences.getString(sharedBranchId) ?? "0"),
-        "supplier_id": 1,
+        "suplier_id":
+            int.parse(sharedPreferences.getString(sharedSalesAgentId) ?? "0"),
         "group_id": 0,
         'comment': "",
         'description': "",
         'from_shop': 'true',
         'store_id':
             int.parse(sharedPreferences.getString(sharedStoreId) ?? "0"),
-        'sales_agent_id':
-            int.parse(sharedPreferences.getString(sharedSalesAgentId) ?? "0"),
+        'sales_agent_id': "2",
         'customer_id':
             int.parse(sharedPreferences.getString(sharedCustomerId) ?? "0"),
         'region_id': 0,

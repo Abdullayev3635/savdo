@@ -9,7 +9,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/widgets/appBarWidget.dart';
 import '../../../../di/dependency_injection.dart';
-import '../../../accounts/presentation/pages/account_page.dart';
 import '../widgets/profile_items.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -23,11 +22,15 @@ class _ProfilePageState extends State<ProfilePage> {
   SharedPreferences sharedPreferences = di.get();
   String name = "";
   String branchName = "";
+  String baseUrl = "backend.fayz-savdo.com";
+  TextEditingController baseU = TextEditingController();
+
 
   @override
   void initState() {
     name = sharedPreferences.getString("worker_name") ?? "";
     branchName = sharedPreferences.getString("branch_name") ?? "";
+    baseU.text = sharedPreferences.getString("base_url") ?? "backend.fayz-savdo.com";
     super.initState();
   }
 
@@ -101,6 +104,20 @@ class _ProfilePageState extends State<ProfilePage> {
               color: cHintTextColor,
               icon: 'assets/icons/ic_call.svg',
               title: '+998 (93) 213 36 35',
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 16.h),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15.r),
+                  color: cWhiteColor,
+                  boxShadow: [textFieldShadow]),
+              padding: const EdgeInsets.all(20),
+              child: TextFormField(
+                controller: baseU,
+                onChanged: (text){
+                  sharedPreferences.setString("base_url", text);
+                },
+              ),
             ),
             // ProfileItemsWidgets(
             //   onTap: () {},

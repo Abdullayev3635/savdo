@@ -35,7 +35,7 @@ class BrandProductsRemoteDatasourceImpl
       required String name,
       required int? brandId}) async {
     int storeIdId = int.parse(sharedPreferences.getString(sharedStoreId)??"0");
-    int currencyId = int.parse(sharedPreferences.getString(sharedCurrencyId)??"0");
+    // int currencyId = int.parse(sharedPreferences.getString(sharedCurrencyId)??"0");
     int workerId = int.parse(sharedPreferences.getString(sharedSalesAgentId)??"0");
     try {
       dynamic json = {
@@ -62,7 +62,7 @@ class BrandProductsRemoteDatasourceImpl
           for (int i = 0; i <= (parsed["data"] as List).length - 1; i++) {
             list.add(BrandProductModel.fromJson(parsed["data"][i]));
           }
-          sharedPreferences.setString(lastPage, parsed["meta"]["last_page"].toString()??"0");
+          sharedPreferences.setString(lastPage, parsed["meta"]["last_page"].toString());
           return list;
         } else {
           return [];

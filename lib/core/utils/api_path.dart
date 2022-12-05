@@ -1,8 +1,12 @@
+import 'package:savdo_agnet_client/features/korzina_screen/data/korzina_hive/korzina_hive.dart';
+
+
 const String baseUrlImg = "http://192.168.30.12:8000/api/";
 // const String baseUrl = "http://192.168.30.12:8000/mobile-api/v1/mobile/";
 
 // const String baseUrl = "https://mobile.imsoftgroup.uz/api/v1/";
-const String baseUrl = 'http://backend.fayz-savdo.com/mobile-api/v1/mobile/';
+String baseUrl =
+    "http://${sharedPreferences.getString("base_url") ?? 'backend.fayz-savdo.com'}/mobile-api/v1/mobile/";
 const String savdoAndNarxPHP = "currencies-and-priceTypes";
 const String catalogPHP = "categories";
 const String brandPHP = "categories/brands";
