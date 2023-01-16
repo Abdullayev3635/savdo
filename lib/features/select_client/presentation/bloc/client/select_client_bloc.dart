@@ -89,10 +89,10 @@ class SelectClientBloc extends Bloc<SelectPartEvent, SelectClientState> {
     if (event.text.isEmpty) {
       emit(SelectClientSuccess(list: listOld));
     } else {
+      final searchLower = event.text.toLowerCase();
       emit(SelectClientSuccess(
           list: listOld.where((element) {
         final titleLower = element.name!.toLowerCase();
-        final searchLower = event.text.toLowerCase();
         return titleLower.contains(searchLower);
       }).toList()));
     }

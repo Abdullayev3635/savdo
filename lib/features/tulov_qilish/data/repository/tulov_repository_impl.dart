@@ -47,6 +47,7 @@ class TulovRepositoryImpl extends TulovRepository {
           summa: summa,
           paymentAmount: paymentAmount,
           description: description);
+      print(result);
       return Right(result);
     } on ServerFailure {
       return const Left(ServerFailure("Маълумот юкланишда хатолик бўлди"));

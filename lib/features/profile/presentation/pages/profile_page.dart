@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/widgets/appBarWidget.dart';
 import '../../../../di/dependency_injection.dart';
+import '../../../login/presentation/pages/login_page.dart';
 import '../widgets/profile_items.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -17,7 +18,10 @@ class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
-
+enum ButtonAction {
+  cancel,
+  agree,
+}
 class _ProfilePageState extends State<ProfilePage> {
   SharedPreferences sharedPreferences = di.get();
   String name = "";
@@ -25,17 +29,24 @@ class _ProfilePageState extends State<ProfilePage> {
   String baseUrl = "backend.fayz-savdo.com";
   TextEditingController baseU = TextEditingController();
 
-
   @override
   void initState() {
     name = sharedPreferences.getString("worker_name") ?? "";
     branchName = sharedPreferences.getString("branch_name") ?? "";
-    baseU.text = sharedPreferences.getString("base_url") ?? "backend.fayz-savdo.com";
+    baseU.text =
+        sharedPreferences.getString("base_url") ?? "backend.fayz-savdo.com";
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    void showMaterialDialog<T>(
+        {required BuildContext context, required Widget child}) {
+      showDialog<T>(
+        context: context,
+        builder: (BuildContext context) => child,
+      );
+    }
     return Scaffold(
       backgroundColor: cBackgroundColor,
       appBar: appBarWidget(context, 'Shaxsiy kabinet'),
@@ -101,24 +112,43 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             ProfileItemsWidgets(
               onTap: () {},
-              color: cHintTextColor,
+              color: primaryColor,
               icon: 'assets/icons/ic_call.svg',
               title: '+998 (93) 213 36 35',
             ),
-            Container(
-              margin: EdgeInsets.only(top: 16.h),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15.r),
-                  color: cWhiteColor,
-                  boxShadow: [textFieldShadow]),
-              padding: const EdgeInsets.all(20),
-              child: TextFormField(
-                controller: baseU,
-                onChanged: (text){
-                  sharedPreferences.setString("base_url", text);
-                },
-              ),
+            ProfileItemsWidgets(
+              onTap: () {
+                showMaterialDialog<ButtonAction>(
+                  context: context,
+                  child: AlertDialog(
+                    title: const Text('Дастурдан чиқмоқчимисиз?'),
+                    content: const Text(
+                      'Агар дастурдан чиқсангиз, телефонингиздаги маълумотлар ўчиб кетади.',
+                    ),
+                    actions: <Widget>[
+                      // ignore: deprecated_member_use
+                      InkWell(
+                        child: const Text('Бекор қилиш'),
+                        onTap: () {
+                          Navigator.pop(context, ButtonAction.cancel);
+                        },
+                      ),
+                      // ignore: deprecated_member_use
+                      InkWell(
+                        child: const Text('Давом этиш'),
+                        onTap: () {
+                          logOut(context);
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              },
+              color: primaryColor,
+              icon: 'assets/icons/ic_close_red.svg',
+              title: 'Дастурдан чиқиш',
             ),
+
             // ProfileItemsWidgets(
             //   onTap: () {},
             //   color: cHintTextColor,
@@ -134,6 +164,18 @@ class _ProfilePageState extends State<ProfilePage> {
           ],
         ),
       ),
+    );
+  }
+
+  void logOut(BuildContext context) {
+    SharedPreferences sharedPreferences = di.get();
+    sharedPreferences.clear();
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) => LoginPage.screen(),
+      ),
+      (Route<dynamic> route) => route is ProfilePage,
     );
   }
 }

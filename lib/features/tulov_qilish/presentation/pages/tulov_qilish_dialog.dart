@@ -74,8 +74,8 @@ class _TulovQilishDialogState extends State<TulovQilishDialog> {
     return SingleChildScrollView(
       padding: EdgeInsets.only(
         bottom: clientName == 'Mijozni tanlang'
-            ? MediaQuery.of(context).size.height / 6
-            : MediaQuery.of(context).size.height / 10,
+            ? MediaQuery.of(context).size.height / 17
+            : MediaQuery.of(context).size.height / 17,
       ),
       reverse: true,
       physics: const BouncingScrollPhysics(),
@@ -88,62 +88,21 @@ class _TulovQilishDialogState extends State<TulovQilishDialog> {
             children: [
               BlocBuilder<TulovQarizdorlikBloc, TulovQarizdorlikState>(
                 builder: (context, state) {
-                  if (state is TulovQarizdorlikInitial) {
-                    return Column(
-                      children: [
-                        SizedBox(height: 23.h),
-                        GestureDetector(
-                          onTap: () => showDialog(
-                              context: context,
-                              builder: (context) {
-                                return SelectPart.screen();
-                              }).then((value) => {
-                                if (value != null)
-                                  {
-                                    setState(() {
-                                      clientId = value['id'];
-                                      clientName = value['name'].toString();
-                                      qarzdorlikBloc.add(
-                                        TulovClientSelectedEvent(
-                                          customerId: clientId,
-                                          salesAgentId: int.parse(
-                                              sharedPreferences.getString(
-                                                      sharedSalesAgentId) ??
-                                                  ''),
-                                        ),
-                                      );
-                                    }),
-                                  },
-                              }),
-                          child: Container(
-                            height: 60.h,
-                            padding: EdgeInsets.only(left: 18.w, right: 10.w),
-                            decoration: BoxDecoration(
-                                color: cTextFieldColor,
-                                borderRadius: BorderRadius.circular(10.r)),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Text(clientName,
-                                      style: textStylePrimaryMed14),
-                                ),
-                                SvgPicture.asset('assets/icons/ic_dropdown.svg')
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 16.h),
-                      ],
-                    );
-                  } else if (state is TulovCreatedState) {
+                  if (state is TulovCreatedState) {
                     CustomToast.showToast(state.message);
                     Navigator.pop(context);
-                    return Container();
+                  } else if (state is TulovCreatedFail) {
+                    CustomToast.showToast(state.message);
                   } else if (state is TulovQarizdorlikLoading) {
                     return SizedBox(
                         child:
                             const Center(child: CupertinoActivityIndicator()),
-                        height: 200.h);
+                        height: 100.h);
+                  } else if (state is TulovCreatedLoading) {
+                    return SizedBox(
+                        child:
+                            const Center(child: CupertinoActivityIndicator()),
+                        height: 100.h,);
                   } else if (state is TulovQarizdorlikLoadedState) {
                     return Column(
                       children: [
@@ -201,28 +160,39 @@ class _TulovQilishDialogState extends State<TulovQilishDialog> {
                               ),
                               Expanded(
                                 child: SizedBox(
-                                  height: 60,
-                                  child: ListView.builder(
-                                    physics: const BouncingScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemCount: state.debitList.length,
-                                    itemBuilder: (context, index) {
-                                      return state.debitList[index].value! < 0
-                                          ? Text(
-                                              "${state.debitList[index].value} ${state.debitList[index].name}",
-                                              style: TextStyle(
-                                                  color: cOrangeColor,
-                                                  fontSize: 18.sp,
-                                                  fontFamily: 'Regular'),
-                                            )
-                                          : Text(
-                                              "${state.debitList[index].value} ${state.debitList[index].name}",
-                                              style: TextStyle(
-                                                  color: primaryColor,
-                                                  fontSize: 18.sp,
-                                                  fontFamily: 'Regular'));
-                                    },
-                                  ),
+                                  height: state.debitList.isNotEmpty ? 60:20,
+                                  child: state.debitList.isNotEmpty
+                                      ? ListView.builder(
+                                          physics:
+                                              const BouncingScrollPhysics(),
+                                          shrinkWrap: true,
+                                          itemCount: state.debitList.length,
+                                          itemBuilder: (context, index) {
+                                            return state.debitList[index]
+                                                        .value! <
+                                                    0
+                                                ? Text(
+                                                    "${state.debitList[index].value} ${state.debitList[index].name}",
+                                                    style: TextStyle(
+                                                        color: cOrangeColor,
+                                                        fontSize: 18.sp,
+                                                        fontFamily: 'Regular'),
+                                                  )
+                                                : Text(
+                                                    "${state.debitList[index].value} ${state.debitList[index].name}",
+                                                    style: TextStyle(
+                                                        color: primaryColor,
+                                                        fontSize: 18.sp,
+                                                        fontFamily: 'Regular'));
+                                          },
+                                        )
+                                      : Text(
+                                        "0",
+                                        style: TextStyle(
+                                            color: cOrangeColor,
+                                            fontSize: 18.sp,
+                                            fontFamily: 'Regular'),
+                                      ),
                                 ),
                               ),
                             ],
@@ -230,51 +200,53 @@ class _TulovQilishDialogState extends State<TulovQilishDialog> {
                         ),
                       ],
                     );
-                  } else {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 23.h),
-                        GestureDetector(
-                          onTap: () => showDialog(
-                              context: context,
-                              builder: (context) {
-                                return SelectPart.screen();
-                              }).then((value) => {
-                                if (value != null)
-                                  {
-                                    setState(() {
-                                      clientId = value['id'];
-                                      clientName = value['name'].toString();
-                                    }),
-                                  },
-                              }),
-                          child: Container(
-                            height: 60.h,
-                            padding: EdgeInsets.only(left: 18.w, right: 10.w),
-                            decoration: BoxDecoration(
-                                color: cTextFieldColor,
-                                borderRadius: BorderRadius.circular(10.r)),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Text(clientName,
-                                      style: textStylePrimaryMed14),
-                                ),
-                                SvgPicture.asset('assets/icons/ic_dropdown.svg')
-                              ],
-                            ),
+                  }
+                  return Column(
+                    children: [
+                      SizedBox(height: 23.h),
+                      GestureDetector(
+                        onTap: () => showDialog(
+                            context: context,
+                            builder: (context) {
+                              return SelectPart.screen();
+                            }).then((value) => {
+                              if (value != null)
+                                {
+                                  setState(() {
+                                    clientId = value['id'];
+                                    clientName = value['name'].toString();
+                                    qarzdorlikBloc.add(
+                                      TulovClientSelectedEvent(
+                                        customerId: clientId,
+                                        salesAgentId: int.parse(
+                                            sharedPreferences.getString(
+                                                    sharedSalesAgentId) ??
+                                                ''),
+                                      ),
+                                    );
+                                  }),
+                                },
+                            }),
+                        child: Container(
+                          height: 60.h,
+                          padding: EdgeInsets.only(left: 18.w, right: 10.w),
+                          decoration: BoxDecoration(
+                              color: cTextFieldColor,
+                              borderRadius: BorderRadius.circular(10.r)),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text(clientName,
+                                    style: textStylePrimaryMed14),
+                              ),
+                              SvgPicture.asset('assets/icons/ic_dropdown.svg')
+                            ],
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              right: 7.w, top: 22.h, left: 7.w, bottom: 24.h),
-                          child: Text('Qarzdorligi: 0',
-                              style: textStylePrimaryMed16),
-                        ),
-                      ],
-                    );
-                  }
+                      ),
+                      SizedBox(height: 16.h),
+                    ],
+                  );
                 },
               ),
               DropDownWidget(

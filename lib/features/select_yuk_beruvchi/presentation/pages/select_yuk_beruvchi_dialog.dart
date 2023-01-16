@@ -5,30 +5,29 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 
 import '../../../../di/dependency_injection.dart';
-import '../bloc/client/select_client_bloc.dart';
+import '../bloc/viloyat/yuk_bloc.dart';
 
-class SelectPart extends StatefulWidget {
-  const SelectPart({Key? key}) : super(key: key);
+class SelectYukBeruvchi extends StatefulWidget {
+  const SelectYukBeruvchi({Key? key}) : super(key: key);
 
   static Widget screen() => BlocProvider(
         create: (context) =>
-            di<SelectClientBloc>()..add(GetSelectClientLocalEvent()),
-        child: const SelectPart(),
+            di<YukBeruvchiBloc>()..add(GetSelectViloyatEvent()),
+        child: const SelectYukBeruvchi(),
       );
 
   @override
-  _SelectPartState createState() => _SelectPartState();
+  _SelectViloyatState createState() => _SelectViloyatState();
 }
 
-class _SelectPartState extends State<SelectPart> {
-  late SelectClientBloc _bloc;
+class _SelectViloyatState extends State<SelectYukBeruvchi> {
+  late YukBeruvchiBloc _bloc;
 
   TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {
-    _bloc = BlocProvider.of<SelectClientBloc>(context);
-    _bloc.add(GetSelectClientEvent());
+    _bloc = BlocProvider.of<YukBeruvchiBloc>(context);
     super.initState();
   }
 
@@ -49,9 +48,9 @@ class _SelectPartState extends State<SelectPart> {
       child: Container(
         width: MediaQuery.of(context).size.width,
         margin: EdgeInsets.symmetric(horizontal: 10.w),
-        child: BlocBuilder<SelectClientBloc, SelectClientState>(
+        child: BlocBuilder<YukBeruvchiBloc, ViloyatState>(
           builder: (context, state) {
-            if (state is SelectClientSuccess) {
+            if (state is SelectViloyatSuccess) {
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -65,12 +64,11 @@ class _SelectPartState extends State<SelectPart> {
                         contentPadding: EdgeInsets.all(20.0.sp),
                       ),
                       onChanged: (text) {
-                          _bloc.add(FilterSelectPartEvent(
-                              text: text, list: state.list));
+                        _bloc.add(
+                            FilterViloyatEvent(text: text, list: state.list));
                       }),
                   Expanded(
                     child: ListView.builder(
-                      padding: EdgeInsets.only(top: 10.h),
                       physics: const BouncingScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: state.list.length,
@@ -79,18 +77,16 @@ class _SelectPartState extends State<SelectPart> {
                           onTap: () {
                             Navigator.pop(context, {
                               "id": state.list[index].id,
-                              "name": state.list[index].name,
-                              "regionId": state.list[index].regionId,
-                              "regionName": state.list[index].regionName,
-                              "phone1": state.list[index].phone1,
-                              "coordinate": state.list[index].coordinate
+                              "title": state.list[index].name,
                             });
                           },
                           child: Container(
                             height: 50.h,
                             width: MediaQuery.of(context).size.width,
                             margin: EdgeInsets.symmetric(
-                                horizontal: 10.w, vertical: 6.h),
+                              horizontal: 10.w,
+                              vertical: 6.h,
+                            ),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 color: primaryColor),
@@ -101,9 +97,9 @@ class _SelectPartState extends State<SelectPart> {
                                 alignment: Alignment.centerLeft,
                                 child: Text(
                                   state.list[index].name!,
-                                  maxLines: 2,
                                   style: TextStyle(
                                       fontSize: 16.sp, color: cWhiteColor),
+                                  maxLines: 2,
                                 ),
                               ),
                             ),
@@ -115,7 +111,7 @@ class _SelectPartState extends State<SelectPart> {
                   SizedBox(height: 20.h),
                 ],
               );
-            } else if (state is SelectClientLoading) {
+            } else if (state is SelectViloyatLoading) {
               return Column(
                 children: [
                   SizedBox(height: 20.h),
@@ -144,7 +140,7 @@ class _SelectPartState extends State<SelectPart> {
                       contentPadding: EdgeInsets.all(20.0.sp),
                     ),
                   ),
-                  SizedBox(height: 20.h),
+                  const Expanded(child: CupertinoActivityIndicator()),
                 ],
               );
             }

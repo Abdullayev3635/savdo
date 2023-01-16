@@ -548,49 +548,49 @@ class _AddClientPageState extends State<AddClientPage> {
                   ElevatedButton(
                     onPressed: () {
                       if (nameCon.text.isNotEmpty) {
-                        if (birthdayCon.text.isNotEmpty) {
-                          //viloyatTitle != 'Viloyatni tanlang'
-                          if (regionTitle != 'Regionni tanlang') {
-                            //addressCon.text.isNotEmpty
-                            if (viloyatTitle != 'Viloyatni tanlang') {
-                              //locationCon.text.isNotEmpty
-                              if (_passwordCon.text == _passwordVerCon.text) {
-                                if (locationCon.text.isNotEmpty) {
-                                  final m = AddClientModel(
-                                    salesAgentId: int.parse(sharedPreferences
-                                            .getString(sharedSalesAgentId) ??
-                                        ''),
-                                    legalPhysical: isYuridik ? 2 : 1,
-                                    name: nameCon.text,
-                                    login: maskFormatter.getUnmaskedText(),
-                                    address: addressCon.text,
-                                    coordinates: '[$lat, $lng]',
-                                    password: _passwordVerCon.text,
-                                    regionId: regionId,
-                                    phone1: maskFormatter.getUnmaskedText(),
-                                    stateId: viloyatId,
-                                  );
-                                  bloc.add(AddClientSendDataEvent(
-                                      clientDataList: m));
-                                } else {
-                                  CustomToast.showToast('Joylashuvni tanlang!');
-                                }
-                              } else {
-                                _passwordVerCon.clear();
-                                _passwordCon.clear();
-                                CustomToast.showToast(
-                                    'Parol noto`g`ri terilgan!');
-                              }
+                        // if (birthdayCon.text.isNotEmpty) {
+                        //viloyatTitle != 'Viloyatni tanlang'
+                        if (regionTitle != 'Regionni tanlang') {
+                          //addressCon.text.isNotEmpty
+                          if (viloyatTitle != 'Viloyatni tanlang') {
+                            //locationCon.text.isNotEmpty
+                            if (_passwordCon.text == _passwordVerCon.text) {
+                              // if (locationCon.text.isNotEmpty) {
+                              final m = AddClientModel(
+                                salesAgentId: int.parse(sharedPreferences
+                                        .getString(sharedSalesAgentId) ??
+                                    ''),
+                                legalPhysical: isYuridik ? 2 : 1,
+                                name: nameCon.text,
+                                login: maskFormatter.getUnmaskedText(),
+                                address: addressCon.text,
+                                coordinates: '[$lat, $lng]',
+                                password: _passwordVerCon.text,
+                                regionId: regionId,
+                                phone1: maskFormatter.getUnmaskedText(),
+                                stateId: viloyatId,
+                              );
+                              bloc.add(
+                                  AddClientSendDataEvent(clientDataList: m));
+                              // } else {
+                              //   CustomToast.showToast('Joylashuvni tanlang!');
+                              // }
                             } else {
-                              CustomToast.showToast('Viloyatni tanlang');
+                              _passwordVerCon.clear();
+                              _passwordCon.clear();
+                              CustomToast.showToast(
+                                  'Parol noto`g`ri terilgan!');
                             }
                           } else {
-                            CustomToast.showToast('Regionni tanlang');
-                            // CustomToast.showToast('Manzilni kiriting');
+                            CustomToast.showToast('Viloyatni tanlang');
                           }
                         } else {
-                          CustomToast.showToast('Tug\'ilgan sanani kiriting');
+                          CustomToast.showToast('Regionni tanlang');
+                          // CustomToast.showToast('Manzilni kiriting');
                         }
+                        // } else {
+                        //   CustomToast.showToast('Tug\'ilgan sanani kiriting');
+                        // }
                       } else {
                         CustomToast.showToast(
                             'Mijoz Ism Familiyasini kiriting');

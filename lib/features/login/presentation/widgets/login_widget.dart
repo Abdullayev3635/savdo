@@ -32,7 +32,7 @@ class LoginWidget extends StatefulWidget {
 }
 
 class _LoginWidgetState extends State<LoginWidget> {
-  bool isVisible = false;
+  bool isVisible = true;
   SharedPreferences sharedPreferences = di.get();
 
   @override

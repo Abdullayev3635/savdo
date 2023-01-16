@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../core/utils/app_constants.dart';
 import '../di/dependency_injection.dart';
+import 'login/presentation/pages/login_page.dart';
 
 class AppProvider extends StatelessWidget {
   const AppProvider({Key? key}) : super(key: key);
@@ -39,7 +40,7 @@ class App extends StatelessWidget {
           );
         },
         debugShowCheckedModeBanner: false,
-        home: workerId == "" ? FirmalarPage.screen() : const MainPage(),
+        home: workerId == "" ? LoginPage.screen() : const MainPage(),
       ),
     );
   }

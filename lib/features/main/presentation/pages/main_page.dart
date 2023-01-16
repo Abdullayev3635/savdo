@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive/hive.dart';
@@ -13,7 +12,6 @@ import 'package:savdo_agnet_client/features/foto_xisobot/presentation/pages/phot
 import 'package:savdo_agnet_client/features/korzina_screen/data/korzina_hive/tolov_hive.dart';
 import 'package:savdo_agnet_client/features/mijozlar/presentation/pages/mijozlar_dialog.dart';
 import 'package:savdo_agnet_client/features/profile/presentation/pages/profile_page.dart';
-import 'package:savdo_agnet_client/features/report_dialog/presentation/pages/report_dialog.dart';
 import 'package:savdo_agnet_client/features/tulov_qilish/presentation/pages/tulov_qilish_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -38,6 +36,10 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     name = sharedPreferences.getString("worker_name") ?? "";
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     super.initState();
   }
 
@@ -53,7 +55,6 @@ class _MainPageState extends State<MainPage> {
           CustomToast.showToast("Dasturdan chiqish uchun ikki marta bosing!");
           return Future.value(false);
         }
-        // exit(0);
         return Future.value(true);
       },
       child: Scaffold(

@@ -41,6 +41,8 @@ class KorzinaCard extends HiveObject {
   num? incomePrice;
   @HiveField(15)
   int? incomePriceCurrencyId;
+  @HiveField(16)
+  DateTime? createdOn;
 
   KorzinaCard({
     required this.bloklarSoni,
@@ -59,6 +61,7 @@ class KorzinaCard extends HiveObject {
     required this.priceTypeId, //
     required this.incomePrice, //
     required this.incomePriceCurrencyId, //
+    required this.createdOn, //
   });
 
   KorzinaCard.fromJson(Map<String, dynamic> json) {

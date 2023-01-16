@@ -19,8 +19,17 @@ class TulovQarizdorlikFail extends TulovQarizdorlikState {
   TulovQarizdorlikFail({required this.message});
 }
 
+
+class TulovCreatedLoading extends TulovQarizdorlikState {}
+
+
 class TulovCreatedState extends TulovQarizdorlikState {
   final String message;
 
   TulovCreatedState({required this.message});
+}
+class TulovCreatedFail extends TulovQarizdorlikState {
+  final String message;
+
+  TulovCreatedFail({required this.message});
 }

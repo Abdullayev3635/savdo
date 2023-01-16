@@ -116,7 +116,7 @@ ButtonStyle buttonStyle = ButtonStyle(
 
 
 ButtonStyle korzinaButtonStyle = ButtonStyle(
-  fixedSize: MaterialStateProperty.all(Size(414.w, 82.h)),
+  fixedSize: MaterialStateProperty.all(Size(414.w, 72.h)),
   padding: MaterialStateProperty.all(const EdgeInsets.all(25)),
   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
       RoundedRectangleBorder(

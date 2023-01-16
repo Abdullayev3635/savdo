@@ -123,6 +123,11 @@ import '../features/select_client/data/datasources/client_remote_datasource.dart
 import '../features/select_client/presentation/bloc/client/select_client_bloc.dart';
 import '../features/select_region/presentation/bloc/region/viloyat_bloc.dart';
 import '../features/select_viloyat/domain/usescase/viloyat_usescase_local.dart';
+import '../features/select_yuk_beruvchi/data/datasources/yuk_remote_datasource.dart';
+import '../features/select_yuk_beruvchi/data/repository/yuk_repository.dart';
+import '../features/select_yuk_beruvchi/domain/repositories/yuk_repository.dart';
+import '../features/select_yuk_beruvchi/domain/usescase/yuk_usescase.dart';
+import '../features/select_yuk_beruvchi/presentation/bloc/viloyat/yuk_bloc.dart';
 
 final di = GetIt.instance;
 
@@ -142,6 +147,11 @@ Future<void> init() async {
   di.registerFactory(
     () => ViloyatBloc(
       usesSelectViloyatLocal: di(),
+      usesSelectViloyat: di(),
+    ),
+  );
+  di.registerFactory(
+    () => YukBeruvchiBloc(
       usesSelectViloyat: di(),
     ),
   );
@@ -253,6 +263,13 @@ Future<void> init() async {
     ),
   );
 
+  di.registerLazySingleton<SelectYukBeruvchiRepository>(
+    () => YukBeruvchiRepositoryImpl(
+      networkInfo: di(),
+      remoteDataSourceImpl: di(),
+    ),
+  );
+
   di.registerLazySingleton<SelectRegionRepository>(
     () => RegionRepositoryImpl(
       localDataSourceImpl: di(),
@@ -346,6 +363,8 @@ Future<void> init() async {
       () => BrandProductsUsescase(brandProducRepository: di()));
   di.registerLazySingleton(() => UKorzinaOrderList(korzinaRepository: di()));
 
+  di.registerLazySingleton(() => UsesSelectYukBeruvchi(clientRepository: di()));
+
   di.registerLazySingleton(() => Pass(repository: di()));
 
   di.registerLazySingleton(() => OnSelectClientTulov(tulovRepository: di()));
@@ -407,6 +426,12 @@ Future<void> init() async {
   );
   di.registerLazySingleton(
     () => ViloyatRemoteDataSourceImpl(
+      sharedPreferences: di(),
+      client: di(),
+    ),
+  );
+  di.registerLazySingleton(
+    () => YukRemoteDataSourceImpl(
       sharedPreferences: di(),
       client: di(),
     ),

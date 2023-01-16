@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:savdo_agnet_client/core/utils/app_constants.dart';
 import 'package:savdo_agnet_client/di/dependency_injection.dart';
@@ -11,6 +12,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/widgets/costum_toast.dart';
 import '../../../../core/widgets/dialog_frame.dart';
+import '../../../buyurtma/data/model/buyurtma_model.dart';
+import '../../../buyurtma/data/model/store_model.dart';
+import '../../../select_yuk_beruvchi/presentation/pages/select_yuk_beruvchi_dialog.dart';
 import '../widgets/web_view.dart';
 
 class ReportDialog extends StatefulWidget {
@@ -46,11 +50,23 @@ class _ReportDialogState extends State<ReportDialog> {
   String omborName = 'Omborni tanlang';
   int maxsulotId = 0;
   String maxsulotName = 'Maxsulotni tanlang';
+  String storeGroup = '-1';
 
   DateTime? selected1;
   DateTime? selected2;
   var customFormat = DateFormat('dd.MM.yyyy');
   SharedPreferences sharedPreferences = di.get();
+
+  List<BuyurtmaModel> buyurtmaList = [];
+  List<StoreModel> storeList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    final box = Hive.box(buyurtmaBox);
+    buyurtmaList = box.get(buyurtmaBox)?.cast<BuyurtmaModel>() ?? [];
+    storeList = buyurtmaList[0].stores!;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -183,13 +199,13 @@ class _ReportDialogState extends State<ReportDialog> {
                   showDialog(
                       context: context,
                       builder: (context) {
-                        return SelectPart.screen();
+                        return SelectYukBeruvchi.screen();
                       }).then((value) => {
                         if (value != null)
                           {
                             setState(() {
                               yukBeruvchiId = value['id'];
-                              yukBeruvchiName = value['name'].toString();
+                              yukBeruvchiName = value['title'].toString();
                             })
                           }
                       });
@@ -219,41 +235,50 @@ class _ReportDialogState extends State<ReportDialog> {
 
             ///ombor
             Visibility(
-              child: GestureDetector(
-                onTap: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return SelectPart.screen();
-                      }).then((value) => {
-                        if (value != null)
-                          {
-                            setState(() {
-                              omborId = value['id'];
-                              omborName = value['name'].toString();
-                            })
-                          }
-                      });
-                },
-                child: Container(
-                  height: 60.h,
-                  margin: EdgeInsets.only(top: 14.h),
-                  padding: EdgeInsets.only(left: 18.w, right: 10.w),
-                  decoration: BoxDecoration(
-                      color: cTextFieldColor,
-                      borderRadius: BorderRadius.circular(10.r)),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          omborName,
-                          style: textStylePrimaryMed14,
-                        ),
-                      ),
-                      SvgPicture.asset('assets/icons/ic_dropdown.svg')
-                    ],
+              child: Row(
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      height: 50.h,
+                      child: ListView.builder(
+                          physics: const BouncingScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          itemCount: storeList.length,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  storeGroup = index.toString();
+                                  omborId = storeList[index].id!;
+                                });
+                              },
+                              child: Row(
+                                children: [
+                                  Radio(
+                                      value: '$index',
+                                      groupValue: storeGroup,
+                                      fillColor: MaterialStateProperty.all(
+                                          primaryColor),
+                                      activeColor: primaryColor,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          storeGroup = value.toString();
+                                          omborId = storeList[index].id!;
+                                        });
+                                      }),
+                                  Text(
+                                    storeList[index].name ?? "",
+                                    maxLines: 1,
+                                    style: textStylePrimaryMed14,
+                                  ),
+                                ],
+                              ),
+                            );
+                          }),
+                    ),
                   ),
-                ),
+                ],
               ),
               visible: widget.ombor != 1,
             ),
@@ -302,7 +327,7 @@ class _ReportDialogState extends State<ReportDialog> {
             SizedBox(height: 24.h),
             ElevatedButton(
               onPressed: () {
-                if (widget.mijoz == 3) {
+                if (widget.mijoz == 3 && clientId == 0) {
                   CustomToast.showToast('Mijozni tanlang!');
                 } else if (widget.ombor == 3) {
                   CustomToast.showToast('Omborni tanlang!');

@@ -28,11 +28,11 @@ class ClientModel {
 
   ClientModel.fromJson(dynamic json) {
     id = json['id'];
-    name = json['name']??"";
-    regionId = json['region_id']??"";
-    regionName = json['region_name']??"";
-    coordinate = json['coordinate']??"";
-    phone1 = json['phone_1']??"";
+    name = json['name'] ?? "";
+    regionId = json['region_id'] ?? "";
+    regionName = json['region_name'] ?? "";
+    coordinate = json['coordinate'] ?? "";
+    phone1 = json['phone_1'] ?? "";
   }
 
   Map<String, dynamic> toJson() {

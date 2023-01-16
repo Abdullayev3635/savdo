@@ -28,6 +28,7 @@ class TulovQarizdorlikBloc
 
   FutureOr<void> getTulov(
       TulovQilishEvent event, Emitter<TulovQarizdorlikState> emit) async {
+    emit(TulovCreatedLoading());
     final result = await tulovQilishUsescase(OnTulovQilishParams(
         customerId: event.customerId,
         salesAgentId: event.salesAgentId,
@@ -41,15 +42,23 @@ class TulovQarizdorlikBloc
     result.fold(
       (failure) => {
         if (failure is NoConnectionFailure)
-          {emit(TulovQarizdorlikFail(message: ''))}
+          {
+            emit(TulovCreatedFail(message: '')),
+          }
         else if (failure is ServerFailure)
-          {emit(TulovQarizdorlikFail(message: failure.message))}
+          {
+            emit(TulovCreatedFail(message: failure.message)),
+          }
       },
       (r) => {
         if (r == "Created!")
-          {emit(TulovCreatedState(message: 'Created!'))}
+          {
+            emit(TulovCreatedState(message: 'Created!')),
+          }
         else
-          {emit(TulovCreatedState(message: 'Error!'))}
+          {
+            emit(TulovCreatedFail(message: 'Error!')),
+          }
       },
     );
   }
@@ -70,7 +79,7 @@ class TulovQarizdorlikBloc
             },
         (r) => {
               if (r.isEmpty)
-                {emit(TulovQarizdorlikFail(message: "hech narsa yo'q ekan"))}
+                {emit(TulovQarizdorlikLoadedState(debitList: const []))}
               else
                 {emit(TulovQarizdorlikLoadedState(debitList: r))}
             });

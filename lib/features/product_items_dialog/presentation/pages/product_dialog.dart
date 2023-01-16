@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:intl/intl.dart';
 import 'package:pattern_formatter/numeric_formatter.dart';
 import 'package:savdo_agnet_client/core/widgets/dialog_frame.dart';
 import 'package:savdo_agnet_client/di/dependency_injection.dart';
@@ -410,9 +409,26 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                         return GestureDetector(
                           onTap: () {
                             setState(() {
-                              narxTuriGroup = index.toString();
                               currencyId = currencyList[index].id!;
                               currencyName = currencyList[index].name!;
+                              narxTuriGroup = index.toString();
+                              if (widget.currencyId == 1) {
+                                if (currencyList[index].id == 1) {
+                                  priceController.text =
+                                      widget.price.toString();
+                                } else {
+                                  priceController.text =
+                                      (widget.price! / kurs).toStringAsFixed(2);
+                                }
+                              } else {
+                                if (currencyList[index].id == 2) {
+                                  priceController.text =
+                                      widget.price.toString();
+                                } else {
+                                  priceController.text =
+                                      (widget.price! * kurs).toStringAsFixed(2);
+                                }
+                              }
                             });
                           },
                           child: Row(
@@ -426,28 +442,27 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                                   onChanged: (value) {
                                     currencyId = currencyList[index].id!;
                                     currencyName = currencyList[index].name!;
-                                    setState(() {
-                                      narxTuriGroup = value.toString();
-                                      if (widget.currencyId == 1) {
-                                        if (currencyList[index].id == 1) {
-                                          priceController.text =
-                                              widget.price.toString();
-                                        } else {
-                                          priceController.text =
-                                              (widget.price! / kurs)
-                                                  .toStringAsFixed(2);
-                                        }
+                                    narxTuriGroup = value.toString();
+                                    if (widget.currencyId == 1) {
+                                      if (currencyList[index].id == 1) {
+                                        priceController.text =
+                                            widget.price.toString();
                                       } else {
-                                        if (currencyList[index].id == 2) {
-                                          priceController.text =
-                                              widget.price.toString();
-                                        } else {
-                                          priceController.text =
-                                              (widget.price! * kurs)
-                                                  .toStringAsFixed(2);
-                                        }
+                                        priceController.text =
+                                            (widget.price! / kurs)
+                                                .toStringAsFixed(2);
                                       }
-                                    });
+                                    } else {
+                                      if (currencyList[index].id == 2) {
+                                        priceController.text =
+                                            widget.price.toString();
+                                      } else {
+                                        priceController.text =
+                                            (widget.price! * kurs)
+                                                .toStringAsFixed(2);
+                                      }
+                                    }
+                                    setState(() {});
                                   }),
                               Text(
                                 (currencyList[index].name ?? "null") +
@@ -505,8 +520,8 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                   onPressed: () async {
                     if ((double.parse(piecesController.text) != 0) ||
                         (double.parse(blokController.text) != 0)) {
-                      if (numParse(priceController.text) >
-                          numIncomePrice(widget.incomePrice!)) {
+                      if (numParse(priceController.text) >=
+                          numIncomePrice(widget.price!)) {
                         if (widget.residue! >=
                             (double.parse(blokController.text) *
                                     widget.blok.toDouble() +
@@ -531,6 +546,7 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                             priceTypeId: priceTypeId,
                             incomePrice: widget.incomePrice,
                             incomePriceCurrencyId: widget.currencyId,
+                            createdOn: DateTime.now(),
                           );
                           final box = Hive.box<KorzinaCard>(korzinaBox);
 
@@ -544,7 +560,7 @@ class _ProductItemDialogState extends State<ProductItemDialog> {
                         }
                       } else {
                         CustomToast.showToast(
-                            'Maxsulot summasi kirim summadan kam bo\'lmasligi kerak!');
+                            'Maxsulot summasi sotuv summadan kam bo\'lmasligi kerak!');
                       }
                     } else {
                       CustomToast.showToast('Maxsulot sonini kiriting!');

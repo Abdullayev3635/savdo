@@ -102,7 +102,9 @@ class TulovRemoteDataSourceImpl implements TulovRemoteDataSource {
       );
       if (response.statusCode == 200) {
         final parsed = jsonDecode(response.body);
-        return parsed["message"];
+        return "Created!";
+      } else {
+        return "Error!";
       }
     } on InputFormatterFailure {
       return 'Xato';

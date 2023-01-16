@@ -84,6 +84,7 @@ class _KorzinaScreenState extends State<KorzinaScreen> {
                 jamiSummaSum = 0;
                 jamiSummaVal = 0;
                 var transaction = box.values.toList().cast<KorzinaCard>();
+                transaction.sort((a,b)=>a.createdOn!.compareTo(b.createdOn!));
                 for (int i = 0; i < transaction.length; i++) {
                   if (transaction[i].currencyId == 1) {
                     jamiSummaSum +=

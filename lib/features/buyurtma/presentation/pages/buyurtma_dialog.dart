@@ -72,7 +72,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       reverse: true,
-      padding: EdgeInsets.only(bottom: 60.h),
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 20),
       child: AllDialogSkeleton(
         title: 'Buyurtma',
         icon: 'assets/icons/ic_shopping_cart.svg',
@@ -116,6 +116,7 @@ class _BuyurtmaDialogState extends State<BuyurtmaDialog> {
                     ),
                   ),
                 ),
+
                 Padding(
                   padding: EdgeInsets.only(
                       right: 7.w, top: 22.h, left: 7.w, bottom: 24.h),

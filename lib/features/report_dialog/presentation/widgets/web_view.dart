@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:savdo_agnet_client/di/dependency_injection.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -25,11 +27,47 @@ class _WebViewExampleState extends State<WebViewExample> {
       Completer<WebViewController>();
 
   SharedPreferences sharedPreferences = di.get();
+  String url = "";
 
   @override
   void initState() {
     super.initState();
-    WebView.platform = SurfaceAndroidWebView();
+    if (Platform.isAndroid) WebView.platform = AndroidWebView();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+    ]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [
+      SystemUiOverlay.bottom
+    ]);
+    url = baseUrlReport +
+        widget.url +
+        "?branch_id=" +
+        widget.params["branch_id"].toString() +
+        "&worker_id=" +
+        widget.params["worker_id"].toString() +
+        "&sana1=" +
+        widget.params["sana1"].toString() +
+        "&sana2=" +
+        widget.params["sana2"].toString() +
+        "&customer_id=" +
+        widget.params["customer_id"].toString() +
+        "&store_id=" +
+        widget.params["store_id"].toString() +
+        "&product_id=" +
+        widget.params["product_id"].toString() +
+        "&yuk_beruvchi=" +
+        widget.params["yuk_beruvchi"].toString();
+    print(url.toString());
+  }
+  @override
+  void dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);  // to re-show bars
+    super.dispose();
   }
 
   @override
@@ -37,17 +75,11 @@ class _WebViewExampleState extends State<WebViewExample> {
     return Scaffold(
       backgroundColor: Colors.green,
       body: WebView(
-        initialUrl: baseUrlReport + widget.url,
+        initialUrl: url,
+        zoomEnabled: true,
         javascriptMode: JavascriptMode.unrestricted,
         onWebViewCreated: (WebViewController webViewController) {
           _controller.complete(webViewController);
-          webViewController.loadRequest(
-            WebViewRequest(
-              uri: Uri.parse(baseUrlReport + widget.url),
-              method: WebViewRequestMethod.post,
-              body: widget.params,
-            ),
-          );
         },
         onProgress: (int progress) {
           print('WebView is loading (progress : $progress%)');
@@ -62,7 +94,7 @@ class _WebViewExampleState extends State<WebViewExample> {
           print('Page finished loading: $url');
         },
         gestureNavigationEnabled: true,
-        backgroundColor: const Color(0x00000000),
+        backgroundColor: const Color(0x00ffffff),
       ),
     );
   }
