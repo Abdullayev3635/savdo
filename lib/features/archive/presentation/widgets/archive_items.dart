@@ -125,41 +125,6 @@ class ArxivItems extends StatelessWidget {
                             ],
                           ),
                         ),
-                        // Padding(
-                        //   padding: EdgeInsets.only(left: 21.w, bottom: 17.h),
-                        //   child: Row(
-                        //     children: [
-                        //       Text(
-                        //         'Buyurtma № ',
-                        //         style: TextStyle(
-                        //             fontSize: 12.sp,
-                        //             color: const Color(0xff84BDF2),
-                        //             fontFamily: 'Medium'),
-                        //       ),
-                        //       Text(
-                        //         '${list[index].id}',
-                        //         style: TextStyle(
-                        //             fontSize: 12.sp,
-                        //             color: const Color(0xff2F49D1),
-                        //             fontFamily: 'Medium'),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
-                        // MySeparator(
-                        //   height: 0.8,
-                        //   color: const Color(0xff939EB4).withOpacity(0.5),
-                        // ),
-                        // Padding(
-                        //   padding: EdgeInsets.only(left: 21.w, top: 10.h),
-                        //   child: Text(
-                        //     '${list[index].totalPrice?[0].value ?? 0} ${list[index].currencyName} ',
-                        //     style: TextStyle(
-                        //         fontSize: 20.sp,
-                        //         color: const Color(0xff2F49D1),
-                        //         fontFamily: 'GilroySemiBold'),
-                        //   ),
-                        // ),
                       ],
                     ),
                   )

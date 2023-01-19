@@ -90,7 +90,9 @@ class _TulovQilishDialogState extends State<TulovQilishDialog> {
                 builder: (context, state) {
                   if (state is TulovCreatedState) {
                     CustomToast.showToast(state.message);
-                    Navigator.pop(context);
+                    if (mounted) {
+                      Navigator.of(context, rootNavigator: true).pop();
+                    }
                   } else if (state is TulovCreatedFail) {
                     CustomToast.showToast(state.message);
                   } else if (state is TulovQarizdorlikLoading) {
@@ -100,9 +102,9 @@ class _TulovQilishDialogState extends State<TulovQilishDialog> {
                         height: 100.h);
                   } else if (state is TulovCreatedLoading) {
                     return SizedBox(
-                        child:
-                            const Center(child: CupertinoActivityIndicator()),
-                        height: 100.h,);
+                      child: const Center(child: CupertinoActivityIndicator()),
+                      height: 100.h,
+                    );
                   } else if (state is TulovQarizdorlikLoadedState) {
                     return Column(
                       children: [
@@ -160,7 +162,7 @@ class _TulovQilishDialogState extends State<TulovQilishDialog> {
                               ),
                               Expanded(
                                 child: SizedBox(
-                                  height: state.debitList.isNotEmpty ? 60:20,
+                                  height: state.debitList.isNotEmpty ? 60 : 20,
                                   child: state.debitList.isNotEmpty
                                       ? ListView.builder(
                                           physics:
@@ -187,12 +189,12 @@ class _TulovQilishDialogState extends State<TulovQilishDialog> {
                                           },
                                         )
                                       : Text(
-                                        "0",
-                                        style: TextStyle(
-                                            color: cOrangeColor,
-                                            fontSize: 18.sp,
-                                            fontFamily: 'Regular'),
-                                      ),
+                                          "0",
+                                          style: TextStyle(
+                                              color: cOrangeColor,
+                                              fontSize: 18.sp,
+                                              fontFamily: 'Regular'),
+                                        ),
                                 ),
                               ),
                             ],

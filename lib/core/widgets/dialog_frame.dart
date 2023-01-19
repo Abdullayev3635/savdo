@@ -31,7 +31,6 @@ class _AllDialogSkeletonState extends State<AllDialogSkeleton> {
         //     bottom: MediaQuery.of(context).size.height / 5),
         padding: EdgeInsets.symmetric(horizontal: 18.w),
         child: Dialog(
-
           clipBehavior: Clip.none,
           alignment: Alignment.center,
           shape:
