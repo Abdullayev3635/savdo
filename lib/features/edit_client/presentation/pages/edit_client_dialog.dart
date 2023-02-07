@@ -30,7 +30,7 @@ class EditClientDialog extends StatefulWidget {
 }
 
 class _EditClientDialogState extends State<EditClientDialog> {
-  var maskFormatter = MaskTextInputFormatter(mask: '(##) ###-##-##');
+  var maskFormatter = MaskTextInputFormatter(mask: '### (##) ###-##-##');
   int clientId = 0;
   String coordinate = '';
   String phone1 = '';
@@ -174,10 +174,10 @@ class _EditClientDialogState extends State<EditClientDialog> {
                             width: 24.w, height: 24.h, color: primaryColor),
                         SizedBox(width: 16.w),
                         Text(
-                          '+998',
+                          '+',
                           style: TextStyle(
                               fontSize: 16.sp,
-                              color: cHintTextColor,
+                              color: primaryColor,
                               // color: cGrayColor,
                               fontFamily: "Regular"),
                         ),
@@ -189,7 +189,7 @@ class _EditClientDialogState extends State<EditClientDialog> {
                             cursorColor: primaryColor,
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: "(--)--- -- --",
+                              hintText: " --- (--)--- -- --",
                               hintStyle: TextStyle(
                                   fontSize: 16.sp,
                                   color: cHintTextColor,
@@ -212,7 +212,7 @@ class _EditClientDialogState extends State<EditClientDialog> {
                 ElevatedButton(
                   onPressed: () {
                     bloc.add(GetEditClientEvent(
-                        phone1: '998' + maskFormatter.getUnmaskedText(),
+                        phone1: '' + maskFormatter.getUnmaskedText(),
                         coordinate: '[$lat,$lng]',
                         id: clientId));
                   },

@@ -60,7 +60,6 @@ class _KorzinaItemsWidgetState extends State<KorzinaItemsWidget> {
                 children: [
                   InkWell(
                     onTap: () async {
-
                       showDialog(
                           context: context,
                           builder: (context) {
@@ -97,7 +96,6 @@ class _KorzinaItemsWidgetState extends State<KorzinaItemsWidget> {
                       setState(() {});
                       card?.delete();
                       bloc.add(KorzinaInitialEvent());
-
                     },
                     borderRadius:
                         BorderRadius.horizontal(right: Radius.circular(15.r)),

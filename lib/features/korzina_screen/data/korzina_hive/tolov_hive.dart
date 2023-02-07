@@ -42,7 +42,7 @@ class TolovHive extends HiveObject {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
-    data['cash'] = cash;
+    data['summa'] = cash;
     data['payment_type_id'] = paymentTypeId;
     data['currency_id'] = currencyId;
     data['currency_value'] = currencyValue;

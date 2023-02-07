@@ -172,7 +172,7 @@ class _AddClientPageState extends State<AddClientPage> {
                                       9) {
                                     if (!value) {
                                       bloc.add(ValidatePhoneClientEvent(
-                                        validatePhoneModel: '998' +
+                                        validatePhoneModel:
                                             maskFormatter.getUnmaskedText(),
                                       ));
                                     }
@@ -196,7 +196,7 @@ class _AddClientPageState extends State<AddClientPage> {
                                   if (maskFormatter.getUnmaskedText().length ==
                                       9) {
                                     bloc.add(ValidatePhoneClientEvent(
-                                        validatePhoneModel: '998' +
+                                        validatePhoneModel:
                                             maskFormatter.getUnmaskedText()));
                                   } else {
                                     CustomToast.showToast(

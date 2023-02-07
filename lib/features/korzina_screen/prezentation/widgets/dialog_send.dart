@@ -27,11 +27,11 @@ class SendDialog extends StatefulWidget {
 class _SendDialogState extends State<SendDialog> {
   SharedPreferences sharedPreferences = di.get();
   String tulovTuri = 'To’lov turi';
-  int tulovTuriId = 0;
+  int tulovTuriId = 1;
 
-  String narxTuriGroup = '0';
+  String narxTuriGroup = '-1';
   String currencyName = "So'm";
-  int currencyId = 0;
+  int currencyId = 1;
   String kurs = "1";
   TextEditingController commentController = TextEditingController();
   TextEditingController summa = TextEditingController();
