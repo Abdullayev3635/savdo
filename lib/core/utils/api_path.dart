@@ -1,9 +1,5 @@
 import 'package:savdo_agnet_client/features/korzina_screen/data/korzina_hive/korzina_hive.dart';
 
-const String baseUrlImg = "http://192.168.30.12:8000/api/";
-// const String baseUrl = "http://192.168.30.12:8000/mobile-api/v1/mobile/";
-
-// const String baseUrl = "https://mobile.imsoftgroup.uz/api/v1/";
 String baseUrl = "https://ncollective.uz/api/v1/mobile/";
 String baseUrlWeb = "http://ncollective.uz/api/v1/";
 String baseUrlReport = "https://ncollective.uz/reports";

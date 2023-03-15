@@ -1,7 +1,7 @@
 name: savdo_agnet_client
 description: A new for Sales managers.
 
-version: 1.0.0+1
+version: 1.0.2+3
 
 environment:
   sdk: ">=2.16.1 <3.0.0"
