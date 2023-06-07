@@ -205,26 +205,26 @@ class _PhotoReportDialogState extends State<PhotoReportDialog> {
             ),
             ElevatedButton(
               onPressed: () {
-                // if (clientName != 'Mijozni tanlang') {
-                //   if (_imageFile0 != null ||
-                //       _imageFile1 != null ||
-                //       _imageFile2 != null) {
-                //     bloc.add(SendFotoEvent(
-                //       image1: _imageFile0 == null ? ' ' : _imageFile0?.path,
-                //       image2: _imageFile1 == null ? ' ' : _imageFile1?.path,
-                //       image3: _imageFile2 == null ? ' ' : _imageFile2?.path,
-                //       customerId: clientId,
-                //       regionId: regionId,
-                //       salesAgentId: int.parse(
-                //           sharedPreferences.getString(sharedSalesAgentId) ??
-                //               ''),
-                //     ));
-                //   } else {
-                //     CustomToast.showToast('Suratlarni tanlang!');
-                //   }
-                // } else {
-                //   CustomToast.showToast('Mijozni tanlang!');
-                // }
+                if (clientName != 'Mijozni tanlang') {
+                  if (_imageFile0 != null ||
+                      _imageFile1 != null ||
+                      _imageFile2 != null) {
+                    bloc.add(SendFotoEvent(
+                      image1: _imageFile0 == null ? ' ' : _imageFile0?.path,
+                      image2: _imageFile1 == null ? ' ' : _imageFile1?.path,
+                      image3: _imageFile2 == null ? ' ' : _imageFile2?.path,
+                      customerId: clientId,
+                      regionId: regionId,
+                      salesAgentId: int.parse(
+                          sharedPreferences.getString(sharedSalesAgentId) ??
+                              ''),
+                    ));
+                  } else {
+                    CustomToast.showToast('Suratlarni tanlang!');
+                  }
+                } else {
+                  CustomToast.showToast('Mijozni tanlang!');
+                }
 
               },
               style: buttonStyle,
